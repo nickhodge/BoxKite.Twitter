@@ -16,7 +16,7 @@ Goal:
 * Supporting .NET 4.5, Windows 8 and Windows Phone 8 development
 * Distribute as a NuGet package
 * Async/Await where appropriate (single response)
-* Reactive extensions (.Subscribe) for Streamed data and Cursored data.
+* Reactive extensions (.Subscribe) for Streamed data.
 * A "TwitterConnection" object that maintains & manages the connection to Twitter. From this, subscribe to streams; object manages stuff
 
 To Build:
@@ -32,7 +32,7 @@ API Coverage, With Tests & Intellisense Comments
 - [x] Saved Searches
 - [x] User Streaming: [GET userstreams](https://dev.twitter.com/docs/streaming-apis/streams/user) 
 - [ ] Add all response types (events, etc) to UserStreams
-- [ ] Need to add TestMocks for UserStreams
+- [ ] Need to add test mechanism & scenarios for UserStreams
 - [ ] Search via Streaming [POST status/filter](https://dev.twitter.com/docs/api/1.1/post/statuses/filter)
 - [x] Direct Messages
 - [x] Friends and Followers
@@ -46,11 +46,18 @@ API Coverage, With Tests & Intellisense Comments
 - [x] oauth
 - [x] API rate limits (part done)
 
+Tests:
+* 95 test methods with average of 4 assertion tests each
+* Test source is JSON from [dev.twitter.com](https://dev.twitter.com/)
+* Error response types & generic decode tests included
+* "Live Fire Test" mechanism via Console; use a real Twitter Account to exercise the API
+
 Broad To Dos:
 - [ ] Sematics of D/M and others in status updates
 - [ ] include_my_retweets in GetTweet
 - [ ] [Attribute:street_address](https://dev.twitter.com/docs/api/1.1/get/geo/search) in PlacesGeo Attributes for Places (these seem to be street address details)
-- [ ] architecture of a TwitterConnection
+- [ ] WIKI documentation
+- [ ] architecture of a TwitterConnection Object
 - [ ] management of API limits
 - [ ] DDD Tweets, Users, Following, Followers, Lists, Favourites etc
 
