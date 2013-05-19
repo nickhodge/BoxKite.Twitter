@@ -1,0 +1,69 @@
+﻿{
+   "created_at":"Wed Sep 23 01:18:01 +0000 2009",
+   "slug":"team",
+   "name":"Team",
+   "full_name":"@twitter\/team",
+   "description":"",
+   "mode":"public",
+   "following":false,
+   "user":{
+      "geo_enabled":true,
+      "profile_background_color":"ACDED6",
+      "protected":false,
+      "profile_background_tile":false,
+      "created_at":"Tue Feb 20 14:35:54 +0000 2007",
+      "profile_image_url_https":"https:\/\/si0.twimg.com\/profile_images\/1124040897\/at-twitter_normal.png",
+      "name":"Twitter",
+      "favourites_count":16,
+      "profile_sidebar_fill_color":"F6F6F6",
+      "default_profile_image":false,
+      "notifications":false,
+      "utc_offset":-28800,
+      "description":"Always wondering what's happening. ",
+      "display_url":null,
+      "deactivated_bit":false,
+      "statuses_count":1218,
+      "following":false,
+      "verified":true,
+      "profile_sidebar_border_color":"EEEEEE",
+      "followers_count":6619949,
+      "profile_image_url":"http:\/\/a0.twimg.com\/profile_images\/1124040897\/at-twitter_normal.png",
+      "contributors_enabled":true,
+      "follow_request_sent":false,
+      "profile_use_background_image":true,
+      "location":"San Francisco, CA",
+      "id_str":"783214",
+      "is_translator":false,
+      "show_all_inline_media":true,
+      "profile_text_color":"333333",
+      "screen_name":"twitter",
+      "profile_background_image_url":"http:\/\/a1.twimg.com\/images\/themes\/theme18\/bg.gif",
+      "url":"http:\/\/blog.twitter.com\/",
+      "expanded_url":null,
+      "default_profile":false,
+      "profile_background_image_url_https":"https:\/\/si0.twimg.com\/images\/themes\/theme18\/bg.gif",
+      "time_zone":"Pacific Time (US & Canada)",
+      "profile_link_color":"038543",
+      "id":783214,
+      "entities":{
+         "urls":[
+ 
+         ],
+         "user_mentions":[
+ 
+         ],
+         "hashtags":[
+ 
+         ]
+      },
+      "suspended":false,
+      "listed_count":66018,
+      "lang":"en",
+      "friends_count":695
+   },
+   "member_count":643,
+   "id_str":"574",
+   "subscriber_count":76779,
+   "id":574,
+   "uri":"\/twitter\/team"
+}
