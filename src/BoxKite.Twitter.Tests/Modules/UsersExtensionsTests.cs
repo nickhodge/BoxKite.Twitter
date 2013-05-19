@@ -83,7 +83,7 @@ namespace BoxKite.Twitter.Tests.Modules
             session.Returns(await Json.FromFile("data\\users\\show.txt"));
             session.ExpectGet("https://api.twitter.com/1.1/users/show.json");
 
-            var user = await session.GetProfile("shiftkey");
+            var user = await session.GetUserProfile("shiftkey");
             
             Assert.IsNotNull(user);
         }
@@ -96,7 +96,7 @@ namespace BoxKite.Twitter.Tests.Modules
             session.ExpectGet("https://api.twitter.com/1.1/users/show.json");
 
             // act
-            await session.GetProfile(screenName);
+            await session.GetUserProfile(screenName);
 
             Assert.IsTrue(session.ReceivedParameter("screen_name", screenName));
             Assert.IsTrue(session.ReceivedParameter("include_entities", "true"));
@@ -109,7 +109,7 @@ namespace BoxKite.Twitter.Tests.Modules
             session.ExpectGet("https://api.twitter.com/1.1/users/show.json");
 
             // act
-            var userdetails = await session.GetProfile(1234.ToString());
+            var userdetails = await session.GetUserProfile(1234.ToString());
 
             Assert.IsNotNull(userdetails);
             userdetails.Name.ShouldBeEquivalentTo("Ryan Sarver");
@@ -121,7 +121,7 @@ namespace BoxKite.Twitter.Tests.Modules
             session.Returns(await Json.FromFile("data\\users\\show.txt"));
             session.ExpectGet("https://api.twitter.com/1.1/users/show.json");
 
-            var user = await session.GetProfile(1234.ToString());
+            var user = await session.GetUserProfile(1234.ToString());
 
             Assert.IsNotNull(user);
         }
@@ -185,7 +185,7 @@ namespace BoxKite.Twitter.Tests.Modules
             session.Returns(await Json.FromFile("data\\users\\createblock.txt"));
             session.ExpectPost("https://api.twitter.com/1.1/blocks/create.json");
 
-            var user = await session.CreateBlock("theSeanCook");
+            var user = await session.CreateUserBlock("theSeanCook");
 
             Assert.IsNotNull(user);
             user.Name.ShouldBeEquivalentTo("Sean Cook");
@@ -197,7 +197,7 @@ namespace BoxKite.Twitter.Tests.Modules
             session.Returns(await Json.FromFile("data\\users\\createblock.txt"));
             session.ExpectPost("https://api.twitter.com/1.1/blocks/destroy.json");
 
-            var user = await session.DeleteBlock("theSeanCook");
+            var user = await session.DeleteUserBlock("theSeanCook");
 
             Assert.IsNotNull(user);
             user.Name.ShouldBeEquivalentTo("Sean Cook");
@@ -212,7 +212,7 @@ namespace BoxKite.Twitter.Tests.Modules
 
             var screen_names = new List<string> {"theSeanCook","shiftkey","NickHodgeMSFT"};
             var ids = new List<int>();
-            var userlist = await session.GetFullUserDetails(screen_names, ids);
+            var userlist = await session.GetUsersDetailsFull(screen_names, ids);
 
             Assert.IsNotNull(userlist);
             userlist.Count().ShouldBeEquivalentTo(2);

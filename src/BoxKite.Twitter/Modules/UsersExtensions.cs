@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using BoxKite.Twitter.Extensions;
 using BoxKite.Twitter.Models;
 using BoxKite.Twitter.Models.Service;
@@ -28,12 +29,14 @@ namespace BoxKite.Twitter
         /// <param name="screen_name">The screen name of the user for whom to return results for. Either a id or screen_name is required for this method.</param>
         /// <param name="user_id">The ID of the user for whom to return results for. Either an id or screen_name is required for this method.</param>
         /// <returns></returns>
-        public static async Task<User> GetProfile(this IUserSession session, string screen_name="", int user_id=0)
+        public static async Task<User> GetUserProfile(this IUserSession session, string screen_name="", int user_id=0)
         {
             var parameters = new SortedDictionary<string, string>
                                  {
                                      {"include_entities", "true"},
                                  };
+
+            //TODO: add logic to ensure one or other is implemented otherwise fault
 
             if (!string.IsNullOrWhiteSpace(screen_name))
             {
@@ -124,8 +127,7 @@ namespace BoxKite.Twitter
         /// <param name="description">A description of the user owning the account. Maximum of 160 characters.</param>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/account/update_profile </remarks>
         public static async Task<AccountProfile> ChangeAccountProfile(this IUserSession session, string name = "",
-            string purl =
-                "", string location = "", string description = "")
+            string purl = "", string location = "", string description = "")
         {
             var parameters = new SortedDictionary<string, string>
                              {
@@ -301,7 +303,7 @@ namespace BoxKite.Twitter
         /// <param name="user_id">The ID of the potentially blocked user.</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/blocks/create </remarks>
-        public static async Task<User> CreateBlock(this IUserSession session, string screen_name = "", int user_id = 0)
+        public static async Task<User> CreateUserBlock(this IUserSession session, string screen_name = "", int user_id = 0)
         {
             var parameters = new SortedDictionary<string, string>{
                                 {"include_entities", false.ToString()},
@@ -330,7 +332,7 @@ namespace BoxKite.Twitter
         /// <param name="user_id">The ID of the potentially blocked user.</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/blocks/destroy </remarks>
-        public static async Task<User> DeleteBlock(this IUserSession session, string screen_name = "", int user_id = 0)
+        public static async Task<User> DeleteUserBlock(this IUserSession session, string screen_name = "", int user_id = 0)
         {
             var parameters = new SortedDictionary<string, string>{
                                 {"include_entities", false.ToString()},
@@ -359,7 +361,7 @@ namespace BoxKite.Twitter
         /// <param name="user_ids">up to 100 are allowed in a single request. </param>
         /// <returns>Observable List of full user details</returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/users/lookup </remarks>
-        public async static Task<IEnumerable<User>> GetFullUserDetails(this IUserSession session, IEnumerable<string> screen_names,
+        public static async Task<IEnumerable<User>> GetUsersDetailsFull(this IUserSession session, IEnumerable<string> screen_names,
             IEnumerable<int> user_ids)
         {
             var parameters = new SortedDictionary<string, string>

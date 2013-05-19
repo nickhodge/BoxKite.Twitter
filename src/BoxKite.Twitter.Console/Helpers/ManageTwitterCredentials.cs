@@ -4,7 +4,7 @@ using BoxKite.Twitter.Console;
 using BoxKite.Twitter.Models;
 using Newtonsoft.Json;
 
-namespace ConsoleApplication1.Helpers
+namespace BoxKite.Twitter.Console.Helpers
 {
     public class ManageTwitterCredentials
     {

@@ -7,8 +7,8 @@
     <ProjectGuid>{B0CCE07E-E1A5-4BC4-A6C8-9876D4C6819A}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ConsoleApplication1</RootNamespace>
-    <AssemblyName>ConsoleApplication1</AssemblyName>
+    <RootNamespace>BoxKite.Console</RootNamespace>
+    <AssemblyName>BoxKite.Console</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -93,6 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConsoleApp.cs" />
+    <Compile Include="Helpers\ConsoleOutput.cs" />
     <Compile Include="Helpers\GetUnlockCodeFromTwitter.cs" />
     <Compile Include="Helpers\ManageTwitterCredentials.cs" />
     <Compile Include="Helpers\SecureIt.cs" />

@@ -2,6 +2,7 @@
 using System.Net;
 using System.Threading.Tasks;
 using BoxKite.Twitter.Authentication;
+using BoxKite.Twitter.Console.Helpers;
 using BoxKite.Twitter.Models;
 using Newtonsoft.Json.Linq;
 
