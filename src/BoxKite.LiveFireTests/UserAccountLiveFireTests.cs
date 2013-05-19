@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using BoxKite.Twitter;
 using BoxKite.Twitter.Console.Helpers;
-using BoxKite.Twitter.Models.Service;
 
 namespace BoxKite.LiveFireTests
 {
@@ -18,14 +17,15 @@ namespace BoxKite.LiveFireTests
             try
             {
                 // 1
-                ConsoleOutput.PrintMessage("UsersExtensions\\GetAccountSettings",ConsoleColor.Gray);
+                ConsoleOutput.PrintMessage("UsersExtensions\\GetAccountSettings", ConsoleColor.Gray);
                 var accountSettings = await session.GetAccountSettings();
                 testScreenName = accountSettings.ScreenName;
                 if (!accountSettings.twitterFaulted && !string.IsNullOrWhiteSpace(testScreenName))
                 {
-                    ConsoleOutput.PrintMessage(String.Format("Screen Name: {0}",testScreenName));
+                    ConsoleOutput.PrintMessage(String.Format("Screen Name: {0}", testScreenName));
                     ConsoleOutput.PrintMessage(String.Format("Time Zone: {0}", accountSettings.TimeZone.name));
-                    ConsoleOutput.PrintMessage(String.Format("Trend Location: {0}", accountSettings.TrendLocation.ToList()[0].name));
+                    ConsoleOutput.PrintMessage(String.Format("Trend Location: {0}",
+                        accountSettings.TrendLocation.ToList()[0].name));
                 }
                 else
                 {
@@ -64,10 +64,11 @@ namespace BoxKite.LiveFireTests
 
                 // 4
                 ConsoleOutput.PrintMessage("UsersExtensions\\ChangeAccountSettings", ConsoleColor.Gray);
-                var changeSettings = await session.ChangeAccountSettings(trend_location_woeid:"1");
+                var changeSettings = await session.ChangeAccountSettings(trend_location_woeid: "1");
                 if (!changeSettings.twitterFaulted)
                 {
-                    ConsoleOutput.PrintMessage(String.Format("Trend Location: {0}", changeSettings.TrendLocation.ToList()[0].name));
+                    ConsoleOutput.PrintMessage(String.Format("Trend Location: {0}",
+                        changeSettings.TrendLocation.ToList()[0].name));
                 }
                 else
                 {
@@ -75,16 +76,27 @@ namespace BoxKite.LiveFireTests
                 }
 
                 // 5
-                ConsoleOutput.PrintMessage("UsersExtensions\\GetBlockList", ConsoleColor.Gray);
-                var blockList = await session.GetBlockList();
-                if (!blockList.twitterFaulted)
+                ConsoleOutput.PrintMessage("UsersExtensions\\GetBlockList - Cursored", ConsoleColor.Gray);
+                long nextcursor = -1;
+
+                while (nextcursor != 0)
                 {
-                    ConsoleOutput.PrintMessage(String.Format("Previous: {0} Next cursors: {1}", blockList.previous_cursor.ToString(), blockList.next_cursor.ToString()));
-                    ConsoleOutput.PrintMessage(String.Format("Number in Block List: {0}", blockList.users.Count()));
-                    foreach(var l in blockList.users)
+                    var blockList = await session.GetBlockList(cursor:nextcursor);
+                    if (!blockList.twitterFaulted)
                     {
-                        ConsoleOutput.PrintMessage(String.Format("ScreenName: {0} User ID: {1};",l.Name,l.UserId));
-                    };
+                        nextcursor = blockList.next_cursor;
+                        ConsoleOutput.PrintMessage(String.Format("Previous cursor: {0} Next cursor: {1}",
+                            blockList.previous_cursor, blockList.next_cursor));
+                        ConsoleOutput.PrintMessage(String.Format("Number in Block List: {0}", blockList.users.Count()));
+                        foreach (var l in blockList.users)
+                        {
+                            ConsoleOutput.PrintMessage(String.Format("ScreenName: {0} User ID: {1};", l.Name, l.UserId));
+                        }
+                    }
+                    else
+                    {
+                        nextcursor=0;
+                    }
                 }
 
                 // 6
@@ -92,13 +104,16 @@ namespace BoxKite.LiveFireTests
                 var deleteUserBlock = await session.DeleteUserBlock(screen_name: "NickHodgeMSFT");
                 if (!deleteUserBlock.twitterFaulted)
                 {
-                    ConsoleOutput.PrintMessage(String.Format("ScreenName: {0}",deleteUserBlock.ScreenName));
+                    ConsoleOutput.PrintMessage(String.Format("ScreenName: {0}", deleteUserBlock.ScreenName));
                 }
 
                 else
                 {
                     successStatus = false;
                 }
+
+
+
             }
             catch (Exception e)
             {

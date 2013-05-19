@@ -16,7 +16,7 @@ namespace BoxKite.LiveFireTests
         public static void Main(string[] args)
         {
             ConsoleOutput.PrintMessage("BoxKite.Twitter Live Fire Tests");
-            ConsoleOutput.PrintMessage("(control-c ends)");
+            ConsoleOutput.PrintMessage("(control-c ends at anytime)");
 
             var twittercredentials = ManageTwitterCredentials.MakeConnection();
 
@@ -33,9 +33,12 @@ namespace BoxKite.LiveFireTests
                     var testResult = ualft.DoUserAccountTest(session).Result;
                     ConsoleOutput.PrintMessage(String.Format("User Account Tests Status: {0}",testResult),ConsoleColor.Cyan);
 
+
+
+
                 }
             }
-            ConsoleOutput.PrintMessage("Press Return to continue");
+            ConsoleOutput.PrintMessage("Press Return to close window");
             System.Console.ReadLine();
         }
 
