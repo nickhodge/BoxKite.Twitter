@@ -31,8 +31,9 @@ API Coverage, With Tests & Intellisense Comments
 - [x] Search
 - [x] Saved Searches
 - [x] User Streaming: [GET userstreams](https://dev.twitter.com/docs/streaming-apis/streams/user) 
-- [ ] [POST status/filter](https://dev.twitter.com/docs/api/1.1/post/statuses/filter)
-- [ ] Search via Streaming
+- [ ] Add all response types (events, etc) to UserStreams
+- [ ] Need to add TestMocks for UserStreams
+- [ ] Search via Streaming [POST status/filter](https://dev.twitter.com/docs/api/1.1/post/statuses/filter)
 - [x] Direct Messages
 - [x] Friends and Followers
 - [x] Users
@@ -70,15 +71,15 @@ BoxKite.Twitter is Licensed under:
 [MS-PL] (http://opensource.org/licenses/MS-PL)
 
 Copyright: 
-[Nick Hodge](mailto:hodgenick@gmail.com) and Brendan Forster 2012-2013
+[Nick Hodge](https://github.com/nickhodge/) and [Brendan Forster](https://github.com/shiftkey/) 2012-2013
 
-Components used
---------------------
-* [Reactive Extensions](https://rx.codeplex.com/) (Apache License 2.0)
-* [HTTP Client Libraries](http://nuget.org/packages/Microsoft.Net.Http/2.1.3-beta) Portable version of the HTTP Client Libraries from the Microsoft ASP.NET WebAPI team (from NuGet, currently Not Support DotNet License)
-* [Newtonsoft Json.NET](http://json.net) (MIT License)
-* [PCLContrib](http://pclcontrib.codeplex.com/) (MS-PL)
-* [FluentAssertions](http://fluentassertions.codeplex.com/) (MS-PL) Great little collection of extension methods that make writing UnitTests easier
+Components Used
+---------------
+* Without [Newtonsoft Json.NET](http://json.net) this library would not exist (MIT License)
+* Microsoft's Open sourced .NET [Reactive Extensions](https://rx.codeplex.com/) (Apache License 2.0)
+* Portable version of the HTTP Client Libraries from the Microsoft ASP.NET WebAPI team [HTTP Client Libraries](http://nuget.org/packages/Microsoft.Net.Http/2.1.3-beta)  (sourced from NuGet, currently Not Support DotNet License)
+* You will also need to separately download & build [PCLContrib](http://pclcontrib.codeplex.com/) (MS-PL)
+* Great little collection of extension methods that make writing UnitTests easier [FluentAssertions](http://fluentassertions.codeplex.com/) (MS-PL) 
 
 Why BoxKite?
 ------------
