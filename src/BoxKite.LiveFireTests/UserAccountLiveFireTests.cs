@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BoxKite.Twitter;
 using BoxKite.Twitter.Console.Helpers;
+using BoxKite.Twitter.Models.Service;
 
 namespace BoxKite.LiveFireTests
 {
@@ -73,6 +74,31 @@ namespace BoxKite.LiveFireTests
                     successStatus = false;
                 }
 
+                // 5
+                ConsoleOutput.PrintMessage("UsersExtensions\\GetBlockList", ConsoleColor.Gray);
+                var blockList = await session.GetBlockList();
+                if (!blockList.twitterFaulted)
+                {
+                    ConsoleOutput.PrintMessage(String.Format("Previous: {0} Next cursors: {1}", blockList.previous_cursor.ToString(), blockList.next_cursor.ToString()));
+                    ConsoleOutput.PrintMessage(String.Format("Number in Block List: {0}", blockList.users.Count()));
+                    foreach(var l in blockList.users)
+                    {
+                        ConsoleOutput.PrintMessage(String.Format("ScreenName: {0} User ID: {1};",l.Name,l.UserId));
+                    };
+                }
+
+                // 6
+                ConsoleOutput.PrintMessage("UsersExtensions\\DeleteUserBlock", ConsoleColor.Gray);
+                var deleteUserBlock = await session.DeleteUserBlock(screen_name: "NickHodgeMSFT");
+                if (!deleteUserBlock.twitterFaulted)
+                {
+                    ConsoleOutput.PrintMessage(String.Format("ScreenName: {0}",deleteUserBlock.ScreenName));
+                }
+
+                else
+                {
+                    successStatus = false;
+                }
             }
             catch (Exception e)
             {
