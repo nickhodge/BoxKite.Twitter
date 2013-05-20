@@ -1,14 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
-using System.Configuration;
-using System.Diagnostics;
-using System.Diagnostics.Eventing.Reader;
 using System.Linq;
-using System.Net.Configuration;
-using System.Reactive.Linq;
-using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
-using BoxKite.Twitter.Models.Service;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -135,7 +127,7 @@ namespace BoxKite.Twitter.Tests.Modules
             var user = await session.ChangeAccountProfileImage("test.jpg", new byte[]{});
 
             Assert.IsNotNull(user);
-            user.Id.ShouldBeEquivalentTo(776627022);
+            user.UserId.ShouldBeEquivalentTo(776627022);
         }
 
         [TestMethod]
@@ -147,7 +139,7 @@ namespace BoxKite.Twitter.Tests.Modules
             var user = await session.ChangeAccountBackgroundImage("test.jpg", new byte[]{});
 
             Assert.IsNotNull(user);
-            user.Id.ShouldBeEquivalentTo(776627022);
+            user.UserId.ShouldBeEquivalentTo(776627022);
         }
 
         [TestMethod]
@@ -159,7 +151,7 @@ namespace BoxKite.Twitter.Tests.Modules
             var user = await session.ChangeAccountColours();
 
             Assert.IsNotNull(user);
-            user.Id.ShouldBeEquivalentTo(776627022);
+            user.UserId.ShouldBeEquivalentTo(776627022);
         }
 
         [TestMethod]

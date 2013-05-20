@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using BoxKite.Twitter.Authentication;
 using BoxKite.Twitter.Models;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -194,6 +195,31 @@ namespace BoxKite.Twitter.Tests
             twitteruser.Name.ShouldBeEquivalentTo("Ryan Sarver");
             twitteruser.ScreenName.ShouldBeEquivalentTo("rsarver");
             twitteruser.UserId.ShouldBeEquivalentTo(795649);
+            twitteruser.TimeZone.ShouldBeEquivalentTo("Pacific Time (US & Canada)");
+            twitteruser.ContributorsEnabled.ShouldBeEquivalentTo(true);
+            twitteruser.CreatedAt.Ticks.ShouldBeEquivalentTo(633081099550000000);
+            twitteruser.DefaultProfile.ShouldBeEquivalentTo(false);
+            twitteruser.Description.ShouldBeEquivalentTo("Director, Platform at Twitter. Detroit and Boston export. Foodie and over-the-hill hockey player. @devon's lesser half");
+            twitteruser.DefaultProfileImage.ShouldBeEquivalentTo(false);
+            twitteruser.FavouritesCount.ShouldBeEquivalentTo(3162);
+            twitteruser.FollowRequestSent.ShouldBeEquivalentTo(false);
+            twitteruser.Followers.ShouldBeEquivalentTo(276334);
+            twitteruser.Friends.ShouldBeEquivalentTo(1780);
+            twitteruser.GeoEnabled.ShouldBeEquivalentTo(true);
+            twitteruser.IsTranslator.ShouldBeEquivalentTo(false);
+            twitteruser.Language.ShouldBeEquivalentTo("en");
+            twitteruser.ListedCount.ShouldBeEquivalentTo(1586);
+            twitteruser.Location.ShouldBeEquivalentTo("San Francisco, CA");
+            twitteruser.Notifications.ShouldBeEquivalentTo(false);
+            twitteruser.ProfileBackgroundColour.ShouldBeEquivalentTo("45ADA8");
+            twitteruser.ProfileBackgroundTile.ShouldBeEquivalentTo(true);
+            twitteruser.ProfileImageUrl.ShouldBeEquivalentTo("http://a0.twimg.com/profile_images/1777569006/image1327396628_normal.png");
+            twitteruser.ProfileLinkColour.ShouldBeEquivalentTo("547980");
+            twitteruser.ProfileSidebarBorderColour.ShouldBeEquivalentTo("547980");
+            twitteruser.ShowAllInlineMedia.ShouldBeEquivalentTo(true);
+            twitteruser.StatusesCount.ShouldBeEquivalentTo(13728);
+            twitteruser.UTCOffset.ShouldBeEquivalentTo(-28800);
+            Assert.IsNull(twitteruser.Url);
         }
 
 

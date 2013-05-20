@@ -7,9 +7,6 @@ using System.Threading.Tasks;
 using BoxKite.Twitter.Models;
 using BoxKite.Twitter.Models.Service;
 using Newtonsoft.Json;
-using Tweet = BoxKite.Twitter.Models.Tweet;
-using User = BoxKite.Twitter.Models.User;
-using SearchResponse = BoxKite.Twitter.Models.SearchResponse;
 
 namespace BoxKite.Twitter.Extensions
 {
@@ -737,7 +734,8 @@ namespace BoxKite.Twitter.Extensions
         internal static DateTime DateTimeForHTTPHeaderKey(string key, string header)
         {
             double val = 0;
-            var statuskey = new Regex(key + @":\s?(\d{+})");
+            // http://stackoverflow.com/questions/16621738/d-less-efficient-than-0-9
+            var statuskey = new Regex(key + @":\s?([0123456789]{+})");
             var mc = statuskey.Matches(header);
             if (mc.Count > 0)
             {
