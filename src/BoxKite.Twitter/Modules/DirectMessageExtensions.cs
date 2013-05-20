@@ -73,7 +73,7 @@ namespace BoxKite.Twitter
         /// <param name="id">ID of direct message to return</param>
         /// <returns></returns>
         /// <remarks>ref: https://dev.twitter.com/docs/api/1.1/get/direct_messages/show </remarks>
-        public async static Task<IEnumerable<DirectMessage>> GetDirectMessageSingle(this IUserSession session, long id)
+        public async static Task<DirectMessage> GetDirectMessageSingle(this IUserSession session, long id)
         {
             var parameters = new SortedDictionary<string, string>
                                  {
@@ -81,7 +81,7 @@ namespace BoxKite.Twitter
                                  };
 
             return await session.GetAsync(Api.Resolve("/1.1/direct_messages/show.json"), parameters)
-                          .ContinueWith(c => c.MapToListOfDirectMessages());
+                          .ContinueWith(c => c.MapToSingleDirectMessage());
         }
 
         /// <summary>

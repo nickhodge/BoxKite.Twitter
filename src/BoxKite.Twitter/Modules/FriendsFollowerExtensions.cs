@@ -77,11 +77,11 @@ namespace BoxKite.Twitter
         /// <param name="user_ids">list of user_ids to check against</param>
         /// <returns></returns>
         /// <remarks> ref : https://dev.twitter.com/docs/api/1.1/get/friendships/lookup </remarks>
-        public async static Task<IEnumerable<FriendshipLookupResponse>> GetFriendships(this IUserSession session, string[] screen_names, string[] user_ids)
+        public async static Task<IEnumerable<FriendshipLookupResponse>> GetFriendships(this IUserSession session, IEnumerable<string> screen_names = null, IEnumerable<int> user_ids = null)
         {
             var parameters = new SortedDictionary<string, string>();
             var screenNameList = new StringBuilder();
-            if (screen_names.HasAny())
+            if (screen_names != null)
             {
                 foreach (var screenName in screen_names)
                 {
@@ -91,7 +91,7 @@ namespace BoxKite.Twitter
             }
 
             var userIDList = new StringBuilder();
-            if (user_ids.HasAny())
+            if (user_ids != null)
             {
                 foreach (var userID in user_ids)
                 {

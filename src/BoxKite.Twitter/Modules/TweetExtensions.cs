@@ -110,11 +110,17 @@ namespace BoxKite.Twitter
         /// </summary>
         /// <param name="tweetID">The tweet ID to return</param>
         /// <returns></returns>
-        /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/statuses/retweets/%3Aid </remarks>
-        // TODO: include_my_retweet needs to be implemented
-        public async static Task<Tweet> GetTweet(this IUserSession session, string tweetID)
+        /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/statuses/show/%3Aid  </remarks>
+        public async static Task<Tweet> GetTweet(this IUserSession session, long tweetID)
         {
-            var parameters = new SortedDictionary<string, string>();
+            var parameters = new SortedDictionary<string, string>
+                             {
+                                 {"id",tweetID.ToString()},
+                                 {"trim_user",false.ToString()},
+                                 {"include_my_retweet",true.ToString()},
+                                 {"include_entities",true.ToString()}
+                             };
+
             var path = Api.Resolve("/1.1/statuses/show.json");
 
             return await session.GetAsync(path, parameters)

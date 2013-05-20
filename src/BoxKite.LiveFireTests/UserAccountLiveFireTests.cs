@@ -21,7 +21,7 @@ namespace BoxKite.LiveFireTests
                 // 1
                 if (testSeq.Contains(1))
                 {
-                    ConsoleOutput.PrintMessage("UsersExtensions\\GetAccountSettings", ConsoleColor.Gray);
+                    ConsoleOutput.PrintMessage("1.1 UsersExtensions\\GetAccountSettings", ConsoleColor.Gray);
                     var accountSettings = await session.GetAccountSettings();
                     testScreenName = accountSettings.ScreenName;
                     if (!accountSettings.twitterFaulted && !string.IsNullOrWhiteSpace(testScreenName))
@@ -37,7 +37,7 @@ namespace BoxKite.LiveFireTests
                 // 2
                 if (testSeq.Contains(2))
                 {
-                    ConsoleOutput.PrintMessage("UsersExtensions\\GetVerifyCredentials", ConsoleColor.Gray);
+                    ConsoleOutput.PrintMessage("1.2 UsersExtensions\\GetVerifyCredentials", ConsoleColor.Gray);
                     loggedInUserProfile = await session.GetVerifyCredentials();
                     if (!loggedInUserProfile.twitterFaulted)
                     {
@@ -50,7 +50,7 @@ namespace BoxKite.LiveFireTests
                 // 3
                 if (testSeq.Contains(3))
                 {
-                    ConsoleOutput.PrintMessage("UsersExtensions\\GetUserProfile", ConsoleColor.Gray);
+                    ConsoleOutput.PrintMessage("1.3 UsersExtensions\\GetUserProfile", ConsoleColor.Gray);
                     var getProfile = await session.GetUserProfile(testScreenName);
                     if (!getProfile.twitterFaulted)
                     {
@@ -67,7 +67,7 @@ namespace BoxKite.LiveFireTests
                 // 4
                 if (testSeq.Contains(4))
                 {
-                    ConsoleOutput.PrintMessage("UsersExtensions\\ChangeAccountSettings", ConsoleColor.Gray);
+                    ConsoleOutput.PrintMessage("1.4 UsersExtensions\\ChangeAccountSettings", ConsoleColor.Gray);
                     var changeSettings = await session.ChangeAccountSettings(trend_location_woeid: "1");
                     if (!changeSettings.twitterFaulted)
                     {
@@ -80,7 +80,7 @@ namespace BoxKite.LiveFireTests
                 // 5
                 if (testSeq.Contains(5))
                 {
-                    ConsoleOutput.PrintMessage("UsersExtensions\\GetBlockList - Cursored", ConsoleColor.Gray);
+                    ConsoleOutput.PrintMessage("1.5 UsersExtensions\\GetBlockList - Cursored", ConsoleColor.Gray);
                     long nextcursor = -1;
                     var blockListCount = 0;
 
@@ -105,7 +105,7 @@ namespace BoxKite.LiveFireTests
                 // 6
                 if (testSeq.Contains(6))
                 {
-                    ConsoleOutput.PrintMessage("UsersExtensions\\DeleteUserBlock", ConsoleColor.Gray);
+                    ConsoleOutput.PrintMessage("1.6 UsersExtensions\\DeleteUserBlock", ConsoleColor.Gray);
                     var deleteUserBlock = await session.DeleteUserBlock(screen_name: "NickHodgeMSFT");
                     if (!deleteUserBlock.twitterFaulted)
                         ConsoleOutput.PrintMessage(String.Format("ScreenName: {0}", deleteUserBlock.ScreenName));
@@ -115,7 +115,7 @@ namespace BoxKite.LiveFireTests
                 // 7
                 if (testSeq.Contains(7))
                 {
-                    ConsoleOutput.PrintMessage("UsersExtensions\\GetUsersDetailsFull From Screennames ",
+                    ConsoleOutput.PrintMessage("1.7 UsersExtensions\\GetUsersDetailsFull From Screennames ",
                         ConsoleColor.Gray);
                     var screennames = new List<string> {"shiftkey", "katyperry"};
                     var getUserDetailsFullFromScreenNames = await session.GetUsersDetailsFull(screen_names: screennames);
@@ -135,7 +135,7 @@ namespace BoxKite.LiveFireTests
                 // 8
                 if (testSeq.Contains(8))
                 {
-                    ConsoleOutput.PrintMessage("UsersExtensions\\GetUsersDetailsFull From IDs", ConsoleColor.Gray);
+                    ConsoleOutput.PrintMessage("1.8 UsersExtensions\\GetUsersDetailsFull From IDs", ConsoleColor.Gray);
                     var usersids = new List<int> {21447363, 14671135};
                     var getUserDetailsFullFromIDs = await session.GetUsersDetailsFull(user_ids: usersids);
                     if (!getUserDetailsFullFromIDs.ToList()[0].twitterFaulted)
@@ -154,7 +154,7 @@ namespace BoxKite.LiveFireTests
                 // 9
                 if (testSeq.Contains(9))
                 {
-                    ConsoleOutput.PrintMessage("UsersExtensions\\SearchForUsers", ConsoleColor.Gray);
+                    ConsoleOutput.PrintMessage("1.9 UsersExtensions\\SearchForUsers", ConsoleColor.Gray);
                     var q = "troll";
                     var searchForUsers = await session.SearchForUsers(q, 200, 1);
                     if (!searchForUsers.ToList()[0].twitterFaulted)

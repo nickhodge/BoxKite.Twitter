@@ -33,6 +33,7 @@ namespace BoxKite.Twitter
 
             var client = new HttpClient { MaxResponseContentBufferSize = 10 * 1024 * 1024 };
             client.DefaultRequestHeaders.Add("Authorization", oauth.Header);
+            client.DefaultRequestHeaders.Add("User-Agent", "BoxKite.Twitter/1.0");
 
             if (!string.IsNullOrWhiteSpace(querystring))
                 fullUrl += "?" + querystring.Substring(0, querystring.Length - 1);
@@ -46,8 +47,9 @@ namespace BoxKite.Twitter
             var client = new HttpClient();
 
             client.DefaultRequestHeaders.Add("Authorization", oauth.Header);
+            client.DefaultRequestHeaders.Add("User-Agent", "BoxKite.Twitter/1.0");
 
-            var content = parameters.Aggregate(string.Empty, (current, e) => current + string.Format("{0}={1}&", e.Key, e.Value));
+            var content = parameters.Aggregate(string.Empty, (current, e) => current + string.Format("{0}={1}&", e.Key, Uri.EscapeDataString(e.Value)));
 
             var data = new StringContent(content, Encoding.UTF8, "application/x-www-form-urlencoded");
 
@@ -156,7 +158,7 @@ namespace BoxKite.Twitter
                 }
                 else
                 {
-                    value = entry.Value;
+                   value = entry.Value;
                 }
 
                 baseString += Uri.EscapeDataString(entry.Key + "=" + value + "&");

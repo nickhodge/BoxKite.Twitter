@@ -1,5 +1,4 @@
-﻿[
-    {
+﻿    {
         "created_at": "Mon Aug 27 17:21:03 +0000 2012", 
         "entities": {
             "hashtags": [], 
@@ -94,4 +93,3 @@
         "sender_screen_name": "theSeanCook", 
         "text": "booyakasha"
     }
-]

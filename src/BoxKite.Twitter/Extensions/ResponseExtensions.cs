@@ -688,20 +688,21 @@ namespace BoxKite.Twitter.Extensions
         internal static TwitterControlMessage MapHTTPResponses(this Task<HttpResponseMessage> m)
         {
             var twitterControlMessage = new TwitterControlMessage();
-            var bodyContent = m.Result.Content.ReadAsStringAsync();
-            /* {StatusCode: 429, ReasonPhrase: 'Too Many Requests', Version: 1.1, Content: System.Net.Http.StreamContent, Headers:*/
-            twitterControlMessage.http_status_code = IntValueForHTTPHeaderKey("StatusCode", m.Result.ToString());
-            twitterControlMessage.twitter_rate_limit_limit = IntValueForHTTPHeaderKey("x-rate-limit-limit", m.Result.ToString());
-            twitterControlMessage.twitter_rate_limit_remaining = IntValueForHTTPHeaderKey("x-rate-limit-remaining", m.Result.ToString());
-            twitterControlMessage.twitter_rate_limit_reset = DateTimeForHTTPHeaderKey("x-rate-limit-reset", m.Result.ToString());
-
-            if (twitterControlMessage.http_status_code == 429)
-                twitterControlMessage.twitter_error_message = "Rate Limit Exceeded";
-            else
-                twitterControlMessage.http_reason = StringValueForHTTPHeaderKey("ReasonPhrase", m.Result.ToString());
-
             try
             {
+                 var bodyContent = m.Result.Content.ReadAsStringAsync();
+                /* {StatusCode: 429, ReasonPhrase: 'Too Many Requests', Version: 1.1, Content: System.Net.Http.StreamContent, Headers:*/
+                twitterControlMessage.http_status_code = IntValueForHTTPHeaderKey("StatusCode", m.Result.ToString());
+                twitterControlMessage.twitter_rate_limit_limit = IntValueForHTTPHeaderKey("x-rate-limit-limit", m.Result.ToString());
+                twitterControlMessage.twitter_rate_limit_remaining = IntValueForHTTPHeaderKey("x-rate-limit-remaining", m.Result.ToString());
+                twitterControlMessage.twitter_rate_limit_reset = DateTimeForHTTPHeaderKey("x-rate-limit-reset", m.Result.ToString());
+
+                if (twitterControlMessage.http_status_code == 429)
+                    twitterControlMessage.twitter_error_message = "Rate Limit Exceeded";
+                else
+                    twitterControlMessage.http_reason = StringValueForHTTPHeaderKey("ReasonPhrase", m.Result.ToString());
+
+            
                 var errordetail = JsonConvert.DeserializeObject<TwitterError>(bodyContent.Result);
                 twitterControlMessage.twitter_error_message = errordetail.errors[0].message;
                 twitterControlMessage.twitter_error_code = errordetail.errors[0].code;

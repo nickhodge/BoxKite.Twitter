@@ -27,8 +27,18 @@ namespace BoxKite.LiveFireTests
                 if (!checkUser.twitterFaulted)
                 {
                     ConsoleOutput.PrintMessage(twittercredentials.ScreenName + " is authorised to use BoxKite.Twitter.");
-                    var testSeriesToRun = new List<int> {3};
 
+                    // put the test series number you wish to run into the init of the array
+                    var testSeriesToRun = new List<int> {6};
+
+                    // series 1 => 9
+                    // series 2 => 1
+                    // series 3 => 3
+                    // series 4 => 3
+                    // series 5 => 3
+                    // series 6 => 8
+                    // =============
+                    // TOTAL      27
 
                     // Test Series 1
                     if (testSeriesToRun.Contains(1))
@@ -38,12 +48,12 @@ namespace BoxKite.LiveFireTests
 
                         if (testResult1)
                         {
-                            ConsoleOutput.PrintMessage(String.Format("User Account Tests Status: {0}", testResult1),
-                                ConsoleColor.DarkBlue);
+                            ConsoleOutput.PrintMessage(String.Format("1.0 User Account Tests Status: {0}", testResult1),
+                                ConsoleColor.White);
                         }
                         else
                         {
-                            ConsoleOutput.PrintMessage(String.Format("User Account Tests Status: {0}", testResult1),
+                            ConsoleOutput.PrintMessage(String.Format("1.0 User Account Tests Status: {0}", testResult1),
                                 ConsoleColor.Red);
                         }
                     }
@@ -57,38 +67,96 @@ namespace BoxKite.LiveFireTests
 
                         if (testResult2)
                         {
-                            ConsoleOutput.PrintMessage(String.Format("User Account Tests Status: {0}", testResult2),
-                                ConsoleColor.DarkBlue);
+                            ConsoleOutput.PrintMessage(String.Format("2.0 API Management Tests Status: {0}", testResult2),
+                                ConsoleColor.White);
                         }
                         else
                         {
-                            ConsoleOutput.PrintMessage(String.Format("User Account Tests Status: {0}", testResult2),
+                            ConsoleOutput.PrintMessage(String.Format("2.0 API Management Tests Status: {0}", testResult2),
+                                ConsoleColor.Red);
+                        }
+                    }
+
+                    // Test Series 3
+                    if (testSeriesToRun.Contains(3))
+                    {
+                        var dms = new DirectMessagesLiveFireTests();
+                        var testResult3 = dms.DoDMTest(session, new List<int> {3}).Result;
+
+                        if (testResult3)
+                        {
+                            ConsoleOutput.PrintMessage(String.Format("3.0 Direct Messages Tests Status: {0}", testResult3),
+                                ConsoleColor.White);
+                        }
+                        else
+                        {
+                            ConsoleOutput.PrintMessage(String.Format("3.0 Direct Messages Tests Status: {0}", testResult3),
                                 ConsoleColor.Red);
                         }
                     }
 
 
-
-                    // Test Series 3
-                    if (testSeriesToRun.Contains(3))
+                    // Test Series 4
+                    if (testSeriesToRun.Contains(4))
                     {
-                        var doit = new ApiManagementLiveFireTests();
-                        var testResult2 = doit.DoApiTest(session, new List<int> { 1 }).Result;
+                        var tws = new TweetsLiveFireTests();
+                        var testResult4 = tws.DoTweetTest(session, new List<int> {2,3}).Result;
 
-                        if (testResult2)
+                        if (testResult4)
                         {
-                            ConsoleOutput.PrintMessage(String.Format("User Account Tests Status: {0}", testResult2),
-                                ConsoleColor.DarkBlue);
+                            ConsoleOutput.PrintMessage(String.Format("4.0 Tweet Tests Status: {0}", testResult4),
+                                ConsoleColor.White);
                         }
                         else
                         {
-                            ConsoleOutput.PrintMessage(String.Format("User Account Tests Status: {0}", testResult2),
+                            ConsoleOutput.PrintMessage(String.Format("4.0 Tweet Tests Status: {0}", testResult4),
+                                ConsoleColor.Red);
+                        }
+                    }
+
+                    // Test Series 5
+                    if (testSeriesToRun.Contains(5))
+                    {
+                        var fvs = new FavouritesLiveFireTests();
+                        var testResult5 = fvs.DoFavouritesTest(session, new List<int> { 1,2, 3 }).Result;
+
+                        if (testResult5)
+                        {
+                            ConsoleOutput.PrintMessage(String.Format("5.0 Favourite Tests Status: {0}", testResult5),
+                                ConsoleColor.White);
+                        }
+                        else
+                        {
+                            ConsoleOutput.PrintMessage(String.Format("5.0 Favourite Tests Status: {0}", testResult5),
+                                ConsoleColor.Red);
+                        }
+                    }
+
+
+                    // Test Series 6
+                    if (testSeriesToRun.Contains(6))
+                    {
+                        var ffvs = new FriendsFollowersLiveFireTests();
+                        var testResult6 = ffvs.DoFriendsFollowersTest(session, new List<int> { 7 }).Result;
+
+                        if (testResult6)
+                        {
+                            ConsoleOutput.PrintMessage(String.Format("6.0 FriendsFollowers Tests Status: {0}", testResult6),
+                                ConsoleColor.White);
+                        }
+                        else
+                        {
+                            ConsoleOutput.PrintMessage(String.Format("6.0 FriendsFollowers Tests Status: {0}", testResult6),
                                 ConsoleColor.Red);
                         }
                     }
 
                 }
-            }
+                else
+                {
+                    ConsoleOutput.PrintError("Unable to Authorise."); 
+                }
+             }
             ConsoleOutput.PrintMessage("Press Return to close window");
             System.Console.ReadLine();
         }

@@ -21,7 +21,7 @@ namespace BoxKite.Twitter.Tests.Modules
             var friends = await session.GetFriendsIDs();
 
             Assert.IsNotNull(friends);
-            friends.next_cursor_str.ShouldBeEquivalentTo("0");
+            friends.next_cursor.ShouldBeEquivalentTo(0);
             friends.IDs.Should().HaveCount(31);
             friends.IDs.ToList()[6].ShouldBeEquivalentTo(14488353);
         }
@@ -36,7 +36,7 @@ namespace BoxKite.Twitter.Tests.Modules
             var followers = await session.GetFollowersIDs();
 
             Assert.IsNotNull(followers);
-            followers.next_cursor_str.ShouldBeEquivalentTo("0");
+            followers.next_cursor.ShouldBeEquivalentTo(0);
             followers.IDs.Should().HaveCount(31);
             followers.IDs.ToList()[6].ShouldBeEquivalentTo(14488353);
         }
@@ -48,7 +48,7 @@ namespace BoxKite.Twitter.Tests.Modules
             session.Returns(await Json.FromFile("data\\friendsfollowers\\friendshiplookup.txt"));
             session.ExpectGet("https://api.twitter.com/1.1/friendships/lookup.json");
 
-            var ffs = await session.GetFriendships(new string [2]{"episod","twitterapi"}, new string[0]);
+            var ffs = await session.GetFriendships(new string [2]{"episod","twitterapi"});
 
             Assert.IsNotNull(ffs);
             ffs.Should().HaveCount(2);
@@ -65,7 +65,7 @@ namespace BoxKite.Twitter.Tests.Modules
             var fsr = await session.GetFriendshipRequestsIncoming();
 
             Assert.IsNotNull(fsr);
-            fsr.next_cursor_str.ShouldBeEquivalentTo("0");
+            fsr.next_cursor.ShouldBeEquivalentTo(0);
             fsr.IDs.Should().HaveCount(31);
             fsr.IDs.ToList()[6].ShouldBeEquivalentTo(14488353);
         }
@@ -80,7 +80,7 @@ namespace BoxKite.Twitter.Tests.Modules
             var fsr = await session.GetFriendshipRequestsOutgoing();
 
             Assert.IsNotNull(fsr);
-            fsr.next_cursor_str.ShouldBeEquivalentTo("0");
+            fsr.next_cursor.ShouldBeEquivalentTo(0);
             fsr.IDs.Should().HaveCount(31);
             fsr.IDs.ToList()[6].ShouldBeEquivalentTo(14488353);
         }

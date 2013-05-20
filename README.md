@@ -1,7 +1,7 @@
 BoxKite.Twitter
 ===============
 
-Portable Twitter Client Library using Reactive Extensions library and Async/Await.
+Portable Twitter Client Library using Reactive Extensions library and Async/Await for the .NET 4.5 platform (and above)
 
 Details
 -------
@@ -16,8 +16,8 @@ Goal:
 * Supporting .NET 4.5, Windows 8 and Windows Phone 8 development
 * Distribute as a NuGet package
 * Async/Await where appropriate (single response)
-* Reactive extensions (.Subscribe) for Streamed data.
-* A "TwitterConnection" object that maintains & manages the connection to Twitter. From this, subscribe to streams; object manages stuff
+* Reactive extensions (.Subscribe) for Streamed data where appropriate.
+* Create a simple "TwitterConnection" object that maintains & manages the connection to Twitter. From this, subscribe to streams; object manages stuff
 
 To Build:
 * VS2012 with latest NuGet supporting PCLs (Portable Class Libraries)
@@ -48,18 +48,19 @@ API Coverage, With Tests & Intellisense Comments
 
 Tests:
 * 95 test methods with average of 4 assertion tests each
-* Test source is JSON from [dev.twitter.com](https://dev.twitter.com/)
-* Error response types & generic decode tests included
-* "Live Fire Test" mechanism via Console; use a real Twitter Account to exercise the API
+* 27 "Live Fire Tests". Included as a separate project, it is engaged via the Console; uses a real Twitter Account to exercise the API. Configurable Test series, individual tests that can be run.
+* Test source is JSON from [dev.twitter.com](https://dev.twitter.com/) and where innaccurate on the site, taken from live data or corrected to match live data.
+* Error response type testing (eg: 429 rate_limits) & generic decode tests included
+
 
 Broad To Dos:
 - [ ] Sematics of D/M and others in status updates
-- [ ] include_my_retweets in GetTweet
 - [ ] [Attribute:street_address](https://dev.twitter.com/docs/api/1.1/get/geo/search) in PlacesGeo Attributes for Places (these seem to be street address details)
 - [ ] WIKI documentation
-- [ ] architecture of a TwitterConnection Object
-- [ ] management of API limits
-- [ ] DDD Tweets, Users, Following, Followers, Lists, Favourites etc
+- [ ] architecture of a TwitterConnection object
+- [ ] management of API limits within the TwitterConnection
+- [ ] abstract as .Subscribe observable lists whilst do the cursor/pagination underneath of the objects from the service
+- [ ] DDD Tweets, Users, Following, Followers, Lists, Favourites within the TwitterConnection
 
 Things Not Going To Do for the moment unless people want them:
 - Contributors/Contributees. Looks like Twitter is going into multiple account things?
@@ -91,8 +92,8 @@ Components Used
 Why BoxKite?
 ------------
 
-Everyone likes kites, right? The original inventor of the [box kite](http://en.wikipedia.org/wiki/Box_kite) was [Lawrence Hargrave](http://en.wikipedia.org/wiki/Lawrence_Hargrave). In 1893. An Australian!
+Everyone likes flying kites, right? The original inventor of the [box kite](http://en.wikipedia.org/wiki/Box_kite) was [Lawrence Hargrave](http://en.wikipedia.org/wiki/Lawrence_Hargrave). In 1893. And he was an Australian. Sadly missing from our newer plastic yet colourful currency, Lawrence was one of those guys who helped manned flight become a reality.
 
-And keeping with the bird, flying and airborne theme I created a fork of the MahTweets twitter client in late 2011 and named it [MahTweets Lawrence Hargrave](https://github.com/nickhodge/MahTweets.LawrenceHargrave).
+And keeping with the Twitter bird theme, flying and airborne I created a fork of the MahTweets twitter client in late 2011 and named it [MahTweets Lawrence Hargrave](https://github.com/nickhodge/MahTweets.LawrenceHargrave).
 
-In mid 2012, Brendan needed a code name for a new Twitter thing he was working on. Keeping in theme, I named his app "BoxKite". For posterity's sake, I have absconded with Brendan's code, and my contributed codename (and a nifty icon) and have named this project BoxKite.
+In mid 2012, Brendan needed a code name for a new Twitter "thing" he was working on. Keeping in this flighty theme, I named his app "BoxKite". For posterity's sake, I have absconded with Brendan's code, and my contributed codename (and a nifty icon) and have dubbed this project BoxKite.

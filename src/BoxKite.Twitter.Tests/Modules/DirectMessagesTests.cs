@@ -52,9 +52,8 @@ namespace BoxKite.Twitter.Tests.Modules
             var directmessages = await session.GetDirectMessageSingle(240136858829479936);
 
             Assert.IsNotNull(directmessages);
-            directmessages.Count().ShouldBeEquivalentTo(1);
-            directmessages.ToList()[0].Id.ShouldBeEquivalentTo(240136858829479936);
-            directmessages.ToList()[0].Recipient.Name.ShouldBeEquivalentTo("Mick Jagger");
+            directmessages.Id.ShouldBeEquivalentTo(240136858829479936);
+            directmessages.Recipient.Name.ShouldBeEquivalentTo("Mick Jagger");
         }
 
         [TestMethod]

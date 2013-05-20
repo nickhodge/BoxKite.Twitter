@@ -120,7 +120,7 @@ namespace BoxKite.Twitter.Tests.Modules
             session.Returns(await Json.FromFile("data\\tweets\\singletweet.txt"));
             session.ExpectGet("https://api.twitter.com/1.1/statuses/show.json");
 
-            var rtweet = await session.GetTweet("243145735212777472");
+            var rtweet = await session.GetTweet(243145735212777472);
 
             Assert.IsNotNull(rtweet);
             Assert.IsTrue(rtweet.Id == 243145735212777472); // id of the retweet itself

@@ -12,7 +12,7 @@ namespace BoxKite.Twitter.Models.Service
         public string ScreenName { get; set; }
 
         [JsonProperty("id")]
-        public int Id { get; set; }
+        public int UserId { get; set; }
 
         [JsonProperty("connections")]
         public IEnumerable<string> Connections { get; set; }
