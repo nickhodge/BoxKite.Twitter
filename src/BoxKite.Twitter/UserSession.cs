@@ -150,7 +150,7 @@ namespace BoxKite.Twitter
             foreach (var entry in sd)
             {
                 string value;
-                if (entry.Key == "status" || entry.Key == "text")
+                if (entry.Key == "status" || entry.Key == "text" || entry.Key == "screen_name" || entry.Key == "user_id")
                 {
                     value = Uri.EscapeDataString(entry.Value);
                 }

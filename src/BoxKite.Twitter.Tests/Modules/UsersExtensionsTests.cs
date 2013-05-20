@@ -91,7 +91,7 @@ namespace BoxKite.Twitter.Tests.Modules
             await session.GetUserProfile(screenName);
 
             Assert.IsTrue(session.ReceivedParameter("screen_name", screenName));
-            Assert.IsTrue(session.ReceivedParameter("include_entities", "true"));
+            Assert.IsTrue(session.ReceivedParameter("include_entities", true.ToString()));
         }
 
         [TestMethod]
@@ -203,8 +203,7 @@ namespace BoxKite.Twitter.Tests.Modules
             session.ExpectPost("https://api.twitter.com/1.1/users/lookup.json");
 
             var screen_names = new List<string> {"theSeanCook","shiftkey","NickHodgeMSFT"};
-            var ids = new List<int>();
-            var userlist = await session.GetUsersDetailsFull(screen_names, ids);
+            var userlist = await session.GetUsersDetailsFull(screen_names: screen_names);
 
             Assert.IsNotNull(userlist);
             userlist.Count().ShouldBeEquivalentTo(2);

@@ -280,8 +280,8 @@ namespace BoxKite.Twitter
                                     {"count",count.ToString()},
                                     { "cursor", cursor.ToString() },
                                     //TODO: add these as params
-                                    {"skip_status",true.ToString()},
-                                    {"include_user_entities",false.ToString()},
+                                    {"skip_status", true.ToString()},
+                                    {"include_user_entities", true.ToString()},
                                  };
 
             if (!string.IsNullOrWhiteSpace(screen_name))

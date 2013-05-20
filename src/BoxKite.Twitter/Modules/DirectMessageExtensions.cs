@@ -19,7 +19,7 @@ namespace BoxKite.Twitter
         {
             var parameters = new SortedDictionary<string, string>
                                  {
-                                     {"include_entities", "true"},
+                                     {"include_entities", true.ToString()},
                                      {"count", count.ToString()},
                                  };
 
@@ -49,7 +49,7 @@ namespace BoxKite.Twitter
         {
             var parameters = new SortedDictionary<string, string>
                                  {
-                                     {"include_entities", "true"},
+                                     {"include_entities", true.ToString()},
                                      {"count", count.ToString()},
                                  };
 
@@ -95,7 +95,7 @@ namespace BoxKite.Twitter
         {
             var parameters = new SortedDictionary<string, string>
                                  {
-                                     {"include_entities", "true"},
+                                     {"include_entities", true.ToString()},
                                      {"screen_name", screen_name},
                                      {"text", text}
                                  };
@@ -114,7 +114,7 @@ namespace BoxKite.Twitter
         {
             var parameters = new SortedDictionary<string, string>
                                  {
-                                     {"include_entities", "true"},
+                                     {"include_entities", true.ToString()},
                                      {"id", id.ToString()}
                                  };
 

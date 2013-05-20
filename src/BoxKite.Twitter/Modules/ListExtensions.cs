@@ -177,7 +177,7 @@ namespace BoxKite.Twitter.Modules
                                  {
                                      {"cursor", cursor.ToString()},
                                      {"list_id", list_id.ToString()},
-                                     {"include_entities", false.ToString()},
+                                     {"include_entities", true.ToString()},
                                      {"skip_status", false.ToString()},
                                  };
 
@@ -389,7 +389,7 @@ namespace BoxKite.Twitter.Modules
                                  {
                                      {"list_id", list_id.ToString()},
                                      {"slug", slug},
-                                     {"include_entities", false.ToString()},
+                                     {"include_entities", true.ToString()},
                                      {"skip_status",true.ToString()}
                                  };
 
@@ -435,7 +435,7 @@ namespace BoxKite.Twitter.Modules
                                  {
                                      {"list_id", list_id.ToString()},
                                      {"slug", slug},
-                                     {"include_entities", false.ToString()},
+                                     {"include_entities", true.ToString()},
                                      {"skip_status",true.ToString()}
                                  };
 

@@ -24,7 +24,7 @@ namespace BoxKite.Twitter.Modules
             var parameters = new SortedDictionary<string, string>
                                  {
                                      {"count", count.ToString()},
-                                     {"include_entities", "true"},
+                                     {"include_entities", true.ToString()},
                                  };
 
             if (since_id != 0)

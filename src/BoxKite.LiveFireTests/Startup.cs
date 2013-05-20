@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Runtime.InteropServices.ComTypes;
+using System.Collections.Generic;
 using System.Threading;
 using BoxKite.Twitter;
-using BoxKite.Twitter.Models.Service;
 using BoxKite.Twitter.Modules.Streaming;
 using BoxKite.Twitter.Console.Helpers;
 
@@ -28,13 +27,65 @@ namespace BoxKite.LiveFireTests
                 if (!checkUser.twitterFaulted)
                 {
                     ConsoleOutput.PrintMessage(twittercredentials.ScreenName + " is authorised to use BoxKite.Twitter.");
-
-                    var ualft = new UserAccountLiveFireTests();
-                    var testResult = ualft.DoUserAccountTest(session).Result;
-                    ConsoleOutput.PrintMessage(String.Format("User Account Tests Status: {0}",testResult),ConsoleColor.Cyan);
+                    var testSeriesToRun = new List<int> {3};
 
 
+                    // Test Series 1
+                    if (testSeriesToRun.Contains(1))
+                    {
+                        var ualft = new UserAccountLiveFireTests();
+                        var testResult1 = ualft.DoUserAccountTest(session, new List<int> {1, 2, 3, 8, 9}).Result;
 
+                        if (testResult1)
+                        {
+                            ConsoleOutput.PrintMessage(String.Format("User Account Tests Status: {0}", testResult1),
+                                ConsoleColor.DarkBlue);
+                        }
+                        else
+                        {
+                            ConsoleOutput.PrintMessage(String.Format("User Account Tests Status: {0}", testResult1),
+                                ConsoleColor.Red);
+                        }
+                    }
+
+
+                    // Test Series 2
+                    if (testSeriesToRun.Contains(2))
+                    {
+                        var doit = new ApiManagementLiveFireTests();
+                        var testResult2 = doit.DoApiTest(session, new List<int> {1}).Result;
+
+                        if (testResult2)
+                        {
+                            ConsoleOutput.PrintMessage(String.Format("User Account Tests Status: {0}", testResult2),
+                                ConsoleColor.DarkBlue);
+                        }
+                        else
+                        {
+                            ConsoleOutput.PrintMessage(String.Format("User Account Tests Status: {0}", testResult2),
+                                ConsoleColor.Red);
+                        }
+                    }
+
+
+
+                    // Test Series 3
+                    if (testSeriesToRun.Contains(3))
+                    {
+                        var doit = new ApiManagementLiveFireTests();
+                        var testResult2 = doit.DoApiTest(session, new List<int> { 1 }).Result;
+
+                        if (testResult2)
+                        {
+                            ConsoleOutput.PrintMessage(String.Format("User Account Tests Status: {0}", testResult2),
+                                ConsoleColor.DarkBlue);
+                        }
+                        else
+                        {
+                            ConsoleOutput.PrintMessage(String.Format("User Account Tests Status: {0}", testResult2),
+                                ConsoleColor.Red);
+                        }
+                    }
 
                 }
             }

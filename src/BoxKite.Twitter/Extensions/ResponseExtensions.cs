@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Xml;
 using BoxKite.Twitter.Models;
 using BoxKite.Twitter.Models.Service;
 using Newtonsoft.Json;
@@ -157,100 +158,106 @@ namespace BoxKite.Twitter.Extensions
             return twl;
         }
 
-        internal static ApiRateLimit MapToApiRateLimits(this Task<HttpResponseMessage> task)
+        internal static ApiRateStatusCall MapToApiRateLimits(this Task<HttpResponseMessage> task)
         {
             if (task.IsFaulted || task.IsCanceled)
             {
-                var nullApiRateLimit = new ApiRateLimit { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
+                var nullApiRateLimit = new ApiRateStatusCall { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
                 return nullApiRateLimit;
             }
 
             var result = task.Result;
             if (!result.IsSuccessStatusCode)
             {
-                var nullApiRateLimit = new ApiRateLimit { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
+                var nullApiRateLimit = new ApiRateStatusCall { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
                 return nullApiRateLimit;
             }
 
             var content = result.Content.ReadAsStringAsync();
 
-            var ids = JsonConvert.DeserializeObject<dynamic>(content.Result);
-            var searchapi = new Search
-                            {
-                                searchtweets =
-                                    JsonConvert.DeserializeObject<ApiRateStatus>(
-                                        ids.resources.search["/search/tweets"].ToString()),
-                            };
-            var helpapi = new Help
-                          {
-                              helpprivacy =
-                                  JsonConvert.DeserializeObject<ApiRateStatus>(
-                                      ids.resources.help["/help/privacy"].ToString()),
-                              helpconfiguration =
-                                  JsonConvert.DeserializeObject<ApiRateStatus>(
-                                      ids.resources.help["/help/configuration"].ToString()),
-                              helptos =
-                                  JsonConvert.DeserializeObject<ApiRateStatus>(
-                                      ids.resources.help["/help/tos"].ToString()),
-                              helplanguages =
-                                  JsonConvert.DeserializeObject<ApiRateStatus>(
-                                      ids.resources.help["/help/languages"].ToString()),
-                          };
-            var statusesapi = new Statuses
-                              {
-                                  statusesoembed =
-                                      JsonConvert.DeserializeObject<ApiRateStatus>(
-                                          ids.resources.statuses["/statuses/oembed"].ToString()),
-                                  statuseshome_timeline =
-                                      JsonConvert.DeserializeObject<ApiRateStatus>(
-                                          ids.resources.statuses["/statuses/home_timeline"].ToString()),
-                                  statusesmentions_timeline =
-                                      JsonConvert.DeserializeObject<ApiRateStatus>(
-                                          ids.resources.statuses["/statuses/mentions_timeline"].ToString()),
-                                  statusesretweetsid =
-                                      JsonConvert.DeserializeObject<ApiRateStatus>(
-                                          ids.resources.statuses["/statuses/retweets/:id"].ToString()),
-                                  statusesshowid =
-                                      JsonConvert.DeserializeObject<ApiRateStatus>(
-                                          ids.resources.statuses["/statuses/show/:id"].ToString()),
-                                  statusesuser_timeline =
-                                      JsonConvert.DeserializeObject<ApiRateStatus>(
-                                          ids.resources.statuses["/statuses/user_timeline"].ToString())
-                              };
-            var usersapi = new Users
-                           {
-                               userscontributees =
-                                   JsonConvert.DeserializeObject<ApiRateStatus>(
-                                       ids.resources.users["/users/contributees"].ToString()),
-                               userscontributors =
-                                   JsonConvert.DeserializeObject<ApiRateStatus>(
-                                       ids.resources.users["/users/contributors"].ToString()),
-                               userslookup =
-                                   JsonConvert.DeserializeObject<ApiRateStatus>(
-                                       ids.resources.users["/users/lookup"].ToString()),
-                               userssearch =
-                                   JsonConvert.DeserializeObject<ApiRateStatus>(
-                                       ids.resources.users["/users/search"].ToString()),
-                               usersshow =
-                                   JsonConvert.DeserializeObject<ApiRateStatus>(
-                                       ids.resources.users["/users/show"].ToString()),
-                               userssuggestions =
-                                   JsonConvert.DeserializeObject<ApiRateStatus>(
-                                       ids.resources.users["/users/suggestions"].ToString()),
-                               userssuggestionsslug =
-                                   JsonConvert.DeserializeObject<ApiRateStatus>(
-                                       ids.resources.users["/users/suggestions/:slug"].ToString()),
-                               userssuggestionsslugmembers =
-                                   JsonConvert.DeserializeObject<ApiRateStatus>(
-                                       ids.resources.users["/users/suggestions/:slug/members"].ToString()),
-                           };
-            var apiratelimit = new ApiRateLimit()
+            var apiresp = JsonConvert.DeserializeObject<dynamic>(content.Result);
+            var apiratelimit = new ApiRateStatusCall {ApiRateStatuses = new Dictionary<string, ApiRateStatus>()};
+
+            foreach (var i in apiresp.resources.lists)
             {
-                search = searchapi,
-                help = helpapi,
-                statuses = statusesapi,
-                users = usersapi
-            };
+                apiratelimit.ApiRateStatuses.Add(i.Name, new ApiRateStatus { apipath = i.Name, remaining = i.Value.remaining, limit = i.Value.limit, reset = i.Value.reset });
+            }
+
+            foreach (var i in apiresp.resources.application)
+            {
+                apiratelimit.ApiRateStatuses.Add(i.Name, new ApiRateStatus{apipath = i.Name, remaining = i.Value.remaining, limit = i.Value.limit, reset = i.Value.reset});
+            }
+
+            foreach (var i in apiresp.resources.friendships)
+            {
+                apiratelimit.ApiRateStatuses.Add(i.Name, new ApiRateStatus { apipath = i.Name, remaining = i.Value.remaining, limit = i.Value.limit, reset = i.Value.reset });
+            }
+
+            foreach (var i in apiresp.resources.blocks)
+            {
+                apiratelimit.ApiRateStatuses.Add(i.Name, new ApiRateStatus { apipath = i.Name, remaining = i.Value.remaining, limit = i.Value.limit, reset = i.Value.reset });
+            }
+
+            foreach (var i in apiresp.resources.geo)
+            {
+                apiratelimit.ApiRateStatuses.Add(i.Name, new ApiRateStatus { apipath = i.Name, remaining = i.Value.remaining, limit = i.Value.limit, reset = i.Value.reset });
+            }
+
+            foreach (var i in apiresp.resources.users)
+            {
+                apiratelimit.ApiRateStatuses.Add(i.Name, new ApiRateStatus { apipath = i.Name, remaining = i.Value.remaining, limit = i.Value.limit, reset = i.Value.reset });
+            }
+
+            foreach (var i in apiresp.resources.followers)
+            {
+                apiratelimit.ApiRateStatuses.Add(i.Name, new ApiRateStatus { apipath = i.Name, remaining = i.Value.remaining, limit = i.Value.limit, reset = i.Value.reset });
+            }
+
+            foreach (var i in apiresp.resources.statuses)
+            {
+                apiratelimit.ApiRateStatuses.Add(i.Name, new ApiRateStatus { apipath = i.Name, remaining = i.Value.remaining, limit = i.Value.limit, reset = i.Value.reset });
+            }
+
+            foreach (var i in apiresp.resources.help)
+            {
+                apiratelimit.ApiRateStatuses.Add(i.Name, new ApiRateStatus { apipath = i.Name, remaining = i.Value.remaining, limit = i.Value.limit, reset = i.Value.reset });
+            }
+
+            foreach (var i in apiresp.resources.friends)
+            {
+                apiratelimit.ApiRateStatuses.Add(i.Name, new ApiRateStatus { apipath = i.Name, remaining = i.Value.remaining, limit = i.Value.limit, reset = i.Value.reset });
+            }
+
+            foreach (var i in apiresp.resources.direct_messages)
+            {
+                apiratelimit.ApiRateStatuses.Add(i.Name, new ApiRateStatus { apipath = i.Name, remaining = i.Value.remaining, limit = i.Value.limit, reset = i.Value.reset });
+            }
+
+            foreach (var i in apiresp.resources.account)
+            {
+                apiratelimit.ApiRateStatuses.Add(i.Name, new ApiRateStatus { apipath = i.Name, remaining = i.Value.remaining, limit = i.Value.limit, reset = i.Value.reset });
+            }
+
+            foreach (var i in apiresp.resources.favorites)
+            {
+                apiratelimit.ApiRateStatuses.Add(i.Name, new ApiRateStatus { apipath = i.Name, remaining = i.Value.remaining, limit = i.Value.limit, reset = i.Value.reset });
+            }
+
+            foreach (var i in apiresp.resources.saved_searches)
+            {
+                apiratelimit.ApiRateStatuses.Add(i.Name, new ApiRateStatus { apipath = i.Name, remaining = i.Value.remaining, limit = i.Value.limit, reset = i.Value.reset });
+            }
+
+            foreach (var i in apiresp.resources.search)
+            {
+                apiratelimit.ApiRateStatuses.Add(i.Name, new ApiRateStatus { apipath = i.Name, remaining = i.Value.remaining, limit = i.Value.limit, reset = i.Value.reset });
+            }
+
+            foreach (var i in apiresp.resources.trends)
+            {
+                apiratelimit.ApiRateStatuses.Add(i.Name, new ApiRateStatus { apipath = i.Name, remaining = i.Value.remaining, limit = i.Value.limit, reset = i.Value.reset });
+            }
+
             return apiratelimit;
         }
 

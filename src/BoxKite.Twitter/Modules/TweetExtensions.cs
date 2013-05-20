@@ -24,8 +24,8 @@ namespace BoxKite.Twitter
             var parameters = new SortedDictionary<string, string>
                                  {
                                      { "status", text},
-                                     { "trim_user", "true" },
-                                     { "include_entities", "true" }
+                                     { "trim_user", true.ToString() },
+                                     { "include_entities", true.ToString() }
                                  };
 
             if (latitude != 0.0 && longitude != 0.0)

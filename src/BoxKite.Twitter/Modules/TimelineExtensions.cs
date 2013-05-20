@@ -95,8 +95,8 @@ namespace BoxKite.Twitter
             var parameters = new SortedDictionary<string, string>
                                  {
                                      {"count", count.ToString()},
-                                     {"include_entities", "true"},
-                                     {"include_rts", "true"}
+                                     {"include_entities", true.ToString()},
+                                     {"include_rts", true.ToString()}
                                  };
 
             if (!string.IsNullOrWhiteSpace(since_id))
@@ -127,7 +127,7 @@ namespace BoxKite.Twitter
             var parameters = new SortedDictionary<string, string>
                                  {
                                      {"count", count.ToString()},
-                                     {"include_entities", "true"},
+                                     {"include_entities", true.ToString()},
                                  };
 
             if (since_id > 0)

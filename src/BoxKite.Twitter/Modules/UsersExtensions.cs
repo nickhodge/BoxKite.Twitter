@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using BoxKite.Twitter.Extensions;
 using BoxKite.Twitter.Models;
 using BoxKite.Twitter.Models.Service;
@@ -33,7 +32,7 @@ namespace BoxKite.Twitter
         {
             var parameters = new SortedDictionary<string, string>
                                  {
-                                     {"include_entities", "true"},
+                                     {"include_entities", true.ToString()},
                                  };
 
             //TODO: add logic to ensure one or other is implemented otherwise fault
@@ -61,7 +60,7 @@ namespace BoxKite.Twitter
         {
             var parameters = new SortedDictionary<string, string>
                                  {
-                                     {"include_entities", "true"},
+                                     {"include_entities", true.ToString()},
                                  };
             var url = Api.Resolve("/1.1/account/verify_credentials.json");
             return await session.GetAsync(url, parameters)
@@ -84,7 +83,7 @@ namespace BoxKite.Twitter
         {
             var parameters = new SortedDictionary<string, string>
                              {
-                                 {"include_entities","false"},
+                                 {"include_entities", true.ToString()},
                                  {"sleep_time_enabled", sleep_time_enabled.ToString()},
                              };
 
@@ -131,7 +130,7 @@ namespace BoxKite.Twitter
         {
             var parameters = new SortedDictionary<string, string>
                              {
-                                 {"include_entities","false"},
+                                 {"include_entities", true.ToString()},
                                  {"skip_status", true.ToString()},
                              };
 
@@ -216,7 +215,7 @@ namespace BoxKite.Twitter
         {
             var parameters = new SortedDictionary<string, string>
                              {
-                                 {"include_entities","false"},
+                                 {"include_entities", true.ToString()},
                              };
 
             if (!string.IsNullOrWhiteSpace(profile_background_color))
@@ -306,7 +305,7 @@ namespace BoxKite.Twitter
         public static async Task<User> CreateUserBlock(this IUserSession session, string screen_name = "", int user_id = 0)
         {
             var parameters = new SortedDictionary<string, string>{
-                                {"include_entities", false.ToString()},
+                                {"include_entities", true.ToString()},
                                 {"skip_status", true.ToString()},
                             };
 
@@ -335,7 +334,7 @@ namespace BoxKite.Twitter
         public static async Task<User> DeleteUserBlock(this IUserSession session, string screen_name = "", int user_id = 0)
         {
             var parameters = new SortedDictionary<string, string>{
-                                {"include_entities", false.ToString()},
+                                {"include_entities", true.ToString()},
                                 {"skip_status", true.ToString()},
                             };
 
@@ -361,28 +360,29 @@ namespace BoxKite.Twitter
         /// <param name="user_ids">up to 100 are allowed in a single request. </param>
         /// <returns>Observable List of full user details</returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/users/lookup </remarks>
-        public static async Task<IEnumerable<User>> GetUsersDetailsFull(this IUserSession session, IEnumerable<string> screen_names,
-            IEnumerable<int> user_ids)
+        public static async Task<IEnumerable<User>> GetUsersDetailsFull(this IUserSession session, List<string> screen_names = null,
+            List<int> user_ids = null)
         {
             var parameters = new SortedDictionary<string, string>
                              {
-                                 {"include_entities", false.ToString()},
+                                 {"include_entities", true.ToString()},
                              };
 
             var postscreennames = new StringBuilder();
             var postuserids = new StringBuilder();
-            if (screen_names.Any())
+            if (screen_names != null)
             {
                 foreach (var screenname in screen_names)
                 {
                     postscreennames.Append(screenname + ",");
                 }
                 parameters.Add("screen_name", postscreennames.ToString().TrimLastChar());
-            } else if (user_ids.Any())
+            } 
+            if (user_ids != null)
             {
                 foreach (var ids in user_ids)
                 {
-                    postscreennames.Append(ids + ",");
+                    postuserids.Append(ids + ",");
                 }
                 parameters.Add("user_id", postuserids.ToString().TrimLastChar());
             }
@@ -403,7 +403,7 @@ namespace BoxKite.Twitter
         {
             var parameters = new SortedDictionary<string, string>
                              {
-                                 {"include_entities", false.ToString()},
+                                 {"include_entities", true.ToString()},
                                  {"q", searchQuery},
                                  {"page", page.ToString()},
                                  {"count", count.ToString()}

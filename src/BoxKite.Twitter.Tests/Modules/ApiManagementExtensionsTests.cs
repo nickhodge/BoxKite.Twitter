@@ -20,11 +20,7 @@ namespace BoxKite.Twitter.Tests.Modules
             var api = await session.GetCurrentAPIStatus();
 
             Assert.IsNotNull(api);
-            api.help.helpprivacy.limit.ShouldBeEquivalentTo(15);
-            api.search.searchtweets.limit.ShouldBeEquivalentTo(180);
-            api.statuses.statusesretweetsid.remaining.ShouldBeEquivalentTo(15);
-            api.users.usersshow.reset.ShouldBeEquivalentTo(1346439527);
-            api.statuses.statuseshome_timeline.ResetTime.ShouldBeEquivalentTo(new DateTime(634820723270000000));
+            Assert.IsTrue(api.ApiRateStatuses.Count == 61);
         }
 
     }

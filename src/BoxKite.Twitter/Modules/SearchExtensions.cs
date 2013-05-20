@@ -26,7 +26,7 @@ namespace BoxKite.Twitter
                                  {
                                      {"q", searchtext.UrlEncode()},
                                      {"count",count.ToString()},
-                                     {"include_entities", "true"},
+                                     {"include_entities", true.ToString()},
                                      {"result_type", SearchResultString(searchResponseType)},
                                  };
 
@@ -71,7 +71,7 @@ namespace BoxKite.Twitter
                                  {
                                      {"q", searchtext.UrlEncode()},
                                      {"count",count.ToString()},
-                                     {"include_entities", "true"},
+                                     {"include_entities", true.ToString()},
                                      {"result_type", SearchResultString(searchResponseType)},
                                  };
 
