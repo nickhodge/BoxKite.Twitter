@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.IO.Pipes;
 using System.Threading;
+using System.Xml.Serialization;
 using BoxKite.Twitter;
+using BoxKite.Twitter.Models.Service;
 using BoxKite.Twitter.Modules.Streaming;
 using BoxKite.Twitter.Console.Helpers;
 
 namespace BoxKite.LiveFireTests
 {
-    public class Startup
+    public class TwitterLiveFireAppControl
     {
         public static IUserStream userstream;
         public static IUserSession usersession;
@@ -42,15 +44,15 @@ namespace BoxKite.LiveFireTests
                     // series 7 => 5
                     // series 8 => 3
                     // series 9 => 2
-                    // series 10=> 
+                    // series 10=> 7
                     // =============
-                    // TOTAL      37
+                    // TOTAL      44
 
                     // Test Series 1
                     if (testSeriesToRun.Contains(1))
                     {
                         var ualft = new UserAccountLiveFireTests();
-                        var testResult1 = ualft.DoUserAccountTest(session, new List<int> {1, 2, 3, 8, 9}).Result;
+                        var testResult1 = ualft.DoUserAccountTest(session, new List<int> {7}).Result;
 
                         if (testResult1)
                         {
@@ -218,7 +220,7 @@ namespace BoxKite.LiveFireTests
                     if (testSeriesToRun.Contains(10))
                     {
                         var lsts = new ListsLiveFireTests();
-                        var testResult10 = lsts.DoListsTest(session, new List<int> { 3 }).Result;
+                        var testResult10 = lsts.DoListsTest(session, new List<int> { 5,7 }).Result;
 
                         if (testResult10)
                         {
@@ -247,6 +249,19 @@ namespace BoxKite.LiveFireTests
                 userstream.Stop();
             ConsoleOutput.PrintMessage("All finished.", ConsoleColor.Blue);
             Thread.Sleep(TimeSpan.FromSeconds(1.3));
+        }
+
+        public static void PrintTwitterErrors(TwitterControlMessage tcm)
+        {
+            ConsoleOutput.PrintMessage("START: TWITTER CONTROL MESSAGE");
+            ConsoleOutput.PrintError(String.Format("http reason: {0}", tcm.http_reason));
+            ConsoleOutput.PrintError(String.Format("http status code: {0}", tcm.http_status_code));
+            ConsoleOutput.PrintError(String.Format("twitter error code: {0}", tcm.twitter_error_code));
+            ConsoleOutput.PrintError(String.Format("twitter error message: {0}", tcm.twitter_error_message));
+            ConsoleOutput.PrintError(String.Format("API rates: {0}/{1} Resets {2}",
+                tcm.twitter_rate_limit_remaining,
+                tcm.twitter_rate_limit_limit, tcm.twitter_rate_limit_reset));
+            ConsoleOutput.PrintMessage("END: TWITTER CONTROL MESSAGE");
         }
     }
 }

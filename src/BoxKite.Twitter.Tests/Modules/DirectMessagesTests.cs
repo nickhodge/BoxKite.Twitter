@@ -79,7 +79,7 @@ namespace BoxKite.Twitter.Tests.Modules
 
             var directmessage = await session.DeleteDirectMessage(240251665733795841);
 
-            Assert.IsTrue(directmessage);
+            Assert.IsTrue(directmessage.Status);
         }
     }
 }

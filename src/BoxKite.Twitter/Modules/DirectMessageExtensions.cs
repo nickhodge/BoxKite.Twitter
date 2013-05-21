@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using BoxKite.Twitter.Extensions;
 using BoxKite.Twitter.Models;
+using BoxKite.Twitter.Models.Service;
 
 namespace BoxKite.Twitter
 {
@@ -110,7 +111,7 @@ namespace BoxKite.Twitter
         /// <param name="id">ID of the direct message to delete</param>
         /// <returns></returns>
         /// <remarks>ref: https://dev.twitter.com/docs/api/1.1/post/direct_messages/destroy </remarks>
-        public async static Task<bool> DeleteDirectMessage(this IUserSession session, long id)
+        public async static Task<TwitterSuccess> DeleteDirectMessage(this IUserSession session, long id)
         {
             var parameters = new SortedDictionary<string, string>
                                  {
@@ -119,7 +120,7 @@ namespace BoxKite.Twitter
                                  };
 
             return await session.PostAsync(Api.Resolve("/1.1/direct_messages/destroy.json"), parameters)
-                          .ContinueWith(c => c.MapToBoolean());
+                          .ContinueWith(c => c.MapToTwitterSuccess());
         }
     }
 }

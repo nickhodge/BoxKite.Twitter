@@ -253,7 +253,7 @@ namespace BoxKite.Twitter
         /// </summary>
         /// <param name="device">none or sms</param>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/account/update_delivery_device </remarks>
-        public static async Task<bool> ChangeUpdateDeliverySettings(this IUserSession session, string device = "none")
+        public static async Task<TwitterSuccess> ChangeUpdateDeliverySettings(this IUserSession session, string device = "none")
         {
             var parameters = new SortedDictionary<string, string>
                             {
@@ -262,20 +262,20 @@ namespace BoxKite.Twitter
 
             var url = Api.Resolve("/1.1/account/update_delivery_device.json");
             return await session.PostAsync(url, parameters)
-                         .ContinueWith(c => c.MapToBoolean()); 
+                         .ContinueWith(c => c.MapToTwitterSuccess()); 
         }
 
         /// <summary>
         /// Removes the uploaded profile banner for the authenticating user. Returns HTTP 200 upon success.
         /// </summary>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/account/remove_profile_banner </remarks>
-        public static async Task<bool> DeleteProfileBanner(this IUserSession session)
+        public static async Task<TwitterSuccess> DeleteProfileBanner(this IUserSession session)
         {
             var parameters = new SortedDictionary<string, string>();
 
             var url = Api.Resolve("/1.1/account/remove_profile_banner.json");
             return await session.PostAsync(url, parameters)
-                         .ContinueWith(c => c.MapToBoolean());
+                         .ContinueWith(c => c.MapToTwitterSuccess());
         }
 
         /// <summary>

@@ -9,10 +9,11 @@ Details
 Supports and Incorporates:
 * Userstreams
 * Twitter 1.1 REST API
-* Test suite with 100% coverage of Library
+* Test suite (both Mocked UnitTests and "LiveFire" Tests (online) with broad coverage of Library
 
 Goal:
 * 100% Twitter API 1.1 coverage suitable for a client application
+* 100% Test Suite coverage both Mocked and LiveFire
 * Supporting .NET 4.5, Windows 8 and Windows Phone 8 development
 * Distribute as a NuGet package
 * Async/Await where appropriate (single response)
@@ -39,16 +40,17 @@ API Coverage, With Tests & Intellisense Comments
 - [x] Users
 - [x] Suggested Users
 - [x] Favorites
-- [x] Lists
+- [x] Lists 
+- [ ] "Life Fire" testing of Lists needs work. UnitTests pass, but not so much fun live at the moment
 - [x] Places and Geo
 - [x] Trends
 - [x] Spam Reporting
 - [x] oauth
-- [x] API rate limits (part done)
+- [x] API rate limits
 
 Tests:
 * 95 test methods with average of 4 assertion tests each
-* 27 "Live Fire Tests". Included as a separate project, it is engaged via the Console; uses a real Twitter Account to exercise the API. Configurable Test series, individual tests that can be run.
+* 44 "Live Fire Tests". Included as a separate project, it is engaged via the Console; uses a real Twitter Account to exercise the API. Configurable Test series, individual tests that can be run.
 * Test source is JSON from [dev.twitter.com](https://dev.twitter.com/) and where innaccurate on the site, taken from live data or corrected to match live data.
 * Error response type testing (eg: 429 rate_limits) & generic decode tests included
 

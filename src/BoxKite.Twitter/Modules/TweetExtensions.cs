@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using BoxKite.Twitter.Extensions;
 using BoxKite.Twitter.Models;
+using BoxKite.Twitter.Models.Service;
 
 namespace BoxKite.Twitter
 {
@@ -49,12 +50,12 @@ namespace BoxKite.Twitter
         /// <param name="id">ID of the tweet to delete</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/statuses/destroy/%3Aid </remarks>
-        public async static Task<bool> DeleteTweet(this IUserSession session, string id)
+        public async static Task<TwitterSuccess> DeleteTweet(this IUserSession session, string id)
         {
             var url = Api.Resolve("/1.1/statuses/destroy/{0}.json", id);
             var parameters = new SortedDictionary<string, string>();
             return await session.PostAsync(url, parameters)
-                          .ContinueWith(c => c.MapToBoolean());
+                          .ContinueWith(c => c.MapToTwitterSuccess());
         }
 
         /// <summary>

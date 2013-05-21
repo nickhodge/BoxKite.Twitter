@@ -119,6 +119,9 @@ namespace BoxKite.Twitter.Models
         [JsonProperty("is_translator")]
         public bool IsTranslator { get; set; }
 
+        [JsonProperty("source")]
+        public bool Source { get; set; }
+
         [JsonProperty("lang")]
         public string Language { get; set; }
 

@@ -125,7 +125,7 @@ namespace BoxKite.LiveFireTests
                             getUserDetailsFullFromScreenNames.Count()));
                         foreach (var u in getUserDetailsFullFromScreenNames)
                         {
-                            ConsoleOutput.PrintMessage(String.Format("ScreenName: {0} User ID: {1} Description: {2}",
+                            ConsoleOutput.PrintMessage(String.Format("User ID: {1} // ScreenName: {0} // Description: {2}",
                                 u.Name, u.UserId, u.Description));
                         }
                     }

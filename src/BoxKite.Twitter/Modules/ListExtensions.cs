@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reactive.Concurrency;
 using System.Text;
 using System.Threading.Tasks;
 using BoxKite.Twitter.Extensions;
@@ -95,18 +94,19 @@ namespace BoxKite.Twitter.Modules
         /// <param name="owner_id">The user ID of the user who owns the list being requested by a slug.</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/lists/members/destroy </remarks>
-        public static async Task<bool> DeleteUserFromList(this IUserSession session, int list_id, string slug,
+        public static async Task<TwitterSuccess> DeleteUserFromList(this IUserSession session, int list_id = 0, string slug = "",
             int user_id = 0, string screen_name = "", string owner_screen_name = "", int owner_id = 0)
         {
-            var parameters = new SortedDictionary<string, string>
-                                 {
-                                     {"list_id", list_id.ToString()},
-                                     {"slug", slug},
-                                 };
+            var parameters = new SortedDictionary<string, string>();
 
             if (owner_id > 0)
             {
                 parameters.Add("owner_id", owner_id.ToString());
+            }
+
+            if (list_id > 0)
+            {
+                parameters.Add("list_id", list_id.ToString());
             }
 
             if (user_id > 0)
@@ -119,6 +119,11 @@ namespace BoxKite.Twitter.Modules
                 parameters.Add("owner_screen_name", owner_screen_name);
             }
 
+            if (!string.IsNullOrWhiteSpace(slug))
+            {
+                parameters.Add("slug", slug);
+            }
+
             if (!string.IsNullOrWhiteSpace(screen_name))
             {
                 parameters.Add("screen_name", screen_name);
@@ -126,7 +131,7 @@ namespace BoxKite.Twitter.Modules
 
             var url = Api.Resolve("/1.1/lists/members/destroy");
             return await session.PostAsync(url, parameters)
-                          .ContinueWith(c => c.MapToBoolean());
+                          .ContinueWith(c => c.MapToTwitterSuccess());
         }
 
         /// <summary>
@@ -143,6 +148,7 @@ namespace BoxKite.Twitter.Modules
             var parameters = new SortedDictionary<string, string>
                                  {
                                      {"cursor", cursor.ToString()},
+                                     {"filter_to_owned_lists", false.ToString()},
                                  };
 
             if (user_id > 0)
@@ -161,6 +167,38 @@ namespace BoxKite.Twitter.Modules
         }
 
         /// <summary>
+        /// Returns the authenticating user's lists the specified user has been added to.
+        /// </summary>
+        /// <param name="user_id">The ID of the user for whom to return results for.</param>
+        /// <param name="screen_name">The screen name of the user for whom to return results for.</param>
+        /// <param name="cursor">Breaks the results into pages. Provide a value of -1 to begin paging.</param>
+        /// <returns></returns>
+        /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/lists/memberships </remarks>
+        public static async Task<UserInListCursored> GetMyListsUserIsMemberOf(this IUserSession session, int user_id = 0,
+            string screen_name = "", long cursor = -1)
+        {
+            var parameters = new SortedDictionary<string, string>
+                                 {
+                                     {"cursor", cursor.ToString()},
+                                     {"filter_to_owned_lists", true.ToString()},
+                                 };
+
+            if (user_id > 0)
+            {
+                parameters.Add("user_id", user_id.ToString());
+            }
+
+            if (!string.IsNullOrWhiteSpace(screen_name))
+            {
+                parameters.Add("screen_name", screen_name);
+            }
+
+            var url = Api.Resolve("/1.1/lists/memberships.json");
+            return await session.GetAsync(url, parameters)
+                          .ContinueWith(c => c.MapToUserInListCursored());
+        }
+
+        /// <summary>
         /// Returns the subscribers of the specified list. Private list subscribers will only be shown if the authenticated user owns the specified list.
         /// </summary>
         /// <param name="list_id">The numerical id of the list.</param>
@@ -171,8 +209,8 @@ namespace BoxKite.Twitter.Modules
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/lists/subscribers </remarks>
         public static async Task<UserListDetailedCursored> GetListSubscribers(this IUserSession session, int list_id,
-            string slug, int owner_id = 0,
-            string owner_screen_name = "", int cursor = -1)
+            string slug="", int owner_id = 0,
+            string owner_screen_name = "", long cursor = -1)
         {
             var parameters = new SortedDictionary<string, string>
                                  {
@@ -292,7 +330,7 @@ namespace BoxKite.Twitter.Modules
         /// <param name="owner_id">The user ID of the user who owns the list being requested by a slug.</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/lists/subscribers/destroy </remarks>
-        public static async Task<bool> DeleteFromUsersList(this IUserSession session, int list_id, string slug,
+        public static async Task<TwitterSuccess> DeleteFromUsersList(this IUserSession session, int list_id, string slug,
             string owner_screen_name = "", int owner_id = 0)
         {
             var parameters = new SortedDictionary<string, string>
@@ -313,7 +351,7 @@ namespace BoxKite.Twitter.Modules
 
             var url = Api.Resolve("/1.1/lists/subscribers/destroy.json");
             return await session.PostAsync(url, parameters)
-                          .ContinueWith(c => c.MapToBoolean());
+                          .ContinueWith(c => c.MapToTwitterSuccess());
         }
         
         /// <summary>
@@ -327,7 +365,7 @@ namespace BoxKite.Twitter.Modules
         /// <param name="owner_id">The user ID of the user who owns the list being requested by a slug.</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/lists/members/create_all </remarks>
-        public static async Task<bool> AddUsersToList(this IUserSession session, int list_id, string slug,
+        public static async Task<TwitterSuccess> AddUsersToList(this IUserSession session, int list_id, string slug,
             IEnumerable<string> screen_names, IEnumerable<int> user_ids,
             string owner_screen_name = "", int owner_id = 0)
         {
@@ -369,7 +407,7 @@ namespace BoxKite.Twitter.Modules
 
             var url = Api.Resolve("/1.1/lists/members/create_all.json");
             return await session.PostAsync(url, parameters)
-                          .ContinueWith(c => c.MapToBoolean());
+                          .ContinueWith(c => c.MapToTwitterSuccess());
         }
 
         /// <summary>
@@ -383,13 +421,12 @@ namespace BoxKite.Twitter.Modules
         /// <param name="owner_id">The user ID of the user who owns the list being requested by a slug.</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/lists/members/show </remarks>
-        public static async Task<User> IsUserOnList(this IUserSession session, int list_id, string slug,
+        public static async Task<User> IsUserOnList(this IUserSession session, int list_id, string slug="",
             int user_id = 0, string screen_name = "", string owner_screen_name = "", int owner_id = 0)
         {
             var parameters = new SortedDictionary<string, string>
                                  {
                                      {"list_id", list_id.ToString()},
-                                     {"slug", slug},
                                      {"include_entities", true.ToString()},
                                      {"skip_status",true.ToString()}
                                  };
@@ -414,6 +451,11 @@ namespace BoxKite.Twitter.Modules
                 parameters.Add("screen_name", screen_name);
             }
 
+            if (!string.IsNullOrWhiteSpace(slug))
+            {
+                parameters.Add("slug", slug);
+            }
+
             var url = Api.Resolve("/1.1/lists/members/show.json");
             return await session.GetAsync(url, parameters)
                           .ContinueWith(c => c.MapToSingleUser());
@@ -430,7 +472,7 @@ namespace BoxKite.Twitter.Modules
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/lists/members </remarks>
         public static async Task<UserListDetailedCursored> GetMembersOnList(this IUserSession session, int list_id, string slug,
-            string owner_screen_name = "", int owner_id = 0, int cursor = -1)
+            string owner_screen_name = "", int owner_id = 0, long cursor = -1)
         {
             var parameters = new SortedDictionary<string, string>
                                  {
@@ -466,13 +508,12 @@ namespace BoxKite.Twitter.Modules
         /// <param name="owner_id">The user ID of the user who owns the list being requested by a slug.</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/lists/members/create </remarks>
-        public static async Task<bool> AddUserToMyList(this IUserSession session, int list_id, string slug,
-    string screen_name_to_add, int user_id_to_add, string owner_screen_name = "", int owner_id = 0)
+        public static async Task<TwitterSuccess> AddUserToMyList(this IUserSession session, int list_id,
+    string screen_name_to_add="", int user_id_to_add=0, string slug ="", string owner_screen_name = "", int owner_id = 0)
         {
             var parameters = new SortedDictionary<string, string>
                                  {
                                      {"list_id", list_id.ToString()},
-                                     {"slug", slug},
                                  };
 
             if (owner_id > 0)
@@ -483,6 +524,11 @@ namespace BoxKite.Twitter.Modules
             if (!string.IsNullOrWhiteSpace(owner_screen_name))
             {
                 parameters.Add("owner_screen_name", owner_screen_name);
+            }
+
+            if (!string.IsNullOrWhiteSpace(slug))
+            {
+                parameters.Add("slug", slug);
             }
 
             if (user_id_to_add > 0)
@@ -497,7 +543,7 @@ namespace BoxKite.Twitter.Modules
 
             var url = Api.Resolve("/1.1/lists/members/create.json");
             return await session.PostAsync(url, parameters)
-                          .ContinueWith(c => c.MapToBoolean());
+                          .ContinueWith(c => c.MapToTwitterSuccess());
         }
 
         /// <summary>
@@ -545,7 +591,7 @@ namespace BoxKite.Twitter.Modules
         /// <param name="owner_screen_name">The screen name of the user who owns the list being requested by a slug.</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/lists/update </remarks>
-        public static async Task<Boolean> ChangeList(this IUserSession session, int list_id,
+        public static async Task<TwitterSuccess> ChangeList(this IUserSession session, int list_id,
             string slug, string name = "", string mode = "", string description = "", int owner_id = 0,
             string owner_screen_name = "")
         {
@@ -581,7 +627,7 @@ namespace BoxKite.Twitter.Modules
 
             var url = Api.Resolve("/1.1/lists/update.json");
             return await session.PostAsync(url, parameters)
-                          .ContinueWith(c => c.MapToBoolean());
+                          .ContinueWith(c => c.MapToTwitterSuccess());
         }
 
         /// <summary>
@@ -654,7 +700,7 @@ namespace BoxKite.Twitter.Modules
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/lists/subscriptions </remarks>
         public static async Task<TwitterListCursored> GetMySubscriptions(this IUserSession session, 
-            string screen_name = "", int user_id = 0, int count=20, int cursor= -1)
+            string screen_name = "", int user_id = 0, int count=20, long cursor= -1)
         {
             var parameters = new SortedDictionary<string, string>
                                  {
@@ -688,19 +734,25 @@ namespace BoxKite.Twitter.Modules
         /// <param name="owner_id">The user ID of the user who owns the list being requested by a slug.</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/lists/members/destroy_all </remarks>
-        public static async Task<bool> DeleteUsersFromList(this IUserSession session, int list_id, string slug,
-            IEnumerable<string> screen_names, IEnumerable<int> user_ids,
+        public static async Task<TwitterSuccess> DeleteUsersFromList(this IUserSession session, int list_id=0, string slug="",
+            IEnumerable<string> screen_names=null, IEnumerable<int> user_ids=null,
             string owner_screen_name = "", int owner_id = 0)
         {
-            var parameters = new SortedDictionary<string, string>
-                                 {
-                                     {"list_id", list_id.ToString()},
-                                     {"slug", slug},
-                                 };
+            var parameters = new SortedDictionary<string, string>();
 
             if (owner_id > 0)
             {
                 parameters.Add("owner_id", owner_id.ToString());
+            }
+
+            if (list_id >  0)
+            {
+                parameters.Add("list_id", list_id.ToString());
+            }
+
+            if (!string.IsNullOrWhiteSpace(slug))
+            {
+                parameters.Add("slug", slug);
             }
 
             if (!string.IsNullOrWhiteSpace(owner_screen_name))
@@ -730,7 +782,7 @@ namespace BoxKite.Twitter.Modules
 
             var url = Api.Resolve("/1.1/lists/members/destroy_all.json");
             return await session.PostAsync(url, parameters)
-                          .ContinueWith(c => c.MapToBoolean());
+                          .ContinueWith(c => c.MapToTwitterSuccess());
         }
 
         /// <summary>
@@ -743,7 +795,7 @@ namespace BoxKite.Twitter.Modules
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/lists/ownerships </remarks>
         public static async Task<TwitterListCursored> GetListOwned(this IUserSession session,
-            string screen_name = "", int user_id = 0, int count = 20, int cursor = -1)
+            string screen_name = "", int user_id = 0, int count = 20, long cursor = -1)
         {
             var parameters = new SortedDictionary<string, string>
                                  {

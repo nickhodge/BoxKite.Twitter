@@ -50,7 +50,7 @@ namespace BoxKite.Twitter.Tests.Modules
 
             var deleted = await session.DeleteTweet("243145735212777472");
 
-            Assert.IsTrue(deleted);
+            Assert.IsTrue(deleted.Status);
         }
 
         [TestMethod]

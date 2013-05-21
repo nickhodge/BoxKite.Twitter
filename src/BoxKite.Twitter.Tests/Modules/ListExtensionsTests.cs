@@ -55,11 +55,11 @@ namespace BoxKite.Twitter.Tests.Modules
         {
             // arrange
             session.Returns(await Json.FromFile("data\\lists\\listtimeline.txt"));
-            session.ExpectPost("https://api.twitter.com/1.1/lists/members/destroy");
+            session.ExpectPost("https://api.twitter.com/1.1/lists/members/destroy"); // WHERE IS JSON? Documentation is weird, man
 
-            var removal = await session.DeleteUserFromList(23, "slughere");
+            var removal = await session.DeleteUserFromList();
 
-            Assert.IsTrue(removal);
+            Assert.IsTrue(removal.Status);
         }
 
         [TestMethod]
@@ -71,7 +71,7 @@ namespace BoxKite.Twitter.Tests.Modules
 
             var removal = await session.DeleteFromUsersList(23, "slughere");
 
-            Assert.IsTrue(removal);
+            Assert.IsTrue(removal.Status);
         }
 
         [TestMethod]
@@ -83,7 +83,7 @@ namespace BoxKite.Twitter.Tests.Modules
 
             var adds = await session.AddUsersToList(23, "slug here", new List<string> {"fred"}, new List<int> {66});
 
-            Assert.IsTrue(adds);
+            Assert.IsTrue(adds.Status);
         }
 
 
@@ -96,7 +96,7 @@ namespace BoxKite.Twitter.Tests.Modules
 
             var adds = await session.DeleteUsersFromList(23, "slug here", new List<string> { "fred" }, new List<int> { 66 });
 
-            Assert.IsTrue(adds);
+            Assert.IsTrue(adds.Status);
         }
 
         [TestMethod]
@@ -106,9 +106,9 @@ namespace BoxKite.Twitter.Tests.Modules
             session.Returns(await Json.FromFile("data\\lists\\listtimeline.txt"));
             session.ExpectPost("https://api.twitter.com/1.1/lists/members/create.json");
 
-            var adds = await session.AddUserToMyList(23, "slug here", "fred", 66);
+            var adds = await session.AddUserToMyList(23);
 
-            Assert.IsTrue(adds);
+            Assert.IsTrue(adds.Status);
         }
 
         [TestMethod]
@@ -120,7 +120,7 @@ namespace BoxKite.Twitter.Tests.Modules
 
             var changes = await session.ChangeList(23, "slug here", "fred", "public", "description");
 
-            Assert.IsTrue(changes);
+            Assert.IsTrue(changes.Status);
         }
 
         [TestMethod]
@@ -153,9 +153,9 @@ namespace BoxKite.Twitter.Tests.Modules
             var subs = await session.GetListSubscribers(23, "slug goes here");
 
             Assert.IsNotNull(subs);
-            subs.next_cursor.ShouldBeEquivalentTo(1357643166637635702);
-            subs.users.Count().ShouldBeEquivalentTo(2);
-            subs.users.ToList()[1].Name.ShouldBeEquivalentTo("GR Syber-Space");
+            subs.next_cursor.ShouldBeEquivalentTo(0);
+            subs.users.Count().ShouldBeEquivalentTo(1);
+            subs.users.ToList()[0].Name.ShouldBeEquivalentTo("NickHodge");
         }
 
 

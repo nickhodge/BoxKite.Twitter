@@ -42,6 +42,7 @@
     <Compile Include="Extensions\ResponseExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\TweetExtensions.cs" />
+    <Compile Include="Extensions\TwitterEnumerable.cs" />
     <Compile Include="Helpers\BindableBase.cs" />
     <Compile Include="Helpers\JSONCustomConverters.cs" />
     <Compile Include="Interfaces\IAnonymousSession.cs" />
@@ -49,6 +50,7 @@
     <Compile Include="Interfaces\IUserSession.cs" />
     <Compile Include="Interfaces\IUserStream.cs" />
     <Compile Include="Models\DirectMessage.cs" />
+    <Compile Include="Models\Service\TwitterSuccess.cs" />
     <Compile Include="Models\Streaming\Event.cs" />
     <Compile Include="Models\Service\TwitterListCursored.cs" />
     <Compile Include="Models\Service\UserInListCursored.cs" />

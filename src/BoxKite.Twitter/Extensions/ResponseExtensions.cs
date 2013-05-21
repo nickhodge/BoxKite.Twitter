@@ -675,13 +675,15 @@ namespace BoxKite.Twitter.Extensions
             return searchresponse;
         }
 
-        internal static bool MapToBoolean(this Task<HttpResponseMessage> c)
+        internal static TwitterSuccess MapToTwitterSuccess(this Task<HttpResponseMessage> c)
         {
+            var resp = new TwitterSuccess { Status = false, TwitterControlMessage = MapHTTPResponses(c) };
             if (c.IsFaulted || c.IsCanceled)
-                return false;
+                return resp;
 
             var result = c.Result;
-            return result.IsSuccessStatusCode;
+            resp.Status = result.IsSuccessStatusCode;
+            return resp;
         }
 
         // Map error results specially
