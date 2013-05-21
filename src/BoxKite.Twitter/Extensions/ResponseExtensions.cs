@@ -31,86 +31,12 @@ namespace BoxKite.Twitter.Extensions
             var apiresp = JsonConvert.DeserializeObject<dynamic>(content.Result);
             var apiratelimit = new ApiRateStatusCall { ApiRateStatuses = new Dictionary<string, ApiRateStatus>() };
 
-            //TODO: clean this up
-
-            foreach (var i in apiresp.resources.lists)
+            foreach (var x in apiresp.resources)
             {
-                apiratelimit.ApiRateStatuses.Add(i.Name, new ApiRateStatus { apipath = i.Name, remaining = i.Value.remaining, limit = i.Value.limit, reset = i.Value.reset });
-            }
-
-            foreach (var i in apiresp.resources.application)
-            {
-                apiratelimit.ApiRateStatuses.Add(i.Name, new ApiRateStatus { apipath = i.Name, remaining = i.Value.remaining, limit = i.Value.limit, reset = i.Value.reset });
-            }
-
-            foreach (var i in apiresp.resources.friendships)
-            {
-                apiratelimit.ApiRateStatuses.Add(i.Name, new ApiRateStatus { apipath = i.Name, remaining = i.Value.remaining, limit = i.Value.limit, reset = i.Value.reset });
-            }
-
-            foreach (var i in apiresp.resources.blocks)
-            {
-                apiratelimit.ApiRateStatuses.Add(i.Name, new ApiRateStatus { apipath = i.Name, remaining = i.Value.remaining, limit = i.Value.limit, reset = i.Value.reset });
-            }
-
-            foreach (var i in apiresp.resources.geo)
-            {
-                apiratelimit.ApiRateStatuses.Add(i.Name, new ApiRateStatus { apipath = i.Name, remaining = i.Value.remaining, limit = i.Value.limit, reset = i.Value.reset });
-            }
-
-            foreach (var i in apiresp.resources.users)
-            {
-                apiratelimit.ApiRateStatuses.Add(i.Name, new ApiRateStatus { apipath = i.Name, remaining = i.Value.remaining, limit = i.Value.limit, reset = i.Value.reset });
-            }
-
-            foreach (var i in apiresp.resources.followers)
-            {
-                apiratelimit.ApiRateStatuses.Add(i.Name, new ApiRateStatus { apipath = i.Name, remaining = i.Value.remaining, limit = i.Value.limit, reset = i.Value.reset });
-            }
-
-            foreach (var i in apiresp.resources.statuses)
-            {
-                apiratelimit.ApiRateStatuses.Add(i.Name, new ApiRateStatus { apipath = i.Name, remaining = i.Value.remaining, limit = i.Value.limit, reset = i.Value.reset });
-            }
-
-            foreach (var i in apiresp.resources.help)
-            {
-                apiratelimit.ApiRateStatuses.Add(i.Name, new ApiRateStatus { apipath = i.Name, remaining = i.Value.remaining, limit = i.Value.limit, reset = i.Value.reset });
-            }
-
-            foreach (var i in apiresp.resources.friends)
-            {
-                apiratelimit.ApiRateStatuses.Add(i.Name, new ApiRateStatus { apipath = i.Name, remaining = i.Value.remaining, limit = i.Value.limit, reset = i.Value.reset });
-            }
-
-            foreach (var i in apiresp.resources.direct_messages)
-            {
-                apiratelimit.ApiRateStatuses.Add(i.Name, new ApiRateStatus { apipath = i.Name, remaining = i.Value.remaining, limit = i.Value.limit, reset = i.Value.reset });
-            }
-
-            foreach (var i in apiresp.resources.account)
-            {
-                apiratelimit.ApiRateStatuses.Add(i.Name, new ApiRateStatus { apipath = i.Name, remaining = i.Value.remaining, limit = i.Value.limit, reset = i.Value.reset });
-            }
-
-            foreach (var i in apiresp.resources.favorites)
-            {
-                apiratelimit.ApiRateStatuses.Add(i.Name, new ApiRateStatus { apipath = i.Name, remaining = i.Value.remaining, limit = i.Value.limit, reset = i.Value.reset });
-            }
-
-            foreach (var i in apiresp.resources.saved_searches)
-            {
-                apiratelimit.ApiRateStatuses.Add(i.Name, new ApiRateStatus { apipath = i.Name, remaining = i.Value.remaining, limit = i.Value.limit, reset = i.Value.reset });
-            }
-
-            foreach (var i in apiresp.resources.search)
-            {
-                apiratelimit.ApiRateStatuses.Add(i.Name, new ApiRateStatus { apipath = i.Name, remaining = i.Value.remaining, limit = i.Value.limit, reset = i.Value.reset });
-            }
-
-            foreach (var i in apiresp.resources.trends)
-            {
-                apiratelimit.ApiRateStatuses.Add(i.Name, new ApiRateStatus { apipath = i.Name, remaining = i.Value.remaining, limit = i.Value.limit, reset = i.Value.reset });
+                foreach (var i in x.Value)
+                {
+                    apiratelimit.ApiRateStatuses.Add(i.Name, new ApiRateStatus { apipath = i.Name, remaining = i.Value.remaining, limit = i.Value.limit, reset = i.Value.reset });
+                }
             }
 
             return apiratelimit;
