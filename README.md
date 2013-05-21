@@ -33,7 +33,6 @@ API Coverage, With Tests & Intellisense Comments
 - [x] Saved Searches
 - [x] User Streaming: [GET userstreams](https://dev.twitter.com/docs/streaming-apis/streams/user) 
 - [ ] Add all response types (events, etc) to UserStreams
-- [ ] Need to add test mechanism & scenarios for UserStreams
 - [ ] Search via Streaming [POST status/filter](https://dev.twitter.com/docs/api/1.1/post/statuses/filter)
 - [x] Direct Messages
 - [x] Friends and Followers
@@ -49,7 +48,8 @@ API Coverage, With Tests & Intellisense Comments
 - [x] API rate limits
 
 Tests:
-* 96 test methods with average of 4 assertion tests each
+* 97 test methods with average of 4 assertion tests each
+* Both Twitter API 1.1 and Userstream Unit Tests
 * 44 "Live Fire Tests". Included as a separate project, it is engaged via the Console; uses a real Twitter Account to exercise the API. Configurable Test series, individual tests that can be run.
 * Test source is JSON from [dev.twitter.com](https://dev.twitter.com/) and where innaccurate on the site, taken from live data or corrected to match live data.
 * Error response type testing (eg: 429 rate_limits) & generic decode tests included
@@ -64,10 +64,10 @@ Broad To Dos:
 - [ ] abstract as .Subscribe observable lists whilst do the cursor/pagination underneath of the objects from the service
 - [ ] DDD Tweets, Users, Following, Followers, Lists, Favourites within the TwitterConnection
 
-Things Not Going To Do for the moment unless people want them:
-- Contributors/Contributees. Looks like Twitter is going into multiple account things?
-- GET Help/* endpoints because reasons
-- SITE streams because I am no masochist 
+Out of Scope:
+- Contributors/Contributees. As yet, not in wild
+- GET Help/* endpoints
+- SiteStreams because I am no masochist nor do I have access to it.
 - oauth2 tokens for Application-based APIs
 - [oembed seems for web sites specific inclusion rather than this API?](https://dev.twitter.com/docs/api/1.1/get/statuses/oembed)
 - [User Profile banner stuff](https://dev.twitter.com/docs/api/1.1/post/account/update_profile_banner) because what even are they? 
