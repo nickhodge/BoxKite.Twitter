@@ -41,7 +41,7 @@ API Coverage, With Tests & Intellisense Comments
 - [x] Suggested Users
 - [x] Favorites
 - [x] Lists 
-- [ ] "Life Fire" testing of Lists needs work. UnitTests pass, but not so much fun live at the moment
+- [ ] "Life Fire" testing of Lists needs work. UnitTests pass ok
 - [x] Places and Geo
 - [x] Trends
 - [x] Spam Reporting
@@ -49,7 +49,7 @@ API Coverage, With Tests & Intellisense Comments
 - [x] API rate limits
 
 Tests:
-* 95 test methods with average of 4 assertion tests each
+* 96 test methods with average of 4 assertion tests each
 * 44 "Live Fire Tests". Included as a separate project, it is engaged via the Console; uses a real Twitter Account to exercise the API. Configurable Test series, individual tests that can be run.
 * Test source is JSON from [dev.twitter.com](https://dev.twitter.com/) and where innaccurate on the site, taken from live data or corrected to match live data.
 * Error response type testing (eg: 429 rate_limits) & generic decode tests included
