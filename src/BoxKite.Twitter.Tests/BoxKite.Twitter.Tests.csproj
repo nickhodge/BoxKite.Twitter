@@ -128,6 +128,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Modules\TweetExtensionsTests.cs" />
     <Compile Include="Modules\SearchExtensionsTests.cs" />
+    <Compile Include="UserStream\UserStreamTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="data\apiratelimit.txt">
@@ -310,6 +311,9 @@
     <Content Include="data\tweets\singletweetwithgeotag.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="data\userstream\userstream1.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="data\users\accountprofile.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -336,9 +340,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="UserStream\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\BoxKite.Twitter\BoxKite.Twitter.csproj">
       <Project>{2eb6324b-f465-44ab-823f-e591845b8d80}</Project>

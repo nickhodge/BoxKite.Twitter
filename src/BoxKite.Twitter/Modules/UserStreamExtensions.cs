@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using BoxKite.Twitter;
 using BoxKite.Twitter.Extensions;
 using BoxKite.Twitter.Modules.Streaming;
 
-namespace BoxKite.Modules
+namespace BoxKite.Twitter.Modules
 {
     public static class UserStreamExtensions
     {

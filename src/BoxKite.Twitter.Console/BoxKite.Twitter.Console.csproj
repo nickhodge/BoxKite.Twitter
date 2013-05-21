@@ -34,7 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>BoxKite.Twitter.Console.ConsoleApp</StartupObject>
+    <StartupObject>BoxKite.Twitter.Console.BoxKiteTwitterFromConsole</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Autofac">
@@ -92,7 +92,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConsoleApp.cs" />
+    <Compile Include="BoxKiteTwitterFromConsole.cs" />
     <Compile Include="Helpers\ConsoleOutput.cs" />
     <Compile Include="Helpers\GetUnlockCodeFromTwitter.cs" />
     <Compile Include="Helpers\ManageTwitterCredentials.cs" />

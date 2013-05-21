@@ -13,7 +13,7 @@ using Newtonsoft.Json.Linq;
 
 namespace BoxKite.Twitter
 {
-    internal class UserStream : IUserStream
+    public class UserStream : IUserStream
     {
         readonly Func<Task<HttpResponseMessage>> createOpenConnection;
         readonly Subject<Tweet> tweets = new Subject<Tweet>();
@@ -104,12 +104,15 @@ namespace BoxKite.Twitter
 
                 if (delay.TotalMinutes <= 2)
                 {
-                    // TODO: give up
+                    Stop();
                 }
 
-                if (String.IsNullOrEmpty(line)) continue;
+                if (String.IsNullOrEmpty(line))
+                {
+                    Stop();
+                };
 #if DEBUG
-                Debug.WriteLine(line);
+                //Debug.WriteLine(line);
 #endif
 
                 // we have a valid connection - clear delay
@@ -183,10 +186,10 @@ namespace BoxKite.Twitter
                     // fall through
                     tweets.OnNext(MapToStreamTweet(obj.ToString()));
                 }
-                catch (Exception x)
+                catch (Exception)
                 {
 #if DEBUG
-                    Debug.WriteLine(x.ToString());
+                    //Debug.WriteLine(x.ToString());
 #endif
                     continue;
                 }

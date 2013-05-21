@@ -83,7 +83,15 @@ namespace BoxKite.Twitter.Tests.Modules
 
         public HttpRequestMessage CreateGet(string fullUrl, SortedDictionary<string, string> parameters)
         {
-            throw new System.NotImplementedException();
+            this.receviedParameters = parameters;
+            var req = new HttpRequestMessage { Content = new StringContent(contents) }; //grab the supplied error code in setup
+            return req;
+        }
+
+        public async Task<HttpResponseMessage> MakeResponse()
+        {
+            var resp = new HttpResponseMessage() { Content = new StringContent(contents) }; 
+            return resp;
         }
 
         public void Returns(string contentsReturn)
