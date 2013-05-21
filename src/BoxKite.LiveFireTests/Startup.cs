@@ -30,7 +30,7 @@ namespace BoxKite.LiveFireTests
                     ConsoleOutput.PrintMessage(twittercredentials.ScreenName + " is authorised to use BoxKite.Twitter.");
 
                     // put the test series number you wish to run into the init of the array
-                    var testSeriesToRun = new List<int> {9};
+                    var testSeriesToRun = new List<int> {10};
 
                     // Calls tested by Test Series
                     // series 1 => 9
@@ -41,9 +41,10 @@ namespace BoxKite.LiveFireTests
                     // series 6 => 8
                     // series 7 => 5
                     // series 8 => 3
-                    // series 9 => 
+                    // series 9 => 2
+                    // series 10=> 
                     // =============
-                    // TOTAL      35
+                    // TOTAL      37
 
                     // Test Series 1
                     if (testSeriesToRun.Contains(1))
@@ -197,21 +198,39 @@ namespace BoxKite.LiveFireTests
                     // Test Series 9(also tests SearchFor in SearchExtensions)
                     if (testSeriesToRun.Contains(9))
                     {
-                        var trln = new TrendsLiveFireTests();
-                        var testResult9 = trln.DoTrendsTest(session, new List<int> { 1, 2 }).Result;
+                        var trln = new SuggestedUsersLiveFireTests();
+                        var testResult9 = trln.DoSuggestedUsersTest(session, new List<int> { 1, 2 }).Result;
 
                         if (testResult9)
                         {
-                            ConsoleOutput.PrintMessage(String.Format("9.0 Trends Tests Status: {0}", testResult9),
+                            ConsoleOutput.PrintMessage(String.Format("9.0 SuggestedUsers Tests Status: {0}", testResult9),
                                 ConsoleColor.White);
                         }
                         else
                         {
-                            ConsoleOutput.PrintMessage(String.Format("9.0 Trends Tests Status: {0}", testResult9),
+                            ConsoleOutput.PrintMessage(String.Format("9.0 SuggestedUsers Tests Status: {0}", testResult9),
                                 ConsoleColor.Red);
                         }
                     }
 
+                  
+                    // Test Series 10 Lists
+                    if (testSeriesToRun.Contains(10))
+                    {
+                        var lsts = new ListsLiveFireTests();
+                        var testResult10 = lsts.DoListsTest(session, new List<int> { 3 }).Result;
+
+                        if (testResult10)
+                        {
+                            ConsoleOutput.PrintMessage(String.Format("10.0 Lists Tests Status: {0}", testResult10),
+                                ConsoleColor.White);
+                        }
+                        else
+                        {
+                            ConsoleOutput.PrintMessage(String.Format("10.0 Lists Tests Status: {0}", testResult10),
+                                ConsoleColor.Red);
+                        }
+                    }
                 }
                 else
                 {

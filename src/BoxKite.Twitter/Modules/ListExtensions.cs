@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reactive.Concurrency;
 using System.Text;
 using System.Threading.Tasks;
 using BoxKite.Twitter.Extensions;
@@ -48,7 +49,7 @@ namespace BoxKite.Twitter.Modules
         /// <param name="include_rts">the list timeline will contain native retweets (if they exist) in addition to the standard stream of tweets.</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/lists/statuses </remarks>
-        public static async Task<IEnumerable<Tweet>> GetListTimeline(this IUserSession session, int list_id, string slug, int owner_id = 0, string owner_screen_name = "", long since_id = 0, int count = 200, long max_id = 0, bool include_rts = true)
+        public static async Task<IEnumerable<Tweet>> GetListTimeline(this IUserSession session, int list_id, string slug, int owner_id = 0, string owner_screen_name = "", long since_id = 0, int count = 20, long max_id = 0, bool include_rts = true)
         {
             var parameters = new SortedDictionary<string, string>
                                  {
@@ -137,7 +138,7 @@ namespace BoxKite.Twitter.Modules
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/lists/memberships </remarks>
         public static async Task<UserInListCursored> GetListMembershipForUser(this IUserSession session, int user_id = 0,
-            string screen_name = "", int cursor = -1)
+            string screen_name = "", long cursor = -1)
         {
             var parameters = new SortedDictionary<string, string>
                                  {

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using BoxKite.Twitter;
 using BoxKite.Twitter.Console.Helpers;
 using BoxKite.Twitter.Models.Service;
+using BoxKite.Twitter.Modules;
 
 namespace BoxKite.LiveFireTests
 {
@@ -26,7 +27,11 @@ namespace BoxKite.LiveFireTests
                     do
                     {
                         var ff1List = await session.GetFriendsIDs(cursor: nextcursor);
-                        if (ff1List.twitterFaulted) continue;
+                        if (ff1List.twitterFaulted)
+                        {
+                            successStatus = false;
+                            break;
+                        };
                         nextcursor = ff1List.next_cursor;
                         ConsoleOutput.PrintMessage(String.Format("Previous cursor: {0} Next cursor: {1}",
                             ff1List.previous_cursor, ff1List.next_cursor));
@@ -52,7 +57,11 @@ namespace BoxKite.LiveFireTests
                     do
                     {
                         var ff2List = await session.GetFollowersIDs(cursor: nextcursor);
-                        if (ff2List.twitterFaulted) continue;
+                        if (ff2List.twitterFaulted)
+                        {
+                            successStatus = false;
+                            break;
+                        };
                         nextcursor = ff2List.next_cursor;
                         ConsoleOutput.PrintMessage(String.Format("Previous cursor: {0} Next cursor: {1}",
                             ff2List.previous_cursor, ff2List.next_cursor));
@@ -102,7 +111,11 @@ namespace BoxKite.LiveFireTests
                     do
                     {
                         var ff4List = await session.GetFriendshipRequestsIncoming(cursor: nextcursor);
-                        if (ff4List.twitterFaulted) continue;
+                        if (ff4List.twitterFaulted)
+                        {
+                            successStatus = false;
+                            break;
+                        };
                         nextcursor = ff4List.next_cursor;
                         ConsoleOutput.PrintMessage(String.Format("Previous cursor: {0} Next cursor: {1}",
                             ff4List.previous_cursor, ff4List.next_cursor));
@@ -128,7 +141,11 @@ namespace BoxKite.LiveFireTests
                     do
                     {
                         var ff5List = await session.GetFriendshipRequestsOutgoing(cursor: nextcursor);
-                        if (ff5List.twitterFaulted) continue;
+                        if (ff5List.twitterFaulted)
+                        {
+                            successStatus = false;
+                            break;
+                        };
                         nextcursor = ff5List.next_cursor;
                         ConsoleOutput.PrintMessage(String.Format("Previous cursor: {0} Next cursor: {1}",
                             ff5List.previous_cursor, ff5List.next_cursor));

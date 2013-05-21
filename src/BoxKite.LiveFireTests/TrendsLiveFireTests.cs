@@ -1,18 +1,9 @@
 ﻿using System;
-using System.CodeDom;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.ComTypes;
-using System.Runtime.Serialization.Formatters;
-using System.Threading;
 using System.Threading.Tasks;
 using BoxKite.Twitter;
 using BoxKite.Twitter.Console.Helpers;
-using BoxKite.Twitter.Models;
 
 namespace BoxKite.LiveFireTests
 {
@@ -42,6 +33,8 @@ namespace BoxKite.LiveFireTests
                         }
                     }
                 }
+                else
+                    successStatus = false;
 
                 // 2
                 if (testSeq.Contains(2))
