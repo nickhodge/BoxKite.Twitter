@@ -116,39 +116,34 @@ namespace BoxKite.Twitter.Extensions
         {
             if (task.IsFaulted || task.IsCanceled)
             {
-                var singleError = new T();
-                var boolType = new Type[] { typeof(bool) };
-                // find the property set method created by the compiler
-                var statusProperty = singleError.GetType().GetRuntimeMethod("set_twitterFaulted", boolType);
-                if (statusProperty!=null)
-                    statusProperty.Invoke(singleError, new object[] { true });
-
-                var tcmType = new Type[] { typeof(TwitterControlMessage) };
-                // find the property set method created by the compiler
-                var tcmProperty = singleError.GetType().GetRuntimeMethod("set_twitterControlMessage", tcmType);
-                if (tcmProperty != null)
-                    tcmProperty.Invoke(singleError, new object[] { MapHTTPResponses(task) });
-
-                return singleError;
+                return ComposeSingleError<T>(task);
             }
 
             var result = task.Result;
             if (!result.IsSuccessStatusCode)
             {
-                var singleError = new T();
-                var boolType = new Type[] {typeof (bool)};
-                var statusProperty = singleError.GetType().GetRuntimeMethod("set_twitterFaulted", boolType);
-                statusProperty.Invoke(singleError, new object[] {true});
-
-                var tcmType = new Type[] { typeof(TwitterControlMessage) };
-                var tcmProperty = singleError.GetType().GetRuntimeMethod("set_twitterControlMessage", tcmType);
-                tcmProperty.Invoke(singleError, new object[] { MapHTTPResponses(task) });
-
-                return singleError;
+                return ComposeSingleError<T>(task);
             }
 
             var content = result.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<T>(content.Result);
+        }
+
+        private static T ComposeSingleError<T>(Task<HttpResponseMessage> task) where T : new()
+        {
+            var singleError = new T();
+            var boolType = new Type[] {typeof (bool)};
+            // find the property set method created by the compiler
+            var statusProperty = singleError.GetType().GetRuntimeMethod("set_twitterFaulted", boolType);
+            if (statusProperty != null)
+                statusProperty.Invoke(singleError, new object[] {true});
+
+            var tcmType = new Type[] {typeof (TwitterControlMessage)};
+            // find the property set method created by the compiler
+            var tcmProperty = singleError.GetType().GetRuntimeMethod("set_twitterControlMessage", tcmType);
+            if (tcmProperty != null)
+                tcmProperty.Invoke(singleError, new object[] {MapHTTPResponses(task)});
+            return singleError;
         }
 
         // Map error results specially
