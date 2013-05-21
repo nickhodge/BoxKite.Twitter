@@ -14,9 +14,10 @@ namespace BoxKite.Twitter
         /// <param name="exclude">If true will remove all hashtags from the trends list.</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/trends/place </remarks>
-        public static async Task<IEnumerable<TrendsForPlaceResponse>> GetTrendsForPlace(this IUserSession session, string place_id, bool exclude = false)
+        public static async Task<IEnumerable<TrendsForPlaceResponse>> GetTrendsForPlace(this IUserSession session, int place_id=1, bool exclude = false)
         {
-            var parameters = new SortedDictionary<string, string>{{"id",place_id},};
+            var parameters = new SortedDictionary<string, string>
+                        {{"id",place_id.ToString()}};
             if (exclude)
                 parameters.Add("exclude","hashtags");
 
@@ -39,7 +40,13 @@ namespace BoxKite.Twitter
                 .ContinueWith(c => c.MapToTrendsAvailableLocationsResponse());
         }
 
-
+        /// <summary>
+        /// Returns the locations that Twitter has trending topic information for, closest to a specified location.
+        /// </summary>
+        /// <param name="latitude">If provided with a long parameter the available trend locations will be sorted by distance, nearest to furthest, to the co-ordinate pair.</param>
+        /// <param name="longitude">If provided with a lat parameter the available trend locations will be sorted by distance, nearest to furthest, to the co-ordinate pair.</param>
+        /// <returns></returns>
+        /// <remarks> ref:  https://dev.twitter.com/docs/api/1.1/get/trends/closest </remarks>
         public static async Task<IEnumerable<TrendsAvailableLocationsResponse>> GetTrendsByLocation(
             this IUserSession session, double latitude = 0.0,
             double longitude = 0.0)

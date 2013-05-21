@@ -19,7 +19,7 @@ namespace BoxKite.Twitter.Tests.Modules
             session.Returns(await Json.FromFile("data\\trends\\trendsforplace.txt"));
             session.ExpectGet("https://api.twitter.com/1.1/trends/place.json");
 
-            var placetrends = await session.GetTrendsForPlace("1");
+            var placetrends = await session.GetTrendsForPlace(1);
 
             Assert.IsNotNull(placetrends);
             placetrends.Count().ShouldBeEquivalentTo(1);

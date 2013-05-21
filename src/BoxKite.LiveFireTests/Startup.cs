@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO.Pipes;
 using System.Threading;
 using BoxKite.Twitter;
 using BoxKite.Twitter.Modules.Streaming;
@@ -29,8 +30,9 @@ namespace BoxKite.LiveFireTests
                     ConsoleOutput.PrintMessage(twittercredentials.ScreenName + " is authorised to use BoxKite.Twitter.");
 
                     // put the test series number you wish to run into the init of the array
-                    var testSeriesToRun = new List<int> {8};
+                    var testSeriesToRun = new List<int> {9};
 
+                    // Calls tested by Test Series
                     // series 1 => 9
                     // series 2 => 1
                     // series 3 => 3
@@ -38,9 +40,10 @@ namespace BoxKite.LiveFireTests
                     // series 5 => 3
                     // series 6 => 8
                     // series 7 => 5
-                    // series 8 => 
+                    // series 8 => 3
+                    // series 9 => 
                     // =============
-                    // TOTAL      32
+                    // TOTAL      35
 
                     // Test Series 1
                     if (testSeriesToRun.Contains(1))
@@ -172,20 +175,39 @@ namespace BoxKite.LiveFireTests
                     }
 
 
-                    // Test Series 8
+                    // Test Series 8(also tests SearchFor in SearchExtensions)
                     if (testSeriesToRun.Contains(8))
                     {
                         var trln = new TrendsLiveFireTests();
-                        var testResult8 = trln.DoTrendsTest(session, new List<int> { 1 }).Result;
+                        var testResult8 = trln.DoTrendsTest(session, new List<int> { 1, 2 }).Result;
 
                         if (testResult8)
                         {
-                            ConsoleOutput.PrintMessage(String.Format("8.0 Trends Tests Status: {0}", testResult8),
+                            ConsoleOutput.PrintMessage(String.Format("8.0 Trends (and SearchFor) Tests Status: {0}", testResult8),
                                 ConsoleColor.White);
                         }
                         else
                         {
-                            ConsoleOutput.PrintMessage(String.Format("8.0 Trends Tests Status: {0}", testResult8),
+                            ConsoleOutput.PrintMessage(String.Format("8.0 Trends (and SearchFor) Tests Status: {0}", testResult8),
+                                ConsoleColor.Red);
+                        }
+                    }
+
+
+                    // Test Series 9(also tests SearchFor in SearchExtensions)
+                    if (testSeriesToRun.Contains(9))
+                    {
+                        var trln = new TrendsLiveFireTests();
+                        var testResult9 = trln.DoTrendsTest(session, new List<int> { 1, 2 }).Result;
+
+                        if (testResult9)
+                        {
+                            ConsoleOutput.PrintMessage(String.Format("9.0 Trends Tests Status: {0}", testResult9),
+                                ConsoleColor.White);
+                        }
+                        else
+                        {
+                            ConsoleOutput.PrintMessage(String.Format("9.0 Trends Tests Status: {0}", testResult9),
                                 ConsoleColor.Red);
                         }
                     }

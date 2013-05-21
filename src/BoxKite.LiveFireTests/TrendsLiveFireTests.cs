@@ -1,9 +1,11 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Runtime.Serialization.Formatters;
 using System.Threading;
@@ -19,22 +21,58 @@ namespace BoxKite.LiveFireTests
         public async Task<bool> DoTrendsTest(IUserSession session, List<int> testSeq)
         {
             var successStatus = true;
+            var trendToSearch = "";
+            int woeidToSearch = 1;
             try
             {
                 // 1
                 if (testSeq.Contains(1))
                 {
-                    ConsoleOutput.PrintMessage("8.1 Trends\\GetMentions", ConsoleColor.Gray);
-                    var timeline1 = await session.GetMentions(count:100);
+                    //-33.884097,151.134796
+                    ConsoleOutput.PrintMessage("8.1 Trends\\GetTrendsByLocation", ConsoleColor.Gray);
+                    var trends1 = await session.GetTrendsByLocation(latitude:-33.884097,longitude:151.134796);
 
-                    if (!timeline1.ToList()[0].twitterFaulted)
+                    if (!trends1.ToList()[0].twitterFaulted)
                     {
-                        foreach (var tweet in timeline1)
+                        foreach (var trnd in trends1)
                         {
                             ConsoleOutput.PrintMessage(
-                                     String.Format("From: {0} // Message: {1}", tweet.User.ScreenName, tweet.Text));                            
+                                     String.Format("Name: {0} // Url: {1}", trnd.Name, trnd.Url));
+                            woeidToSearch = trnd.WOEID;
                         }
-                     }
+                    }
+                }
+
+                // 2
+                if (testSeq.Contains(2))
+                {
+                    ConsoleOutput.PrintMessage("8.2 Trends\\GetTrendsForPlace as specified in location", ConsoleColor.Gray);
+                    var trends2 = await session.GetTrendsForPlace(place_id: woeidToSearch);
+
+                    if (!trends2.ToList()[0].twitterFaulted)
+                    {
+                        foreach (var trnd in trends2.ToList()[0].trends)
+                        {
+                            ConsoleOutput.PrintMessage(
+                                     String.Format("Trend: {0} // Query: {1}", trnd.name, trnd.query));
+                            trendToSearch = trnd.query;
+                        }
+
+                    }
+                    else
+                        successStatus = false;
+
+                    ConsoleOutput.PrintMessage("8.2.1 Search\\SearchFor from Trend", ConsoleColor.Gray);
+                    var trends21 = await session.SearchFor(trendToSearch, SearchResultType.Popular, count: 20 );
+
+                    if (!trends21.twitterFaulted)
+                    {
+                        foreach (var tweet in trends21.Tweets)
+                        {
+                            ConsoleOutput.PrintMessage(
+                                     String.Format("From: {0} // Message: {1}", tweet.User.ScreenName, tweet.Text));
+                        }
+                    }
                     else
                         successStatus = false;
                 }
