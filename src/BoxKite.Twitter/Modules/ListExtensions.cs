@@ -33,7 +33,7 @@ namespace BoxKite.Twitter.Modules
 
             var url = Api.Resolve("/1.1/lists/list.json");
             return await session.GetAsync(url, parameters)
-                          .ContinueWith(c => c.MapToTwitterLists());
+                          .ContinueWith(c => c.MapToMany<TwitterList>());
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace BoxKite.Twitter.Modules
 
             var url = Api.Resolve("/1.1/lists/statuses.json");
             return await session.GetAsync(url, parameters)
-                          .ContinueWith(c => c.MapToListOfTweets());
+                          .ContinueWith(c => c.MapToMany<Tweet>());
         }
 
         /// <summary>
@@ -164,7 +164,7 @@ namespace BoxKite.Twitter.Modules
 
             var url = Api.Resolve("/1.1/lists/memberships.json");
             return await session.GetAsync(url, parameters)
-                          .ContinueWith(c => c.MapToUserInListCursored()); 
+                          .ContinueWith(c => c.MapToSingle <UserInListCursored>()); 
         }
 
         /// <summary>
@@ -196,7 +196,7 @@ namespace BoxKite.Twitter.Modules
 
             var url = Api.Resolve("/1.1/lists/memberships.json");
             return await session.GetAsync(url, parameters)
-                          .ContinueWith(c => c.MapToUserInListCursored());
+                          .ContinueWith(c => c.MapToSingle<UserInListCursored>());
         }
 
         /// <summary>
@@ -238,7 +238,7 @@ namespace BoxKite.Twitter.Modules
 
             var url = Api.Resolve("/1.1/lists/subscribers.json");
             return await session.GetAsync(url, parameters)
-                          .ContinueWith(c => c.MapToUserListDetailedCursored()); 
+                          .ContinueWith(c => c.MapToSingle<UserListDetailedCursored>()); 
         }
 
         /// <summary>
@@ -274,7 +274,7 @@ namespace BoxKite.Twitter.Modules
             }
             var url = Api.Resolve("/1.1/lists/subscribers/create.json");
             return await session.PostAsync(url, parameters)
-                          .ContinueWith(c => c.MapToTwitterList());
+                          .ContinueWith(c => c.MapToSingle<TwitterList>());
         }
 
         /// <summary>
@@ -319,7 +319,7 @@ namespace BoxKite.Twitter.Modules
 
             var url = Api.Resolve("/1.1/lists/subscribers/show.json");
             return await session.GetAsync(url, parameters)
-                          .ContinueWith(c => c.MapToSingleUser());
+                          .ContinueWith(c => c.MapToSingle<User>());
         }
 
         /// <summary>
@@ -459,7 +459,7 @@ namespace BoxKite.Twitter.Modules
 
             var url = Api.Resolve("/1.1/lists/members/show.json");
             return await session.GetAsync(url, parameters)
-                          .ContinueWith(c => c.MapToSingleUser());
+                          .ContinueWith(c => c.MapToSingle<User>());
         }
 
         /// <summary>
@@ -495,7 +495,7 @@ namespace BoxKite.Twitter.Modules
 
             var url = Api.Resolve("/1.1/lists/members.json");
             return await session.GetAsync(url, parameters)
-                          .ContinueWith(c => c.MapToUserListDetailedCursored());
+                          .ContinueWith(c => c.MapToSingle<UserListDetailedCursored>());
         }
 
         /// <summary>
@@ -577,7 +577,7 @@ namespace BoxKite.Twitter.Modules
 
             var url = Api.Resolve("/1.1/lists/destroy.json");
             return await session.PostAsync(url, parameters)
-                          .ContinueWith(c => c.MapToTwitterList());
+                          .ContinueWith(c => c.MapToSingle<TwitterList>());
         }
 
         /// <summary>
@@ -655,7 +655,7 @@ namespace BoxKite.Twitter.Modules
 
             var url = Api.Resolve("/1.1/lists/create.json");
             return await session.PostAsync(url, parameters)
-                          .ContinueWith(c => c.MapToTwitterList());
+                          .ContinueWith(c => c.MapToSingle<TwitterList>());
         }
 
         /// <summary>
@@ -688,7 +688,7 @@ namespace BoxKite.Twitter.Modules
 
             var url = Api.Resolve("/1.1/lists/show.json");
             return await session.GetAsync(url, parameters)
-                          .ContinueWith(c => c.MapToTwitterList());
+                          .ContinueWith(c => c.MapToSingle<TwitterList>());
         }
 
         /// <summary>
@@ -721,7 +721,7 @@ namespace BoxKite.Twitter.Modules
 
             var url = Api.Resolve("/1.1/lists/subscriptions.json");
             return await session.GetAsync(url, parameters)
-                          .ContinueWith(c => c.MapToTwitterListCursored());
+                          .ContinueWith(c => c.MapToSingle<TwitterListCursored>());
         }
 
         /// <summary>
@@ -816,7 +816,7 @@ namespace BoxKite.Twitter.Modules
 
             var url = Api.Resolve("/1.1/lists/ownerships.json");
             return await session.GetAsync(url, parameters)
-                          .ContinueWith(c => c.MapToTwitterListCursored());
+                          .ContinueWith(c => c.MapToSingle<TwitterListCursored>());
         }
 
     }

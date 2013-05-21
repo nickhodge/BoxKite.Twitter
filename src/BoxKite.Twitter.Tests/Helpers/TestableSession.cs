@@ -50,8 +50,21 @@ namespace BoxKite.Twitter.Tests.Modules
 
             this.receviedParameters = parameters;
 
-            var response = new HttpResponseMessage(HttpStatusCode.OK) {Content = new StringContent(contents)};
-            return Task.FromResult(response);
+            if (simulatingError)
+            {
+                var response = new HttpResponseMessage(httpStatusCode) {Content = new StringContent(contents)};
+                    //grab the supplied error code in setup
+                return Task.FromResult(response);
+            }
+            else
+            {
+                var response = new HttpResponseMessage
+                               {
+                                   StatusCode = HttpStatusCode.OK,
+                                   Content = new StringContent(contents)
+                               };
+                return Task.FromResult(response);
+            }
         }
 
 

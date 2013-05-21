@@ -26,7 +26,7 @@ namespace BoxKite.Twitter.Console.Helpers
                 System.Console.WriteLine("{0}", t.Text);
             }
             else
-                PrintError(t.TwitterControlMessage.twitter_error_message, fgColour, bgColour);
+                PrintError(t.twitterControlMessage.twitter_error_message, fgColour, bgColour);
 
             System.Console.ResetColor();
         }
@@ -42,7 +42,7 @@ namespace BoxKite.Twitter.Console.Helpers
                 System.Console.WriteLine("{0}", d.Text);
             }
             else
-                PrintError(d.TwitterControlMessage.twitter_error_message, fgColour, bgColour);
+                PrintError(d.twitterControlMessage.twitter_error_message, fgColour, bgColour);
             System.Console.ResetColor();
         }
 

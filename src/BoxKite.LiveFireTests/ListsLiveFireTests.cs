@@ -188,7 +188,7 @@ namespace BoxKite.LiveFireTests
                     }
                     else
                     {
-                        TwitterLiveFireAppControl.PrintTwitterErrors(lists7.TwitterControlMessage);
+                        TwitterLiveFireAppControl.PrintTwitterErrors(lists7.twitterControlMessage);
                     }
                 }
 

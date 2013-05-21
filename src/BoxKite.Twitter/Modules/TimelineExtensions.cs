@@ -35,7 +35,7 @@ namespace BoxKite.Twitter
 
             var url = Api.Resolve("/1.1/statuses/mentions_timeline.json");
             return await session.GetAsync(url, parameters)
-                          .ContinueWith(c => c.MapToListOfTweets());
+                          .ContinueWith(c => c.MapToMany<Tweet>());
         }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace BoxKite.Twitter
 
             var url = Api.Resolve("/1.1/statuses/user_timeline.json");
             return await session.GetAsync(url, parameters)
-                          .ContinueWith(c => c.MapToListOfTweets());
+                          .ContinueWith(c => c.MapToMany<Tweet>());
         }
 
         /// <summary>
@@ -112,7 +112,7 @@ namespace BoxKite.Twitter
 
             var url = Api.Resolve("/1.1/statuses/home_timeline.json");
             return await session.GetAsync(url, parameters)
-                          .ContinueWith(c => c.MapToListOfTweets());
+                          .ContinueWith(c => c.MapToMany<Tweet>());
         }
 
         /// <summary>
@@ -143,7 +143,7 @@ namespace BoxKite.Twitter
 
             var url = Api.Resolve("/1.1/statuses/retweets_of_me.json");
             return await session.GetAsync(url, parameters)
-                          .ContinueWith(c => c.MapToListOfTweets());
+                          .ContinueWith(c => c.MapToMany<Tweet>());
         }
     }
 }

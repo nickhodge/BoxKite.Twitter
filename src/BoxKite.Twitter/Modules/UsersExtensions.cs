@@ -20,7 +20,7 @@ namespace BoxKite.Twitter
             var parameters = new SortedDictionary<string, string>();
             var url = Api.Resolve("/1.1/account/settings.json");
             return await session.GetAsync(url, parameters)
-                          .ContinueWith(c => c.MapToAccountSettings());
+                          .ContinueWith(c => c.MapToSingle<AccountSettings>());
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace BoxKite.Twitter
 
             var url = Api.Resolve("/1.1/users/show.json");
             return await session.GetAsync(url, parameters)
-                          .ContinueWith(c => c.MapToSingleUser());
+                          .ContinueWith(c => c.MapToSingle<User>());
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace BoxKite.Twitter
                                  };
             var url = Api.Resolve("/1.1/account/verify_credentials.json");
             return await session.GetAsync(url, parameters)
-                          .ContinueWith(c => c.MapToSingleUser());
+                          .ContinueWith(c => c.MapToSingle<User>());
         }
 
         /// <summary>
@@ -115,7 +115,7 @@ namespace BoxKite.Twitter
 
             var url = Api.Resolve("/1.1/account/settings.json");
             return await session.PostAsync(url, parameters)
-                          .ContinueWith(c => c.MapToAccountSettings());
+                          .ContinueWith(c => c.MapToSingle<AccountSettings>());
         }
 
         /// <summary>
@@ -161,7 +161,7 @@ namespace BoxKite.Twitter
 
             var url = Api.Resolve("/1.1/account/update_profile.json");
             return await session.PostAsync(url, parameters)
-                .ContinueWith(c => c.MapToAccountProfile());
+                .ContinueWith(c => c.MapToSingle<AccountProfile>());
         }
 
         /// <summary>
@@ -182,7 +182,7 @@ namespace BoxKite.Twitter
 
             var url = Api.Resolve("/1.1/account/update_profile_background_image.json");
             return await session.PostFileAsync(url, parameters, fileName, imageContent, "image")
-                           .ContinueWith(c => c.MapToAccountProfile());
+                           .ContinueWith(c => c.MapToSingle<AccountProfile>());
         }
 
         
@@ -198,7 +198,7 @@ namespace BoxKite.Twitter
 
             var url = Api.Resolve("/1.1/account/update_profile_image.json");
             return await session.PostFileAsync(url, parameters, fileName, imageContent, "image")
-                           .ContinueWith(c => c.MapToAccountProfile());
+                           .ContinueWith(c => c.MapToSingle<AccountProfile>());
         }
 
         /// <summary>
@@ -246,7 +246,7 @@ namespace BoxKite.Twitter
 
             var url = Api.Resolve("/1.1/account/update_profile_colors.json");
             return await session.PostAsync(url, parameters)
-                           .ContinueWith(c => c.MapToAccountProfile());
+                           .ContinueWith(c => c.MapToSingle<AccountProfile>());
         }
 
         /// <summary>
@@ -293,7 +293,7 @@ namespace BoxKite.Twitter
 
             var url = Api.Resolve("/1.1/blocks/list.json");
             return await session.GetAsync(url, parameters)
-                         .ContinueWith(c => c.MapToUserListDetailedCursored());
+                         .ContinueWith(c => c.MapToSingle<UserListDetailedCursored>());
         }
 
         /// <summary>
@@ -322,7 +322,7 @@ namespace BoxKite.Twitter
 
             var url = Api.Resolve("/1.1/blocks/create.json");
             return await session.PostAsync(url, parameters)
-                         .ContinueWith(c => c.MapToSingleUser());
+                         .ContinueWith(c => c.MapToSingle<User>());
         }
 
         /// <summary>
@@ -351,7 +351,7 @@ namespace BoxKite.Twitter
 
             var url = Api.Resolve("/1.1/blocks/destroy.json");
             return await session.PostAsync(url, parameters)
-                         .ContinueWith(c => c.MapToSingleUser());
+                         .ContinueWith(c => c.MapToSingle<User>());
         }
 
         /// <summary>
@@ -389,7 +389,7 @@ namespace BoxKite.Twitter
             }
 
             var url = Api.Resolve("/1.1/users/lookup.json");
-            return await session.PostAsync(url, parameters).ContinueWith(c => c.MapToListOfUsers());
+            return await session.PostAsync(url, parameters).ContinueWith(c => c.MapToMany<User>());
         }
 
         /// <summary>
@@ -411,7 +411,7 @@ namespace BoxKite.Twitter
                              };
 
             var url = Api.Resolve("/1.1/users/search.json");
-            return await session.GetAsync(url, parameters).ContinueWith(c => c.MapToListOfUsers());
+            return await session.GetAsync(url, parameters).ContinueWith(c => c.MapToMany<User>());
         }
     }
 }

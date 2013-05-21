@@ -11,7 +11,7 @@ Supports and Incorporates:
 * Twitter 1.1 REST API
 * Test suite (both Mocked UnitTests and "LiveFire" Tests (online) with broad coverage of Library
 
-Goal:
+Goals:
 * 100% Twitter API 1.1 coverage suitable for a client application
 * 100% Test Suite coverage both Mocked and LiveFire
 * Supporting .NET 4.5, Windows 8 and Windows Phone 8 development

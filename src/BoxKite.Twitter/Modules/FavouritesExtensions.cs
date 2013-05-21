@@ -50,7 +50,7 @@ namespace BoxKite.Twitter.Modules
 
             var url = Api.Resolve("/1.1/favorites/list.json");
             return await session.GetAsync(url, parameters)
-                          .ContinueWith(c => c.MapToListOfTweets());
+                          .ContinueWith(c => c.MapToMany<Tweet>());
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace BoxKite.Twitter.Modules
 
             var url = Api.Resolve("/1.1/favorites/create.json");
             return await session.PostAsync(url, parameters)
-                          .ContinueWith(c => c.MapToSingleTweet());
+                          .ContinueWith(c => c.MapToSingle<Tweet>());
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace BoxKite.Twitter.Modules
 
             var url = Api.Resolve("/1.1/favorites/destroy.json");
             return await session.PostAsync(url, parameters)
-                          .ContinueWith(c => c.MapToSingleTweet());
+                          .ContinueWith(c => c.MapToSingle<Tweet>());
         }
     }
 }

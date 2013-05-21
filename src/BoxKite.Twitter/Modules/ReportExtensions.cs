@@ -31,7 +31,7 @@ namespace BoxKite.Twitter
             }
 
             return await session.PostAsync(Api.Resolve("/1.1/users/report_spam.json"), parameters)
-                          .ContinueWith(c => c.MapToSingleUser());
+                          .ContinueWith(c => c.MapToSingle<User>());
         }
     }
 }

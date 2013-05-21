@@ -24,7 +24,7 @@ namespace BoxKite.Twitter
 
             var url = Api.Resolve("/1.1/trends/place.json");
             return await session.GetAsync(url, parameters)
-                .ContinueWith(c => c.MapToTrendsForPlaceResponse());
+                .ContinueWith(c => c.MapToMany<TrendsForPlaceResponse>());
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace BoxKite.Twitter
 
             var url = Api.Resolve("/1.1/trends/available.json");
             return await session.GetAsync(url, parameters)
-                .ContinueWith(c => c.MapToTrendsAvailableLocationsResponse());
+                .ContinueWith(c => c.MapToMany<TrendsAvailableLocationsResponse>());
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace BoxKite.Twitter
                              };
             var url = Api.Resolve("/1.1/trends/closest.json");
             return await session.GetAsync(url, parameters)
-                .ContinueWith(c => c.MapToTrendsAvailableLocationsResponse());
+                .ContinueWith(c => c.MapToMany<TrendsAvailableLocationsResponse>());
         }
     }
 }

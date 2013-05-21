@@ -37,7 +37,7 @@ namespace BoxKite.Twitter
             }
 
             return await session.GetAsync(Api.Resolve("/1.1/friends/ids.json"), parameters)
-                             .ContinueWith(t => t.MapToFriendsFollowersIDsCursored());
+                             .ContinueWith(t => t.MapToSingle<FriendsFollowersIDsCursored>());
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace BoxKite.Twitter
             }
 
             return await session.GetAsync(Api.Resolve("/1.1/followers/ids.json"), parameters)
-                             .ContinueWith(t => t.MapToFriendsFollowersIDsCursored());
+                             .ContinueWith(t => t.MapToSingle<FriendsFollowersIDsCursored>());
         }
 
 
@@ -103,7 +103,7 @@ namespace BoxKite.Twitter
 
             var url = Api.Resolve("/1.1/friendships/lookup.json");
             return await session.GetAsync(url, parameters)
-                          .ContinueWith(f => f.MapToListOfFriendships());
+                          .ContinueWith(f => f.MapToMany<FriendshipLookupResponse>());
         }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace BoxKite.Twitter
                                  };
 
             return await session.GetAsync(Api.Resolve("/1.1/friendships/incoming.json"), parameters)
-                             .ContinueWith(t => t.MapToFriendsFollowersIDsCursored());
+                             .ContinueWith(t => t.MapToSingle<FriendsFollowersIDsCursored>());
         }
 
         /// <summary>
@@ -135,7 +135,7 @@ namespace BoxKite.Twitter
                                  };
 
             return await session.GetAsync(Api.Resolve("/1.1/friendships/outgoing.json"), parameters)
-                             .ContinueWith(t => t.MapToFriendsFollowersIDsCursored());
+                             .ContinueWith(t => t.MapToSingle<FriendsFollowersIDsCursored>());
         }
 
         /// <summary>
@@ -166,7 +166,7 @@ namespace BoxKite.Twitter
             }
 
             return await session.PostAsync(createFriendship, parameters)
-                          .ContinueWith(c => c.MapToSingleUser());
+                          .ContinueWith(c => c.MapToSingle<User>());
         }
 
         /// <summary>
@@ -193,7 +193,7 @@ namespace BoxKite.Twitter
             }
 
             return await session.PostAsync(destroyFriendship, parameters)
-                          .ContinueWith(c => c.MapToSingleUser());
+                          .ContinueWith(c => c.MapToSingle<User>());
         }
 
         /// <summary>
@@ -296,7 +296,7 @@ namespace BoxKite.Twitter
             }
 
             return await session.GetAsync(Api.Resolve("/1.1/friends/list.json"), parameters)
-                             .ContinueWith(t => t.MapToUserListDetailedCursored());
+                             .ContinueWith(t => t.MapToSingle<UserListDetailedCursored>());
         }
 
         /// <summary>
@@ -330,7 +330,7 @@ namespace BoxKite.Twitter
             }
 
             return await session.GetAsync(Api.Resolve("/1.1/followers/list.json"), parameters)
-                             .ContinueWith(t => t.MapToUserListDetailedCursored());
+                             .ContinueWith(t => t.MapToSingle<UserListDetailedCursored>());
         }
 
     }

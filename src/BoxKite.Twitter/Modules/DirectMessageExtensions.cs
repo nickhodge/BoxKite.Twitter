@@ -36,7 +36,7 @@ namespace BoxKite.Twitter
             }
 
             return await session.GetAsync(Api.Resolve("/1.1/direct_messages.json"), parameters)
-                          .ContinueWith(c => c.MapToListOfDirectMessages());
+                          .ContinueWith(c => c.MapToMany<DirectMessage>());
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace BoxKite.Twitter
             }
 
             return await session.GetAsync(Api.Resolve("/1.1/direct_messages/sent.json"), parameters)
-                          .ContinueWith(c => c.MapToListOfDirectMessages());
+                          .ContinueWith(c => c.MapToMany<DirectMessage>());
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace BoxKite.Twitter
                                  };
 
             return await session.GetAsync(Api.Resolve("/1.1/direct_messages/show.json"), parameters)
-                          .ContinueWith(c => c.MapToSingleDirectMessage());
+                          .ContinueWith(c => c.MapToSingle<DirectMessage>());
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace BoxKite.Twitter
                                  };
 
             return await session.PostAsync(Api.Resolve("/1.1/direct_messages/new.json"), parameters)
-                          .ContinueWith(c => c.MapToSingleDirectMessage());
+                          .ContinueWith(c => c.MapToSingle<DirectMessage>());
         }
 
         /// <summary>

@@ -30,7 +30,7 @@ namespace BoxKite.Twitter.Models.Service
     public abstract class TwitterControlBase : BindableBase
     {
         public bool twitterFaulted { get; set; }
-        public TwitterControlMessage TwitterControlMessage { get; set; }
+        public TwitterControlMessage twitterControlMessage { get; set; }
     }
 
     public class TwitterControlMessage

@@ -97,7 +97,7 @@ namespace BoxKite.LiveFireTests
                             String.Format(" LargestID: {0} // SmallestID: {1}", largestid, smallestid));
 
                         ConsoleOutput.PrintMessage("Waiting 20 seconds");
-                        await Task.Delay(20*1000);
+                        await Task.Delay(TimeSpan.FromSeconds(20));
 
                         ConsoleOutput.PrintMessage("Now Updating Home Timeline, should add newer messages");
                         var timeline41 = await session.GetHomeTimeline(since_id: largestid, count: 10);

@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using BoxKite.Twitter.Models;
 using BoxKite.Twitter.Modules;
 using BoxKite.Twitter.Tests.Modules;
 using FluentAssertions;
@@ -14,7 +15,7 @@ namespace BoxKite.Twitter.Tests
         readonly TestableSession errorsession = new TestableSession();
 
         [TestMethod]
-        public async Task Get_Rate_LimitExceeded_Error()
+        public async Task Get_Rate_LimitExceeded_Error_OnCollection()
         {
             // Ref: https://dev.twitter.com/docs/rate-limiting/1.1
             // arrange
@@ -27,9 +28,29 @@ namespace BoxKite.Twitter.Tests
 
             Assert.IsNotNull(favourites);
             favourites.twitterFaulted.Should().BeTrue();
-            favourites.TwitterControlMessage.Should().NotBeNull();
-            favourites.TwitterControlMessage.http_status_code.ShouldBeEquivalentTo(410); // Note: testing 410 as 429 is not an enum
+            favourites.twitterControlMessage.Should().NotBeNull();
+            favourites.twitterControlMessage.http_status_code.ShouldBeEquivalentTo(410); // Note: testing 410 as 429 is not an enum
         }
+
+
+        [TestMethod]
+        public async Task Get_Rate_LimitExceeded_Error_OnSingle()
+        {
+            // Ref: https://dev.twitter.com/docs/rate-limiting/1.1
+            // arrange
+            errorsession.simulatingError = true;
+            errorsession.httpStatusCode = HttpStatusCode.Gone; // Twitter : Rate Limit exceeded, RFC6585 Too Many Requests
+            errorsession.Returns(await Json.FromFile("data\\errors\\ratelimitexceedederror.txt"));
+            errorsession.ExpectGet("/1.1/favorites/create.json");
+            var twt = new Tweet();
+            var favourites = await errorsession.CreateFavourite(twt);
+
+            Assert.IsNotNull(favourites);
+            favourites.twitterFaulted.Should().BeTrue();
+            favourites.twitterControlMessage.Should().NotBeNull();
+            favourites.twitterControlMessage.http_status_code.ShouldBeEquivalentTo(410); // Note: testing 410 as 429 is not an enum
+        }
+
 
     }
 }

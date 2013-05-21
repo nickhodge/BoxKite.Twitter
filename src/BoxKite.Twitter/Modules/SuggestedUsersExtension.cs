@@ -18,7 +18,7 @@ namespace BoxKite.Twitter
             var parameters = new SortedDictionary<string, string>();
             var url = Api.Resolve("/1.1/users/suggestions.json");
             return await session.GetAsync(url, parameters)
-                          .ContinueWith(c => c.MapToSuggestions());
+                          .ContinueWith(c => c.MapToMany<SuggestedUsers>());
         }
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace BoxKite.Twitter
             var parameters = new SortedDictionary<string, string>();
             var url = Api.Resolve("/1.1/users/suggestions/{0}.json", slug);
             return await session.GetAsync(url, parameters)
-                          .ContinueWith(c => c.MapToUserSuggestions());
+                          .ContinueWith(c => c.MapToSingle<SuggestedUsers>());
         }
 
 

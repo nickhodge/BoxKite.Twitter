@@ -27,18 +27,21 @@ namespace BoxKite.Twitter.Console
                     ConsoleOutput.PrintMessage(twittercredentials.ScreenName + " is authorised to use BoxKite.Twitter.");
 
                     var accountSettings = session.GetAccountSettings().Result;
-
-                    userstream = session.GetUserStream();
-                    userstream.Tweets.Subscribe(t => ConsoleOutput.PrintTweet(t, ConsoleColor.Green));
-                    userstream.Events.Subscribe(e => ConsoleOutput.PrintEvent(e, ConsoleColor.Yellow));
-                    userstream.DirectMessages.Subscribe(d => ConsoleOutput.PrintDirect(d, ConsoleColor.Magenta, ConsoleColor.Black));
-                    userstream.Start();
-
-                    while (userstream.IsActive)
+                    if (!accountSettings.twitterFaulted)
                     {
-                        Thread.Sleep(TimeSpan.FromSeconds(0.5));
+                        userstream = session.GetUserStream();
+                        userstream.Tweets.Subscribe(t => ConsoleOutput.PrintTweet(t, ConsoleColor.Green));
+                        userstream.Events.Subscribe(e => ConsoleOutput.PrintEvent(e, ConsoleColor.Yellow));
+                        userstream.DirectMessages.Subscribe(
+                            d => ConsoleOutput.PrintDirect(d, ConsoleColor.Magenta, ConsoleColor.Black));
+                        userstream.Start();
+
+                        while (userstream.IsActive)
+                        {
+                            Thread.Sleep(TimeSpan.FromSeconds(0.5));
+                        }
                     }
-                    
+
                     /*
                     var x = session.GetMentions(count:100).Result;
 
@@ -73,7 +76,7 @@ namespace BoxKite.Twitter.Console
                 }
                 else
                 {
-                    ConsoleOutput.PrintMessage(String.Format("Credentials could not be verified: {0}", checkUser.TwitterControlMessage.twitter_error_message), ConsoleColor.Red);
+                    ConsoleOutput.PrintMessage(String.Format("Credentials could not be verified: {0}", checkUser.twitterControlMessage.twitter_error_message), ConsoleColor.Red);
                 }
             }
             else

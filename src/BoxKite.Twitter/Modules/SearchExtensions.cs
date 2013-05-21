@@ -48,7 +48,7 @@ namespace BoxKite.Twitter
 
             var url = Api.Resolve("/1.1/search/tweets.json");
             return await session.GetAsync(url, parameters)
-                          .ContinueWith(c => c.MapToSearchResponse());
+                          .ContinueWith(c => c.MapToSingle<SearchResponse>());
         }
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace BoxKite.Twitter
 
             var url = Api.Resolve("/1.1/search/tweets.json");
             return await session.GetAsync(url, parameters)
-                          .ContinueWith(c => c.MapToSearchResponse());
+                          .ContinueWith(c => c.MapToSingle<SearchResponse>());
         }
 
         /// <summary>
@@ -107,7 +107,7 @@ namespace BoxKite.Twitter
         {
             var parameters = new SortedDictionary<string, string>();
             return await session.GetAsync(Api.Resolve("/1.1/saved_searches/list.json"), parameters)
-                          .ContinueWith(c => c.MapToListSavedSearches());
+                          .ContinueWith(c => c.MapToMany<SavedSearch>());
         }
 
         /// <summary>
@@ -121,7 +121,7 @@ namespace BoxKite.Twitter
             var url = Api.Resolve("/1.1/saved_searches/show/{0}.json", id);
             var parameters = new SortedDictionary<string, string>();
             return await session.GetAsync(url, parameters)
-                .ContinueWith(c => c.MapToSavedSearch());
+                .ContinueWith(c => c.MapToSingle<SavedSearch>());
         }
 
         /// <summary>
@@ -138,7 +138,7 @@ namespace BoxKite.Twitter
                                  {"query", searchtext.UrlEncode()},
                              };
             return await session.PostAsync(savedSearch, parameters)
-                          .ContinueWith(c => c.MapToSavedSearch());
+                          .ContinueWith(c => c.MapToSingle<SavedSearch>());
         }
 
         /// <summary>
@@ -152,7 +152,7 @@ namespace BoxKite.Twitter
             var savedSearch = Api.Resolve("/1.1/saved_searches/destroy/{0}.json", id);
             var parameters = new SortedDictionary<string, string>();
             return await session.PostAsync(savedSearch, parameters)
-                          .ContinueWith(c => c.MapToSavedSearch());
+                          .ContinueWith(c => c.MapToSingle<SavedSearch>());
         }
 
         private static string SearchResultString(SearchResultType searchResult)

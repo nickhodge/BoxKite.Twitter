@@ -42,7 +42,7 @@ namespace BoxKite.Twitter
             }
 
             return await session.PostAsync(Api.Resolve("/1.1/statuses/update.json"), parameters)
-                          .ContinueWith(c => c.MapToSingleTweet());
+                          .ContinueWith(c => c.MapToSingle<Tweet>());
         }
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace BoxKite.Twitter
             }
 
             return await session.PostAsync(Api.Resolve("/1.1/statuses/update.json"), parameters)
-                          .ContinueWith(c => c.MapToSingleTweet());
+                          .ContinueWith(c => c.MapToSingle<Tweet>());
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace BoxKite.Twitter
             var path = Api.Resolve("/1.1/statuses/retweet/{0}.json", tweet.Id);
 
             return await session.PostAsync(path, parameters)
-                .ContinueWith(c => c.MapToSingleTweet());
+                .ContinueWith(c => c.MapToSingle<Tweet>());
         }
 
         /// <summary>
@@ -126,7 +126,7 @@ namespace BoxKite.Twitter
             var path = Api.Resolve("/1.1/statuses/show.json");
 
             return await session.GetAsync(path, parameters)
-                .ContinueWith(c => c.MapToSingleTweet());
+                .ContinueWith(c => c.MapToSingle<Tweet>());
         }
 
         /// <summary>
@@ -143,7 +143,7 @@ namespace BoxKite.Twitter
                              };
             var path = Api.Resolve("/1.1/statuses/retweets/{0}.json", tweet.Id);
             return await session.GetAsync(path, parameters)
-                .ContinueWith(c => c.MapToListOfTweets());
+                .ContinueWith(c => c.MapToMany<Tweet>());
         }
 
         /// <summary>
@@ -174,7 +174,7 @@ namespace BoxKite.Twitter
             }
 
             return await session.PostFileAsync(Api.Upload("/1/statuses/update_with_media.json"), parameters, fileName, imageData, "media[]")
-                          .ContinueWith(c => c.MapToSingleTweet());
+                          .ContinueWith(c => c.MapToSingle<Tweet>());
         }
 
         /// <summary>
@@ -209,7 +209,7 @@ namespace BoxKite.Twitter
             }
 
             return await session.PostFileAsync(Api.Upload("/1/statuses/update_with_media.json"), parameters, fileName, imageData, "media[]")
-                          .ContinueWith(c => c.MapToSingleTweet());
+                          .ContinueWith(c => c.MapToSingle<Tweet>());
         }
     }
 }

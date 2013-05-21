@@ -19,7 +19,7 @@ namespace BoxKite.Twitter
             var parameters = new SortedDictionary<string, string>();
             var url = Api.Resolve("/1.1/geo/id/{0}.json", place_id);
             return await session.GetAsync(url, parameters)
-                          .ContinueWith(c => c.MapToPlace());
+                          .ContinueWith(c => c.MapToSingle<Place>());
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace BoxKite.Twitter
 
             var url = Api.Resolve("/1.1/geo/reverse_geocode.json");
             return await session.GetAsync(url, parameters)
-                          .ContinueWith(c => c.MapToPlaces());
+                          .ContinueWith(c => c.MapToSingle<ReverseGeoCodePlaces>());
  
         }
 
@@ -104,7 +104,7 @@ namespace BoxKite.Twitter
 
             var url = Api.Resolve("/1.1/geo/search.json");
             return await session.GetAsync(url, parameters)
-                          .ContinueWith(c => c.MapToPlaces());
+                          .ContinueWith(c => c.MapToSingle<ReverseGeoCodePlaces>());
 
         }
 
@@ -135,7 +135,7 @@ namespace BoxKite.Twitter
 
             var url = Api.Resolve("/1.1/geo/similar_places.json");
             return await session.GetAsync(url, parameters)
-                .ContinueWith(c => c.MapToPlaces());
+                .ContinueWith(c => c.MapToSingle<ReverseGeoCodePlaces>());
         }
 
         /// <summary>
@@ -163,7 +163,7 @@ namespace BoxKite.Twitter
 
             var url = Api.Resolve("/1.1/geo/create.json");
             return await session.PostAsync(url, parameters)
-                .ContinueWith(c => c.MapToAddPlaceResponse());
+                .ContinueWith(c => c.MapToSingle<AddPlaceResponse>());
         }
     }
 }
