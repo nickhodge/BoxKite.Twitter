@@ -29,7 +29,7 @@ namespace BoxKite.LiveFireTests
                     ConsoleOutput.PrintMessage(twittercredentials.ScreenName + " is authorised to use BoxKite.Twitter.");
 
                     // put the test series number you wish to run into the init of the array
-                    var testSeriesToRun = new List<int> {6};
+                    var testSeriesToRun = new List<int> {8};
 
                     // series 1 => 9
                     // series 2 => 1
@@ -37,8 +37,10 @@ namespace BoxKite.LiveFireTests
                     // series 4 => 3
                     // series 5 => 3
                     // series 6 => 8
+                    // series 7 => 5
+                    // series 8 => 
                     // =============
-                    // TOTAL      27
+                    // TOTAL      32
 
                     // Test Series 1
                     if (testSeriesToRun.Contains(1))
@@ -147,6 +149,43 @@ namespace BoxKite.LiveFireTests
                         else
                         {
                             ConsoleOutput.PrintMessage(String.Format("6.0 FriendsFollowers Tests Status: {0}", testResult6),
+                                ConsoleColor.Red);
+                        }
+                    }
+
+                    // Test Series 7
+                    if (testSeriesToRun.Contains(7))
+                    {
+                        var tmln = new TimelineLiveFireTests();
+                        var testResult7 = tmln.DoTimelineTest(session, new List<int> { 4 }).Result;
+
+                        if (testResult7)
+                        {
+                            ConsoleOutput.PrintMessage(String.Format("7.0 Timeline Tests Status: {0}", testResult7),
+                                ConsoleColor.White);
+                        }
+                        else
+                        {
+                            ConsoleOutput.PrintMessage(String.Format("7.0 Timeline Tests Status: {0}", testResult7),
+                                ConsoleColor.Red);
+                        }
+                    }
+
+
+                    // Test Series 8
+                    if (testSeriesToRun.Contains(8))
+                    {
+                        var trln = new TrendsLiveFireTests();
+                        var testResult8 = trln.DoTrendsTest(session, new List<int> { 1 }).Result;
+
+                        if (testResult8)
+                        {
+                            ConsoleOutput.PrintMessage(String.Format("8.0 Trends Tests Status: {0}", testResult8),
+                                ConsoleColor.White);
+                        }
+                        else
+                        {
+                            ConsoleOutput.PrintMessage(String.Format("8.0 Trends Tests Status: {0}", testResult8),
                                 ConsoleColor.Red);
                         }
                     }

@@ -56,6 +56,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiManagementLiveFireTests.cs" />
+    <Compile Include="TrendsLiveFireTests.cs" />
+    <Compile Include="TimelineLiveFireTests.cs" />
     <Compile Include="FriendsFollowersLiveFireTests.cs" />
     <Compile Include="FavouritesLiveFireTests.cs" />
     <Compile Include="TweetsLiveFireTests.cs" />

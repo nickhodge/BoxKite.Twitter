@@ -49,7 +49,7 @@ namespace BoxKite.Twitter
         /// <param name="include_rts">When set to false, the timeline will strip any native retweets</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/statuses/user_timeline </remarks>
-        public async static Task<IEnumerable<Tweet>> GetUserTimeline(this IUserSession session, int user_id = 0,string screen_name="", long since_id = 0, int count = 200, long max_id = 0, bool excludereplies = true, bool include_rts = true)
+        public async static Task<IEnumerable<Tweet>> GetUserTimeline(this IUserSession session, int user_id = 0, string screen_name="", long since_id = 0, int count = 200, long max_id = 0, bool excludereplies = true, bool include_rts = true)
         {
             var parameters = new SortedDictionary<string, string>
                                  {
@@ -90,7 +90,7 @@ namespace BoxKite.Twitter
         /// <param name="max_id">Returns results with an ID less than (that is, older than) or equal to the specified ID.</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/statuses/home_timeline </remarks>
-        public async static Task<IEnumerable<Tweet>> GetHomeTimeline(this IUserSession session, string since_id = "", int count=20, string max_id = "")
+        public async static Task<IEnumerable<Tweet>> GetHomeTimeline(this IUserSession session, long since_id = 0, int count=20, long max_id = 0)
         {
             var parameters = new SortedDictionary<string, string>
                                  {
@@ -99,14 +99,14 @@ namespace BoxKite.Twitter
                                      {"include_rts", true.ToString()}
                                  };
 
-            if (!string.IsNullOrWhiteSpace(since_id))
+            if (since_id > 0)
             {
-                parameters.Add("since_id", since_id);
+                parameters.Add("since_id", since_id.ToString());
             }
 
-            if (!string.IsNullOrWhiteSpace(max_id))
+            if (max_id > 0)
             {
-                parameters.Add("max_id", max_id);
+                parameters.Add("max_id", max_id.ToString());
             }
 
             var url = Api.Resolve("/1.1/statuses/home_timeline.json");

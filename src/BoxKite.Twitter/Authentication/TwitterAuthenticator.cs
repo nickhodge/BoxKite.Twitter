@@ -202,7 +202,7 @@ namespace BoxKite.Twitter.Authentication
                 var client = new HttpClient();
                 var request = new HttpRequestMessage(HttpMethod.Post, new Uri(url));
                 request.Headers.Add("Accept-Encoding", "identity");
-                request.Headers.Add("User-Agent", "BoxKite.Twitter");
+                request.Headers.Add("User-Agent", "BoxKite.Twitter/1.0");
                 request.Headers.Add("Authorization", data);
                 var response = await client.SendAsync(request);
                 return await response.Content.ReadAsStringAsync();
