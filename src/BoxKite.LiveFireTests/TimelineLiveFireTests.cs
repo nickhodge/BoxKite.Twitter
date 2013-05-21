@@ -22,7 +22,7 @@ namespace BoxKite.LiveFireTests
                     ConsoleOutput.PrintMessage("7.1 Timeline\\GetMentions", ConsoleColor.Gray);
                     var timeline1 = await session.GetMentions(count:100);
 
-                    if (!timeline1.ToList()[0].twitterFaulted)
+                    if (!timeline1.twitterFaulted)
                     {
                         foreach (var tweet in timeline1)
                         {
@@ -40,7 +40,7 @@ namespace BoxKite.LiveFireTests
                     ConsoleOutput.PrintMessage("7.2 Timeline\\GetUserTimeline", ConsoleColor.Gray);
                     var timeline2 = await session.GetUserTimeline(screen_name: "shiftkey", count: 20);
 
-                    if (!timeline2.ToList()[0].twitterFaulted)
+                    if (!timeline2.twitterFaulted)
                     {
                         foreach (var tweet in timeline2)
                         {
@@ -59,7 +59,7 @@ namespace BoxKite.LiveFireTests
                     ConsoleOutput.PrintMessage("7.3 Timeline\\GetHomeTimeline", ConsoleColor.Gray);
                     var timeline3 = await session.GetHomeTimeline(count: 30);
 
-                    if (!timeline3.ToList()[0].twitterFaulted)
+                    if (!timeline3.twitterFaulted)
                     {
                         foreach (var tweet in timeline3)
                         {
@@ -80,7 +80,7 @@ namespace BoxKite.LiveFireTests
                     long largestid = 0;
                     long smallestid = 0;
 
-                    if (!timeline4.ToList()[0].twitterFaulted)
+                    if (!timeline4.twitterFaulted)
                     {
                         smallestid = timeline4.ToList()[0].Id;
                         foreach (var tweet in timeline4)
@@ -101,7 +101,7 @@ namespace BoxKite.LiveFireTests
 
                         ConsoleOutput.PrintMessage("Now Updating Home Timeline, should add newer messages");
                         var timeline41 = await session.GetHomeTimeline(since_id: largestid, count: 10);
-                        if (!timeline41.ToList()[0].twitterFaulted)
+                        if (!timeline41.twitterFaulted)
                         {
                             foreach (var tweet in timeline41)
                             {
@@ -121,7 +121,7 @@ namespace BoxKite.LiveFireTests
 
                         ConsoleOutput.PrintMessage("Now Updating Home Timeline, should show older messages");
                         var timeline42 = await session.GetHomeTimeline(max_id: smallestid, count: 10);
-                        if (!timeline42.ToList()[0].twitterFaulted)
+                        if (!timeline42.twitterFaulted)
                         {
                             foreach (var tweet in timeline42)
                             {
@@ -145,7 +145,7 @@ namespace BoxKite.LiveFireTests
                     ConsoleOutput.PrintMessage("7.5 Timeline\\GetRetweetsOfMe", ConsoleColor.Gray);
                     var timeline5 = await session.GetRetweetsOfMe(count: 30);
 
-                    if (!timeline5.ToList()[0].twitterFaulted)
+                    if (!timeline5.twitterFaulted)
                     {
                         foreach (var tweet in timeline5)
                         {

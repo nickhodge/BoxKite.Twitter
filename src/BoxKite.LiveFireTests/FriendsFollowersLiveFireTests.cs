@@ -82,7 +82,7 @@ namespace BoxKite.LiveFireTests
                     ConsoleOutput.PrintMessage("6.3 FriendsFollowers\\GetFriendships", ConsoleColor.Gray);
                     var ff3 = await session.GetFriendships(new List<string>{"katyperry","shiftkey"});
 
-                    if (!ff3.ToList()[0].twitterFaulted)
+                    if (!ff3.twitterFaulted)
                     {
                         foreach (var t in ff3)
                         {

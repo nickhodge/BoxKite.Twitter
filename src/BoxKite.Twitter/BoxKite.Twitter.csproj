@@ -44,6 +44,7 @@
     <Compile Include="Extensions\TweetExtensions.cs" />
     <Compile Include="Extensions\TwitterEnumerable.cs" />
     <Compile Include="Helpers\BindableBase.cs" />
+    <Compile Include="Helpers\TwitterResponseCollection.cs" />
     <Compile Include="Helpers\JSONCustomConverters.cs" />
     <Compile Include="Interfaces\IAnonymousSession.cs" />
     <Compile Include="Interfaces\IGetUnlockCodeFromTwitter.cs" />

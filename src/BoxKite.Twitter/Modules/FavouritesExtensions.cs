@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using BoxKite.Twitter.Extensions;
+using BoxKite.Twitter.Helpers;
 using BoxKite.Twitter.Models;
 
 namespace BoxKite.Twitter.Modules
@@ -19,7 +20,7 @@ namespace BoxKite.Twitter.Modules
         /// <param name="count">Specifies the number of records to retrieve. Must be less than or equal to 200. Defaults to 20.</param>
         /// <param name="max_id">Returns results with an ID less than (that is, older than) or equal to the specified </param>
         /// <returns></returns>
-        public async static Task<IEnumerable<Tweet>> GetFavourites(this IUserSession session, long user_id = 0, string screen_name = "", long since_id = 0, int count = 20, long max_id = 0)
+        public async static Task<TwitterResponseCollection<Tweet>> GetFavourites(this IUserSession session, long user_id = 0, string screen_name = "", long since_id = 0, int count = 20, long max_id = 0)
         {
             var parameters = new SortedDictionary<string, string>
                                  {

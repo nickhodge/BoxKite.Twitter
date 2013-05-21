@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using BoxKite.Twitter.Extensions;
+using BoxKite.Twitter.Helpers;
 using BoxKite.Twitter.Models;
 using BoxKite.Twitter.Models.Service;
 
@@ -16,7 +17,7 @@ namespace BoxKite.Twitter
         /// <param name="count">Specifies the number of direct messages to try and retrieve, up to a maximum of 200</param>
         /// <returns></returns>
         /// <remarks>ref: https://dev.twitter.com/docs/api/1.1/get/direct_messages </remarks>
-        public async static Task<IEnumerable<DirectMessage>> GetDirectMessages(this IUserSession session, long since_id = 0, long max_id = 0, int count = 20)
+        public async static Task<TwitterResponseCollection<DirectMessage>> GetDirectMessages(this IUserSession session, long since_id = 0, long max_id = 0, int count = 20)
         {
             var parameters = new SortedDictionary<string, string>
                                  {
@@ -46,7 +47,7 @@ namespace BoxKite.Twitter
         /// <param name="count">Specifies the number of direct messages to try and retrieve, up to a maximum of 200</param>
         /// <returns></returns>
         /// <remarks>ref: https://dev.twitter.com/docs/api/1.1/get/direct_messages/sent </remarks>
-        public async static Task<IEnumerable<DirectMessage>> GetDirectMessagesSent(this IUserSession session, long since_id = 0, long max_id = 0, int count = 20)
+        public async static Task<TwitterResponseCollection<DirectMessage>> GetDirectMessagesSent(this IUserSession session, long since_id = 0, long max_id = 0, int count = 20)
         {
             var parameters = new SortedDictionary<string, string>
                                  {

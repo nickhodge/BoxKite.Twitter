@@ -21,7 +21,7 @@ namespace BoxKite.LiveFireTests
                     ConsoleOutput.PrintMessage("3.1 DirectMessages\\GetDirectMessages", ConsoleColor.Gray);
                     var directmessages1 = await session.GetDirectMessages();
 
-                    if (!directmessages1.ToList()[0].twitterFaulted)
+                    if (!directmessages1.twitterFaulted)
                     {
                         dmid = directmessages1.ToList()[0].Id;
                         foreach (var x in directmessages1)

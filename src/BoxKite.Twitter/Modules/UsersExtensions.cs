@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text;
 using BoxKite.Twitter.Extensions;
+using BoxKite.Twitter.Helpers;
 using BoxKite.Twitter.Models;
 using BoxKite.Twitter.Models.Service;
 using System.Threading.Tasks;
@@ -360,7 +361,7 @@ namespace BoxKite.Twitter
         /// <param name="user_ids">up to 100 are allowed in a single request. </param>
         /// <returns>Observable List of full user details</returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/users/lookup </remarks>
-        public static async Task<IEnumerable<User>> GetUsersDetailsFull(this IUserSession session, List<string> screen_names = null,
+        public static async Task<TwitterResponseCollection<User>> GetUsersDetailsFull(this IUserSession session, List<string> screen_names = null,
             List<int> user_ids = null)
         {
             var parameters = new SortedDictionary<string, string>
@@ -399,7 +400,7 @@ namespace BoxKite.Twitter
         /// <param name="page">Specifies the page of results to retrieve.</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/users/search </remarks>
-        public async static Task<IEnumerable<User>> SearchForUsers(this IUserSession session, string searchQuery, int count=20, int page=1)
+        public async static Task<TwitterResponseCollection<User>> SearchForUsers(this IUserSession session, string searchQuery, int count = 20, int page = 1)
         {
             var parameters = new SortedDictionary<string, string>
                              {

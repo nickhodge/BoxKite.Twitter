@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using BoxKite.Twitter.Extensions;
+using BoxKite.Twitter.Helpers;
 using BoxKite.Twitter.Models;
 
 namespace BoxKite.Twitter
@@ -15,7 +16,7 @@ namespace BoxKite.Twitter
         /// <param name="max_id">Returns results with an ID less than (that is, older than) or equal to the specified ID.</param>
         /// <returns></returns>
         /// <remarks> ref :https://dev.twitter.com/docs/api/1.1/get/statuses/mentions_timeline </remarks>
-        public async static Task<IEnumerable<Tweet>> GetMentions(this IUserSession session, long since_id = 0, int count = 20, long max_id = 0 )
+        public async static Task<TwitterResponseCollection<Tweet>> GetMentions(this IUserSession session, long since_id = 0, int count = 20, long max_id = 0)
         {
             var parameters = new SortedDictionary<string, string>
                                  {
@@ -49,7 +50,7 @@ namespace BoxKite.Twitter
         /// <param name="include_rts">When set to false, the timeline will strip any native retweets</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/statuses/user_timeline </remarks>
-        public async static Task<IEnumerable<Tweet>> GetUserTimeline(this IUserSession session, int user_id = 0, string screen_name="", long since_id = 0, int count = 200, long max_id = 0, bool excludereplies = true, bool include_rts = true)
+        public async static Task<TwitterResponseCollection<Tweet>> GetUserTimeline(this IUserSession session, int user_id = 0, string screen_name = "", long since_id = 0, int count = 200, long max_id = 0, bool excludereplies = true, bool include_rts = true)
         {
             var parameters = new SortedDictionary<string, string>
                                  {
@@ -90,7 +91,7 @@ namespace BoxKite.Twitter
         /// <param name="max_id">Returns results with an ID less than (that is, older than) or equal to the specified ID.</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/statuses/home_timeline </remarks>
-        public async static Task<IEnumerable<Tweet>> GetHomeTimeline(this IUserSession session, long since_id = 0, int count=20, long max_id = 0)
+        public async static Task<TwitterResponseCollection<Tweet>> GetHomeTimeline(this IUserSession session, long since_id = 0, int count = 20, long max_id = 0)
         {
             var parameters = new SortedDictionary<string, string>
                                  {
@@ -122,7 +123,7 @@ namespace BoxKite.Twitter
         /// <param name="max_id">Returns results with an ID less than (that is, older than) or equal to the specified ID.</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/statuses/retweets_of_me </remarks>
-        public async static Task<IEnumerable<Tweet>> GetRetweetsOfMe(this IUserSession session, long since_id = 0, int count = 20, long max_id = 0)
+        public async static Task<TwitterResponseCollection<Tweet>> GetRetweetsOfMe(this IUserSession session, long since_id = 0, int count = 20, long max_id = 0)
         {
             var parameters = new SortedDictionary<string, string>
                                  {

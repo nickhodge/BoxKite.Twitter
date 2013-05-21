@@ -119,7 +119,7 @@ namespace BoxKite.LiveFireTests
                         ConsoleColor.Gray);
                     var screennames = new List<string> {"shiftkey", "katyperry"};
                     var getUserDetailsFullFromScreenNames = await session.GetUsersDetailsFull(screen_names: screennames);
-                    if (!getUserDetailsFullFromScreenNames.ToList()[0].twitterFaulted)
+                    if (!getUserDetailsFullFromScreenNames.twitterFaulted)
                     {
                         ConsoleOutput.PrintMessage(String.Format("Returned: {0}",
                             getUserDetailsFullFromScreenNames.Count()));
@@ -138,7 +138,7 @@ namespace BoxKite.LiveFireTests
                     ConsoleOutput.PrintMessage("1.8 UsersExtensions\\GetUsersDetailsFull From IDs", ConsoleColor.Gray);
                     var usersids = new List<int> {21447363, 14671135};
                     var getUserDetailsFullFromIDs = await session.GetUsersDetailsFull(user_ids: usersids);
-                    if (!getUserDetailsFullFromIDs.ToList()[0].twitterFaulted)
+                    if (!getUserDetailsFullFromIDs.twitterFaulted)
                     {
                         ConsoleOutput.PrintMessage(String.Format("Returned: {0}", getUserDetailsFullFromIDs.Count()));
                         foreach (var u in getUserDetailsFullFromIDs)
@@ -157,7 +157,7 @@ namespace BoxKite.LiveFireTests
                     ConsoleOutput.PrintMessage("1.9 UsersExtensions\\SearchForUsers", ConsoleColor.Gray);
                     var q = "troll";
                     var searchForUsers = await session.SearchForUsers(q, 200, 1);
-                    if (!searchForUsers.ToList()[0].twitterFaulted)
+                    if (!searchForUsers.twitterFaulted)
                     {
                         ConsoleOutput.PrintMessage(String.Format("Returned: {0}", searchForUsers.Count()));
                         foreach (var u in searchForUsers)

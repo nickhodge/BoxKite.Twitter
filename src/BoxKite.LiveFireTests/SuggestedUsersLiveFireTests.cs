@@ -23,7 +23,7 @@ namespace BoxKite.LiveFireTests
                     ConsoleOutput.PrintMessage("9.1 SuggestedUsers\\GetSuggestedLists", ConsoleColor.Gray);
                     var suggs1 = await session.GetSuggestedLists();
 
-                    if (!suggs1.ToList()[0].twitterFaulted)
+                    if (!suggs1.twitterFaulted)
                     {
                         foreach (var sgg in suggs1)
                         {

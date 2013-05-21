@@ -2,6 +2,7 @@
 using System.Text;
 using System.Threading.Tasks;
 using BoxKite.Twitter.Extensions;
+using BoxKite.Twitter.Helpers;
 using BoxKite.Twitter.Models;
 using BoxKite.Twitter.Models.Service;
 
@@ -77,7 +78,7 @@ namespace BoxKite.Twitter
         /// <param name="user_ids">list of user_ids to check against</param>
         /// <returns></returns>
         /// <remarks> ref : https://dev.twitter.com/docs/api/1.1/get/friendships/lookup </remarks>
-        public async static Task<IEnumerable<FriendshipLookupResponse>> GetFriendships(this IUserSession session, IEnumerable<string> screen_names = null, IEnumerable<int> user_ids = null)
+        public async static Task<TwitterResponseCollection<FriendshipLookupResponse>> GetFriendships(this IUserSession session, IEnumerable<string> screen_names = null, IEnumerable<int> user_ids = null)
         {
             var parameters = new SortedDictionary<string, string>();
             var screenNameList = new StringBuilder();

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Xml;
+using BoxKite.Twitter.Helpers;
 using BoxKite.Twitter.Models;
 using BoxKite.Twitter.Models.Service;
 using Newtonsoft.Json;
@@ -13,25 +13,21 @@ namespace BoxKite.Twitter.Extensions
 {
     internal static class ResponseExtensions
     {
-        internal static IEnumerable<TwitterList> MapToTwitterLists(this Task<HttpResponseMessage> task)
+        internal static TwitterResponseCollection<TwitterList> MapToTwitterLists(this Task<HttpResponseMessage> task)
         {
             if (task.IsFaulted || task.IsCanceled)
             {
-                var nullList = new TwitterList { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
-                var nullLists = new List<TwitterList> { nullList };
-                return nullLists;
+                return new TwitterResponseCollection<TwitterList> { TwitterControlMessage = MapHTTPResponses(task)};
             }
 
             var result = task.Result;
             if (!result.IsSuccessStatusCode)
             {
-                var nullList = new TwitterList { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
-                var nullLists = new List<TwitterList> { nullList };
-                return nullLists;
+                return new TwitterResponseCollection<TwitterList> { TwitterControlMessage = MapHTTPResponses(task) };
             }
 
             var content = result.Content.ReadAsStringAsync();
-            var twitterlists = JsonConvert.DeserializeObject<IEnumerable<TwitterList>>(content.Result);
+            var twitterlists = JsonConvert.DeserializeObject<TwitterResponseCollection<TwitterList>>(content.Result);
             return twitterlists;
         }
 
@@ -39,15 +35,13 @@ namespace BoxKite.Twitter.Extensions
         {
             if (task.IsFaulted || task.IsCanceled)
             {
-                var nullList = new TwitterList { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
-                return nullList;
+                return new TwitterList { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
             }
 
             var result = task.Result;
             if (!result.IsSuccessStatusCode)
             {
-                var nullList = new TwitterList { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
-                return nullList;
+                return new TwitterList { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
             }
 
             var content = result.Content.ReadAsStringAsync();
@@ -59,15 +53,13 @@ namespace BoxKite.Twitter.Extensions
         {
             if (task.IsFaulted || task.IsCanceled)
             {
-                var nullUserStatus = new UserStatus { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
-                return nullUserStatus;
+                return new UserStatus { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
             }
 
             var result = task.Result;
             if (!result.IsSuccessStatusCode)
             {
-                var nullUserStatus = new UserStatus { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
-                return nullUserStatus;
+                return new UserStatus { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
             }
 
             var content = result.Content.ReadAsStringAsync();
@@ -102,15 +94,13 @@ namespace BoxKite.Twitter.Extensions
         {
             if (task.IsFaulted || task.IsCanceled)
             {
-                var nullFriendsFollowersIDsCursored = new FriendsFollowersIDsCursored { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
-                return nullFriendsFollowersIDsCursored;
+                return new FriendsFollowersIDsCursored { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
             }
 
             var result = task.Result;
             if (!result.IsSuccessStatusCode)
             {
-                var nullFriendsFollowersIDsCursored = new FriendsFollowersIDsCursored { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
-                return nullFriendsFollowersIDsCursored;
+                return new FriendsFollowersIDsCursored { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
             }
 
             var content = result.Content.ReadAsStringAsync();
@@ -122,15 +112,13 @@ namespace BoxKite.Twitter.Extensions
         {
             if (task.IsFaulted || task.IsCanceled)
             {
-                var nullUserInListCursored = new UserInListCursored { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
-                return nullUserInListCursored;
+                return new UserInListCursored { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
             }
 
             var result = task.Result;
             if (!result.IsSuccessStatusCode)
             {
-                var nullUserInListCursored = new UserInListCursored { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
-                return nullUserInListCursored;
+                return new UserInListCursored { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
             }
 
             var content = result.Content.ReadAsStringAsync();
@@ -142,15 +130,13 @@ namespace BoxKite.Twitter.Extensions
         {
             if (task.IsFaulted || task.IsCanceled)
             {
-                var nullTwitterListCursored = new TwitterListCursored { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
-                return nullTwitterListCursored;
+                return new TwitterListCursored { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
             }
 
             var result = task.Result;
             if (!result.IsSuccessStatusCode)
             {
-                var nullTwitterListCursored = new TwitterListCursored { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
-                return nullTwitterListCursored;
+                return new TwitterListCursored { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
             }
 
             var content = result.Content.ReadAsStringAsync();
@@ -162,21 +148,21 @@ namespace BoxKite.Twitter.Extensions
         {
             if (task.IsFaulted || task.IsCanceled)
             {
-                var nullApiRateLimit = new ApiRateStatusCall { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
-                return nullApiRateLimit;
+                return new ApiRateStatusCall { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
             }
 
             var result = task.Result;
             if (!result.IsSuccessStatusCode)
             {
-                var nullApiRateLimit = new ApiRateStatusCall { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
-                return nullApiRateLimit;
+                return new ApiRateStatusCall { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
             }
 
             var content = result.Content.ReadAsStringAsync();
 
             var apiresp = JsonConvert.DeserializeObject<dynamic>(content.Result);
             var apiratelimit = new ApiRateStatusCall {ApiRateStatuses = new Dictionary<string, ApiRateStatus>()};
+
+            //TODO: clean this up
 
             foreach (var i in apiresp.resources.lists)
             {
@@ -265,15 +251,13 @@ namespace BoxKite.Twitter.Extensions
         {
             if (task.IsFaulted || task.IsCanceled)
             {
-                var nullAccountSettings = new AccountSettings { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
-                return nullAccountSettings;
+                return new AccountSettings { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
             }
 
             var result = task.Result;
             if (!result.IsSuccessStatusCode)
             {
-                var nullAccountSettings = new AccountSettings { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
-                return nullAccountSettings;
+                return new AccountSettings { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
             }
 
             var content = result.Content.ReadAsStringAsync();
@@ -285,15 +269,13 @@ namespace BoxKite.Twitter.Extensions
         {
             if (task.IsFaulted || task.IsCanceled)
             {
-                var nullPlace = new Place { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
-                return nullPlace;
+                return new Place { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
             }
 
             var result = task.Result;
             if (!result.IsSuccessStatusCode)
             {
-                var nullPlace = new Place { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
-                return nullPlace;
+                return  new Place { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
             }
 
             var content = result.Content.ReadAsStringAsync();
@@ -301,47 +283,39 @@ namespace BoxKite.Twitter.Extensions
             return placeinfo;
         }
 
-        internal static IEnumerable<TrendsForPlaceResponse> MapToTrendsForPlaceResponse(this Task<HttpResponseMessage> task)
+        internal static TwitterResponseCollection<TrendsForPlaceResponse> MapToTrendsForPlaceResponse(this Task<HttpResponseMessage> task)
         {
             if (task.IsFaulted || task.IsCanceled)
             {
-                var nullPlace = new TrendsForPlaceResponse { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
-                var nullList = new List<TrendsForPlaceResponse> { nullPlace };
-                return nullList;
+                return new TwitterResponseCollection<TrendsForPlaceResponse> { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
             }
 
             var result = task.Result;
             if (!result.IsSuccessStatusCode)
             {
-                var nullPlace = new TrendsForPlaceResponse { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
-                var nullList = new List<TrendsForPlaceResponse> { nullPlace };
-                return nullList;
+                return new TwitterResponseCollection<TrendsForPlaceResponse> { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
             }
 
             var content = result.Content.ReadAsStringAsync();
-            var placeinfo = JsonConvert.DeserializeObject<IEnumerable<TrendsForPlaceResponse>>(content.Result);
+            var placeinfo = JsonConvert.DeserializeObject<TwitterResponseCollection<TrendsForPlaceResponse>>(content.Result);
             return placeinfo;
         }
 
-        internal static IEnumerable<TrendsAvailableLocationsResponse> MapToTrendsAvailableLocationsResponse(this Task<HttpResponseMessage> task)
+        internal static TwitterResponseCollection<TrendsAvailableLocationsResponse> MapToTrendsAvailableLocationsResponse(this Task<HttpResponseMessage> task)
         {
             if (task.IsFaulted || task.IsCanceled)
             {
-                var nullPlace = new TrendsAvailableLocationsResponse { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
-                var nullList = new List<TrendsAvailableLocationsResponse> { nullPlace };
-                return nullList;
-            }
+                return new TwitterResponseCollection<TrendsAvailableLocationsResponse> { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
+             }
 
             var result = task.Result;
             if (!result.IsSuccessStatusCode)
             {
-                var nullPlace = new TrendsAvailableLocationsResponse { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
-                var nullList = new List<TrendsAvailableLocationsResponse> { nullPlace };
-                return nullList;
+                return new TwitterResponseCollection<TrendsAvailableLocationsResponse> { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
             }
 
             var content = result.Content.ReadAsStringAsync();
-            var placeinfo = JsonConvert.DeserializeObject<IEnumerable<TrendsAvailableLocationsResponse>>(content.Result);
+            var placeinfo = JsonConvert.DeserializeObject<TwitterResponseCollection<TrendsAvailableLocationsResponse>>(content.Result);
             return placeinfo;
         }
         
@@ -349,15 +323,13 @@ namespace BoxKite.Twitter.Extensions
         {
             if (task.IsFaulted || task.IsCanceled)
             {
-                var nullPlace = new ReverseGeoCodePlaces { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
-                return nullPlace;
+                return new ReverseGeoCodePlaces { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
             }
 
             var result = task.Result;
             if (!result.IsSuccessStatusCode)
             {
-                var nullPlace = new ReverseGeoCodePlaces { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
-                return nullPlace;
+                return new ReverseGeoCodePlaces { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
             }
 
             var content = result.Content.ReadAsStringAsync();
@@ -369,15 +341,13 @@ namespace BoxKite.Twitter.Extensions
         {
             if (task.IsFaulted || task.IsCanceled)
             {
-                var nullPlace = new AddPlaceResponse { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
-                return nullPlace;
+                return new AddPlaceResponse { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
             }
 
             var result = task.Result;
             if (!result.IsSuccessStatusCode)
             {
-                var nullPlace = new AddPlaceResponse { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
-                return nullPlace;
+                return new AddPlaceResponse { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
             }
 
             var content = result.Content.ReadAsStringAsync();
@@ -389,15 +359,13 @@ namespace BoxKite.Twitter.Extensions
         {
             if (task.IsFaulted || task.IsCanceled)
             {
-                var nullSuggestedUsers = new SuggestedUsers { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
-                return nullSuggestedUsers;
+                return new SuggestedUsers { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
             }
 
             var result = task.Result;
             if (!result.IsSuccessStatusCode)
             {
-                var nullSuggestedUsers = new SuggestedUsers { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
-                return nullSuggestedUsers;
+                return new SuggestedUsers { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
             }
 
             var content = result.Content.ReadAsStringAsync();
@@ -405,17 +373,21 @@ namespace BoxKite.Twitter.Extensions
             return suggusers;
         }
 
-        internal static IEnumerable<SuggestedUsers> MapToSuggestions(this Task<HttpResponseMessage> task)
+        internal static TwitterResponseCollection<SuggestedUsers> MapToSuggestions(this Task<HttpResponseMessage> task)
         {
             if (task.IsFaulted || task.IsCanceled)
-                return Enumerable.Empty<SuggestedUsers>();
+            {
+                return new TwitterResponseCollection<SuggestedUsers> { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
+            }
 
             var result = task.Result;
             if (!result.IsSuccessStatusCode)
-                return Enumerable.Empty<SuggestedUsers>();
+            {
+                return new TwitterResponseCollection<SuggestedUsers> { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
+            }
 
             var content = result.Content.ReadAsStringAsync();
-            var suggusers = JsonConvert.DeserializeObject<IEnumerable<SuggestedUsers>>(content.Result);
+            var suggusers = JsonConvert.DeserializeObject<TwitterResponseCollection<SuggestedUsers>>(content.Result);
             return suggusers;
         }
 
@@ -423,15 +395,13 @@ namespace BoxKite.Twitter.Extensions
         {
             if (task.IsFaulted || task.IsCanceled)
             {
-                var nullAccountProfile = new AccountProfile { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
-                return nullAccountProfile;
+                return new AccountProfile { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
             }
 
             var result = task.Result;
             if (!result.IsSuccessStatusCode)
             {
-                var nullAccountProfile = new AccountProfile { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
-                return nullAccountProfile;
+                return new AccountProfile { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
             }
 
             var content = result.Content.ReadAsStringAsync();
@@ -443,15 +413,13 @@ namespace BoxKite.Twitter.Extensions
         {
             if (task.IsFaulted || task.IsCanceled)
             {
-                var nullUserListDetailedCursored = new UserListDetailedCursored { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
-                return nullUserListDetailedCursored;
+                return new UserListDetailedCursored { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
             }
 
             var result = task.Result;
             if (!result.IsSuccessStatusCode)
             {
-                var nullUserListDetailedCursored = new UserListDetailedCursored { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
-                return nullUserListDetailedCursored;
+                return new UserListDetailedCursored { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
             }
 
             var content = result.Content.ReadAsStringAsync();
@@ -459,47 +427,53 @@ namespace BoxKite.Twitter.Extensions
             return userdlist;
         }
 
-        internal static IEnumerable<FriendshipLookupResponse> MapToListOfFriendships(this Task<HttpResponseMessage> task)
+        internal static TwitterResponseCollection<FriendshipLookupResponse> MapToListOfFriendships(this Task<HttpResponseMessage> task)
         {
             if (task.IsFaulted || task.IsCanceled)
-                return Enumerable.Empty<FriendshipLookupResponse>();
+            {
+                return new TwitterResponseCollection<FriendshipLookupResponse> { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
+            }
 
             var result = task.Result;
             if (!result.IsSuccessStatusCode)
-                return Enumerable.Empty<FriendshipLookupResponse>();
+            {
+                return new TwitterResponseCollection<FriendshipLookupResponse> { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
+            }
 
             var content = result.Content.ReadAsStringAsync();
-            var ffs = JsonConvert.DeserializeObject<IEnumerable<FriendshipLookupResponse>>(content.Result);
+            var ffs = JsonConvert.DeserializeObject<TwitterResponseCollection<FriendshipLookupResponse>>(content.Result);
             return ffs;
         }
 
-        internal static IEnumerable<long> MapToIds(this Task<HttpResponseMessage> task)
+        internal static TwitterResponseCollection<long> MapToIds(this Task<HttpResponseMessage> task)
         {
             if (task.IsFaulted || task.IsCanceled)
-                return Enumerable.Empty<long>();
+            {
+                return new TwitterResponseCollection<long> { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
+            }
 
             var result = task.Result;
             if (!result.IsSuccessStatusCode)
-                return Enumerable.Empty<long>();
+            {
+                return new TwitterResponseCollection<long> { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
+            }
 
             var content = result.Content.ReadAsStringAsync();
-            var ids = JsonConvert.DeserializeObject<Ids>(content.Result);
-            return ids.ids;
+            var ids = JsonConvert.DeserializeObject<TwitterResponseCollection<long>>(content.Result);
+            return ids;
         }
 
         internal static User MapToSingleUser(this Task<HttpResponseMessage> task)
         {
             if (task.IsFaulted || task.IsCanceled)
             {
-                var nullUser = new User { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
-                return nullUser;
+                return new User { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
             }
 
             var result = task.Result;
             if (!result.IsSuccessStatusCode)
             {
-                var nullUser = new User { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
-                return nullUser;
+                return new User { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
             } 
             
             var content = result.Content.ReadAsStringAsync();
@@ -511,15 +485,13 @@ namespace BoxKite.Twitter.Extensions
         {
             if (task.IsFaulted || task.IsCanceled)
             {
-                var nullTweet = new Tweet { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
-                return nullTweet;
+                return new Tweet { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
             }
 
             var result = task.Result;
             if (!result.IsSuccessStatusCode)
             {
-                var nullTweet = new Tweet { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
-                return nullTweet;
+                return new Tweet { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
             } 
 
             var content = result.Content.ReadAsStringAsync();
@@ -527,25 +499,21 @@ namespace BoxKite.Twitter.Extensions
             return singletweet;
         }
 
-        internal static IEnumerable<Tweet> MapToListOfTweets(this Task<HttpResponseMessage> c)
+        internal static TwitterResponseCollection<Tweet> MapToListOfTweets(this Task<HttpResponseMessage> c)
         {
             if (c.IsFaulted || c.IsCanceled)
             {
-                var nullTweet = new Tweet {twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(c)};
-                var nullList= new List<Tweet>{nullTweet};
-                return nullList.ToList();
+                return new TwitterResponseCollection<Tweet> { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(c) };
             }
 
             var result = c.Result;
             if (!result.IsSuccessStatusCode)
             {
-                var nullTweet = new Tweet {twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(c)};
-                var nullList = new List<Tweet> { nullTweet };
-                return nullList.ToList();
+                return new TwitterResponseCollection<Tweet> { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(c) };
             }
 
             var content = result.Content.ReadAsStringAsync();
-            var manytweets = JsonConvert.DeserializeObject<IEnumerable<Tweet>>(content.Result);
+            var manytweets = JsonConvert.DeserializeObject<TwitterResponseCollection<Tweet>>(content.Result);
             return manytweets;
         }
 
@@ -553,15 +521,13 @@ namespace BoxKite.Twitter.Extensions
         {
             if (task.IsFaulted || task.IsCanceled)
             {
-                var nullTweet = new DirectMessage { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
-                return nullTweet;
+                return new DirectMessage { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
             }
 
             var result = task.Result;
             if (!result.IsSuccessStatusCode)
             {
-                var nullTweet = new DirectMessage { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
-                return nullTweet;
+                return new DirectMessage { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
             }
 
             var content = result.Content.ReadAsStringAsync();
@@ -569,47 +535,39 @@ namespace BoxKite.Twitter.Extensions
             return singledm;
         }
 
-        internal static IEnumerable<DirectMessage> MapToListOfDirectMessages(this Task<HttpResponseMessage> c)
+        internal static TwitterResponseCollection<DirectMessage> MapToListOfDirectMessages(this Task<HttpResponseMessage> c)
         {
             if (c.IsFaulted || c.IsCanceled)
             {
-                var nullTweet = new DirectMessage { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(c) };
-                var nullList = new List<DirectMessage> { nullTweet };
-                return nullList;
-            }
+                return new TwitterResponseCollection<DirectMessage> { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(c) };
+             }
 
             var result = c.Result;
             if (!result.IsSuccessStatusCode)
             {
-                var nullTweet = new DirectMessage { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(c) };
-                var nullList = new List<DirectMessage> { nullTweet };
-                return nullList;
+                return new TwitterResponseCollection<DirectMessage> { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(c) };
             }
 
             var content = result.Content.ReadAsStringAsync();
-            var manydms = JsonConvert.DeserializeObject<IEnumerable<DirectMessage>>(content.Result);
+            var manydms = JsonConvert.DeserializeObject<TwitterResponseCollection<DirectMessage>>(content.Result);
             return manydms;
         }
 
-        internal static IEnumerable<User> MapToListOfUsers(this Task<HttpResponseMessage> c)
+        internal static TwitterResponseCollection<User> MapToListOfUsers(this Task<HttpResponseMessage> c)
         {
             if (c.IsFaulted || c.IsCanceled)
             {
-                var nullUser = new User { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(c) };
-                var nullList = new List<User>() {nullUser};
-                return nullList;
+                return new TwitterResponseCollection<User> { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(c) };
             }
 
             var result = c.Result;
             if (!result.IsSuccessStatusCode)
             {
-                var nullUser = new User { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(c) };
-                var nullList = new List<User> { nullUser };
-                return nullList;
+                return new TwitterResponseCollection<User> { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(c) };
             }
 
             var content = result.Content.ReadAsStringAsync();
-            var manyusers = JsonConvert.DeserializeObject<IEnumerable<User>>(content.Result);
+            var manyusers = JsonConvert.DeserializeObject<TwitterResponseCollection<User>>(content.Result);
             return manyusers;
         }
 
@@ -617,15 +575,13 @@ namespace BoxKite.Twitter.Extensions
         {
             if (task.IsFaulted || task.IsCanceled)
             {
-                var nullSearchResponse = new SearchResponse { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
-                return nullSearchResponse;
+                return new SearchResponse { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
             }
 
             var result = task.Result;
             if (!result.IsSuccessStatusCode)
             {
-                var nullSearchResponse = new SearchResponse { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
-                return nullSearchResponse;
+                return new SearchResponse { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
             }  
 
             var content = result.Content.ReadAsStringAsync();
@@ -637,15 +593,13 @@ namespace BoxKite.Twitter.Extensions
         {
             if (task.IsFaulted || task.IsCanceled)
             {
-                var nullSavedSearch = new SavedSearch { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
-                return nullSavedSearch;
+                return new SavedSearch { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
             }
 
             var result = task.Result;
             if (!result.IsSuccessStatusCode)
             {
-                var nullSavedSearch = new SavedSearch { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
-                return nullSavedSearch;
+                return new SavedSearch { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
             }
 
             var content = result.Content.ReadAsStringAsync();
@@ -653,25 +607,21 @@ namespace BoxKite.Twitter.Extensions
             return searchresponse;
         }
 
-        internal static IEnumerable<SavedSearch> MapToListSavedSearches(this Task<HttpResponseMessage> task)
+        internal static TwitterResponseCollection<SavedSearch> MapToListSavedSearches(this Task<HttpResponseMessage> task)
         {
             if (task.IsFaulted || task.IsCanceled)
             {
-                var nullSavedSearch = new SavedSearch { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
-                var nullList = new List<SavedSearch> { nullSavedSearch };
-                return nullList.ToList();
+                return new TwitterResponseCollection<SavedSearch> { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
             }
 
             var result = task.Result;
             if (!result.IsSuccessStatusCode)
             {
-                var nullSavedSearch = new SavedSearch { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
-                var nullList = new List<SavedSearch> { nullSavedSearch };
-                return nullList.ToList();
+                return new TwitterResponseCollection<SavedSearch> { twitterFaulted = true, TwitterControlMessage = MapHTTPResponses(task) };
             }
 
             var content = result.Content.ReadAsStringAsync();
-            var searchresponse = JsonConvert.DeserializeObject<IEnumerable<SavedSearch>>(content.Result);
+            var searchresponse = JsonConvert.DeserializeObject<TwitterResponseCollection<SavedSearch>>(content.Result);
             return searchresponse;
         }
 

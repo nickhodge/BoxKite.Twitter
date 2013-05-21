@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using BoxKite.Twitter.Extensions;
+using BoxKite.Twitter.Helpers;
 using BoxKite.Twitter.Models;
 using BoxKite.Twitter.Models.Service;
 
@@ -134,7 +135,7 @@ namespace BoxKite.Twitter
         /// <param name="tweet"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        public async static Task<IEnumerable<Tweet>> GetRetweets(this IUserSession session, Tweet tweet, int count=20)
+        public async static Task<TwitterResponseCollection<Tweet>> GetRetweets(this IUserSession session, Tweet tweet, int count = 20)
         {
             var parameters = new SortedDictionary<string, string>
                              {

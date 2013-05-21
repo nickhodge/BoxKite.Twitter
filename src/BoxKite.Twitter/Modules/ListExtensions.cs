@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using BoxKite.Twitter.Extensions;
+using BoxKite.Twitter.Helpers;
 using BoxKite.Twitter.Models;
 using BoxKite.Twitter.Models.Service;
 
@@ -18,7 +19,7 @@ namespace BoxKite.Twitter.Modules
         /// <param name="reverse">Set this to true if you would like owned lists to be returned first.</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/lists/list </remarks>
-        public static async Task<IEnumerable<TwitterList>> GetLists(this IUserSession session, int user_id=0, string screen_name ="", bool reverse = false)
+        public static async Task<TwitterResponseCollection<TwitterList>> GetLists(this IUserSession session, int user_id = 0, string screen_name = "", bool reverse = false)
         {
             var parameters = new SortedDictionary<string, string> {{"reverse", reverse.ToString()}};
 
@@ -48,7 +49,7 @@ namespace BoxKite.Twitter.Modules
         /// <param name="include_rts">the list timeline will contain native retweets (if they exist) in addition to the standard stream of tweets.</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/lists/statuses </remarks>
-        public static async Task<IEnumerable<Tweet>> GetListTimeline(this IUserSession session, int list_id, string slug, int owner_id = 0, string owner_screen_name = "", long since_id = 0, int count = 20, long max_id = 0, bool include_rts = true)
+        public static async Task<TwitterResponseCollection<Tweet>> GetListTimeline(this IUserSession session, int list_id, string slug, int owner_id = 0, string owner_screen_name = "", long since_id = 0, int count = 20, long max_id = 0, bool include_rts = true)
         {
             var parameters = new SortedDictionary<string, string>
                                  {

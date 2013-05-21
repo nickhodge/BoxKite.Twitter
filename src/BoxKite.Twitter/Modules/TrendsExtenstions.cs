@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using BoxKite.Twitter.Extensions;
+using BoxKite.Twitter.Helpers;
 using BoxKite.Twitter.Models.Service;
 
 namespace BoxKite.Twitter
@@ -14,7 +15,7 @@ namespace BoxKite.Twitter
         /// <param name="exclude">If true will remove all hashtags from the trends list.</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/trends/place </remarks>
-        public static async Task<IEnumerable<TrendsForPlaceResponse>> GetTrendsForPlace(this IUserSession session, int place_id=1, bool exclude = false)
+        public static async Task<TwitterResponseCollection<TrendsForPlaceResponse>> GetTrendsForPlace(this IUserSession session, int place_id = 1, bool exclude = false)
         {
             var parameters = new SortedDictionary<string, string>
                         {{"id",place_id.ToString()}};
@@ -31,7 +32,7 @@ namespace BoxKite.Twitter
         /// </summary>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/trends/available </remarks>
-        public static async Task<IEnumerable<TrendsAvailableLocationsResponse>> GetTrendsAvailableLocations(this IUserSession session)
+        public static async Task<TwitterResponseCollection<TrendsAvailableLocationsResponse>> GetTrendsAvailableLocations(this IUserSession session)
         {
             var parameters = new SortedDictionary<string, string>();
 
@@ -47,7 +48,7 @@ namespace BoxKite.Twitter
         /// <param name="longitude">If provided with a lat parameter the available trend locations will be sorted by distance, nearest to furthest, to the co-ordinate pair.</param>
         /// <returns></returns>
         /// <remarks> ref:  https://dev.twitter.com/docs/api/1.1/get/trends/closest </remarks>
-        public static async Task<IEnumerable<TrendsAvailableLocationsResponse>> GetTrendsByLocation(
+        public static async Task<TwitterResponseCollection<TrendsAvailableLocationsResponse>> GetTrendsByLocation(
             this IUserSession session, double latitude = 0.0,
             double longitude = 0.0)
         {

@@ -55,7 +55,7 @@ namespace BoxKite.LiveFireTests
                     ConsoleOutput.PrintMessage("4.3 Tweets\\GetRetweets", ConsoleColor.Gray);
                     var tweets3 = await session.GetRetweets(tweets2);
 
-                    if (!tweets3.ToList()[0].twitterFaulted)
+                    if (!tweets3.twitterFaulted)
                     {
                         foreach (var t in tweets3)
                         {

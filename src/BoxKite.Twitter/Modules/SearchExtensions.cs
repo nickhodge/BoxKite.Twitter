@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using BoxKite.Twitter.Extensions;
+using BoxKite.Twitter.Helpers;
 using BoxKite.Twitter.Models;
 using SearchResponse = BoxKite.Twitter.Models.SearchResponse;
 
@@ -102,7 +103,7 @@ namespace BoxKite.Twitter
         /// </summary>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/saved_searches/list </remarks>
-        public async static Task<IEnumerable<SavedSearch>> GetSavedSearches(this IUserSession session)
+        public async static Task<TwitterResponseCollection<SavedSearch>> GetSavedSearches(this IUserSession session)
         {
             var parameters = new SortedDictionary<string, string>();
             return await session.GetAsync(Api.Resolve("/1.1/saved_searches/list.json"), parameters)

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using BoxKite.Twitter.Extensions;
+using BoxKite.Twitter.Helpers;
 using BoxKite.Twitter.Models.Service;
 using System.Threading.Tasks;
 
@@ -12,7 +13,7 @@ namespace BoxKite.Twitter
         /// </summary>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/users/suggestions </remarks>
-        public static async Task<IEnumerable<SuggestedUsers>> GetSuggestedLists(this IUserSession session)
+        public static async Task<TwitterResponseCollection<SuggestedUsers>> GetSuggestedLists(this IUserSession session)
         {
             var parameters = new SortedDictionary<string, string>();
             var url = Api.Resolve("/1.1/users/suggestions.json");

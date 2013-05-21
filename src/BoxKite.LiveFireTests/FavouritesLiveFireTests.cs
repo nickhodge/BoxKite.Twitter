@@ -21,7 +21,7 @@ namespace BoxKite.LiveFireTests
                     ConsoleOutput.PrintMessage("5.1 Favourites\\GetFavourites", ConsoleColor.Gray);
                     var favourites1 = await session.GetFavourites(count:50);
 
-                    if (!favourites1.ToList()[0].twitterFaulted)
+                    if (!favourites1.twitterFaulted)
                     {
                         foreach (var t in favourites1)
                         {

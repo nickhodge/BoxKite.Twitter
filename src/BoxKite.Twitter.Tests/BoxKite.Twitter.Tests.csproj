@@ -115,7 +115,7 @@
     <Compile Include="Modules\DirectMessagesTests.cs" />
     <Compile Include="Helpers\Json.cs" />
     <Compile Include="Helpers\ObservableExtensions.cs" />
-    <Compile Include="Modules\ErrorTests.cs" />
+    <Compile Include="ErrorTests.cs" />
     <Compile Include="Modules\FavouritesTests.cs" />
     <Compile Include="Helpers\TestableSession.cs" />
     <Compile Include="Modules\FriendsFollowersExtensionsTests.cs" />

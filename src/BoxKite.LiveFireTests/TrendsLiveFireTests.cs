@@ -23,7 +23,7 @@ namespace BoxKite.LiveFireTests
                     ConsoleOutput.PrintMessage("8.1 Trends\\GetTrendsByLocation", ConsoleColor.Gray);
                     var trends1 = await session.GetTrendsByLocation(latitude:-33.884097,longitude:151.134796);
 
-                    if (!trends1.ToList()[0].twitterFaulted)
+                    if (!trends1.twitterFaulted)
                     {
                         foreach (var trnd in trends1)
                         {
@@ -42,7 +42,7 @@ namespace BoxKite.LiveFireTests
                     ConsoleOutput.PrintMessage("8.2 Trends\\GetTrendsForPlace as specified in location", ConsoleColor.Gray);
                     var trends2 = await session.GetTrendsForPlace(place_id: woeidToSearch);
 
-                    if (!trends2.ToList()[0].twitterFaulted)
+                    if (!trends2.twitterFaulted)
                     {
                         foreach (var trnd in trends2.ToList()[0].trends)
                         {

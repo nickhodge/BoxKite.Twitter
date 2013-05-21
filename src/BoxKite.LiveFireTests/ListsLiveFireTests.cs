@@ -33,7 +33,7 @@ namespace BoxKite.LiveFireTests
 
                     var lists1 = await session.GetLists();
 
-                    if (!lists1.ToList()[0].twitterFaulted)
+                    if (!lists1.twitterFaulted)
                     {
                         foreach (var lst in lists1)
                         {
@@ -54,7 +54,7 @@ namespace BoxKite.LiveFireTests
 
                     var lists2 = await session.GetListTimeline(list_id: twList.Id, slug:twList.Slug);
 
-                    if (!lists2.ToList()[0].twitterFaulted)
+                    if (!lists2.twitterFaulted)
                     {
                         foreach (var tweet in lists2)
                         {
