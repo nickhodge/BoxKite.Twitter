@@ -118,12 +118,16 @@ namespace BoxKite.Twitter.Extensions
             {
                 var singleError = new T();
                 var boolType = new Type[] { typeof(bool) };
+                // find the property set method created by the compiler
                 var statusProperty = singleError.GetType().GetRuntimeMethod("set_twitterFaulted", boolType);
-                statusProperty.Invoke(singleError, new object[] { true });
+                if (statusProperty!=null)
+                    statusProperty.Invoke(singleError, new object[] { true });
 
                 var tcmType = new Type[] { typeof(TwitterControlMessage) };
+                // find the property set method created by the compiler
                 var tcmProperty = singleError.GetType().GetRuntimeMethod("set_twitterControlMessage", tcmType);
-                tcmProperty.Invoke(singleError, new object[] { MapHTTPResponses(task) });
+                if (tcmProperty != null)
+                    tcmProperty.Invoke(singleError, new object[] { MapHTTPResponses(task) });
 
                 return singleError;
             }
