@@ -35,7 +35,7 @@ namespace BoxKite.Twitter
         public static async Task<ReverseGeoCodePlaces> GetPlaceIDFromGeocode(this IUserSession session, double latitude = 0.0,
             double longitude = 0.0, string accuracy = "10m", string granularity = "neighborhood", int max_results=20)
         {
-            var parameters = new SortedDictionary<string, string>
+            var parameters = new TwitterParametersCollection
                              {
                                  {"lat", latitude.ToString()},
                                  {"long", longitude.ToString()},
@@ -44,8 +44,7 @@ namespace BoxKite.Twitter
                                  {"max_results", max_results.ToString()}
                              };
 
-            var url = Api.Resolve("/1.1/geo/reverse_geocode.json");
-            return await session.GetAsync(url, parameters)
+            return await session.GetAsync(Api.Resolve("/1.1/geo/reverse_geocode.json"), parameters)
                           .ContinueWith(c => c.MapToSingle<ReverseGeoCodePlaces>());
  
         }
@@ -66,7 +65,7 @@ namespace BoxKite.Twitter
         public static async Task<ReverseGeoCodePlaces> GetPlaceIDFromInfo(this IUserSession session, string query="", double latitude = 0.0,
      double longitude = 0.0, string accuracy = "10m", string contained_within ="", string granularity = "neighborhood", int max_results = 20, string ip_address="")
         {
-            var parameters = new SortedDictionary<string, string>
+            var parameters = new TwitterParametersCollection
                              {
                                  {"max_results", max_results.ToString()}
                              };
@@ -102,8 +101,7 @@ namespace BoxKite.Twitter
                 }
             }
 
-            var url = Api.Resolve("/1.1/geo/search.json");
-            return await session.GetAsync(url, parameters)
+            return await session.GetAsync(Api.Resolve("/1.1/geo/search.json"), parameters)
                           .ContinueWith(c => c.MapToSingle<ReverseGeoCodePlaces>());
 
         }
@@ -122,7 +120,7 @@ namespace BoxKite.Twitter
             string name = "", double latitude = 0.0,
             double longitude = 0.0, string contained_within = "")
         {
-            var parameters = new SortedDictionary<string, string>
+            var parameters = new TwitterParametersCollection
                              {
                                  {"lat", latitude.ToString()},
                                  {"long", longitude.ToString()},
@@ -133,8 +131,7 @@ namespace BoxKite.Twitter
                 parameters.Add("contained_within", contained_within);
             }
 
-            var url = Api.Resolve("/1.1/geo/similar_places.json");
-            return await session.GetAsync(url, parameters)
+            return await session.GetAsync(Api.Resolve("/1.1/geo/similar_places.json"), parameters)
                 .ContinueWith(c => c.MapToSingle<ReverseGeoCodePlaces>());
         }
 
@@ -152,7 +149,7 @@ namespace BoxKite.Twitter
             string name, double latitude,
             double longitude, string contained_within, string token)
         {
-            var parameters = new SortedDictionary<string, string>
+            var parameters = new TwitterParametersCollection
                              {
                                  {"lat", latitude.ToString()},
                                  {"long", longitude.ToString()},
@@ -161,8 +158,7 @@ namespace BoxKite.Twitter
                                  {"token", token}
                              };
 
-            var url = Api.Resolve("/1.1/geo/create.json");
-            return await session.PostAsync(url, parameters)
+            return await session.PostAsync(Api.Resolve("/1.1/geo/create.json"), parameters)
                 .ContinueWith(c => c.MapToSingle<AddPlaceResponse>());
         }
     }

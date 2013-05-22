@@ -23,31 +23,19 @@ namespace BoxKite.Twitter
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/search/tweets </remarks>
         public async static Task<SearchResponse> SearchFor(this IUserSession session, string searchtext, SearchResultType searchResponseType, long max_id = 0, long since_id = 0, string untilDate = "", int count = 20)
         {
-            var parameters = new SortedDictionary<string, string>
+            var parameters = new TwitterParametersCollection
                                  {
                                      {"q", searchtext.UrlEncode()},
-                                     {"count",count.ToString()},
-                                     {"include_entities", true.ToString()},
                                      {"result_type", SearchResultString(searchResponseType)},
                                  };
-
-            if (since_id > 0)
-            {
-                parameters.Add("since_id", since_id.ToString());
-            }
-
-            if (max_id > 0)
-            {
-                parameters.Add("max_id", max_id.ToString());
-            }
+            parameters.Create(since_id:since_id,max_id:max_id,count:count,include_entities:true);
 
             if (!string.IsNullOrWhiteSpace(untilDate))
             {
                 parameters.Add("until", untilDate);
             }
 
-            var url = Api.Resolve("/1.1/search/tweets.json");
-            return await session.GetAsync(url, parameters)
+            return await session.GetAsync(Api.Resolve("/1.1/search/tweets.json"), parameters)
                           .ContinueWith(c => c.MapToSingle<SearchResponse>());
         }
 
@@ -68,23 +56,12 @@ namespace BoxKite.Twitter
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/search/tweets </remarks>
         public async static Task<SearchResponse> SearchFor(this IUserSession session, string searchtext, SearchResultType searchResponseType, double latitude, double longitude, double distance, string distanceUnits="km", long max_id = 0, long since_id = 0, string untilDate = "", int count = 20)
         {
-            var parameters = new SortedDictionary<string, string>
+            var parameters = new TwitterParametersCollection
                                  {
                                      {"q", searchtext.UrlEncode()},
-                                     {"count",count.ToString()},
-                                     {"include_entities", true.ToString()},
                                      {"result_type", SearchResultString(searchResponseType)},
                                  };
-
-            if (since_id > 0)
-            {
-                parameters.Add("since_id", since_id.ToString());
-            }
-
-            if (max_id > 0)
-            {
-                parameters.Add("max_id", max_id.ToString());
-            }
+            parameters.Create(since_id: since_id, max_id: max_id, count: count, include_entities: true);
 
             if (!string.IsNullOrWhiteSpace(untilDate))
             {
@@ -93,8 +70,7 @@ namespace BoxKite.Twitter
 
             parameters.Add("geocode",String.Format("{0},{1},{2}{3}",latitude,longitude,distance,distanceUnits));
 
-            var url = Api.Resolve("/1.1/search/tweets.json");
-            return await session.GetAsync(url, parameters)
+            return await session.GetAsync(Api.Resolve("/1.1/search/tweets.json"), parameters)
                           .ContinueWith(c => c.MapToSingle<SearchResponse>());
         }
 
@@ -105,7 +81,7 @@ namespace BoxKite.Twitter
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/saved_searches/list </remarks>
         public async static Task<TwitterResponseCollection<SavedSearch>> GetSavedSearches(this IUserSession session)
         {
-            var parameters = new SortedDictionary<string, string>();
+            var parameters = new TwitterParametersCollection();
             return await session.GetAsync(Api.Resolve("/1.1/saved_searches/list.json"), parameters)
                           .ContinueWith(c => c.MapToMany<SavedSearch>());
         }
@@ -118,8 +94,8 @@ namespace BoxKite.Twitter
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/saved_searches/show/%3Aid </remarks>
         public async static Task<SavedSearch> GetSaveASearch(this IUserSession session, string id)
         {
-            var url = Api.Resolve("/1.1/saved_searches/show/{0}.json", id);
-            var parameters = new SortedDictionary<string, string>();
+            var parameters = new TwitterParametersCollection();
+            var url = Api.Resolve("/1.1/saved_searches/show/{0}.json", id); 
             return await session.GetAsync(url, parameters)
                 .ContinueWith(c => c.MapToSingle<SavedSearch>());
         }
@@ -132,12 +108,11 @@ namespace BoxKite.Twitter
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/saved_searches/create </remarks>
         public async static Task<SavedSearch> CreateSaveSearch(this IUserSession session, string searchtext)
         {
-            var savedSearch = Api.Resolve("/1.1/saved_searches/create.json");
-            var parameters = new SortedDictionary<string, string>
+            var parameters = new TwitterParametersCollection
                              {
                                  {"query", searchtext.UrlEncode()},
                              };
-            return await session.PostAsync(savedSearch, parameters)
+            return await session.PostAsync(Api.Resolve("/1.1/saved_searches/create.json"), parameters)
                           .ContinueWith(c => c.MapToSingle<SavedSearch>());
         }
 
@@ -149,9 +124,9 @@ namespace BoxKite.Twitter
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/saved_searches/destroy/%3Aid </remarks>
         public async static Task<SavedSearch> DeleteSavedSearch(this IUserSession session, string id)
         {
+            var parameters = new TwitterParametersCollection();
             var savedSearch = Api.Resolve("/1.1/saved_searches/destroy/{0}.json", id);
-            var parameters = new SortedDictionary<string, string>();
-            return await session.PostAsync(savedSearch, parameters)
+             return await session.PostAsync(savedSearch, parameters)
                           .ContinueWith(c => c.MapToSingle<SavedSearch>());
         }
 

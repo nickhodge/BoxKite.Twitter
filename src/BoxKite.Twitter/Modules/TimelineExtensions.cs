@@ -18,23 +18,10 @@ namespace BoxKite.Twitter
         /// <remarks> ref :https://dev.twitter.com/docs/api/1.1/get/statuses/mentions_timeline </remarks>
         public async static Task<TwitterResponseCollection<Tweet>> GetMentions(this IUserSession session, long since_id = 0, int count = 20, long max_id = 0)
         {
-            var parameters = new SortedDictionary<string, string>
-                                 {
-                                     {"count", count.ToString()},
-                                 };
+            var parameters = new TwitterParametersCollection();
+            parameters.Create(include_entities: true, count: count, since_id: since_id, max_id: max_id);
 
-            if (since_id > 0)
-            {
-                parameters.Add("since_id", since_id.ToString());
-            }
-
-            if (max_id > 0)
-            {
-                parameters.Add("max_id", max_id.ToString());
-            }
-
-            var url = Api.Resolve("/1.1/statuses/mentions_timeline.json");
-            return await session.GetAsync(url, parameters)
+            return await session.GetAsync(Api.Resolve("/1.1/statuses/mentions_timeline.json"), parameters)
                           .ContinueWith(c => c.MapToMany<Tweet>());
         }
 
@@ -52,34 +39,10 @@ namespace BoxKite.Twitter
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/statuses/user_timeline </remarks>
         public async static Task<TwitterResponseCollection<Tweet>> GetUserTimeline(this IUserSession session, int user_id = 0, string screen_name = "", long since_id = 0, int count = 200, long max_id = 0, bool excludereplies = true, bool include_rts = true)
         {
-            var parameters = new SortedDictionary<string, string>
-                                 {
-                                     {"include_rts", include_rts.ToString()},
-                                     {"count", count.ToString()},
-                                 };
+            var parameters = new TwitterParametersCollection();
+            parameters.Create(include_entities: true, include_rts: true, count: count, since_id: since_id, max_id: max_id);
 
-            if (since_id > 0)
-            {
-                parameters.Add("since_id", since_id.ToString());
-            }
-
-            if (max_id > 0)
-            {
-                parameters.Add("max_id", max_id.ToString());
-            }
-
-            if (user_id > 0)
-            {
-                parameters.Add("user_id", user_id.ToString());
-            }
-
-            if (!string.IsNullOrWhiteSpace(screen_name))
-            {
-                parameters.Add("screen_name", screen_name);
-            }
-
-            var url = Api.Resolve("/1.1/statuses/user_timeline.json");
-            return await session.GetAsync(url, parameters)
+            return await session.GetAsync(Api.Resolve("/1.1/statuses/user_timeline.json"), parameters)
                           .ContinueWith(c => c.MapToMany<Tweet>());
         }
 
@@ -93,25 +56,10 @@ namespace BoxKite.Twitter
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/statuses/home_timeline </remarks>
         public async static Task<TwitterResponseCollection<Tweet>> GetHomeTimeline(this IUserSession session, long since_id = 0, int count = 20, long max_id = 0)
         {
-            var parameters = new SortedDictionary<string, string>
-                                 {
-                                     {"count", count.ToString()},
-                                     {"include_entities", true.ToString()},
-                                     {"include_rts", true.ToString()}
-                                 };
+            var parameters = new TwitterParametersCollection();
+            parameters.Create(include_entities: true, include_rts:true,  count:count, since_id: since_id, max_id: max_id);
 
-            if (since_id > 0)
-            {
-                parameters.Add("since_id", since_id.ToString());
-            }
-
-            if (max_id > 0)
-            {
-                parameters.Add("max_id", max_id.ToString());
-            }
-
-            var url = Api.Resolve("/1.1/statuses/home_timeline.json");
-            return await session.GetAsync(url, parameters)
+            return await session.GetAsync(Api.Resolve("/1.1/statuses/home_timeline.json"), parameters)
                           .ContinueWith(c => c.MapToMany<Tweet>());
         }
 
@@ -125,24 +73,10 @@ namespace BoxKite.Twitter
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/statuses/retweets_of_me </remarks>
         public async static Task<TwitterResponseCollection<Tweet>> GetRetweetsOfMe(this IUserSession session, long since_id = 0, int count = 20, long max_id = 0)
         {
-            var parameters = new SortedDictionary<string, string>
-                                 {
-                                     {"count", count.ToString()},
-                                     {"include_entities", true.ToString()},
-                                 };
+            var parameters = new TwitterParametersCollection();
+            parameters.Create(include_entities: true, include_rts: true, count: count, since_id: since_id, max_id: max_id);
 
-            if (since_id > 0)
-            {
-                parameters.Add("since_id", since_id.ToString());
-            }
-
-            if (max_id > 0)
-            {
-                parameters.Add("max_id", max_id.ToString());
-            }
-
-            var url = Api.Resolve("/1.1/statuses/retweets_of_me.json");
-            return await session.GetAsync(url, parameters)
+            return await session.GetAsync(Api.Resolve("/1.1/statuses/retweets_of_me.json"), parameters)
                           .ContinueWith(c => c.MapToMany<Tweet>());
         }
     }

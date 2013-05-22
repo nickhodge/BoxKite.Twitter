@@ -37,13 +37,16 @@ namespace BoxKite.LiveFireTests
                 // 2
                 if (testSeq.Contains(2))
                 {
-                    ConsoleOutput.PrintMessage("3.2 DirectMessages\\GetDirectMessageSingle", ConsoleColor.Gray);
-                    var directmessages2 = await session.GetDirectMessageSingle(dmid);
+                    ConsoleOutput.PrintMessage("3.2 DirectMessages\\GetDirectMessagesSent", ConsoleColor.Gray);
+                    var directmessages2 = await session.GetDirectMessagesSent();
 
                     if (!directmessages2.twitterFaulted)
                     {
+                        foreach (var x in directmessages2)
+                        {
                             ConsoleOutput.PrintMessage(
-                                String.Format("From: {0} // Message: {1}", directmessages2.SenderScreenName, directmessages2.Text));
+                                String.Format("To: {0} // Message: {1}", x.Recipient.ScreenName, x.Text));
+                        }
                     }
                     else
                         successStatus = false;
@@ -52,14 +55,29 @@ namespace BoxKite.LiveFireTests
                 // 3
                 if (testSeq.Contains(3))
                 {
-                    ConsoleOutput.PrintMessage("3.3 DirectMessages\\SendDirectMessage", ConsoleColor.Gray);
-                    var directmessages3 =
-                        await session.SendDirectMessage("livefire test of boxkite.twitter please ignore", "neilfinn");
+                    ConsoleOutput.PrintMessage("3.3 DirectMessages\\GetDirectMessageSingle", ConsoleColor.Gray);
+                    var directmessages3 = await session.GetDirectMessageSingle(dmid);
 
                     if (!directmessages3.twitterFaulted)
                     {
+                            ConsoleOutput.PrintMessage(
+                                String.Format("From: {0} // Message: {1}", directmessages3.SenderScreenName, directmessages3.Text));
+                    }
+                    else
+                        successStatus = false;
+                }
+
+                // 4
+                if (testSeq.Contains(4))
+                {
+                    ConsoleOutput.PrintMessage("3.4 DirectMessages\\SendDirectMessage", ConsoleColor.Gray);
+                    var directmessages4 =
+                        await session.SendDirectMessage("livefire test of boxkite.twitter please ignore", "neilfinn");
+
+                    if (!directmessages4.twitterFaulted)
+                    {
                         ConsoleOutput.PrintMessage(
-                            String.Format("From: {0} // Message: {1}", directmessages3.SenderScreenName, directmessages3.Text));
+                            String.Format("From: {0} // Message: {1}", directmessages4.SenderScreenName, directmessages4.Text));
                     }
                     else
                         successStatus = false;

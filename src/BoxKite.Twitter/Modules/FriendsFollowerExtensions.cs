@@ -20,21 +20,8 @@ namespace BoxKite.Twitter
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/friends/ids </remarks>
         public async static Task<FriendsFollowersIDsCursored> GetFriendsIDs(this IUserSession session, long cursor = -1, int user_id = 0, string screen_name = "", int count = 500)
         {
-            var parameters = new SortedDictionary<string, string>
-                                 {
-                                    {"count",count.ToString()},
-                                    { "cursor", cursor.ToString() },
-                                 };
-
-            if (!string.IsNullOrWhiteSpace(screen_name))
-            {
-                parameters.Add("screen_name", screen_name);
-            }
-
-            if (user_id > 0)
-            {
-                parameters.Add("user_id", user_id.ToString());
-            }
+            var parameters = new TwitterParametersCollection();
+            parameters.Create(count: count, cursor:cursor, screen_name:screen_name, user_id:user_id);
 
             return await session.GetAsync(Api.Resolve("/1.1/friends/ids.json"), parameters)
                              .ContinueWith(t => t.MapToSingle<FriendsFollowersIDsCursored>());
@@ -50,21 +37,8 @@ namespace BoxKite.Twitter
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/followers/ids </remarks>
         public static async Task<FriendsFollowersIDsCursored> GetFollowersIDs(this IUserSession session, long cursor = -1, int user_id = 0, string screen_name = "", int count = 500)
         {
-            var parameters = new SortedDictionary<string, string>
-                                 {
-                                    {"count",count.ToString()},
-                                    { "cursor", cursor.ToString() },
-                                 };
-
-            if (!string.IsNullOrWhiteSpace(screen_name))
-            {
-                parameters.Add("screen_name", screen_name);
-            }
-
-            if (user_id > 0)
-            {
-                parameters.Add("user_id", user_id.ToString());
-            }
+            var parameters = new TwitterParametersCollection();
+            parameters.Create(count: count, cursor: cursor, screen_name: screen_name, user_id: user_id);
 
             return await session.GetAsync(Api.Resolve("/1.1/followers/ids.json"), parameters)
                              .ContinueWith(t => t.MapToSingle<FriendsFollowersIDsCursored>());
@@ -80,26 +54,8 @@ namespace BoxKite.Twitter
         /// <remarks> ref : https://dev.twitter.com/docs/api/1.1/get/friendships/lookup </remarks>
         public async static Task<TwitterResponseCollection<FriendshipLookupResponse>> GetFriendships(this IUserSession session, IEnumerable<string> screen_names = null, IEnumerable<int> user_ids = null)
         {
-            var parameters = new SortedDictionary<string, string>();
-            var screenNameList = new StringBuilder();
-            if (screen_names != null)
-            {
-                foreach (var screenName in screen_names)
-                {
-                    screenNameList.Append(screenName + ",");
-                }
-                parameters.Add("screen_name", screenNameList.ToString().TrimLastChar());
-            }
-
-            var userIDList = new StringBuilder();
-            if (user_ids != null)
-            {
-                foreach (var userID in user_ids)
-                {
-                    userIDList.Append(userID + ",");
-                }
-                parameters.Add("user_id", userIDList.ToString().TrimLastChar());
-            }
+            var parameters = new TwitterParametersCollection();
+            parameters.CreateCollection(screen_names: screen_names, user_ids:user_ids);
 
             var url = Api.Resolve("/1.1/friendships/lookup.json");
             return await session.GetAsync(url, parameters)
@@ -113,10 +69,8 @@ namespace BoxKite.Twitter
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/friendships/incoming </remarks>
         public async static Task<FriendsFollowersIDsCursored> GetFriendshipRequestsIncoming(this IUserSession session, long cursor = -1)
         {
-            var parameters = new SortedDictionary<string, string>
-                                 {
-                                    { "cursor", cursor.ToString() },
-                                 };
+            var parameters = new TwitterParametersCollection();
+            parameters.Create(cursor:cursor);
 
             return await session.GetAsync(Api.Resolve("/1.1/friendships/incoming.json"), parameters)
                              .ContinueWith(t => t.MapToSingle<FriendsFollowersIDsCursored>());
@@ -129,10 +83,8 @@ namespace BoxKite.Twitter
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/friendships/outgoing </remarks>
         public async static Task<FriendsFollowersIDsCursored> GetFriendshipRequestsOutgoing(this IUserSession session, long cursor = -1)
         {
-            var parameters = new SortedDictionary<string, string>
-                                 {
-                                    { "cursor", cursor.ToString() },
-                                 };
+            var parameters = new TwitterParametersCollection();
+            parameters.Create(cursor: cursor);
 
             return await session.GetAsync(Api.Resolve("/1.1/friendships/outgoing.json"), parameters)
                              .ContinueWith(t => t.MapToSingle<FriendsFollowersIDsCursored>());
@@ -149,23 +101,10 @@ namespace BoxKite.Twitter
         public async static Task<User> CreateFriendship(this IUserSession session, string screen_name = "",
             int user_id = 0, bool follow=true)
         {
-            var createFriendship = Api.Resolve("/1.1/friendships/create.json");
-            var parameters = new SortedDictionary<string, string>
-                             {
-                                 {"follow", follow.ToString()},
-                             };
+            var parameters = new TwitterParametersCollection();
+            parameters.Create(screen_name:screen_name,user_id:user_id,follow:follow);
 
-            if (!string.IsNullOrWhiteSpace(screen_name))
-            {
-                parameters.Add("screen_name", screen_name);
-            }
-
-            if (user_id > 0)
-            {
-                parameters.Add("user_id", user_id.ToString());
-            }
-
-            return await session.PostAsync(createFriendship, parameters)
+            return await session.PostAsync(Api.Resolve("/1.1/friendships/create.json"), parameters)
                           .ContinueWith(c => c.MapToSingle<User>());
         }
 
@@ -179,20 +118,10 @@ namespace BoxKite.Twitter
         public async static Task<User> DeleteFriendship(this IUserSession session, string screen_name = "",
             int user_id = 0)
         {
-            var destroyFriendship = Api.Resolve("/1.1/post/friendships/destroy.json");
-            var parameters = new SortedDictionary<string, string>();
+            var parameters = new TwitterParametersCollection();
+            parameters.Create(screen_name: screen_name, user_id: user_id);
 
-            if (!string.IsNullOrWhiteSpace(screen_name))
-            {
-                parameters.Add("screen_name", screen_name);
-            }
-
-            if (user_id > 0)
-            {
-                parameters.Add("user_id", user_id.ToString());
-            }
-
-            return await session.PostAsync(destroyFriendship, parameters)
+            return await session.PostAsync(Api.Resolve("/1.1/post/friendships/destroy.json"), parameters)
                           .ContinueWith(c => c.MapToSingle<User>());
         }
 
@@ -208,24 +137,10 @@ namespace BoxKite.Twitter
         public async static Task<UserStatus> ChangeFriendship(this IUserSession session, string screen_name = "",
             int user_id = 0, bool device=false, bool retweets=false)
         {
-            var updateFriendship = Api.Resolve("/1.1/friendships/update.json");
-            var parameters = new SortedDictionary<string, string>
-                             {
-                                 {"device",device.ToString()},
-                                 {"retweets",retweets.ToString()}
-                             };
+            var parameters = new TwitterParametersCollection();
+            parameters.Create(screen_name: screen_name, user_id: user_id,device:device,retweets:retweets);
 
-            if (!string.IsNullOrWhiteSpace(screen_name))
-            {
-                parameters.Add("screen_name", screen_name);
-            }
-
-            if (user_id > 0)
-            {
-                parameters.Add("user_id", user_id.ToString());
-            }
-
-            return await session.PostAsync(updateFriendship, parameters)
+            return await session.PostAsync(Api.Resolve("/1.1/friendships/update.json"), parameters)
                           .ContinueWith(c => c.MapToUserStatus());
         }
 
@@ -240,8 +155,7 @@ namespace BoxKite.Twitter
         /// <remarks> ref: https://api.twitter.com/1.1/friendships/show.json </remarks>
         public async static Task<UserStatus> GetFriendship(this IUserSession session, string source_screen_name="",string target_screen_name="", string source_id="",string target_id="")
         {
-            var getFriendship = Api.Resolve("/1.1/friendships/show.json");
-            var parameters = new SortedDictionary<string, string>();
+            var parameters = new TwitterParametersCollection();
 
             if (!string.IsNullOrWhiteSpace(source_screen_name))
             {
@@ -262,7 +176,7 @@ namespace BoxKite.Twitter
             {
                 parameters.Add("target_id", target_id);
             }
-            return await session.PostAsync(getFriendship, parameters)
+            return await session.PostAsync(Api.Resolve("/1.1/friendships/show.json"), parameters)
                           .ContinueWith(c => c.MapToUserStatus());
         }
 
@@ -276,24 +190,12 @@ namespace BoxKite.Twitter
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/friends/list </remarks>
         public async static Task<UserListDetailedCursored> GetFriendsList(this IUserSession session, long cursor = -1, int user_id = 0, string screen_name = "", int count = 20)
         {
-            var parameters = new SortedDictionary<string, string>
-                                 {
-                                    {"count",count.ToString()},
-                                    { "cursor", cursor.ToString() },
-                                    //TODO: add these as params
-                                    {"skip_status", true.ToString()},
-                                    {"include_user_entities", true.ToString()},
-                                 };
-
-            if (!string.IsNullOrWhiteSpace(screen_name))
-            {
-                parameters.Add("screen_name", screen_name);
-            }
-
-            if (user_id > 0)
-            {
-                parameters.Add("user_id", user_id.ToString());
-            }
+            var parameters = new TwitterParametersCollection
+                                    {
+                                        {"skip_status", true.ToString()},
+                                        {"include_user_entities", true.ToString()},
+                                    };
+            parameters.Create(count: count, cursor: cursor, screen_name: screen_name, user_id: user_id);
 
             return await session.GetAsync(Api.Resolve("/1.1/friends/list.json"), parameters)
                              .ContinueWith(t => t.MapToSingle<UserListDetailedCursored>());
@@ -310,24 +212,12 @@ namespace BoxKite.Twitter
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/followers/list </remarks>
         public async static Task<UserListDetailedCursored> GetFollowersList(this IUserSession session, long cursor = -1, int user_id = 0, string screen_name = "", int count = 20)
         {
-            var parameters = new SortedDictionary<string, string>
-                                 {
-                                    {"count",count.ToString()},
-                                    { "cursor", cursor.ToString() },
-                                    //TODO: add these as params
-                                    {"skip_status",true.ToString()},
-                                    {"include_user_entities",false.ToString()},
-                                 };
-
-            if (!string.IsNullOrWhiteSpace(screen_name))
-            {
-                parameters.Add("screen_name", screen_name);
-            }
-
-            if (user_id > 0)
-            {
-                parameters.Add("user_id", user_id.ToString());
-            }
+            var parameters = new TwitterParametersCollection
+                                    {
+                                        {"skip_status", true.ToString()},
+                                        {"include_user_entities", true.ToString()},
+                                    };
+            parameters.Create(count: count, cursor: cursor, screen_name: screen_name, user_id: user_id);
 
             return await session.GetAsync(Api.Resolve("/1.1/followers/list.json"), parameters)
                              .ContinueWith(t => t.MapToSingle<UserListDetailedCursored>());

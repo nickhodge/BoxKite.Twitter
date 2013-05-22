@@ -73,18 +73,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApiManagementLiveFireTests.cs" />
-    <Compile Include="ListsLiveFireTests.cs" />
-    <Compile Include="SuggestedUsersLiveFireTests.cs" />
-    <Compile Include="TrendsLiveFireTests.cs" />
-    <Compile Include="TimelineLiveFireTests.cs" />
-    <Compile Include="FriendsFollowersLiveFireTests.cs" />
-    <Compile Include="FavouritesLiveFireTests.cs" />
-    <Compile Include="TweetsLiveFireTests.cs" />
-    <Compile Include="DirectMessagesLiveFireTests.cs" />
+    <Compile Include="Tests\ApiManagementLiveFireTests.cs" />
+    <Compile Include="Tests\ListsLiveFireTests.cs" />
+    <Compile Include="Tests\SuggestedUsersLiveFireTests.cs" />
+    <Compile Include="Tests\TrendsLiveFireTests.cs" />
+    <Compile Include="Tests\TimelineLiveFireTests.cs" />
+    <Compile Include="Tests\FriendsFollowersLiveFireTests.cs" />
+    <Compile Include="Tests\FavouritesLiveFireTests.cs" />
+    <Compile Include="Tests\TweetsLiveFireTests.cs" />
+    <Compile Include="Tests\DirectMessagesLiveFireTests.cs" />
     <Compile Include="TwitterLiveFireAppControl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UserAccountLiveFireTests.cs" />
+    <Compile Include="Tests\UserAccountLiveFireTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -113,18 +113,14 @@ namespace BoxKite.Twitter
                     line = "";
                 }
 
-                /* #if DEBUG
-                                if (line == "ENDBOXKITEUSERSTREAMTEST")
-                                {
-                                    // special, non JSON and therefore highly unlikely to be sent from the live service
-                                    // this is the token string used by the testing harness.
-                                    Dispose();
-                                    // need to stop somehow
-                                    continue;
-                                }
-
-                                Debug.WriteLine(line);
-                #endif */
+                if (line == "ENDBOXKITEUSERSTREAMTEST")
+                {
+                    // special, non JSON and therefore highly unlikely to be sent from the live service
+                    // this is the token string used by the testing harness.
+                    Dispose();
+                    // need to stop somehow
+                    continue;
+                }
 
                 // we have a valid connection - clear delay
                 delay = TimeSpan.Zero;
@@ -214,6 +210,7 @@ namespace BoxKite.Twitter
                     Dispose();
                 }
             }
+            Dispose();
         }
 
         private async Task<StreamReader> GetStream()

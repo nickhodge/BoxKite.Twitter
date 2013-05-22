@@ -17,13 +17,12 @@ namespace BoxKite.Twitter
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/trends/place </remarks>
         public static async Task<TwitterResponseCollection<TrendsForPlaceResponse>> GetTrendsForPlace(this IUserSession session, int place_id = 1, bool exclude = false)
         {
-            var parameters = new SortedDictionary<string, string>
+            var parameters = new TwitterParametersCollection
                         {{"id",place_id.ToString()}};
             if (exclude)
                 parameters.Add("exclude","hashtags");
 
-            var url = Api.Resolve("/1.1/trends/place.json");
-            return await session.GetAsync(url, parameters)
+            return await session.GetAsync(Api.Resolve("/1.1/trends/place.json"), parameters)
                 .ContinueWith(c => c.MapToMany<TrendsForPlaceResponse>());
         }
 
@@ -34,10 +33,9 @@ namespace BoxKite.Twitter
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/trends/available </remarks>
         public static async Task<TwitterResponseCollection<TrendsAvailableLocationsResponse>> GetTrendsAvailableLocations(this IUserSession session)
         {
-            var parameters = new SortedDictionary<string, string>();
+            var parameters = new TwitterParametersCollection();
 
-            var url = Api.Resolve("/1.1/trends/available.json");
-            return await session.GetAsync(url, parameters)
+            return await session.GetAsync(Api.Resolve("/1.1/trends/available.json"), parameters)
                 .ContinueWith(c => c.MapToMany<TrendsAvailableLocationsResponse>());
         }
 
@@ -52,13 +50,13 @@ namespace BoxKite.Twitter
             this IUserSession session, double latitude = 0.0,
             double longitude = 0.0)
         {
-            var parameters = new SortedDictionary<string, string>
+            var parameters = new TwitterParametersCollection
                              {
                                  {"lat", latitude.ToString()},
                                  {"long", longitude.ToString()},
                              };
-            var url = Api.Resolve("/1.1/trends/closest.json");
-            return await session.GetAsync(url, parameters)
+
+            return await session.GetAsync(Api.Resolve("/1.1/trends/closest.json"), parameters)
                 .ContinueWith(c => c.MapToMany<TrendsAvailableLocationsResponse>());
         }
     }

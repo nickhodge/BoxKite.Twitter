@@ -30,12 +30,12 @@ namespace BoxKite.LiveFireTests
                     ConsoleOutput.PrintMessage(twittercredentials.ScreenName + " is authorised to use BoxKite.Twitter.");
 
                     // put the test series number you wish to run into the init of the array
-                    var testSeriesToRun = new List<int> {10};
+                    var testSeriesToRun = new List<int> {3};
 
                     // Calls tested by Test Series
                     // series 1 => 9
                     // series 2 => 1
-                    // series 3 => 3
+                    // series 3 => 4
                     // series 4 => 3
                     // series 5 => 3
                     // series 6 => 8
@@ -44,7 +44,7 @@ namespace BoxKite.LiveFireTests
                     // series 9 => 2
                     // series 10=> 7
                     // =============
-                    // TOTAL      44
+                    // TOTAL      45
 
                     // Test Series 1
                     if (testSeriesToRun.Contains(1))
@@ -87,7 +87,7 @@ namespace BoxKite.LiveFireTests
                     if (testSeriesToRun.Contains(3))
                     {
                         var dms = new DirectMessagesLiveFireTests();
-                        var testResult3 = dms.DoDMTest(session, new List<int> {3}).Result;
+                        var testResult3 = dms.DoDMTest(session, new List<int> {1, 2, 3,4}).Result;
 
                         if (testResult3)
                         {

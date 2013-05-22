@@ -18,17 +18,8 @@ namespace BoxKite.Twitter
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/users/report_spam </remarks>
         public async static Task<User> ReportUserForSpam(this IUserSession session, string screen_name="", int user_id=0)
         {
-            var parameters = new SortedDictionary<string, string>();
-
-            if (!string.IsNullOrWhiteSpace(screen_name))
-            {
-                parameters.Add("screen_name", screen_name);
-            }
-
-            if (user_id > 0)
-            {
-                parameters.Add("user_id", user_id.ToString());
-            }
+            var parameters = new TwitterParametersCollection();
+            parameters.Create(screen_name: screen_name, user_id: user_id);
 
             return await session.PostAsync(Api.Resolve("/1.1/users/report_spam.json"), parameters)
                           .ContinueWith(c => c.MapToSingle<User>());

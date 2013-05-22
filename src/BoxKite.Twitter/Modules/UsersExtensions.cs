@@ -17,9 +17,8 @@ namespace BoxKite.Twitter
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/account/settings </remarks>
         public static async Task<AccountSettings> GetAccountSettings(this IUserSession session)
         {
-            var parameters = new SortedDictionary<string, string>();
-            var url = Api.Resolve("/1.1/account/settings.json");
-            return await session.GetAsync(url, parameters)
+            var parameters = new TwitterParametersCollection();
+            return await session.GetAsync(Api.Resolve("/1.1/account/settings.json"), parameters)
                           .ContinueWith(c => c.MapToSingle<AccountSettings>());
         }
 
@@ -31,25 +30,10 @@ namespace BoxKite.Twitter
         /// <returns></returns>
         public static async Task<User> GetUserProfile(this IUserSession session, string screen_name="", int user_id=0)
         {
-            var parameters = new SortedDictionary<string, string>
-                                 {
-                                     {"include_entities", true.ToString()},
-                                 };
+            var parameters = new TwitterParametersCollection();
+            parameters.Create(screen_name:screen_name,include_entities:true,user_id:user_id);
 
-            //TODO: add logic to ensure one or other is implemented otherwise fault
-
-            if (!string.IsNullOrWhiteSpace(screen_name))
-            {
-                parameters.Add("screen_name", screen_name);
-            }
-
-            if (user_id > 0)
-            {
-                parameters.Add("user_id", user_id.ToString());
-            }
-
-            var url = Api.Resolve("/1.1/users/show.json");
-            return await session.GetAsync(url, parameters)
+            return await session.GetAsync(Api.Resolve("/1.1/users/show.json"), parameters)
                           .ContinueWith(c => c.MapToSingle<User>());
         }
 
@@ -59,12 +43,10 @@ namespace BoxKite.Twitter
         /// <returns></returns>
         public static async Task<User> GetVerifyCredentials(this IUserSession session) 
         {
-            var parameters = new SortedDictionary<string, string>
-                                 {
-                                     {"include_entities", true.ToString()},
-                                 };
-            var url = Api.Resolve("/1.1/account/verify_credentials.json");
-            return await session.GetAsync(url, parameters)
+            var parameters = new TwitterParametersCollection();
+            parameters.Create(include_entities: true);
+
+            return await session.GetAsync(Api.Resolve("/1.1/account/verify_credentials.json"), parameters)
                           .ContinueWith(c => c.MapToSingle<User>());
         }
 
@@ -82,12 +64,12 @@ namespace BoxKite.Twitter
             bool sleep_time_enabled = false, string start_sleep_time = "", string end_sleep_time = "",
             string time_zone = "", string lang = "")
         {
-            var parameters = new SortedDictionary<string, string>
+            var parameters = new TwitterParametersCollection
                              {
-                                 {"include_entities", true.ToString()},
                                  {"sleep_time_enabled", sleep_time_enabled.ToString()},
                              };
-
+            parameters.Create(include_entities: true);
+ 
             if (!string.IsNullOrWhiteSpace(trend_location_woeid))
             {
                 parameters.Add("trend_location_woeid", trend_location_woeid);
@@ -113,8 +95,7 @@ namespace BoxKite.Twitter
                 parameters.Add("lang", lang);
             }
 
-            var url = Api.Resolve("/1.1/account/settings.json");
-            return await session.PostAsync(url, parameters)
+            return await session.PostAsync(Api.Resolve("/1.1/account/settings.json"), parameters)
                           .ContinueWith(c => c.MapToSingle<AccountSettings>());
         }
 
@@ -129,11 +110,8 @@ namespace BoxKite.Twitter
         public static async Task<AccountProfile> ChangeAccountProfile(this IUserSession session, string name = "",
             string purl = "", string location = "", string description = "")
         {
-            var parameters = new SortedDictionary<string, string>
-                             {
-                                 {"include_entities", true.ToString()},
-                                 {"skip_status", true.ToString()},
-                             };
+            var parameters = new TwitterParametersCollection();
+            parameters.Create(include_entities: true,skip_status:true);
 
             // first 20 chars
             if (!string.IsNullOrWhiteSpace(name))
@@ -159,8 +137,7 @@ namespace BoxKite.Twitter
                 parameters.Add("description", description.TrimAndTruncate(160));
             }
 
-            var url = Api.Resolve("/1.1/account/update_profile.json");
-            return await session.PostAsync(url, parameters)
+            return await session.PostAsync(Api.Resolve("/1.1/account/update_profile.json"), parameters)
                 .ContinueWith(c => c.MapToSingle<AccountProfile>());
         }
 
@@ -174,14 +151,13 @@ namespace BoxKite.Twitter
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/account/update_profile_background_image </remarks>
         public static async Task<AccountProfile> ChangeAccountBackgroundImage(this IUserSession session, string fileName, byte[] imageContent, bool tile = true, bool useImage = true)
         {
-            var parameters = new SortedDictionary<string, string>
+            var parameters = new TwitterParametersCollection
                              {
                                  {"tile", tile.ToString()},
                                  {"use", useImage.ToString()},
                              };
 
-            var url = Api.Resolve("/1.1/account/update_profile_background_image.json");
-            return await session.PostFileAsync(url, parameters, fileName, imageContent, "image")
+            return await session.PostFileAsync(Api.Resolve("/1.1/account/update_profile_background_image.json"), parameters, fileName, imageContent, "image")
                            .ContinueWith(c => c.MapToSingle<AccountProfile>());
         }
 
@@ -194,10 +170,9 @@ namespace BoxKite.Twitter
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/account/update_profile_image </remarks> </remarks>
         public static async Task<AccountProfile> ChangeAccountProfileImage(this IUserSession session, string fileName, byte[] imageContent)
         {
-            var parameters = new SortedDictionary<string, string>();
+            var parameters = new TwitterParametersCollection();
 
-            var url = Api.Resolve("/1.1/account/update_profile_image.json");
-            return await session.PostFileAsync(url, parameters, fileName, imageContent, "image")
+            return await session.PostFileAsync(Api.Resolve("/1.1/account/update_profile_image.json"), parameters, fileName, imageContent, "image")
                            .ContinueWith(c => c.MapToSingle<AccountProfile>());
         }
 
@@ -214,10 +189,8 @@ namespace BoxKite.Twitter
             string profile_background_color = "", string profile_link_color = "", string profile_sidebar_border_color = "",
             string profile_sidebar_fill_color = "", string profile_text_color = "")
         {
-            var parameters = new SortedDictionary<string, string>
-                             {
-                                 {"include_entities", true.ToString()},
-                             };
+            var parameters = new TwitterParametersCollection();
+            parameters.Create(include_entities: true, skip_status: true);
 
             if (!string.IsNullOrWhiteSpace(profile_background_color))
             {
@@ -244,8 +217,7 @@ namespace BoxKite.Twitter
                 parameters.Add("profile_text_color", profile_text_color);
             }
 
-            var url = Api.Resolve("/1.1/account/update_profile_colors.json");
-            return await session.PostAsync(url, parameters)
+            return await session.PostAsync(Api.Resolve("/1.1/account/update_profile_colors.json"), parameters)
                            .ContinueWith(c => c.MapToSingle<AccountProfile>());
         }
 
@@ -256,13 +228,12 @@ namespace BoxKite.Twitter
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/account/update_delivery_device </remarks>
         public static async Task<TwitterSuccess> ChangeUpdateDeliverySettings(this IUserSession session, string device = "none")
         {
-            var parameters = new SortedDictionary<string, string>
-                            {
-                                {"device", device},
-                            };
+            var parameters = new TwitterParametersCollection
+                             {
+                                 {"device", device}
+                             };
 
-            var url = Api.Resolve("/1.1/account/update_delivery_device.json");
-            return await session.PostAsync(url, parameters)
+            return await session.PostAsync(Api.Resolve("/1.1/account/update_delivery_device.json"), parameters)
                          .ContinueWith(c => c.MapToTwitterSuccess()); 
         }
 
@@ -272,10 +243,9 @@ namespace BoxKite.Twitter
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/account/remove_profile_banner </remarks>
         public static async Task<TwitterSuccess> DeleteProfileBanner(this IUserSession session)
         {
-            var parameters = new SortedDictionary<string, string>();
+            var parameters = new TwitterParametersCollection();
 
-            var url = Api.Resolve("/1.1/account/remove_profile_banner.json");
-            return await session.PostAsync(url, parameters)
+            return await session.PostAsync(Api.Resolve("/1.1/account/remove_profile_banner.json"), parameters)
                          .ContinueWith(c => c.MapToTwitterSuccess());
         }
 
@@ -287,12 +257,10 @@ namespace BoxKite.Twitter
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/blocks/list </remarks>
         public static async Task<UserListDetailedCursored> GetBlockList(this IUserSession session, long cursor=-1)
         {
-            var parameters = new SortedDictionary<string, string>{
-                                {"cursor", cursor.ToString()},
-                            };
+            var parameters = new TwitterParametersCollection();
+            parameters.Create(cursor:cursor);
 
-            var url = Api.Resolve("/1.1/blocks/list.json");
-            return await session.GetAsync(url, parameters)
+            return await session.GetAsync(Api.Resolve("/1.1/blocks/list.json"), parameters)
                          .ContinueWith(c => c.MapToSingle<UserListDetailedCursored>());
         }
 
@@ -305,23 +273,10 @@ namespace BoxKite.Twitter
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/blocks/create </remarks>
         public static async Task<User> CreateUserBlock(this IUserSession session, string screen_name = "", int user_id = 0)
         {
-            var parameters = new SortedDictionary<string, string>{
-                                {"include_entities", true.ToString()},
-                                {"skip_status", true.ToString()},
-                            };
+            var parameters = new TwitterParametersCollection();
+            parameters.Create(include_entities:true,skip_status:true,screen_name:screen_name,user_id:user_id);
 
-            if (!string.IsNullOrWhiteSpace(screen_name))
-            {
-                parameters.Add("screen_name", screen_name);
-            }
-
-            if (user_id != 0)
-            {
-                parameters.Add("user_id", user_id.ToString());
-            }
-
-            var url = Api.Resolve("/1.1/blocks/create.json");
-            return await session.PostAsync(url, parameters)
+            return await session.PostAsync(Api.Resolve("/1.1/blocks/create.json"), parameters)
                          .ContinueWith(c => c.MapToSingle<User>());
         }
 
@@ -334,23 +289,10 @@ namespace BoxKite.Twitter
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/blocks/destroy </remarks>
         public static async Task<User> DeleteUserBlock(this IUserSession session, string screen_name = "", int user_id = 0)
         {
-            var parameters = new SortedDictionary<string, string>{
-                                {"include_entities", true.ToString()},
-                                {"skip_status", true.ToString()},
-                            };
+            var parameters = new TwitterParametersCollection();
+            parameters.Create(include_entities: true, skip_status: true, screen_name: screen_name, user_id: user_id);
 
-            if (!string.IsNullOrWhiteSpace(screen_name))
-            {
-                parameters.Add("screen_name", screen_name);
-            }
-
-            if (user_id != 0)
-            {
-                parameters.Add("user_id", user_id.ToString());
-            }
-
-            var url = Api.Resolve("/1.1/blocks/destroy.json");
-            return await session.PostAsync(url, parameters)
+            return await session.PostAsync(Api.Resolve("/1.1/blocks/destroy.json"), parameters)
                          .ContinueWith(c => c.MapToSingle<User>());
         }
 
@@ -364,32 +306,11 @@ namespace BoxKite.Twitter
         public static async Task<TwitterResponseCollection<User>> GetUsersDetailsFull(this IUserSession session, List<string> screen_names = null,
             List<int> user_ids = null)
         {
-            var parameters = new SortedDictionary<string, string>
-                             {
-                                 {"include_entities", true.ToString()},
-                             };
+            var parameters = new TwitterParametersCollection();
+            parameters.Create(include_entities: true);
+            parameters.CreateCollection(screen_names:screen_names,user_ids:user_ids);
 
-            var postscreennames = new StringBuilder();
-            var postuserids = new StringBuilder();
-            if (screen_names != null)
-            {
-                foreach (var screenname in screen_names)
-                {
-                    postscreennames.Append(screenname + ",");
-                }
-                parameters.Add("screen_name", postscreennames.ToString().TrimLastChar());
-            } 
-            if (user_ids != null)
-            {
-                foreach (var ids in user_ids)
-                {
-                    postuserids.Append(ids + ",");
-                }
-                parameters.Add("user_id", postuserids.ToString().TrimLastChar());
-            }
-
-            var url = Api.Resolve("/1.1/users/lookup.json");
-            return await session.PostAsync(url, parameters).ContinueWith(c => c.MapToMany<User>());
+            return await session.PostAsync(Api.Resolve("/1.1/users/lookup.json"), parameters).ContinueWith(c => c.MapToMany<User>());
         }
 
         /// <summary>
@@ -402,16 +323,14 @@ namespace BoxKite.Twitter
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/users/search </remarks>
         public async static Task<TwitterResponseCollection<User>> SearchForUsers(this IUserSession session, string searchQuery, int count = 20, int page = 1)
         {
-            var parameters = new SortedDictionary<string, string>
+            var parameters = new TwitterParametersCollection
                              {
-                                 {"include_entities", true.ToString()},
                                  {"q", searchQuery},
                                  {"page", page.ToString()},
-                                 {"count", count.ToString()}
                              };
+            parameters.Create(count:count,include_entities:true);
 
-            var url = Api.Resolve("/1.1/users/search.json");
-            return await session.GetAsync(url, parameters).ContinueWith(c => c.MapToMany<User>());
+            return await session.GetAsync(Api.Resolve("/1.1/users/search.json"), parameters).ContinueWith(c => c.MapToMany<User>());
         }
     }
 }

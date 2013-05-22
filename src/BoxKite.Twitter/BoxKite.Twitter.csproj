@@ -43,6 +43,7 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\TweetExtensions.cs" />
     <Compile Include="Extensions\TwitterEnumerable.cs" />
+    <Compile Include="Extensions\TwitterParametersCollection.cs" />
     <Compile Include="Helpers\BindableBase.cs" />
     <Compile Include="Helpers\TwitterResponseCollection.cs" />
     <Compile Include="Helpers\JSONCustomConverters.cs" />

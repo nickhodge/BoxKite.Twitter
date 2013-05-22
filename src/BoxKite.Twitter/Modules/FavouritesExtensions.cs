@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using BoxKite.Twitter.Extensions;
 using BoxKite.Twitter.Helpers;
@@ -20,33 +21,10 @@ namespace BoxKite.Twitter.Modules
         /// <param name="count">Specifies the number of records to retrieve. Must be less than or equal to 200. Defaults to 20.</param>
         /// <param name="max_id">Returns results with an ID less than (that is, older than) or equal to the specified </param>
         /// <returns></returns>
-        public async static Task<TwitterResponseCollection<Tweet>> GetFavourites(this IUserSession session, long user_id = 0, string screen_name = "", long since_id = 0, int count = 20, long max_id = 0)
+        public async static Task<TwitterResponseCollection<Tweet>> GetFavourites(this IUserSession session, int user_id = 0, string screen_name = "", long since_id = 0, int count = 20, long max_id = 0)
         {
-            var parameters = new SortedDictionary<string, string>
-                                 {
-                                     {"count", count.ToString()},
-                                     {"include_entities", true.ToString()},
-                                 };
-
-            if (since_id != 0)
-            {
-                parameters.Add("since_id", since_id.ToString());
-            }
-
-            if (max_id !=0)
-            {
-                parameters.Add("max_id", max_id.ToString());
-            }
-
-            if (user_id != 0)
-            {
-                parameters.Add("user_id", user_id.ToString());
-            }
-
-            if (!string.IsNullOrWhiteSpace(screen_name))
-            {
-                parameters.Add("screen_name", screen_name);
-            }
+            var parameters = new TwitterParametersCollection();
+            parameters.Create(count:count,include_entities:true,since_id:since_id,max_id:max_id, user_id:user_id, screen_name:screen_name);
 
             var url = Api.Resolve("/1.1/favorites/list.json");
             return await session.GetAsync(url, parameters)
@@ -61,10 +39,8 @@ namespace BoxKite.Twitter.Modules
         /// <returns></returns>
         public async static Task<Tweet> CreateFavourite(this IUserSession session, Tweet tweet)
         {
-            var parameters = new SortedDictionary<string, string>
-                                 {
-                                      { "id", tweet.Id.ToString() }
-                                 };
+            var parameters = new TwitterParametersCollection();
+            parameters.Create(id: tweet.Id);
 
             var url = Api.Resolve("/1.1/favorites/create.json");
             return await session.PostAsync(url, parameters)
@@ -79,10 +55,8 @@ namespace BoxKite.Twitter.Modules
         /// <returns></returns>
         public async static Task<Tweet> DeleteFavourite(this IUserSession session, Tweet tweet)
         {
-            var parameters = new SortedDictionary<string, string>
-                                 {
-                                      { "id", tweet.Id.ToString() }
-                                 };
+            var parameters = new TwitterParametersCollection();
+            parameters.Create(id: tweet.Id);
 
             var url = Api.Resolve("/1.1/favorites/destroy.json");
             return await session.PostAsync(url, parameters)

@@ -23,22 +23,17 @@ namespace BoxKite.Twitter
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/statuses/update </remarks>
         public async static Task<Tweet> SendTweet(this IUserSession session, string text, double latitude = 0.0, double longitude = 0.0, string place_id="")
         {
-            var parameters = new SortedDictionary<string, string>
+            var parameters = new TwitterParametersCollection
                                  {
                                      { "status", text},
                                      { "trim_user", true.ToString() },
-                                     { "include_entities", true.ToString() }
                                  };
-
+            parameters.Create(include_entities:true,place_id:place_id);
+            
             if (latitude != 0.0 && longitude != 0.0)
             {
                 parameters.Add("lat", latitude.ToString());
                 parameters.Add("long", longitude.ToString());
-            }
-
-            if (!string.IsNullOrWhiteSpace(place_id))
-            {
-                parameters.Add("place_id", place_id);
             }
 
             return await session.PostAsync(Api.Resolve("/1.1/statuses/update.json"), parameters)
@@ -53,8 +48,8 @@ namespace BoxKite.Twitter
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/statuses/destroy/%3Aid </remarks>
         public async static Task<TwitterSuccess> DeleteTweet(this IUserSession session, string id)
         {
-            var url = Api.Resolve("/1.1/statuses/destroy/{0}.json", id);
-            var parameters = new SortedDictionary<string, string>();
+            var parameters = new TwitterParametersCollection();
+            var url = Api.Resolve("/1.1/statuses/destroy/{0}.json", id); 
             return await session.PostAsync(url, parameters)
                           .ContinueWith(c => c.MapToTwitterSuccess());
         }
@@ -71,21 +66,17 @@ namespace BoxKite.Twitter
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/statuses/update </remarks>
         public async static Task<Tweet> ReplyToTweet(this IUserSession session, Tweet tweet, string text, double latitude=0.0, double longitude = 0.0, string place_id="")
         {
-            var parameters = new SortedDictionary<string, string>
-                                 {
+             var parameters = new TwitterParametersCollection
+                                {
                                      {"status", text },
                                      {"in_reply_to_status_id", tweet.Id.ToString()}
                                  };
+            parameters.Create(place_id:place_id);
 
             if (latitude != 0.0 && longitude != 0.0)
             {
                 parameters.Add("lat", latitude.ToString());
                 parameters.Add("long", longitude.ToString());
-            }
-
-            if (!string.IsNullOrWhiteSpace(place_id))
-            {
-                parameters.Add("place_id", place_id);
             }
 
             return await session.PostAsync(Api.Resolve("/1.1/statuses/update.json"), parameters)
@@ -100,7 +91,7 @@ namespace BoxKite.Twitter
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/statuses/retweet/%3Aid </remarks>
         public async static Task<Tweet> Retweet(this IUserSession session, Tweet tweet)
         {
-            var parameters = new SortedDictionary<string, string>();
+            var parameters = new TwitterParametersCollection();
             var path = Api.Resolve("/1.1/statuses/retweet/{0}.json", tweet.Id);
 
             return await session.PostAsync(path, parameters)
@@ -115,17 +106,14 @@ namespace BoxKite.Twitter
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/statuses/show/%3Aid  </remarks>
         public async static Task<Tweet> GetTweet(this IUserSession session, long tweetID)
         {
-            var parameters = new SortedDictionary<string, string>
+            var parameters = new TwitterParametersCollection
                              {
-                                 {"id",tweetID.ToString()},
                                  {"trim_user",false.ToString()},
                                  {"include_my_retweet",true.ToString()},
-                                 {"include_entities",true.ToString()}
                              };
+            parameters.Create(id: tweetID, include_entities:true);
 
-            var path = Api.Resolve("/1.1/statuses/show.json");
-
-            return await session.GetAsync(path, parameters)
+            return await session.GetAsync(Api.Resolve("/1.1/statuses/show.json"), parameters)
                 .ContinueWith(c => c.MapToSingle<Tweet>());
         }
 
@@ -137,7 +125,7 @@ namespace BoxKite.Twitter
         /// <returns></returns>
         public async static Task<TwitterResponseCollection<Tweet>> GetRetweets(this IUserSession session, Tweet tweet, int count = 20)
         {
-            var parameters = new SortedDictionary<string, string>
+            var parameters = new TwitterParametersCollection
                              {
                                  {"count", count.ToString()},
                              };
@@ -157,20 +145,16 @@ namespace BoxKite.Twitter
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/statuses/update_with_media </remarks>
         public async static Task<Tweet> SendTweetWithImage(this IUserSession session, string text, string fileName, byte[] imageData, double latitude = 0.0, double longitude = 0.0, string place_id="")
         {
-            var parameters = new SortedDictionary<string, string>
+            var parameters = new TwitterParametersCollection
                              {
                                  {"status", text},
                              };
+            parameters.Create(place_id:place_id);
 
             if (latitude != 0.0 && longitude != 0.0)
             {
                 parameters.Add("lat", latitude.ToString());
                 parameters.Add("long", longitude.ToString());
-            }
-
-            if (!string.IsNullOrWhiteSpace(place_id))
-            {
-                parameters.Add("place_id", place_id);
             }
 
             return await session.PostFileAsync(Api.Upload("/1/statuses/update_with_media.json"), parameters, fileName, imageData, "media[]")
@@ -191,21 +175,18 @@ namespace BoxKite.Twitter
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/statuses/update_with_media </remarks>
         public async static Task<Tweet> ReplyToTweetWithImage(this IUserSession session, Tweet tweet, string text, string fileName, byte[] imageData, double latitude = 0.0, double longitude = 0.0, string place_id = "")
         {
-            var parameters = new SortedDictionary<string, string>
+            var parameters = new TwitterParametersCollection
                              {
                                  {"status", text},
                                  {"in_reply_to_status_id", tweet.Id.ToString()}
                              };
 
+            parameters.Create(place_id: place_id);
+            
             if (latitude != 0.0 && longitude != 0.0)
             {
                 parameters.Add("lat", latitude.ToString());
                 parameters.Add("long", longitude.ToString());
-            }
-
-            if (!string.IsNullOrWhiteSpace(place_id))
-            {
-                parameters.Add("place_id", place_id);
             }
 
             return await session.PostFileAsync(Api.Upload("/1/statuses/update_with_media.json"), parameters, fileName, imageData, "media[]")
