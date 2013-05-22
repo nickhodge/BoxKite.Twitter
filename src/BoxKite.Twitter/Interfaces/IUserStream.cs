@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using BoxKite.Twitter.Models;
 using BoxKite.Twitter.Models.Stream;
 

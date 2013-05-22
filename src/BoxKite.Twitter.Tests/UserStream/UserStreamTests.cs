@@ -34,7 +34,7 @@ namespace BoxKite.Twitter.Tests.UserStream
             userstreamtest1.Friends.Subscribe(f =>
                                               {
                                                   Assert.IsNotNull(f);
-                                                  Assert.IsInstanceOfType(f, typeof (long));
+                                                  Assert.IsInstanceOfType(f.ToList()[0], typeof (long));
                                               }
                 );
 
@@ -121,7 +121,7 @@ namespace BoxKite.Twitter.Tests.UserStream
         {
             session.Returns(await Json.FromFile("data\\userstream\\userstream5deleteevent.txt"));
             var userstreamtest5 = session.GetUserStream();
-
+            
             userstreamtest5.DeleteEvents.Subscribe(de =>
             {
                 Assert.IsNotNull(de);
@@ -243,7 +243,6 @@ namespace BoxKite.Twitter.Tests.UserStream
                 Assert.IsNotNull(tw);
                 tw.Text.ShouldBeEquivalentTo("@nickhodgemsft testing, please ignore");
                 Assert.IsInstanceOfType(tw.User, typeof(User));
-                tw.InReplyToId.ShouldBeEquivalentTo(800364);
             }
             );
 

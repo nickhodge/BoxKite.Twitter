@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Reactive.Subjects;
 using System.Threading.Tasks;
-using BoxKite.Twitter.Extensions;
 using BoxKite.Twitter.Models;
 using BoxKite.Twitter.Models.Stream;
 using BoxKite.Twitter.Modules.Streaming;
@@ -16,8 +14,6 @@ namespace BoxKite.Twitter
 {
     public class UserStream : IUserStream
     {
-        
-
         readonly Subject<Tweet> tweets = new Subject<Tweet>();
         readonly Subject<DirectMessage> directmessages = new Subject<DirectMessage>();
         readonly Subject<StreamEvent> events = new Subject<StreamEvent>();
@@ -27,7 +23,6 @@ namespace BoxKite.Twitter
         readonly Subject<StreamStatusWithheld> statuswithheld = new Subject<StreamStatusWithheld>();
         readonly Subject<StreamUserWithheld> userwithheld = new Subject<StreamUserWithheld>();
         readonly Subject<IEnumerable<long>> friends = new Subject<IEnumerable<long>>();
-
 
         readonly TimeSpan initialDelay = TimeSpan.FromSeconds(20);
         readonly Func<Task<HttpResponseMessage>> createOpenConnection;
@@ -42,9 +37,8 @@ namespace BoxKite.Twitter
         public IObservable<StreamUserWithheld> UserWithheld { get { return userwithheld; } }
         public IObservable<IEnumerable<long>> Friends { get { return friends; } }
 
-
         public bool _isActive = true;
-        public TimeSpan delay = TimeSpan.FromSeconds(20);
+        public TimeSpan delay = TimeSpan.FromSeconds(5);
 
         public bool IsActive { get { return _isActive; } set { _isActive = value; } }
 
@@ -90,7 +84,7 @@ namespace BoxKite.Twitter
 
         public void Stop()
         {
-            _isActive = false;
+            _isActive = false;            
         }
 
         private async void ProcessMessages()
@@ -119,105 +113,105 @@ namespace BoxKite.Twitter
                     line = "";
                 }
 
-                if (line == "ENDBOXKITEUSERSTREAMTEST")
-                {
-                    // special, non JSON and therefore highly unlikely to be sent from the live service
-                    // this is the token string used by the testing harness.
-                    Stop();
-                }
-#if DEBUG
-                Debug.WriteLine(line);
-#endif
+                /* #if DEBUG
+                                if (line == "ENDBOXKITEUSERSTREAMTEST")
+                                {
+                                    // special, non JSON and therefore highly unlikely to be sent from the live service
+                                    // this is the token string used by the testing harness.
+                                    Dispose();
+                                    // need to stop somehow
+                                    continue;
+                                }
+
+                                Debug.WriteLine(line);
+                #endif */
+
                 // we have a valid connection - clear delay
                 delay = TimeSpan.Zero;
-                try
+
+                // fall through
+                if (string.IsNullOrWhiteSpace(line.Trim())) continue;
+
+                var obj = JsonConvert.DeserializeObject<JObject>(line);
+
+                //https://dev.twitter.com/docs/streaming-apis/messages
+
+                if (obj["direct_message"] != null)
                 {
-                    var obj = JsonConvert.DeserializeObject<dynamic>(line);
-
-                    //https://dev.twitter.com/docs/streaming-apis/messages
-
-                    if (obj.friends != null)
-                    {
-                        SendFriendsMessage(obj.friends.Values<long>());
-                        continue;
-                    }
-
-                    // source: https://dev.twitter.com/docs/streaming-apis/messages#Events_event
-                    if (obj["event"] != null) // gotta use array indexing as event is a reserved word in C#
-                    {
-                        events.OnNext(MapFromEventInStream(obj));
-                        continue;
-                    }
-
-                    if (obj.direct_message != null)
-                    {
-                        directmessages.OnNext(MapFromStreamTo<DirectMessage>(obj.direct_message.ToString()));
-                        continue;
-                    }
-
-                    if (obj.scrub_geo != null)
-                    {
-                        scrubgeorequests.OnNext(MapFromStreamTo<StreamScrubGeo>(obj.scrub_geo.ToString()));
-                        continue;
-                    }
-
-                    if (obj.limit != null)
-                    {
-                        limitnotices.OnNext(MapFromStreamTo<StreamLimitNotice>(obj.limit.ToString()));
-                        continue;
-                    }
-
-                    if (obj.delete != null)
-                    {
-                        deleteevents.OnNext(MapFromStreamTo<DeleteEvent>(obj.delete.status.ToString()));
-                        continue;
-                    }
-
-                    if (obj.status_withheld != null)
-                    {
-                        statuswithheld.OnNext(MapFromStreamTo<StreamStatusWithheld>(obj.status_withheld.status.ToString()));
-                        continue;
-                    }
-
-                    if (obj.user_withheld != null)
-                    {
-                        userwithheld.OnNext(MapFromStreamTo<StreamUserWithheld>(obj.user_withheld.status.ToString()));
-                        continue;
-                    }
-
-                    if (obj.disconnect != null)
-                    {
-                        var disconnect = MapFromStreamTo<StreamDisconnect>(obj.disconnect.status.ToString());
-                        // do something something disconnect.
-                        // some are reconnectable, some are ending status
-                        continue;
-                    }
-
-                    if (obj.warning != null) // there could be two warning types
-                    {
-                        if (obj.warning.percent_full != null)
-                        {
-                            var stallwarning = MapFromStreamTo<StreamStallWarning>(obj.warning.status.ToString());
-                            // do something something stall warning.
-                            // some are reconnectable, some are ending status
-                        }
-                        if (obj.warning.user_id != null)
-                        {
-                            var userfollowswarning = MapFromStreamTo<StreamToManyFollowsWarning>(obj.warning.status.ToString());
-                            // do something something user follows warning this is pretty final, actually.
-                            // some are reconnectable, some are ending status
-                        }
-                    }
-                    // fall through
-                    tweets.OnNext(MapFromStreamTo<Tweet>(obj.ToString()));
-                }
-                catch (Exception x)
-                {
-                    //eat the exception for the moment
-#if DEBUG
-                    Debug.WriteLine(x.ToString());
-#endif
+                    directmessages.OnNext(MapFromStreamTo<DirectMessage>(obj["direct_message"].ToString()));
                     continue;
+                }
+
+                if (obj["in_reply_to_user_id"] != null)
+                {
+                    tweets.OnNext(MapFromStreamTo<Tweet>(obj.ToString()));
+                    continue;
+                }
+
+                if (obj["friends"] != null)
+                {
+                    SendFriendsMessage(obj["friends"].Values<long>());
+                    continue;
+                }
+
+                // source: https://dev.twitter.com/docs/streaming-apis/messages#Events_event
+                if (obj["event"] != null)
+                {
+                    events.OnNext(MapFromEventInStream(obj));
+                    continue;
+                }
+
+                if (obj["scrub_geo"] != null)
+                {
+                    scrubgeorequests.OnNext(MapFromStreamTo<StreamScrubGeo>(obj["scrub_geo"].ToString()));
+                    continue;
+                }
+
+                if (obj["limit"] != null)
+                {
+                    limitnotices.OnNext(MapFromStreamTo<StreamLimitNotice>(obj["limit"].ToString()));
+                    continue;
+                }
+
+                if (obj["delete"] != null)
+                {
+                    deleteevents.OnNext(MapFromStreamTo<DeleteEvent>(obj["delete"].ToString()));
+                    continue;
+                }
+
+                if (obj["status_withheld"] != null)
+                {
+                    statuswithheld.OnNext(
+                        MapFromStreamTo<StreamStatusWithheld>(obj["status_withheld"].ToString()));
+                    continue;
+                }
+
+                if (obj["user_withheld"] != null)
+                {
+                    userwithheld.OnNext(MapFromStreamTo<StreamUserWithheld>(obj["user_withheld"].ToString()));
+                    continue;
+                }
+
+                if (obj["disconnect"] != null)
+                {
+                    var disconnect = MapFromStreamTo<StreamDisconnect>(obj["disconnect"].ToString());
+                    // check for non-hard disconnects & attempt reconnect
+                    continue;
+                }
+
+                if (obj["warning"] == null) continue; // no warnings, so start loop from beginning again
+
+                if (obj["warning"]["percent_full"] != null)
+                {
+                    var stallwarning = MapFromStreamTo<StreamStallWarning>(obj["warning"].ToString());
+                    // do something something stall warning.
+                }
+                if (obj["warning"]["user_id"] != null)
+                {
+                    var userfollowswarning =
+                        MapFromStreamTo<StreamToManyFollowsWarning>(obj["warning"].ToString());
+                    // do something something user follows warning this is pretty final, actually.
+                    Dispose();
                 }
             }
         }
