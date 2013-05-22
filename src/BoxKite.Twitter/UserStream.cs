@@ -7,6 +7,7 @@ using System.Reactive.Subjects;
 using System.Threading.Tasks;
 using BoxKite.Twitter.Extensions;
 using BoxKite.Twitter.Models;
+using BoxKite.Twitter.Models.Stream;
 using BoxKite.Twitter.Modules.Streaming;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -18,14 +19,14 @@ namespace BoxKite.Twitter
         readonly Func<Task<HttpResponseMessage>> createOpenConnection;
         readonly Subject<Tweet> tweets = new Subject<Tweet>();
         readonly Subject<DirectMessage> directmessages = new Subject<DirectMessage>();
-        readonly Subject<Event> events = new Subject<Event>();
+        readonly Subject<StreamEvent> events = new Subject<StreamEvent>();
         readonly Subject<IEnumerable<long>> friends = new Subject<IEnumerable<long>>();
         readonly TimeSpan initialDelay = TimeSpan.FromSeconds(20);
 
 
         public IObservable<Tweet> Tweets { get { return tweets; } }
         public IObservable<DirectMessage> DirectMessages { get { return directmessages; } }
-        public IObservable<Event> Events { get { return events; } }
+        public IObservable<StreamEvent> Events { get { return events; } }
         public IObservable<IEnumerable<long>> Friends { get { return friends; } }
 
 
@@ -93,12 +94,6 @@ namespace BoxKite.Twitter
                 try
                 {
                     line = responseStream.ReadLine();
-
-                    //if (String.IsNullOrEmpty(line))
-                    //{
-                    //    Stop();
-                    //};
-
                 }
                 catch (IOException)
                 {
@@ -124,39 +119,23 @@ namespace BoxKite.Twitter
                     var obj = JsonConvert.DeserializeObject<dynamic>(line);
 
                     //https://dev.twitter.com/docs/streaming-apis/messages
+
                     if (obj.friends != null)
                     {
                         SendFriendsMessage(obj.friends.Values<long>());
                         continue;
                     }
 
+                    // source: https://dev.twitter.com/docs/streaming-apis/messages#Events_event
                     if (obj["event"] != null) // gotta use array indexing as event is a reserved word in C#
                     {
-                        var eventValue = (JValue) obj["event"];
-                        var eventText = eventValue.Value<string>();
-
-                        var target = (JToken) obj["target"];
-                        var source = (JToken) obj["source"];
-                        var target_object = (JToken) obj["target_object"];
-                        var created_at = (JToken) obj["target_object"];
-                        var created_atText = eventValue.Value<string>();
-                        var timestamp = created_atText.ToDateTimeOffset();
-
-                        var e = new TweetEvent
-                                {
-                                    EventName = eventText,
-                                    Source = MapToStreamUser(target.ToString()),
-                                    Target = MapToStreamUser(source.ToString()),
-                                    TargetObject = MapToStreamTweet(target_object.ToString())
-                                };
-
-                        events.OnNext(e);
+                        events.OnNext(MapFromEventInStream(obj));
                         continue;
                     }
 
                     if (obj.direct_message != null)
                     {
-                        directmessages.OnNext(MapToStreamDM(obj.direct_message.ToString()));
+                        directmessages.OnNext(MapFromStreamTo<DirectMessage>(obj.direct_message.ToString()));
                         continue;
                     }
 
@@ -172,49 +151,28 @@ namespace BoxKite.Twitter
 
                     if (obj.delete != null)
                     {
-                        events.OnNext(MapToDeleteEvent(obj.delete.status.ToString()));
-                        continue;
+                        //events.OnNext(MapFromStreamTo<DeleteEvent>(obj.delete.status.ToString()));
+                        //continue;
                     }
 
                     // fall through
-                    tweets.OnNext(MapToStreamTweet(obj.ToString()));
+                    tweets.OnNext(MapFromStreamTo<Tweet>(obj.ToString()));
                 }
-                catch (Exception)
+                catch (Exception x)
                 {
+                    //eat the exception for the moment
 #if DEBUG
-                    //Debug.WriteLine(x.ToString());
+                    Debug.WriteLine(x.ToString());
 #endif
                     continue;
                 }
             }
         }
 
-
-        private Tweet MapToStreamTweet(string t)
-        {
-            return JsonConvert.DeserializeObject<Tweet>(t);
-        }
-
-        private DirectMessage MapToStreamDM(string dm)
-        {
-            return JsonConvert.DeserializeObject<DirectMessage>(dm);
-        }
-
-        private User MapToStreamUser(string user)
-        {
-            return JsonConvert.DeserializeObject<User>(user);
-        }
-
-        private DeleteEvent MapToDeleteEvent(string deleteevent)
-        {
-            return JsonConvert.DeserializeObject<DeleteEvent>(deleteevent);
-        }
-
         private async Task<StreamReader> GetStream()
         {
             var response = await createOpenConnection();
             var stream = await response.Content.ReadAsStreamAsync();
-
             var responseStream = new StreamReader(stream);
             return responseStream;
         }
@@ -231,6 +189,32 @@ namespace BoxKite.Twitter
             tweets.Dispose();
             directmessages.Dispose();
             events.Dispose();
+        }
+
+        private static StreamEvent MapFromEventInStream(dynamic e)
+        {
+            string eventName = e["event"].Value.ToString();
+            if (eventName.Substring(0, 5) == "list_") // as list_*
+            {
+                return MapFromStreamTo<ListStreamEvent>(e.ToString());
+            }
+
+            switch (eventName)
+            {
+                case "favorite":
+                case "unfavorite":
+                    return MapFromStreamTo<TweetStreamEvent>(e.ToString());
+                    break;
+                default:
+                    return MapFromStreamTo<StreamEvent>(e.ToString());
+                    break;
+            }
+            return null;
+        }
+
+        private static T MapFromStreamTo<T>(string t)
+        {
+            return JsonConvert.DeserializeObject<T>(t);
         }
     }
 }

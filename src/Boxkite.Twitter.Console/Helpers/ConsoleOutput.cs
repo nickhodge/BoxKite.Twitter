@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BoxKite.Twitter.Models;
+using BoxKite.Twitter.Models.Stream;
 
 namespace BoxKite.Twitter.Console.Helpers
 {
@@ -46,12 +47,12 @@ namespace BoxKite.Twitter.Console.Helpers
             System.Console.ResetColor();
         }
 
-        public static void PrintEvent(Event e, ConsoleColor fgColour, ConsoleColor bgColour = ConsoleColor.Black)
+        public static void PrintEvent(StreamEvent e, ConsoleColor fgColour, ConsoleColor bgColour = ConsoleColor.Black)
         {
             System.Console.BackgroundColor = bgColour;
             PrintLineHeader(e.EventName, ConsoleColor.Gray);
             System.Console.ForegroundColor = fgColour;
-            var sourceTweet = ((TweetEvent) e).TargetObject;
+            var sourceTweet = ((TweetStreamEvent)e).tweet;
             if (sourceTweet != null)
                 PrintTweet(sourceTweet, fgColour, bgColour);
             System.Console.ResetColor();
