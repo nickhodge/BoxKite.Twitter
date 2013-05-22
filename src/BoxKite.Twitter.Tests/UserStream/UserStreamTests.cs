@@ -13,14 +13,14 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace BoxKite.Twitter.Tests.UserStream
 {
     [TestClass]
-    public class UserStreamTest : ReactiveTest
+    public class UserStreamTests : ReactiveTest
     {
         private readonly TestableSession session = new TestableSession();
   
         [TestMethod]
         public async Task Userstream_initialtweets()
         {
-            session.Returns(await Json.FromFile("data\\userstream\\userstream1.txt"));
+            session.Returns(await Json.FromFile("data\\userstream\\userstream1initwithfriends.txt"));
             var userstreamtest1 = session.GetUserStream();
 
             userstreamtest1.Tweets.Subscribe(t =>

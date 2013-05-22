@@ -128,7 +128,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Modules\TweetExtensionsTests.cs" />
     <Compile Include="Modules\SearchExtensionsTests.cs" />
-    <Compile Include="UserStream\UserStreamTest.cs" />
+    <Compile Include="UserStream\UserStreamTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="data\apiratelimit.txt">
@@ -311,7 +311,7 @@
     <Content Include="data\tweets\singletweetwithgeotag.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="data\userstream\userstream1.txt">
+    <Content Include="data\userstream\userstream1initwithfriends.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="data\users\accountprofile.txt">

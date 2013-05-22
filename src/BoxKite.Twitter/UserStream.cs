@@ -93,6 +93,12 @@ namespace BoxKite.Twitter
                 try
                 {
                     line = responseStream.ReadLine();
+
+                    //if (String.IsNullOrEmpty(line))
+                    //{
+                    //    Stop();
+                    //};
+
                 }
                 catch (IOException)
                 {
@@ -102,19 +108,15 @@ namespace BoxKite.Twitter
                     line = "";
                 }
 
-                if (delay.TotalMinutes <= 2)
+                if (line == "ENDBOXKITEUSERSTREAMTEST")
                 {
+                    // special, non JSON and therefore highly unlikely to be sent from the live service
+                    // this is the token string used by the testing harness.
                     Stop();
                 }
-
-                if (String.IsNullOrEmpty(line))
-                {
-                    Stop();
-                };
 #if DEBUG
-                //Debug.WriteLine(line);
+                Debug.WriteLine(line);
 #endif
-
                 // we have a valid connection - clear delay
                 delay = TimeSpan.Zero;
                 try
@@ -140,24 +142,15 @@ namespace BoxKite.Twitter
                         var created_atText = eventValue.Value<string>();
                         var timestamp = created_atText.ToDateTimeOffset();
 
+                        var e = new TweetEvent
+                                {
+                                    EventName = eventText,
+                                    Source = MapToStreamUser(target.ToString()),
+                                    Target = MapToStreamUser(source.ToString()),
+                                    TargetObject = MapToStreamTweet(target_object.ToString())
+                                };
 
-                        // TODO: raise on appropriate feed
-                        if (eventText.StartsWith("list"))
-                        {
-                            //return a ListEvent
-                        }
-                        else
-                        {
-                            var e = new TweetEvent
-                                    {
-                                        EventName = eventText,
-                                        Source = MapToStreamUser(target.ToString()),
-                                        Target = MapToStreamUser(source.ToString()),
-                                        TargetObject = MapToStreamTweet(target_object.ToString())
-                                    };
-
-                            events.OnNext(e);
-                        }
+                        events.OnNext(e);
                         continue;
                     }
 
