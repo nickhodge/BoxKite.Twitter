@@ -311,6 +311,15 @@
     <Content Include="data\tweets\singletweetwithgeotag.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="data\userstream\userstream16scrubgeo.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\userstream\userstream17limit.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\userstream\userstream5deleteevent.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="data\userstream\userstream10mention.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

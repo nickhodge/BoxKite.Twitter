@@ -65,7 +65,8 @@ Broad To Dos:
 - [ ] DDD Tweets, Users, Following, Followers, Lists, Favourites within the TwitterConnection
 
 Out of Scope:
-- Contributors/Contributees. As yet, not in wild
+- [Contributors/Contributees](https://dev.twitter.com/docs/platform-objects/tweets#obj-contributors) As yet, not in wild 
+"This field will only be populated if the user has contributors enabled on his or her account — this is a beta feature that is not yet generally available to all." 
 - GET Help/* endpoints
 - SiteStreams because I am no masochist nor do I have access to it.
 - oauth2 tokens for Application-based APIs

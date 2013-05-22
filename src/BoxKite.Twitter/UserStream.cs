@@ -16,17 +16,30 @@ namespace BoxKite.Twitter
 {
     public class UserStream : IUserStream
     {
-        readonly Func<Task<HttpResponseMessage>> createOpenConnection;
+        
+
         readonly Subject<Tweet> tweets = new Subject<Tweet>();
         readonly Subject<DirectMessage> directmessages = new Subject<DirectMessage>();
         readonly Subject<StreamEvent> events = new Subject<StreamEvent>();
+        readonly Subject<DeleteEvent> deleteevents = new Subject<DeleteEvent>();
+        readonly Subject<StreamScrubGeo> scrubgeorequests = new Subject<StreamScrubGeo>();
+        readonly Subject<StreamLimitNotice> limitnotices = new Subject<StreamLimitNotice>();
+        readonly Subject<StreamStatusWithheld> statuswithheld = new Subject<StreamStatusWithheld>();
+        readonly Subject<StreamUserWithheld> userwithheld = new Subject<StreamUserWithheld>();
         readonly Subject<IEnumerable<long>> friends = new Subject<IEnumerable<long>>();
-        readonly TimeSpan initialDelay = TimeSpan.FromSeconds(20);
 
+
+        readonly TimeSpan initialDelay = TimeSpan.FromSeconds(20);
+        readonly Func<Task<HttpResponseMessage>> createOpenConnection;
 
         public IObservable<Tweet> Tweets { get { return tweets; } }
         public IObservable<DirectMessage> DirectMessages { get { return directmessages; } }
         public IObservable<StreamEvent> Events { get { return events; } }
+        public IObservable<DeleteEvent> DeleteEvents { get { return deleteevents; } }
+        public IObservable<StreamScrubGeo> ScrubGeoRequests { get { return scrubgeorequests; } }
+        public IObservable<StreamLimitNotice> LimitNotices { get { return limitnotices; } }
+        public IObservable<StreamStatusWithheld> StatusWithheld { get { return statuswithheld; } }
+        public IObservable<StreamUserWithheld> UserWithheld { get { return userwithheld; } }
         public IObservable<IEnumerable<long>> Friends { get { return friends; } }
 
 
@@ -70,6 +83,9 @@ namespace BoxKite.Twitter
             friends.OnError(exception);
             directmessages.OnError(exception);
             events.OnError(exception);
+            deleteevents.OnError(exception);
+            scrubgeorequests.OnError(exception);
+            statuswithheld.OnError(exception);
         }
 
         public void Stop()
@@ -141,20 +157,57 @@ namespace BoxKite.Twitter
 
                     if (obj.scrub_geo != null)
                     {
+                        scrubgeorequests.OnNext(MapFromStreamTo<StreamScrubGeo>(obj.scrub_geo.ToString()));
                         continue;
                     }
 
                     if (obj.limit != null)
                     {
+                        limitnotices.OnNext(MapFromStreamTo<StreamLimitNotice>(obj.limit.ToString()));
                         continue;
                     }
 
                     if (obj.delete != null)
                     {
-                        //events.OnNext(MapFromStreamTo<DeleteEvent>(obj.delete.status.ToString()));
-                        //continue;
+                        deleteevents.OnNext(MapFromStreamTo<DeleteEvent>(obj.delete.status.ToString()));
+                        continue;
                     }
 
+                    if (obj.status_withheld != null)
+                    {
+                        statuswithheld.OnNext(MapFromStreamTo<StreamStatusWithheld>(obj.status_withheld.status.ToString()));
+                        continue;
+                    }
+
+                    if (obj.user_withheld != null)
+                    {
+                        userwithheld.OnNext(MapFromStreamTo<StreamUserWithheld>(obj.user_withheld.status.ToString()));
+                        continue;
+                    }
+
+                    if (obj.disconnect != null)
+                    {
+                        var disconnect = MapFromStreamTo<StreamDisconnect>(obj.disconnect.status.ToString());
+                        // do something something disconnect.
+                        // some are reconnectable, some are ending status
+                        continue;
+                    }
+
+                    if (obj.warning != null) // there could be two warning types
+                    {
+                        if (obj.warning.percent_full != null)
+                        {
+                            var stallwarning = MapFromStreamTo<StreamStallWarning>(obj.warning.status.ToString());
+                            // do something something stall warning.
+                            // some are reconnectable, some are ending status
+                        }
+                        if (obj.warning.user_id != null)
+                        {
+                            var userfollowswarning = MapFromStreamTo<StreamToManyFollowsWarning>(obj.warning.status.ToString());
+                            // do something something user follows warning this is pretty final, actually.
+                            // some are reconnectable, some are ending status
+                        }
+                    }
                     // fall through
                     tweets.OnNext(MapFromStreamTo<Tweet>(obj.ToString()));
                 }
@@ -189,6 +242,8 @@ namespace BoxKite.Twitter
             tweets.Dispose();
             directmessages.Dispose();
             events.Dispose();
+            directmessages.Dispose();
+            scrubgeorequests.Dispose();
         }
 
         private static StreamEvent MapFromEventInStream(dynamic e)
@@ -204,12 +259,9 @@ namespace BoxKite.Twitter
                 case "favorite":
                 case "unfavorite":
                     return MapFromStreamTo<TweetStreamEvent>(e.ToString());
-                    break;
                 default:
                     return MapFromStreamTo<StreamEvent>(e.ToString());
-                    break;
             }
-            return null;
         }
 
         private static T MapFromStreamTo<T>(string t)

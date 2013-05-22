@@ -52,10 +52,17 @@
     <Compile Include="Interfaces\IUserStream.cs" />
     <Compile Include="Models\DirectMessage.cs" />
     <Compile Include="Models\Service\TwitterSuccess.cs" />
+    <Compile Include="Models\Stream\StreamToManyFollowsWarning.cs" />
+    <Compile Include="Models\Stream\StreamStallWarning.cs" />
+    <Compile Include="Models\Stream\StreamDisconnect.cs" />
+    <Compile Include="Models\Stream\StreamUserWithheld.cs" />
+    <Compile Include="Models\Stream\StreamStatusWithheld.cs" />
     <Compile Include="Models\Stream\StreamEvent.cs" />
     <Compile Include="Models\Service\TwitterListCursored.cs" />
     <Compile Include="Models\Service\UserInListCursored.cs" />
     <Compile Include="Models\Stream\DeleteEvent.cs" />
+    <Compile Include="Models\Stream\StreamLimitNotice.cs" />
+    <Compile Include="Models\Stream\StreamScrubGeo.cs" />
     <Compile Include="Models\TwitterList.cs" />
     <Compile Include="Models\BoundingBox.cs" />
     <Compile Include="Models\Coordinates.cs" />
