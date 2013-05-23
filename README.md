@@ -50,7 +50,7 @@ Portable Twitter Client Library using Reactive Extensions library and Async/Awai
 
 * Without [Newtonsoft Json.NET](http://json.net) this library would not exist (MIT License)
 * Microsoft's Open sourced .NET [Reactive Extensions](https://rx.codeplex.com/) (Apache License 2.0)
-* Portable version of the HTTP Client Libraries from the Microsoft ASP.NET WebAPI team [HTTP Client Libraries](http://nuget.org/packages/Microsoft.Net.Http/2.1.3-beta)  (sourced from NuGet, currently Not Support DotNet License)
+* [Portable version of the HTTP Client Libraries](http://blogs.msdn.com/b/bclteam/p/httpclient.aspx) from the Microsoft ASP.NET WebAPI team [HTTP Client Libraries](http://nuget.org/packages/Microsoft.Net.Http/2.1.6-rc)  (sourced from NuGet, currently Licensed under [DotNetBetaUnsupported](http://go.microsoft.com/fwlink/?LinkID=279007) license)
 * You will also need to separately download & build [PCLContrib](http://pclcontrib.codeplex.com/) (MS-PL)
 * Great little collection of extension methods that make writing UnitTests easier [FluentAssertions](http://fluentassertions.codeplex.com/) (MS-PL) 
 
