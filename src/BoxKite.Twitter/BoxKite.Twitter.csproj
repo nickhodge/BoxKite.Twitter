@@ -36,6 +36,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Authentication\TwitterAuthenticator.cs" />
+    <Compile Include="Extensions\ReactiveExtensionsExtension.cs" />
+    <Compile Include="Interfaces\ISearchStream.cs" />
+    <Compile Include="Modules\SearchStreamExtensions.cs" />
+    <Compile Include="SearchStream.cs" />
     <Compile Include="Extensions\Api.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />

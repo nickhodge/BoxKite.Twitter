@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -40,9 +42,19 @@ namespace BoxKite.Twitter.Extensions
             int? user_id = null, string screen_name = null, long? id = null, long? cursor = null,
             string text = null, bool? follow = null, bool? device = null, bool? retweets = null,
             bool? skip_status = null, string slug = null, int? list_id = null,string owner_screen_name = null,
-            int? owner_id = null, string name = null, bool? include_rts = null, string place_id=null
+            int? owner_id = null, string name = null, bool? include_rts = null, string place_id = null, bool? stall_warnings = null, bool? delimited = null
             )
         {
+            if (stall_warnings != null)
+            {
+                parameters.Add("stall_warnings", stall_warnings.ToString());
+            }
+
+            if (delimited != null)
+            {
+                parameters.Add("delimited", delimited.ToString());
+            }
+
             if (cursor != null)
             {
                 parameters.Add("cursor", cursor.ToString());
@@ -153,6 +165,24 @@ namespace BoxKite.Twitter.Extensions
             {
                 parameters.Add("text", text);
             }
+        }
+
+        internal static void CreateCommaDelimitedList(this TwitterParametersCollection parameters, string elementName, IEnumerable elements)
+        {
+            var elementstr = new StringBuilder();
+            if (elements != null)
+            {
+                foreach (var tr in elements)
+                {
+                    elementstr.Append(tr.ToString() + ",");
+                }
+                parameters.Add(elementName, elementstr.ToString().TrimLastChar());
+            }
+        }
+
+        internal static bool EnsureOneOf(this TwitterParametersCollection parameters, IEnumerable<string> requiredParams)
+        {
+            return requiredParams.Any(parameters.ContainsKey);
         }
 
         internal static bool EnsureIsPresent(this TwitterParametersCollection parameters, string paramA)

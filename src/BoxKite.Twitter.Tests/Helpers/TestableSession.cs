@@ -88,6 +88,13 @@ namespace BoxKite.Twitter.Tests.Modules
             return req;
         }
 
+        public HttpRequestMessage CreatePost(string fullUrl, SortedDictionary<string, string> parameters)
+        {
+            this.receviedParameters = parameters;
+            var req = new HttpRequestMessage { Content = new StringContent(contents) }; //grab the supplied error code in setup
+            return req;
+        }
+
         public async Task<HttpResponseMessage> MakeResponse()
         {
             var resp = new HttpResponseMessage() { Content = new StringContent(contents) }; 

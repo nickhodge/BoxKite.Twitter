@@ -50,7 +50,6 @@ namespace BoxKite.Twitter
             client.DefaultRequestHeaders.Add("User-Agent", "BoxKite.Twitter/1.0");
 
             var content = parameters.Aggregate(string.Empty, (current, e) => current + string.Format("{0}={1}&", e.Key, Uri.EscapeDataString(e.Value)));
-
             var data = new StringContent(content, Encoding.UTF8, "application/x-www-form-urlencoded");
 
             return client.PostAsync(url, data);
@@ -102,7 +101,22 @@ namespace BoxKite.Twitter
 
             var request = new HttpRequestMessage(HttpMethod.Get, fullUrl);
             request.Headers.Add("Authorization", oauth.Header);
-            request.Headers.Add("User-Agent", "BoxKite.Twitter");
+            request.Headers.Add("User-Agent", "BoxKite.Twitter/1.0");
+            return request;
+        }
+
+        public HttpRequestMessage CreatePost(string url, SortedDictionary<string, string> parameters)
+        {
+            var oauth = BuildAuthenticatedResult(url, parameters, "POST");
+            var fullUrl = url;
+
+            var request = new HttpRequestMessage(HttpMethod.Post, fullUrl);
+            request.Headers.Add("Authorization", oauth.Header);
+            request.Headers.Add("User-Agent", "BoxKite.Twitter/1.0");
+ 
+            var content = parameters.Aggregate(string.Empty, (current, e) => current + string.Format("{0}={1}&", e.Key, Uri.EscapeDataString(e.Value)));
+            request.Content = new StringContent(content, Encoding.UTF8, "application/x-www-form-urlencoded");
+            
             return request;
         }
 

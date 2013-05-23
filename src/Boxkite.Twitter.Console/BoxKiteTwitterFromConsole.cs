@@ -1,14 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Runtime.Remoting.Services;
 using System.Threading;
+using BoxKite.Twitter.Extensions;
 using BoxKite.Twitter.Modules;
 using BoxKite.Twitter.Modules.Streaming;
 using BoxKite.Twitter.Console.Helpers;
+
 
 namespace BoxKite.Twitter.Console
 {
     public class BoxKiteTwitterFromConsole
     {
         public static IUserStream userstream;
+        public static ISearchStream searchstream;
 
         private static void Main(string[] args)
         {
@@ -29,7 +34,21 @@ namespace BoxKite.Twitter.Console
                     var accountSettings = session.GetAccountSettings().Result;
                     if (!accountSettings.twitterFaulted)
                     {
-                        userstream = session.GetUserStream();
+                        var locations = new List<string> { "-34.081953", "150.700493", "-33.593316", "151.284828" };
+                        searchstream = session.StartSearchStream(locations: locations);
+                        searchstream.FoundTweets.Subscribe(t => ConsoleOutput.PrintTweet(t, ConsoleColor.Green));
+                        searchstream.Start();
+
+                        var dt = DateTime.Now + TimeSpan.FromMinutes(2);
+
+                        while (searchstream.IsActive)
+                        {
+                            Thread.Sleep(TimeSpan.FromMinutes(5));
+                            searchstream.SearchRequests.Publish("hazel");
+                        }
+                    }
+
+                       /*userstream = session.GetUserStream();
                         userstream.Tweets.Subscribe(t => ConsoleOutput.PrintTweet(t, ConsoleColor.Green));
                         userstream.Events.Subscribe(e => ConsoleOutput.PrintEvent(e, ConsoleColor.Yellow));
                         userstream.DirectMessages.Subscribe(
@@ -39,8 +58,9 @@ namespace BoxKite.Twitter.Console
                         while (userstream.IsActive)
                         {
                             Thread.Sleep(TimeSpan.FromSeconds(0.5));
-                        }
-                    }
+                        } */
+
+
 
                     /*
                     var x = session.GetMentions(count:100).Result;

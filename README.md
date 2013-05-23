@@ -32,14 +32,13 @@ Supports and Incorporates:
 - [x] Search
 - [x] Saved Searches
 - [x] User Streaming: [GET userstreams](https://dev.twitter.com/docs/streaming-apis/streams/user) 
-- [ ] Search via Streaming [POST status/filter](https://dev.twitter.com/docs/api/1.1/post/statuses/filter)
+- [x] Search via Streaming [POST status/filter](https://dev.twitter.com/docs/api/1.1/post/statuses/filter)
 - [x] Direct Messages
 - [x] Friends and Followers
 - [x] Users
 - [x] Suggested Users
 - [x] Favorites
 - [x] Lists 
-- [ ] "Life Fire" testing of Lists needs work. UnitTests pass ok
 - [x] Places and Geo
 - [x] Trends
 - [x] Spam Reporting
@@ -62,6 +61,7 @@ Supports and Incorporates:
 * Great little collection of extension methods that make writing UnitTests easier [FluentAssertions](http://fluentassertions.codeplex.com/) (MS-PL) 
 
 ##Broad To Dos:
+- [ ] "Life Fire" testing of Lists needs work, as does parameter checking. UnitTests pass ok
 - [ ] Sematics of D/M and others in status updates
 - [ ] [Attribute:street_address](https://dev.twitter.com/docs/api/1.1/get/geo/search) in PlacesGeo Attributes for Places (these seem to be street address details)
 - [ ] WIKI documentation
