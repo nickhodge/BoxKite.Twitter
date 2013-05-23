@@ -1,5 +1,4 @@
 using System;
-using System.Dynamic;
 using System.Reactive.Subjects;
 using BoxKite.Twitter.Extensions;
 using BoxKite.Twitter.Models;
