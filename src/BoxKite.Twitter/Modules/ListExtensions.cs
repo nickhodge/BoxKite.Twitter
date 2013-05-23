@@ -18,14 +18,14 @@ namespace BoxKite.Twitter.Modules
         /// <param name="user_id">The ID of the user for whom to return results for. Helpful for disambiguating when a valid user ID is also a valid screen name.</param>
         /// <param name="screen_name">The screen name of the user for whom to return results for.</param>
         /// <param name="reverse">Set this to true if you would like owned lists to be returned first.</param>
-        /// <returns></returns>
+        /// <returns>(awaitable) IEnumerable Lists the authenticated user or screen_name subscribes to</returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/lists/list </remarks>
         public static async Task<TwitterResponseCollection<TwitterList>> GetLists(this IUserSession session, int user_id = 0, string screen_name = "", bool reverse = false)
         {
             var parameters = new TwitterParametersCollection {{"reverse", reverse.ToString()}};
             parameters.Create(screen_name: screen_name, user_id: user_id);
 
-            if (!parameters.EnsureEitherOr("screen_name", "user_id"))
+            if (parameters.EnsureEitherOr("screen_name", "user_id").IsFalse())
             {
                 return session.MapParameterError<TwitterResponseCollection<TwitterList>>(
                         "Either screen_name or user_id required");;

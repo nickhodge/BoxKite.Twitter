@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using BoxKite.Twitter.Extensions;
 using BoxKite.Twitter.Helpers;
 using BoxKite.Twitter.Models;
@@ -25,7 +24,7 @@ namespace BoxKite.Twitter
         {
             var parameters = new TwitterParametersCollection
                                  {
-                                     { "status", text},
+                                     { "status", text.TrimAndTruncate(1000)},
                                      { "trim_user", true.ToString() },
                                  };
             parameters.Create(include_entities:true,place_id:place_id);

@@ -155,7 +155,12 @@ namespace BoxKite.Twitter.Extensions
             }
         }
 
-        internal static bool EnsureAll(this TwitterParametersCollection parameters, IEnumerable<string> requiredParams)
+        internal static bool EnsureIsPresent(this TwitterParametersCollection parameters, string paramA)
+        {
+            return parameters.ContainsKey(paramA);
+        }
+
+        internal static bool EnsureAllArePresent(this TwitterParametersCollection parameters, IEnumerable<string> requiredParams)
         {
             return requiredParams.All(parameters.ContainsKey);
         }
@@ -168,6 +173,11 @@ namespace BoxKite.Twitter.Extensions
         internal static bool EnsureEitherOr(this TwitterParametersCollection parameters, string paramA, string paramB)
         {
             return parameters.ContainsKey(paramA) || parameters.ContainsKey(paramB);
+        }
+
+        internal static bool IsFalse(this bool predicate)
+        {
+            return !predicate;
         }
     }
 }

@@ -25,7 +25,7 @@ namespace BoxKite.Twitter
         {
             var parameters = new TwitterParametersCollection
                                  {
-                                     {"q", searchtext.UrlEncode()},
+                                     {"q", searchtext.TrimAndTruncate(1000).UrlEncode()},
                                      {"result_type", SearchResultString(searchResponseType)},
                                  };
             parameters.Create(since_id:since_id,max_id:max_id,count:count,include_entities:true);
@@ -42,6 +42,7 @@ namespace BoxKite.Twitter
         /// <summary>
         /// Geotagged dedicated API for running searches against the real-time index of recent Tweets. 6-9 days
         /// </summary>
+        /// <param name="searchtext">search query of 1,000 characters maximum, including operators. Queries may additionally be limited by complexity.</param>
         /// <param name="latitude">Returns tweets by users located within a given radius of the given latitude/longitude.</param>
         /// <param name="longitude">Returns tweets by users located within a given radius of the given latitude/longitude.</param>
         /// <param name="distance">Returns tweets by users located within a given radius of the given latitude/longitude.</param>
@@ -58,7 +59,7 @@ namespace BoxKite.Twitter
         {
             var parameters = new TwitterParametersCollection
                                  {
-                                     {"q", searchtext.UrlEncode()},
+                                     {"q", searchtext.TrimAndTruncate(1000).UrlEncode()},
                                      {"result_type", SearchResultString(searchResponseType)},
                                  };
             parameters.Create(since_id: since_id, max_id: max_id, count: count, include_entities: true);
@@ -110,7 +111,7 @@ namespace BoxKite.Twitter
         {
             var parameters = new TwitterParametersCollection
                              {
-                                 {"query", searchtext.UrlEncode()},
+                                 {"query", searchtext.TrimAndTruncate(1000).UrlEncode()},
                              };
             return await session.PostAsync(Api.Resolve("/1.1/saved_searches/create.json"), parameters)
                           .ContinueWith(c => c.MapToSingle<SavedSearch>());

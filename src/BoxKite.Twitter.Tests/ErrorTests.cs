@@ -50,7 +50,6 @@ namespace BoxKite.Twitter.Tests
             favourites.twitterControlMessage.http_status_code.ShouldBeEquivalentTo(410); // Note: testing 410 as 429 is not an enum
         }
 
-
         [TestMethod]
         public async Task Get_Lists_Parameter_EitherOr_Error()
         {
@@ -66,6 +65,22 @@ namespace BoxKite.Twitter.Tests
             listserror1.twitterControlMessage.twitter_error_message.ShouldBeEquivalentTo("Parameter Error: Either screen_name or user_id required");
         }
 
+        [TestMethod]
+        public async Task Get_DirectMessages_Parameter_EnsureAll_Error()
+        {
+            // arrange
+            errorsession.simulatingError = true;
+            errorsession.httpStatusCode = HttpStatusCode.PreconditionFailed; // Twitter : Rate Limit exceeded, RFC6585 Too Many Requests
+            errorsession.Returns(await Json.FromFile("data\\directmessages\\directmessagesend.txt"));
+            errorsession.ExpectPost("https://api.twitter.com/1.1/lists/list.json");
+
+            var directmessagesenderror1 = await errorsession.SendDirectMessage("hello, tworld. welcome to 1.1.","");
+
+            Assert.IsNotNull(directmessagesenderror1);
+            directmessagesenderror1.twitterFaulted.Should().BeTrue();
+            directmessagesenderror1.twitterControlMessage.Should().NotBeNull();
+            directmessagesenderror1.twitterControlMessage.twitter_error_message.ShouldBeEquivalentTo("Parameter Error: Either screen_name and text required");
+        }
 
     }
 }

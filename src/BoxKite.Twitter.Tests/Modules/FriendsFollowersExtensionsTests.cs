@@ -18,7 +18,7 @@ namespace BoxKite.Twitter.Tests.Modules
             session.Returns(await Json.FromFile("data\\friendsfollowers\\friendsfollowersids.txt"));
             session.ExpectGet("https://api.twitter.com/1.1/friends/ids.json");
 
-            var friends = await session.GetFriendsIDs();
+            var friends = await session.GetFriendsIDs("testing",324512345);
 
             Assert.IsNotNull(friends);
             friends.next_cursor.ShouldBeEquivalentTo(0);
@@ -33,7 +33,7 @@ namespace BoxKite.Twitter.Tests.Modules
             session.Returns(await Json.FromFile("data\\friendsfollowers\\friendsfollowersids.txt"));
             session.ExpectGet("https://api.twitter.com/1.1/followers/ids.json");
 
-            var followers = await session.GetFollowersIDs();
+            var followers = await session.GetFollowersIDs("targetscreenname",3435);
 
             Assert.IsNotNull(followers);
             followers.next_cursor.ShouldBeEquivalentTo(0);
@@ -92,7 +92,7 @@ namespace BoxKite.Twitter.Tests.Modules
             session.Returns(await Json.FromFile("data\\friendsfollowers\\createfriendshipresponse.txt"));
             session.ExpectGet("https://api.twitter.com/1.1/friendships/create.json");
 
-            var cfsr = await session.CreateFriendship();
+            var cfsr = await session.CreateFriendship("testscreenname",345);
 
             Assert.IsNotNull(cfsr);
             cfsr.Name.ShouldBeEquivalentTo("Doug Williams");
@@ -105,7 +105,7 @@ namespace BoxKite.Twitter.Tests.Modules
             session.Returns(await Json.FromFile("data\\friendsfollowers\\createfriendshipresponse.txt"));
             session.ExpectGet("https://api.twitter.com/1.1/post/friendships/destroy.json");
 
-            var cfsr = await session.DeleteFriendship();
+            var cfsr = await session.DeleteFriendship("testscreenname", 345);
 
             Assert.IsNotNull(cfsr);
             cfsr.Name.ShouldBeEquivalentTo("Doug Williams");
@@ -118,7 +118,7 @@ namespace BoxKite.Twitter.Tests.Modules
             session.Returns(await Json.FromFile("data\\friendsfollowers\\userstatus.txt"));
             session.ExpectPost("https://api.twitter.com/1.1/friendships/update.json");
 
-            var updatefs = await session.ChangeFriendship();
+            var updatefs = await session.ChangeFriendship("testscreenname", 345);
 
             Assert.IsNotNull(updatefs);
             updatefs.Source.CanDM.Should().BeTrue();
@@ -132,7 +132,7 @@ namespace BoxKite.Twitter.Tests.Modules
             session.Returns(await Json.FromFile("data\\friendsfollowers\\userstatus.txt"));
             session.ExpectPost("https://api.twitter.com/1.1/friendships/show.json");
 
-            var updatefs = await session.GetFriendship();
+            var updatefs = await session.GetFriendship("sourcescreenname", "targetscreenname", 342, 6536);
 
             Assert.IsNotNull(updatefs);
             updatefs.Source.CanDM.Should().BeTrue();
@@ -146,7 +146,7 @@ namespace BoxKite.Twitter.Tests.Modules
             session.Returns(await Json.FromFile("data\\friendsfollowers\\userlistcursored.txt"));
             session.ExpectGet("https://api.twitter.com/1.1/friends/list.json");
 
-            var userlistcurs = await session.GetFriendsList();
+            var userlistcurs = await session.GetFriendsList("retst",2345);
 
             Assert.IsNotNull(userlistcurs);
             userlistcurs.next_cursor.ShouldBeEquivalentTo(1333504313713126852);
@@ -161,7 +161,7 @@ namespace BoxKite.Twitter.Tests.Modules
             session.Returns(await Json.FromFile("data\\friendsfollowers\\userlistcursored.txt"));
             session.ExpectGet("https://api.twitter.com/1.1/followers/list.json");
 
-            var userlistcurs = await session.GetFollowersList();
+            var userlistcurs = await session.GetFollowersList("testing",343);
 
             Assert.IsNotNull(userlistcurs);
             userlistcurs.next_cursor.ShouldBeEquivalentTo(1333504313713126852);
