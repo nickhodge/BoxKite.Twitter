@@ -5,19 +5,13 @@ Portable Twitter Client Library using Reactive Extensions library and Async/Awai
 
 ##Details
 
-Supports and Incorporates:
+###Supports and Incorporates:
 * Userstreams
+* Searchstreams
 * Twitter 1.1 REST API
-* Test suite (both Mocked UnitTests and "LiveFire" Tests (online) with broad coverage of Library
-
-##Goals:
-* 100% Twitter API 1.1 coverage suitable for a client application
-* 100% Test Suite coverage both Mocked and LiveFire
-* Supporting .NET 4.5, Windows 8 and Windows Phone 8 development
-* Distribute as a NuGet package
+* Comprehensive Test suite (both Mocked UnitTests and "LiveFire" Tests (online) with broad coverage of Library
 * Async/Await where appropriate (single response)
 * Reactive extensions (.Subscribe) for Streamed data where appropriate.
-* Create a simple "TwitterConnection" object that maintains & manages the connection to Twitter. From this, subscribe to streams; object manages stuff
 
 ##To Build:
 * VS2012 with latest NuGet supporting PCLs (Portable Class Libraries)
@@ -61,11 +55,12 @@ Supports and Incorporates:
 * Great little collection of extension methods that make writing UnitTests easier [FluentAssertions](http://fluentassertions.codeplex.com/) (MS-PL) 
 
 ##Broad To Dos:
-- [ ] "Life Fire" testing of Lists needs work, as does parameter checking. UnitTests pass ok
-- [ ] Sematics of D/M and others in status updates
+- [ ] Distribute as a NuGet package
+- [ ] "Life Fire" testing and Parameter checking of Lists needs work. UnitTests from Twitter supplied Mock data pass ok
+- [ ] Sematics of DirectMessages and others special starting characters in status updates
 - [ ] [Attribute:street_address](https://dev.twitter.com/docs/api/1.1/get/geo/search) in PlacesGeo Attributes for Places (these seem to be street address details)
 - [ ] WIKI documentation
-- [ ] architecture of a TwitterConnection object
+- [ ] Create a "TwitterConnection" object that maintains & manages the connection to Twitter. From this, subscribe to streams; object manages stuff
 - [ ] management of API limits within the TwitterConnection
 - [ ] abstract as .Subscribe observable lists whilst do the cursor/pagination underneath of the objects from the service
 - [ ] DDD Tweets, Users, Following, Followers, Lists, Favourites within the TwitterConnection
@@ -74,10 +69,9 @@ Supports and Incorporates:
 - [Contributors/Contributees](https://dev.twitter.com/docs/platform-objects/tweets#obj-contributors) As yet, not in wild 
 "This field will only be populated if the user has contributors enabled on his or her account — this is a beta feature that is not yet generally available to all." 
 - GET Help/* endpoints
-- SiteStreams because I am no masochist nor do I have access to it.
-- oauth2 tokens for Application-based APIs
+- SiteStreams because I am no masochist nor do I have access to it; although the base code here could be adapted to create this functionality
+- OAuth2 based tokens for Application-based APIs
 - [oembed seems for web sites specific inclusion rather than this API?](https://dev.twitter.com/docs/api/1.1/get/statuses/oembed)
-- [User Profile banner stuff](https://dev.twitter.com/docs/api/1.1/post/account/update_profile_banner) because what even are they? 
 
 ##Copyright, License Information
 
