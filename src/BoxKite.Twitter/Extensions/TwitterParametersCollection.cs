@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text;
-using BoxKite.Twitter.Helpers;
-using Newtonsoft.Json;
 
 namespace BoxKite.Twitter.Extensions
 {
@@ -155,6 +153,21 @@ namespace BoxKite.Twitter.Extensions
             {
                 parameters.Add("text", text);
             }
+        }
+
+        internal static bool EnsureAll(this TwitterParametersCollection parameters, IEnumerable<string> requiredParams)
+        {
+            return requiredParams.All(parameters.ContainsKey);
+        }
+
+        internal static bool EnsureAnd(this TwitterParametersCollection parameters, string paramA, string paramB)
+        {
+            return parameters.ContainsKey(paramA) && parameters.ContainsKey(paramB);
+        }
+
+        internal static bool EnsureEitherOr(this TwitterParametersCollection parameters, string paramA, string paramB)
+        {
+            return parameters.ContainsKey(paramA) || parameters.ContainsKey(paramB);
         }
     }
 }

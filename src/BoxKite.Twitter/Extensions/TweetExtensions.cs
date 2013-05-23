@@ -12,6 +12,9 @@ namespace BoxKite.Twitter.Extensions
             if (tweet.Entities.Media.HasAny())
                 return true;
 
+            if (tweet.Entities.Mentions.HasAny())
+                return true;
+
             if (tweet.Entities.Urls.HasAny())
                 return true;
 

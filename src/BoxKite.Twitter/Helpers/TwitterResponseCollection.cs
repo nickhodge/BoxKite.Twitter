@@ -8,7 +8,7 @@ using BoxKite.Twitter.Models.Service;
 namespace BoxKite.Twitter.Helpers
 {
     /// <summary>
-    /// Represents a strongly typed collection of Twitter Response Objects.
+    /// Represents a strongly typed enumerable collection of Twitter Response Objects.
     /// </summary>
     /// <typeparam name="T">The type of elements in the collection.</typeparam>
     public class TwitterResponseCollection<T> : TwitterControlBase, IEnumerable<T>, IList<T>

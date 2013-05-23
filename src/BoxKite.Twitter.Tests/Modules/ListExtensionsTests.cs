@@ -19,7 +19,7 @@ namespace BoxKite.Twitter.Tests.Modules
             session.Returns(await Json.FromFile("data\\lists\\getuserlists.txt"));
             session.ExpectGet("https://api.twitter.com/1.1/lists/list.json");
 
-            var lists = await session.GetLists();
+            var lists = await session.GetLists(353445, "Test Screen Name");
 
             Assert.IsNotNull(lists);
             lists.Count().ShouldBeEquivalentTo(2);

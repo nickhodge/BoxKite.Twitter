@@ -25,6 +25,12 @@ namespace BoxKite.Twitter.Modules
             var parameters = new TwitterParametersCollection {{"reverse", reverse.ToString()}};
             parameters.Create(screen_name: screen_name, user_id: user_id);
 
+            if (!parameters.EnsureEitherOr("screen_name", "user_id"))
+            {
+                return session.MapParameterError<TwitterResponseCollection<TwitterList>>(
+                        "Either screen_name or user_id required");;
+            }
+
             return await session.GetAsync(Api.Resolve("/1.1/lists/list.json"), parameters)
                           .ContinueWith(c => c.MapToMany<TwitterList>());
         }

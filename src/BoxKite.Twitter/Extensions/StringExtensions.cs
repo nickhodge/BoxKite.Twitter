@@ -6,25 +6,14 @@ namespace BoxKite.Twitter.Extensions
 {
     public static class StringExtensions
     {
+        /// <summary>
+        /// Remove last character of a string
+        /// </summary>
+        /// <param name="sourceString"></param>
+        /// <returns></returns>
         public static string TrimLastChar(this string sourceString)
         {
             return sourceString.Remove(sourceString.Length - 1, 1);
-        }
-
-        public static byte[] ToBase64Bytes(this string sourceString)
-        {
-            return Encoding.UTF8.GetBytes(sourceString);  
-        }
-
-        public static string ToBase64(this string sourceString)
-        {
-            var bytes = Encoding.UTF8.GetBytes(sourceString);
-            return Convert.ToBase64String(bytes);
-        }
-
-        public static byte[] ToByteArray(this string sourceString)
-        {
-            return Encoding.UTF8.GetBytes(sourceString);
         }
 
         /// <summary>

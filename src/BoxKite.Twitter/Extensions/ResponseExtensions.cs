@@ -42,6 +42,7 @@ namespace BoxKite.Twitter.Extensions
             return apiratelimit;
         }
 
+        // TwitterSuccess is a wrapped bool
         internal static TwitterSuccess MapToTwitterSuccess(this Task<HttpResponseMessage> task)
         {
             var resp = new TwitterSuccess { Status = false, twitterControlMessage = MapHTTPResponses(task) };
@@ -94,7 +95,8 @@ namespace BoxKite.Twitter.Extensions
             return userst;
         }
 
-        // special generic case
+        // special generic case decodes of JSON responses
+        // 'wrapped' IENumerable of a single JSON element
         internal static TwitterResponseCollection<T> MapToMany<T>(this Task<HttpResponseMessage> task)
         {
             if (task.IsFaulted || task.IsCanceled)
@@ -112,6 +114,7 @@ namespace BoxKite.Twitter.Extensions
             return JsonConvert.DeserializeObject<TwitterResponseCollection<T>>(content.Result);
         }
 
+        // single JSON element to type
         internal static T MapToSingle<T>(this Task<HttpResponseMessage> task) where T : new()
         {
             if (task.IsFaulted || task.IsCanceled)
@@ -129,7 +132,7 @@ namespace BoxKite.Twitter.Extensions
             return JsonConvert.DeserializeObject<T>(content.Result);
         }
 
-        private static T ComposeSingleError<T>(Task<HttpResponseMessage> task) where T : new()
+        internal static T ComposeSingleError<T>(Task<HttpResponseMessage> task) where T : new()
         {
             var singleError = new T();
             var boolType = new Type[] {typeof (bool)};
@@ -146,7 +149,32 @@ namespace BoxKite.Twitter.Extensions
             return singleError;
         }
 
-        // Map error results specially
+        // Map incorrect parameter errors
+        internal static T MapParameterError<T>(this IUserSession s, string errorMessage) where T : new()
+        {
+            var responseMessage = new T();
+
+            var twitterControlMessage = new TwitterControlMessage
+                                        {
+                                            twitter_error_message =
+                                                String.Format("Parameter Error: {0}", errorMessage)
+                                        };
+
+            var boolType = new Type[] { typeof(bool) };
+            var tcmType = new Type[] {typeof (TwitterControlMessage)};
+            // find the property set method created by the compiler
+            // and manually set the right params in the response
+            var statusProperty = responseMessage.GetType().GetRuntimeMethod("set_twitterFaulted", boolType);
+            if (statusProperty != null)
+                statusProperty.Invoke(responseMessage, new object[] { true });
+            var tcmProperty = responseMessage.GetType().GetRuntimeMethod("set_twitterControlMessage", tcmType);
+            if (tcmProperty != null)
+                tcmProperty.Invoke(responseMessage, new object[] { twitterControlMessage });
+
+            return responseMessage;
+        }
+
+        // Map error results in the TwitterControlMessage
         internal static TwitterControlMessage MapHTTPResponses(this Task<HttpResponseMessage> m)
         {
             var twitterControlMessage = new TwitterControlMessage();
@@ -180,7 +208,7 @@ namespace BoxKite.Twitter.Extensions
         internal static int IntValueForHTTPHeaderKey(string key, string header)
         {
             var val = 0;
-            var statuskey = new Regex(key + @":\s?(\d+)");
+            var statuskey = new Regex(key + @":\s?([0123456789]+),");
             var mc = statuskey.Matches(header);
             if (mc.Count > 0)
             {
@@ -205,7 +233,7 @@ namespace BoxKite.Twitter.Extensions
         {
             double val = 0;
             // http://stackoverflow.com/questions/16621738/d-less-efficient-than-0-9
-            var statuskey = new Regex(key + @":\s?([0123456789]{+})");
+            var statuskey = new Regex(key + @":\s?([0123456789]+)");
             var mc = statuskey.Matches(header);
             if (mc.Count > 0)
             {
