@@ -1,5 +1,5 @@
 #BoxKite.Twitter
-![alt text](https://raw.github.com/nickhodge/BoxKite.Twitter/master/artwork/Boxkite-Logo-github.png "Logo Title Text 1")
+![logo](https://raw.github.com/nickhodge/BoxKite.Twitter/master/artwork/Boxkite-Logo-github.png "Logo")
 
 Portable Twitter Client Library using Reactive Extensions library and Async/Await for the .NET 4.5 platform (and above)
 
@@ -90,6 +90,8 @@ Copyright:
 [Nick Hodge](https://github.com/nickhodge/) and [Brendan Forster](https://github.com/shiftkey/) 2012-2013
 
 ## Why BoxKite?
+
+![boxkite](https://raw.github.com/nickhodge/BoxKite.Twitter/master/src/BoxKite.Twitter/Assets/logo-wide.png "Logo")
 
 Everyone likes flying kites, right? The original inventor of the [box kite](http://en.wikipedia.org/wiki/Box_kite) was [Lawrence Hargrave](http://en.wikipedia.org/wiki/Lawrence_Hargrave). In 1893. And he was an Australian. Sadly missing from our newer plastic yet colourful currency, Lawrence was one of those guys who helped manned flight become a reality.
 
