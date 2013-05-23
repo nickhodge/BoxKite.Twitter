@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using BoxKite.Console.Helpers;
 using BoxKite.Twitter;
 using BoxKite.Twitter.Models.Service;
 using BoxKite.Twitter.Modules.Streaming;
@@ -22,8 +23,8 @@ namespace BoxKite.LiveFireTests
 
             if (twittercredentials.Valid)
             {
-                Console.CancelKeyPress += new ConsoleCancelEventHandler(cancelStreamHandler);
-                var session = new UserSession(twittercredentials);
+                System.Console.CancelKeyPress += new ConsoleCancelEventHandler(cancelStreamHandler);
+                var session = new UserSession(twittercredentials, new DesktopHMACSHA1());
                 var checkUser = session.GetVerifyCredentials().Result;
                 if (!checkUser.twitterFaulted)
                 {
@@ -238,7 +239,7 @@ namespace BoxKite.LiveFireTests
                 }
              }
             ConsoleOutput.PrintMessage("Press Return to close window");
-            Console.ReadLine();
+            System.Console.ReadLine();
         }
 
         private static void cancelStreamHandler(object sender, ConsoleCancelEventArgs e)

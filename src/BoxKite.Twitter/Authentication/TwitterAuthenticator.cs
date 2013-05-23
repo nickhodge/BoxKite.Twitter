@@ -1,11 +1,11 @@
 ﻿using BoxKite.Twitter.Extensions;
+using BoxKite.Twitter.Interfaces;
 using BoxKite.Twitter.Models;
 using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Net.Http;
-using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,13 +21,15 @@ namespace BoxKite.Twitter.Authentication
         private string accessTokenSecret = "";
         private string userID = "";
         private string screenName = "";
-        private readonly IGetUnlockCodeFromTwitter _getUnlockCodeFromTwitter;
+        private readonly IGetUnlockCodeFromTwitter _getUnlockCodeFromTwitter; // platform specific PIN code display
+        private readonly IHMACSHA1 _hmacsha1; // platform specific HMACSHA1
 
-        public TwitterAuthenticator(string clientID, string clientSecret, IGetUnlockCodeFromTwitter iunlock)
+        public TwitterAuthenticator(string clientID, string clientSecret, IGetUnlockCodeFromTwitter iunlock, IHMACSHA1 hmacsha1)
         {
             this.clientID = clientID;
             this.clientSecret = clientSecret;
-            _getUnlockCodeFromTwitter = iunlock;
+            this._getUnlockCodeFromTwitter = iunlock;
+            this._hmacsha1 = hmacsha1;
         }
 
         public async Task<bool> StartAuthentication()
@@ -154,12 +156,12 @@ namespace BoxKite.Twitter.Authentication
 
         private string GenerateSignature(string signingKey, string baseString, string tokenSecret)
         {
-            var hmacsha1 = new HMACSHA1(Encoding.UTF8.GetBytes(string.Format("{0}&{1}", OAuthUrlEncode(signingKey),
+            _hmacsha1.AssignKey(Encoding.UTF8.GetBytes(string.Format("{0}&{1}", OAuthUrlEncode(signingKey),
                 string.IsNullOrEmpty(tokenSecret)
                     ? ""
                     : OAuthUrlEncode(tokenSecret))));
             var dataBuffer = Encoding.UTF8.GetBytes(baseString);
-            var hashBytes = hmacsha1.ComputeHash(dataBuffer);
+            var hashBytes = _hmacsha1.ComputeHash(dataBuffer);
             var signatureString = Convert.ToBase64String(hashBytes);
             return signatureString;
         }
@@ -170,7 +172,7 @@ namespace BoxKite.Twitter.Authentication
 
             foreach (var symbol in value)
             {
-                if (SafeURLEncodeChars.IndexOf(symbol) != -1)
+                if (SafeURLEncodeChars.IndexOf((char) symbol) != -1)
                 {
                     result.Append(symbol);
                 }

@@ -5,8 +5,8 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using BoxKite.Twitter.Interfaces;
 using BoxKite.Twitter.Models;
-using System.Security.Cryptography;
 
 namespace BoxKite.Twitter
 {
@@ -18,10 +18,12 @@ namespace BoxKite.Twitter
 
         const string OauthSignatureMethod = "HMAC-SHA1";
         const string OauthVersion = "1.0";
+        private IHMACSHA1 _hmacsha1;
 
-        public UserSession(TwitterCredentials credentials)
+        public UserSession(TwitterCredentials credentials, IHMACSHA1 hmacsha1)
         {
             this.credentials = credentials;
+            _hmacsha1 = hmacsha1;
         }
 
         public Task<HttpResponseMessage> GetAsync(string url, SortedDictionary<string, string> parameters)
@@ -183,9 +185,9 @@ namespace BoxKite.Twitter
             var signingKey = Uri.EscapeDataString(credentials.ConsumerSecret) + "&" + Uri.EscapeDataString(credentials.TokenSecret);
 
             var encoding = Encoding.UTF8;
-            var crypto = new HMACSHA1(encoding.GetBytes(signingKey));
+            _hmacsha1.AssignKey(encoding.GetBytes(signingKey));
             var data = Encoding.UTF8.GetBytes(baseString);
-            var hash = crypto.ComputeHash(data);
+            var hash = _hmacsha1.ComputeHash(data);
             var signatureString = Convert.ToBase64String(hash);
             return new OAuth
                        {

@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using BoxKite.Twitter;
 
 namespace BoxKite.Twitter.Console.Helpers
 {

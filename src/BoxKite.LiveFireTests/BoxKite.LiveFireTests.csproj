@@ -50,20 +50,6 @@
     <StartupObject>BoxKite.LiveFireTests.TwitterLiveFireAppControl</StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Portable.Desktop">
-      <HintPath>..\..\..\..\..\Skydrive\Projects\pclcontrib-84777\Bin\Release\Portable.Desktop.dll</HintPath>
-    </Reference>
-    <Reference Include="Portable.Runtime, Version=0.1.0.0, Culture=neutral, PublicKeyToken=96ab62c35eacf7af, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\Skydrive\Projects\pclcontrib-84777\Bin\Release\Portable.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="Portable.Security.Cryptography, Version=0.1.0.0, Culture=neutral, PublicKeyToken=96ab62c35eacf7af, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\Skydrive\Projects\pclcontrib-84777\Bin\Release\Portable.Security.Cryptography.dll</HintPath>
-    </Reference>
-    <Reference Include="Portable.Security.Cryptography.Desktop.UnitTests">
-      <HintPath>..\..\..\..\..\Skydrive\Projects\pclcontrib-84777\Bin\Release\Portable.Security.Cryptography.Desktop.UnitTests.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />

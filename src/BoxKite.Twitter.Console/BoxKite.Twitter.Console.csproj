@@ -37,32 +37,9 @@
     <StartupObject>BoxKite.Twitter.Console.BoxKiteTwitterFromConsole</StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac">
-      <HintPath>..\packages\Autofac.3.0.2\lib\net40\Autofac.dll</HintPath>
-    </Reference>
-    <Reference Include="Autofac.Configuration">
-      <HintPath>..\packages\Autofac.3.0.2\lib\net40\Autofac.Configuration.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.5.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="Portable.Data">
-      <HintPath>..\..\..\..\Skydrive\Projects\pclcontrib-84777\Bin\Release\Portable.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="Portable.Desktop">
-      <HintPath>..\..\..\..\Skydrive\Projects\pclcontrib-84777\Bin\Release\Portable.Desktop.dll</HintPath>
-    </Reference>
-    <Reference Include="Portable.Runtime, Version=0.1.0.0, Culture=neutral, PublicKeyToken=96ab62c35eacf7af, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Skydrive\Projects\pclcontrib-84777\Bin\Release\Portable.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="Portable.Security.Cryptography, Version=0.1.0.0, Culture=neutral, PublicKeyToken=96ab62c35eacf7af, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Skydrive\Projects\pclcontrib-84777\Bin\Release\Portable.Security.Cryptography.dll</HintPath>
-    </Reference>
-    <Reference Include="Portable.Security.Cryptography.Desktop.UnitTests">
-      <HintPath>..\..\..\..\Skydrive\Projects\pclcontrib-84777\Bin\Release\Portable.Security.Cryptography.Desktop.UnitTests.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -98,6 +75,7 @@
   <ItemGroup>
     <Compile Include="BoxKiteTwitterFromConsole.cs" />
     <Compile Include="Helpers\ConsoleOutput.cs" />
+    <Compile Include="Helpers\DesktopHMACSHA1.cs" />
     <Compile Include="Helpers\GetUnlockCodeFromTwitter.cs" />
     <Compile Include="Helpers\ManageTwitterCredentials.cs" />
     <Compile Include="Helpers\SecureIt.cs" />

@@ -37,6 +37,7 @@
   <ItemGroup>
     <Compile Include="Authentication\TwitterAuthenticator.cs" />
     <Compile Include="Extensions\ReactiveExtensionsExtension.cs" />
+    <Compile Include="Interfaces\IHMACSHA1.cs" />
     <Compile Include="Interfaces\ISearchStream.cs" />
     <Compile Include="Modules\SearchStreamExtensions.cs" />
     <Compile Include="SearchStream.cs" />
@@ -110,14 +111,8 @@
     <Compile Include="UserStream.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Autofac">
-      <HintPath>..\packages\Autofac.3.0.2\lib\portable-win+net40+sl50+wp8\Autofac.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.5.0.5\lib\portable-net45+wp80+win8\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="Portable.Security.Cryptography">
-      <HintPath>..\..\..\..\..\Skydrive\Projects\pclcontrib-84777\Bin\Release\Portable.Security.Cryptography.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http">
       <HintPath>..\packages\Microsoft.Net.Http.2.1.6-rc\lib\portable-net40+sl4+win8+wp71\System.Net.Http.dll</HintPath>

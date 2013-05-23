@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.Remoting.Services;
 using System.Threading;
+using BoxKite.Console.Helpers;
 using BoxKite.Twitter.Extensions;
 using BoxKite.Twitter.Modules;
 using BoxKite.Twitter.Modules.Streaming;
@@ -25,7 +26,7 @@ namespace BoxKite.Twitter.Console
             if (twittercredentials.Valid)
             {
                 System.Console.CancelKeyPress += new ConsoleCancelEventHandler(cancelStreamHandler);
-                var session = new UserSession(twittercredentials);
+                var session = new UserSession(twittercredentials, new DesktopHMACSHA1() );
                 var checkUser = session.GetVerifyCredentials().Result;
                 if (!checkUser.twitterFaulted)
                 {
@@ -34,16 +35,15 @@ namespace BoxKite.Twitter.Console
                     var accountSettings = session.GetAccountSettings().Result;
                     if (!accountSettings.twitterFaulted)
                     {
-                        var locations = new List<string> { "-34.081953", "150.700493", "-33.593316", "151.284828" };
-                        searchstream = session.StartSearchStream(locations: locations);
+                        //var locations = new List<string> { "-34.081953", "150.700493", "-33.593316", "151.284828" };
+                        //searchstream = session.StartSearchStream(locations: locations);
+                        searchstream = session.StartSearchStream(track: "Cannes");
                         searchstream.FoundTweets.Subscribe(t => ConsoleOutput.PrintTweet(t, ConsoleColor.Green));
                         searchstream.Start();
 
-                        var dt = DateTime.Now + TimeSpan.FromMinutes(2);
-
                         while (searchstream.IsActive)
                         {
-                            Thread.Sleep(TimeSpan.FromMinutes(5));
+                            Thread.Sleep(TimeSpan.FromMinutes(1));
                             searchstream.SearchRequests.Publish("hazel");
                         }
                     }
