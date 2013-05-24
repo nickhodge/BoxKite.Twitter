@@ -37,19 +37,17 @@ namespace BoxKite.Twitter.Console
                     var accountSettings = session.GetAccountSettings().Result;
                     if (!accountSettings.twitterFaulted)
                     {
-                        //var locations = new List<string> { "-34.081953", "150.700493", "-33.593316", "151.284828" };
-                        //searchstream = session.StartSearchStream(locations: locations);
-                        searchstream = session.StartSearchStream(track: "hazel");
-                        searchstream.FoundTweets.Subscribe(t => ConsoleOutput.PrintTweet(t, ConsoleColor.Green));
-                        searchstream.Start();
+                        userstream = session.GetUserStream();
+                        userstream.Tweets.Subscribe(t => ConsoleOutput.PrintTweet(t, ConsoleColor.Green));
+                         userstream.Events.Subscribe(e => ConsoleOutput.PrintEvent(e, ConsoleColor.Yellow));
+                         userstream.DirectMessages.Subscribe(
+                             d => ConsoleOutput.PrintDirect(d, ConsoleColor.Magenta, ConsoleColor.Black));
+                         userstream.Start();
 
-                        while (searchstream.IsActive)
-                        {
-                            Thread.Sleep(TimeSpan.FromMinutes(1));
-                            var sr = new StreamSearchRequest();
-                            sr.tracks.Add("xbox");
-                            searchstream.SearchRequests.Publish(sr);
-                        }
+                         while (userstream.IsActive)
+                         {
+                             Thread.Sleep(TimeSpan.FromSeconds(0.5));
+                         } 
                     }
 
                        /*userstream = session.GetUserStream();
@@ -64,6 +62,25 @@ namespace BoxKite.Twitter.Console
                             Thread.Sleep(TimeSpan.FromSeconds(0.5));
                         } */
 
+
+
+                    /*
+                     * 
+                     * //var locations = new List<string> { "-34.081953", "150.700493", "-33.593316", "151.284828" };
+                        //searchstream = session.StartSearchStream(locations: locations);
+                        searchstream = session.StartSearchStream(track: "hazel");
+                        searchstream.FoundTweets.Subscribe(t => ConsoleOutput.PrintTweet(t, ConsoleColor.Green));
+                        searchstream.Start();
+
+                        while (searchstream.IsActive)
+                        {
+                            Thread.Sleep(TimeSpan.FromMinutes(1));
+                            var sr = new StreamSearchRequest();
+                            sr.tracks.Add("xbox");
+                            searchstream.SearchRequests.Publish(sr);
+                        }
+                     * 
+                     */
 
 
                     /*
