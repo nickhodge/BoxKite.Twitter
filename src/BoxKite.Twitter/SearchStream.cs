@@ -69,20 +69,20 @@ namespace BoxKite.Twitter
             var parameters = new TwitterParametersCollection();
             parameters.Create(stall_warnings: false, delimited: false);
 
-            if (searchRequest.tracks.HasAny())
-                parameters.CreateCommaDelimitedList("track", searchRequest.tracks);
-            if (searchRequest.follows.HasAny())
-                parameters.CreateCommaDelimitedList("follow", searchRequest.follows);
-            if (searchRequest.locations.HasAny())
-                parameters.CreateCommaDelimitedList("locations", searchRequest.locations);
+            if (searchRequest.Tracks.HasAny())
+                parameters.CreateCommaDelimitedList("track", searchRequest.Tracks);
+            if (searchRequest.Follows.HasAny())
+                parameters.CreateCommaDelimitedList("follow", searchRequest.Follows);
+            if (searchRequest.Locations.HasAny())
+                parameters.CreateCommaDelimitedList("locations", searchRequest.Locations);
 
-            parameters.Add("filter_level", "none"); //note this can be none,low,medium
-            // you can also add parameters.Add("language","en");
+            parameters.Add("filter_level", searchRequest.FilterLevel);
+            parameters.Add("language", searchRequest.Language);
 
             return parameters;
         }
 
-         public TwitterParametersCollection ChangeSearchParameters(string track = null, string follow = null, string locations = null)
+        public TwitterParametersCollection ChangeSearchParameters(string track = null, string follow = null, string locations = null, string filterlevel = "none", string language = "en")
         {
             var parameters = new TwitterParametersCollection();
             parameters.Create(stall_warnings: false, delimited: false);
@@ -94,13 +94,13 @@ namespace BoxKite.Twitter
             if (locations != null)
                 parameters.CreateCommaDelimitedList("locations", new List<string> { locations });
 
-            parameters.Add("filter_level", "none"); //note this can be none,low,medium
-            // you can also add parameters.Add("language","en");
+            parameters.Add("filter_level", filterlevel);
+            parameters.Add("language", language);
 
             return parameters;
         }
 
-        public TwitterParametersCollection ChangeSearchParameters(IEnumerable<string> track = null, IEnumerable<string> follow = null, IEnumerable<string> locations = null)
+        public TwitterParametersCollection ChangeSearchParameters(IEnumerable<string> track = null, IEnumerable<string> follow = null, IEnumerable<string> locations = null, string filterlevel = "none", string language = "en")
         {
             var parameters = new TwitterParametersCollection();
             parameters.Create(stall_warnings: false, delimited: false);
@@ -112,8 +112,8 @@ namespace BoxKite.Twitter
             if (locations != null)
                 parameters.CreateCommaDelimitedList("locations", locations);
 
-            parameters.Add("filter_level", "none"); //note this can be none,low,medium
-            // you can also add parameters.Add("language","en");
+            parameters.Add("filter_level", filterlevel);
+            parameters.Add("language", language);
 
             return parameters;
         }
@@ -140,7 +140,7 @@ namespace BoxKite.Twitter
                     var obj = JsonConvert.DeserializeObject<JObject>(line);
                     if (obj["in_reply_to_user_id"] != null)
                     {
-                        foundtweets.OnNext(MapFromStreamTo<Tweet>(obj.ToString()));
+                        foundtweets.Publish(MapFromStreamTo<Tweet>(obj.ToString()));
                         continue;
                     }
                 }

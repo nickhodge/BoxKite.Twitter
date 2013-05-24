@@ -1,21 +1,14 @@
 ﻿// (c) 2012-2013 Nick Hodge mailto:hodgenick@gmail.com & Brendan Forster
+// License: MS-PL
 
 using System;
-using System.CodeDom;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics.Eventing.Reader;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
-using System.Runtime.Remoting.Lifetime;
 using System.Text;
 using System.Threading.Tasks;
 using BoxKite.Twitter;
 using BoxKite.Twitter.Console.Helpers;
 using BoxKite.Twitter.Models;
-using BoxKite.Twitter.Models.Service;
 using BoxKite.Twitter.Modules;
 
 namespace BoxKite.LiveFireTests
@@ -33,7 +26,7 @@ namespace BoxKite.LiveFireTests
                 {
                     ConsoleOutput.PrintMessage("10.1 Lists\\GetLists", ConsoleColor.Gray);
 
-                    var lists1 = await session.GetLists();
+                    var lists1 = await session.GetLists(screen_name:"NickHodgeMSFT");
 
                     if (!lists1.twitterFaulted)
                     {
@@ -44,11 +37,13 @@ namespace BoxKite.LiveFireTests
                             twList = lst;
                         }
                     }
+                    else
+                    {
+                        TwitterLiveFireAppControl.PrintTwitterErrors(lists1.twitterControlMessage);
+                        successStatus = false;
+                    }
                 }
-                else
-                    successStatus = false;
-
-
+ 
                 // 2
                 if (testSeq.Contains(2))
                 {
@@ -64,9 +59,12 @@ namespace BoxKite.LiveFireTests
                                     String.Format("From: {0} // Message: {1}", tweet.User.ScreenName, tweet.Text));
                         }
                     }
+                    else
+                    {
+                        TwitterLiveFireAppControl.PrintTwitterErrors(lists2.twitterControlMessage);
+                        successStatus = false;
+                    }
                 }
-                else
-                    successStatus = false;
 
                 // 3
                 if (testSeq.Contains(3))
@@ -81,7 +79,8 @@ namespace BoxKite.LiveFireTests
                         var lists3 =
                             await session.GetMyListsUserIsMemberOf(screen_name: "shiftkey", cursor: nextcursor);
                         if (lists3.twitterFaulted)
-                        {
+                        {                                           
+                            TwitterLiveFireAppControl.PrintTwitterErrors(lists3.twitterControlMessage);
                             successStatus = false;
                             break;
                         }
@@ -98,10 +97,7 @@ namespace BoxKite.LiveFireTests
 
                     ConsoleOutput.PrintMessage(String.Format("List Membership Count: {0}",
                         listCount));
-
                 }
-                else
-                    successStatus = false;
 
 
                 // 4
@@ -118,6 +114,7 @@ namespace BoxKite.LiveFireTests
                         if (lists4.twitterFaulted)
                         {
                             successStatus = false;
+                            TwitterLiveFireAppControl.PrintTwitterErrors(lists4.twitterControlMessage);
                             break;
                         }
                         nextcursor = lists4.next_cursor;
@@ -130,8 +127,6 @@ namespace BoxKite.LiveFireTests
                         }
                     } while (nextcursor != 0);
                 }
-                else
-                    successStatus = false;
 
 
                 // 5
@@ -140,7 +135,7 @@ namespace BoxKite.LiveFireTests
                     ConsoleOutput.PrintMessage("10.5 Lists\\IsUserOnList", ConsoleColor.Gray);
                     var testScreenName = "coatsy";    
                     var lists5 =
-                        await session.IsUserOnList(screen_name: testScreenName, list_id: 52908745, owner_id: 800364);
+                        await session.IsUserOnList(screen_name: testScreenName, list_id: 52908745, owner_id: 800364, owner_screen_name:"NickHodgeMSFT");
 
                     if (!lists5.twitterFaulted)
                     {
@@ -150,11 +145,11 @@ namespace BoxKite.LiveFireTests
                             ConsoleOutput.PrintMessage(String.Format("ScreenName: {0} is on the list", lists5.ScreenName));
                     }
                     else
+                    {
+                        TwitterLiveFireAppControl.PrintTwitterErrors(lists5.twitterControlMessage);
                         successStatus = false;
+                    }
                 }
-
-
-
 
                 // 6
                 if (testSeq.Contains(6))
@@ -182,7 +177,7 @@ namespace BoxKite.LiveFireTests
 
 
                     var lists7 =
-                        await session.DeleteUsersFromList(slug: testSlug,owner_screen_name: testOwner, screen_names:testScreenNames);
+                        await session.DeleteUsersFromList(list_id: 52908745, owner_id: 800364, owner_screen_name:"NickHodgeMSFT", screen_names:testScreenNames);
 
                     if (lists7.Status)
                     {

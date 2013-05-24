@@ -38,16 +38,13 @@ namespace BoxKite.Twitter.Console
                     if (!accountSettings.twitterFaulted)
                     {
                         userstream = session.GetUserStream();
-                        userstream.Tweets.Subscribe(t => ConsoleOutput.PrintTweet(t, ConsoleColor.Green));
-                         userstream.Events.Subscribe(e => ConsoleOutput.PrintEvent(e, ConsoleColor.Yellow));
-                         userstream.DirectMessages.Subscribe(
-                             d => ConsoleOutput.PrintDirect(d, ConsoleColor.Magenta, ConsoleColor.Black));
-                         userstream.Start();
+                        userstream.Tweets.Subscribe(t => System.Console.WriteLine(String.Format("ScreenName: {0}, Tweet: {1}", t.User.ScreenName, t.Text)));
+                        userstream.Start();
 
-                         while (userstream.IsActive)
-                         {
-                             Thread.Sleep(TimeSpan.FromSeconds(0.5));
-                         } 
+                        while (userstream.IsActive)
+                        {
+                            Thread.Sleep(TimeSpan.FromSeconds(0.5));
+                        } 
                     }
 
                        /*userstream = session.GetUserStream();

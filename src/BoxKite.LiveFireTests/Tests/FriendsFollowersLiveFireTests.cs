@@ -1,13 +1,11 @@
 ﻿// (c) 2012-2013 Nick Hodge mailto:hodgenick@gmail.com & Brendan Forster
+// License: MS-PL
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using BoxKite.Twitter;
 using BoxKite.Twitter.Console.Helpers;
-using BoxKite.Twitter.Models.Service;
-using BoxKite.Twitter.Modules;
 
 namespace BoxKite.LiveFireTests
 {

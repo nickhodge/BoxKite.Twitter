@@ -1,4 +1,5 @@
 ﻿// (c) 2012-2013 Nick Hodge mailto:hodgenick@gmail.com & Brendan Forster
+// License: MS-PL
 
 using System;
 using System.Collections.Generic;
@@ -33,19 +34,23 @@ namespace BoxKite.LiveFireTests
                     ConsoleOutput.PrintMessage(twittercredentials.ScreenName + " is authorised to use BoxKite.Twitter.");
 
                     // put the test series number you wish to run into the init of the array
-                    var testSeriesToRun = new List<int> {3};
+                    // then in each test group, put the numbers of the tests you would like to run
+                    // NOTE: some tests require a previous test to work successfully
+                    // NOTE: some tests post/delete items. This *is* a live fire test!
+
+                    var testSeriesToRun = new List<int> {10};
 
                     // Calls tested by Test Series
-                    // series 1 => 9
-                    // series 2 => 1
-                    // series 3 => 4
-                    // series 4 => 3
-                    // series 5 => 3
-                    // series 6 => 8
-                    // series 7 => 5
-                    // series 8 => 3
-                    // series 9 => 2
-                    // series 10=> 7
+                    // series 1 => 9 (UserAccounts)
+                    // series 2 => 1 (API Management)
+                    // series 3 => 4 (Direct Messages)
+                    // series 4 => 3 (Tweets)
+                    // series 5 => 3 (Favourites)
+                    // series 6 => 8 (Friends/Followers)
+                    // series 7 => 5 (TimeLine)
+                    // series 8 => 3 (Trends)
+                    // series 9 => 2 (SuggestedUsers)
+                    // series 10=> 7 (Lists)
                     // =============
                     // TOTAL      45
 
@@ -221,7 +226,7 @@ namespace BoxKite.LiveFireTests
                     if (testSeriesToRun.Contains(10))
                     {
                         var lsts = new ListsLiveFireTests();
-                        var testResult10 = lsts.DoListsTest(session, new List<int> { 5,7 }).Result;
+                        var testResult10 = lsts.DoListsTest(session, new List<int> { 1, 5, 7 }).Result;
 
                         if (testResult10)
                         {

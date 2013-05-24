@@ -1,11 +1,11 @@
 ﻿// (c) 2012-2013 Nick Hodge mailto:hodgenick@gmail.com & Brendan Forster
+// License: MS-PL
 
 using System;
 using System.Net;
 using System.Threading.Tasks;
 using BoxKite.Console.Helpers;
 using BoxKite.Twitter.Authentication;
-using BoxKite.Twitter.Console.Helpers;
 using BoxKite.Twitter.Models;
 using Newtonsoft.Json.Linq;
 

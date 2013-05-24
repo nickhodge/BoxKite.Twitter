@@ -241,7 +241,7 @@ namespace BoxKite.Twitter.Modules
             int user_id = 0, string screen_name = "", string owner_screen_name = "", int owner_id = 0)
         {
             var parameters = new TwitterParametersCollection();
-            parameters.Create(list_id: list_id, slug: slug, owner_id: owner_id, owner_screen_name: owner_screen_name, skip_status:true,include_entities:true);
+            parameters.Create(user_id:user_id,screen_name:screen_name, list_id: list_id, slug: slug, owner_id: owner_id, owner_screen_name: owner_screen_name, skip_status:true,include_entities:true);
 
             return await session.GetAsync(Api.Resolve("/1.1/lists/members/show.json"), parameters)
                           .ContinueWith(c => c.MapToSingle<User>());
@@ -261,7 +261,7 @@ namespace BoxKite.Twitter.Modules
             string owner_screen_name = "", int owner_id = 0, long cursor = -1)
         {
             var parameters = new TwitterParametersCollection();
-            parameters.Create(list_id: list_id, slug: slug, owner_id: owner_id, owner_screen_name: owner_screen_name, skip_status: true, include_entities: true);
+            parameters.Create(list_id: list_id, slug: slug, owner_id: owner_id, owner_screen_name: owner_screen_name, skip_status: true, include_entities: true, cursor:cursor);
 
             return await session.GetAsync(Api.Resolve("/1.1/lists/members.json"), parameters)
                           .ContinueWith(c => c.MapToSingle<UserListDetailedCursored>());
@@ -420,7 +420,7 @@ namespace BoxKite.Twitter.Modules
         {
             var parameters = new TwitterParametersCollection();
             parameters.Create(list_id: list_id, slug: slug, owner_id: owner_id, owner_screen_name: owner_screen_name);
-            parameters.CreateCollection(screen_names: screen_names, user_ids: user_ids);
+            parameters.CreateCollection(screen_names:screen_names, user_ids:user_ids);
 
             return await session.PostAsync(Api.Resolve("/1.1/lists/members/destroy_all.json"), parameters)
                           .ContinueWith(c => c.MapToTwitterSuccess());
