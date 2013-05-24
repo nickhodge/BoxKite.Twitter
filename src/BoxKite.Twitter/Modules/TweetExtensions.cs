@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿// (c) 2012-2013 Nick Hodge mailto:hodgenick@gmail.com & Brendan Forster
+// License: MS-PL
+
+using System.Threading.Tasks;
 using BoxKite.Twitter.Extensions;
 using BoxKite.Twitter.Helpers;
 using BoxKite.Twitter.Models;

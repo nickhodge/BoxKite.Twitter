@@ -1,7 +1,8 @@
+// (c) 2012-2013 Nick Hodge mailto:hodgenick@gmail.com & Brendan Forster
+// License: MS-PL
+
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
 using BoxKite.Twitter.Models;
 using BoxKite.Twitter.Models.Stream;
 

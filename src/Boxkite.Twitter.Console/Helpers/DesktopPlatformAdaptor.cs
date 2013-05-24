@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿// (c) 2012-2013 Nick Hodge mailto:hodgenick@gmail.com & Brendan Forster
+
+using System.Diagnostics;
 using BoxKite.Twitter.Interfaces;
 using System.Security.Cryptography;
 

@@ -1,4 +1,6 @@
-﻿using System;
+﻿// (c) 2012-2013 Nick Hodge mailto:hodgenick@gmail.com & Brendan Forster
+
+using System;
 using System.Net;
 using System.Threading.Tasks;
 using BoxKite.Console.Helpers;

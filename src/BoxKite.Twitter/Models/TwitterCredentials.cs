@@ -1,4 +1,6 @@
-﻿using System.Runtime.Serialization;
+﻿// (c) 2012-2013 Nick Hodge mailto:hodgenick@gmail.com & Brendan Forster
+// License: MS-PL
+using System.Runtime.Serialization;
 
 namespace BoxKite.Twitter.Models
 {

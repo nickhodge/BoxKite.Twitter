@@ -1,10 +1,10 @@
-﻿// (c) 2012-2013 Nick Hodge mailto:hodgenick@gmailc.om & Brendan Forster
-// License: MS-PLusing BoxKite.Twitter.Extensions;
+﻿// (c) 2012-2013 Nick Hodge mailto:hodgenick@gmail.com & Brendan Forster
+// License: MS-PL
 
+using System;
 using BoxKite.Twitter.Extensions;
 using BoxKite.Twitter.Interfaces;
 using BoxKite.Twitter.Models;
-using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;

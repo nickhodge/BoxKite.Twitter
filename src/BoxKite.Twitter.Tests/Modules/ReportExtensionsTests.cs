@@ -1,4 +1,4 @@
-﻿using System;
+﻿// (c) 2012-2013 Nick Hodge mailto:hodgenick@gmail.com & Brendan Forster
 using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Reactive.Linq;

@@ -1,4 +1,7 @@
-﻿using System;
+﻿// (c) 2012// (c) 2012-2013 Nick Hodge mailto:hodgenick@gmail.com & Brendan Forster
+// License: MS-PL
+
+using System;
 
 namespace BoxKite.Twitter.Extensions
 {
