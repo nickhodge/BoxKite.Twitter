@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.Remoting.Services;
+﻿// (c) 2012-2013 Nick Hodge mailto:hodgenick@gmailc.om & Brendan Forster
+// License: MS-PL
+using System;
 using System.Threading;
 using BoxKite.Console.Helpers;
 using BoxKite.Twitter.Extensions;
@@ -26,7 +26,7 @@ namespace BoxKite.Twitter.Console
             if (twittercredentials.Valid)
             {
                 System.Console.CancelKeyPress += new ConsoleCancelEventHandler(cancelStreamHandler);
-                var session = new UserSession(twittercredentials, new DesktopHMACSHA1() );
+                var session = new UserSession(twittercredentials, new DesktopPlatformAdaptor() );
                 var checkUser = session.GetVerifyCredentials().Result;
                 if (!checkUser.twitterFaulted)
                 {

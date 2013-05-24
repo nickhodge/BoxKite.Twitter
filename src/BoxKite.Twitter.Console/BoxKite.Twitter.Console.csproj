@@ -75,8 +75,7 @@
   <ItemGroup>
     <Compile Include="BoxKiteTwitterFromConsole.cs" />
     <Compile Include="Helpers\ConsoleOutput.cs" />
-    <Compile Include="Helpers\DesktopHMACSHA1.cs" />
-    <Compile Include="Helpers\GetUnlockCodeFromTwitter.cs" />
+    <Compile Include="Helpers\DesktopPlatformAdaptor.cs" />
     <Compile Include="Helpers\ManageTwitterCredentials.cs" />
     <Compile Include="Helpers\SecureIt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

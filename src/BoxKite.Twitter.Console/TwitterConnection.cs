@@ -15,7 +15,7 @@ namespace BoxKite.Twitter.Console
         {
             var x = GetTwitterClientKeys().Result;
 
-            var twitterauth = new TwitterAuthenticator(x.Item1, x.Item2, new GetUnlockCodeFromTwitter(),new DesktopHMACSHA1());
+            var twitterauth = new TwitterAuthenticator(x.Item1, x.Item2, new DesktopPlatformAdaptor());
             var authstartok = twitterauth.StartAuthentication();
             if (authstartok.Result)
             {

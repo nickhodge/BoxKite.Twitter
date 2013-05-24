@@ -37,7 +37,6 @@
   <ItemGroup>
     <Compile Include="Authentication\TwitterAuthenticator.cs" />
     <Compile Include="Extensions\ReactiveExtensionsExtension.cs" />
-    <Compile Include="Interfaces\IHMACSHA1.cs" />
     <Compile Include="Interfaces\ISearchStream.cs" />
     <Compile Include="Modules\SearchStreamExtensions.cs" />
     <Compile Include="SearchStream.cs" />
@@ -53,7 +52,7 @@
     <Compile Include="Helpers\TwitterResponseCollection.cs" />
     <Compile Include="Helpers\JSONCustomConverters.cs" />
     <Compile Include="Interfaces\IAnonymousSession.cs" />
-    <Compile Include="Interfaces\IGetUnlockCodeFromTwitter.cs" />
+    <Compile Include="Interfaces\IPlatformAdaptor.cs" />
     <Compile Include="Interfaces\IUserSession.cs" />
     <Compile Include="Interfaces\IUserStream.cs" />
     <Compile Include="Models\DirectMessage.cs" />

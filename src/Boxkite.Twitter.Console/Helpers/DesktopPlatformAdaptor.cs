@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using BoxKite.Twitter.Interfaces;
 using System.Security.Cryptography;
 
 namespace BoxKite.Console.Helpers
 {
-    public class DesktopHMACSHA1 : IHMACSHA1
+    public class DesktopPlatformAdaptor : IPlatformAdaptor
     {
+        public void DisplayAuthInBrowser(string u)
+        {
+            Process.Start(u);
+        }
+
         private HMACSHA1 _hmacsha1;
 
         public void AssignKey(byte[] key)

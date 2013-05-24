@@ -18,12 +18,12 @@ namespace BoxKite.Twitter
 
         const string OauthSignatureMethod = "HMAC-SHA1";
         const string OauthVersion = "1.0";
-        private IHMACSHA1 _hmacsha1;
+        private IPlatformAdaptor _platformAdaptor;
 
-        public UserSession(TwitterCredentials credentials, IHMACSHA1 hmacsha1)
+        public UserSession(TwitterCredentials credentials, IPlatformAdaptor platformAdaptor)
         {
             this.credentials = credentials;
-            _hmacsha1 = hmacsha1;
+            _platformAdaptor = platformAdaptor;
         }
 
         public Task<HttpResponseMessage> GetAsync(string url, SortedDictionary<string, string> parameters)
@@ -185,9 +185,9 @@ namespace BoxKite.Twitter
             var signingKey = Uri.EscapeDataString(credentials.ConsumerSecret) + "&" + Uri.EscapeDataString(credentials.TokenSecret);
 
             var encoding = Encoding.UTF8;
-            _hmacsha1.AssignKey(encoding.GetBytes(signingKey));
+            _platformAdaptor.AssignKey(encoding.GetBytes(signingKey));
             var data = Encoding.UTF8.GetBytes(baseString);
-            var hash = _hmacsha1.ComputeHash(data);
+            var hash = _platformAdaptor.ComputeHash(data);
             var signatureString = Convert.ToBase64String(hash);
             return new OAuth
                        {

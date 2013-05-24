@@ -1,4 +1,7 @@
-﻿using BoxKite.Twitter.Extensions;
+﻿// (c) 2012-2013 Nick Hodge mailto:hodgenick@gmailc.om & Brendan Forster
+// License: MS-PLusing BoxKite.Twitter.Extensions;
+
+using BoxKite.Twitter.Extensions;
 using BoxKite.Twitter.Interfaces;
 using BoxKite.Twitter.Models;
 using System;
@@ -21,15 +24,13 @@ namespace BoxKite.Twitter.Authentication
         private string accessTokenSecret = "";
         private string userID = "";
         private string screenName = "";
-        private readonly IGetUnlockCodeFromTwitter _getUnlockCodeFromTwitter; // platform specific PIN code display
-        private readonly IHMACSHA1 _hmacsha1; // platform specific HMACSHA1
+        private readonly IPlatformAdaptor _platformAdaptor; // platform specific HMACSHA1
 
-        public TwitterAuthenticator(string clientID, string clientSecret, IGetUnlockCodeFromTwitter iunlock, IHMACSHA1 hmacsha1)
+        public TwitterAuthenticator(string clientID, string clientSecret, IPlatformAdaptor platformAdaptor)
         {
             this.clientID = clientID;
             this.clientSecret = clientSecret;
-            this._getUnlockCodeFromTwitter = iunlock;
-            this._hmacsha1 = hmacsha1;
+            this._platformAdaptor = platformAdaptor;
         }
 
         public async Task<bool> StartAuthentication()
@@ -83,7 +84,7 @@ namespace BoxKite.Twitter.Authentication
             }
 
             if (oauthCallbackConfirmed)
-                _getUnlockCodeFromTwitter.DisplayAuthInBrowser(AuthenticateUrl + oAuthToken);
+                _platformAdaptor.DisplayAuthInBrowser(AuthenticateUrl + oAuthToken);
 
             return oauthCallbackConfirmed;
         }
@@ -156,12 +157,12 @@ namespace BoxKite.Twitter.Authentication
 
         private string GenerateSignature(string signingKey, string baseString, string tokenSecret)
         {
-            _hmacsha1.AssignKey(Encoding.UTF8.GetBytes(string.Format("{0}&{1}", OAuthUrlEncode(signingKey),
+            _platformAdaptor.AssignKey(Encoding.UTF8.GetBytes(string.Format("{0}&{1}", OAuthUrlEncode(signingKey),
                 string.IsNullOrEmpty(tokenSecret)
                     ? ""
                     : OAuthUrlEncode(tokenSecret))));
             var dataBuffer = Encoding.UTF8.GetBytes(baseString);
-            var hashBytes = _hmacsha1.ComputeHash(dataBuffer);
+            var hashBytes = _platformAdaptor.ComputeHash(dataBuffer);
             var signatureString = Convert.ToBase64String(hashBytes);
             return signatureString;
         }
