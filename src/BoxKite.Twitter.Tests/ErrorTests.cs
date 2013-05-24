@@ -1,4 +1,7 @@
-﻿using System.Net;
+﻿// (c) 2012-2013 Nick Hodge mailto:hodgenick@gmail.com & Brendan Forster
+// License: MS-PL
+
+using System.Net;
 using System.Threading.Tasks;
 using BoxKite.Twitter.Models;
 using BoxKite.Twitter.Modules;

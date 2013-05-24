@@ -1,9 +1,9 @@
 ﻿// (c) 2012-2013 Nick Hodge mailto:hodgenick@gmail.com & Brendan Forster
+// License: MS-PL
 
 using System;
 using System.IO;
 using System.Linq;
-using BoxKite.Twitter.Authentication;
 using BoxKite.Twitter.Models;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

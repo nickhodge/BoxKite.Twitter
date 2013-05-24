@@ -1,6 +1,7 @@
 ﻿// (c) 2012-2013 Nick Hodge mailto:hodgenick@gmail.com & Brendan Forster
+// License: MS-PL
+
 using System.Threading.Tasks;
-using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BoxKite.Twitter.Tests.Modules

@@ -5,6 +5,7 @@ using System;
 using System.Threading;
 using BoxKite.Console.Helpers;
 using BoxKite.Twitter.Extensions;
+using BoxKite.Twitter.Models.Stream;
 using BoxKite.Twitter.Modules;
 using BoxKite.Twitter.Modules.Streaming;
 using BoxKite.Twitter.Console.Helpers;
@@ -38,14 +39,16 @@ namespace BoxKite.Twitter.Console
                     {
                         //var locations = new List<string> { "-34.081953", "150.700493", "-33.593316", "151.284828" };
                         //searchstream = session.StartSearchStream(locations: locations);
-                        searchstream = session.StartSearchStream(track: "Cannes");
+                        searchstream = session.StartSearchStream(track: "hazel");
                         searchstream.FoundTweets.Subscribe(t => ConsoleOutput.PrintTweet(t, ConsoleColor.Green));
                         searchstream.Start();
 
                         while (searchstream.IsActive)
                         {
                             Thread.Sleep(TimeSpan.FromMinutes(1));
-                            searchstream.SearchRequests.Publish("hazel");
+                            var sr = new StreamSearchRequest();
+                            sr.tracks.Add("xbox");
+                            searchstream.SearchRequests.Publish(sr);
                         }
                     }
 
