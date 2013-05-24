@@ -40,6 +40,7 @@
     <Compile Include="Interfaces\ISearchStream.cs" />
     <Compile Include="Models\Stream\StreamSearchRequest.cs" />
     <Compile Include="Modules\SearchStreamExtensions.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SearchStream.cs" />
     <Compile Include="Extensions\Api.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
@@ -52,7 +53,6 @@
     <Compile Include="Helpers\BindableBase.cs" />
     <Compile Include="Helpers\TwitterResponseCollection.cs" />
     <Compile Include="Helpers\JSONCustomConverters.cs" />
-    <Compile Include="Interfaces\IAnonymousSession.cs" />
     <Compile Include="Interfaces\IPlatformAdaptor.cs" />
     <Compile Include="Interfaces\IUserSession.cs" />
     <Compile Include="Interfaces\IUserStream.cs" />
@@ -137,9 +137,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Assets\background-extended.png" />
     <Content Include="Assets\background.png" />
