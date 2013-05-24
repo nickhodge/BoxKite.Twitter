@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Reactive.Subjects;
+using System.Threading;
 using System.Threading.Tasks;
 using BoxKite.Twitter.Models;
 using BoxKite.Twitter.Models.Stream;
@@ -39,60 +40,32 @@ namespace BoxKite.Twitter
         public IObservable<StreamUserWithheld> UserWithheld { get { return userwithheld; } }
         public IObservable<IEnumerable<long>> Friends { get { return friends; } }
 
-        public bool _isActive = true;
+        public bool IsActive { get; private set; }
+        public CancellationTokenSource CancelUserStream { get; set; }
         public TimeSpan delay = TimeSpan.FromSeconds(5);
-
-        public bool IsActive { get { return _isActive; } set { _isActive = value; } }
 
         public UserStream(Func<Task<HttpResponseMessage>> createOpenConnection)
         {
             this.createOpenConnection = createOpenConnection;
+            CancelUserStream = new CancellationTokenSource();
+            IsActive = true;
         }
 
         public void Start()
         {
-            Task.Factory.StartNew(ProcessMessages)
-                .ContinueWith(HandleExceptionsIfRaised);
-        }
-
-        private void HandleExceptionsIfRaised(Task obj)
-        {
-            if (obj.Exception != null)
-            {
-                SendToAllSubscribers(obj.Exception);
-            }
-
-            if (obj.IsFaulted)
-            {
-                SendToAllSubscribers(new Exception("Stream is faulted"));
-            }
-
-            if (obj.IsCanceled)
-            {
-                SendToAllSubscribers(new Exception("Stream is cancelled"));
-            }
-        }
-
-        private void SendToAllSubscribers(Exception exception)
-        {
-            tweets.OnError(exception);
-            friends.OnError(exception);
-            directmessages.OnError(exception);
-            events.OnError(exception);
-            deleteevents.OnError(exception);
-            scrubgeorequests.OnError(exception);
-            statuswithheld.OnError(exception);
+            CancelUserStream = new CancellationTokenSource();
+            Task.Factory.StartNew(ProcessMessages, CancelUserStream.Token);
         }
 
         public void Stop()
         {
-            _isActive = false;            
+            IsActive = false;            
         }
 
         private async void ProcessMessages()
         {
             var responseStream = await GetStream();
-            while (_isActive)
+            while (!CancelUserStream.IsCancellationRequested)
             {
                 // reconnect if the stream was closed previously
                 if (responseStream == null)
@@ -115,12 +88,11 @@ namespace BoxKite.Twitter
                     line = "";
                 }
 
+                // special, non JSON and therefore highly unlikely to be sent from the live service
+                // this is the token string used by the testing harness.
                 if (line == "ENDBOXKITEUSERSTREAMTEST")
                 {
-                    // special, non JSON and therefore highly unlikely to be sent from the live service
-                    // this is the token string used by the testing harness.
                     Dispose();
-                    // need to stop somehow
                     continue;
                 }
 
@@ -230,7 +202,7 @@ namespace BoxKite.Twitter
 
         public void Dispose()
         {
-            _isActive = false;
+            IsActive = false;
             friends.Dispose();
             tweets.Dispose();
             directmessages.Dispose();

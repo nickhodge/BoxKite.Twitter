@@ -40,7 +40,7 @@ Portable Twitter Client Library using Reactive Extensions library and Async/Awai
 - [x] API rate limits
 
 ##Tests:
-* 112 test methods with average of 4 assertion tests each
+* 113 test methods with average of 4 assertion tests each
 * Both Twitter API 1.1 and Userstream Unit Tests
 * 45 "Live Fire Tests". Included as a separate project, it is engaged via the Console; uses a real Twitter Account to exercise the API. Configurable Test series, individual tests that can be run.
 * Test source is JSON from [dev.twitter.com](https://dev.twitter.com/) and where innaccurate on the site, taken from live data or corrected to match live data.

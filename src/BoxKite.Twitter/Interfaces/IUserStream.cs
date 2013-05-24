@@ -19,7 +19,7 @@ namespace BoxKite.Twitter.Modules.Streaming
         IObservable<StreamLimitNotice> LimitNotices { get; }
         IObservable<StreamStatusWithheld> StatusWithheld { get; }
         IObservable<StreamUserWithheld> UserWithheld { get; }
-        bool IsActive { get; set; } 
+        bool IsActive { get; } 
         void Start();
         void Stop();
     }
