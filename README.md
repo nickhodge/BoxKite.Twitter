@@ -19,7 +19,7 @@ At the present time, BoxKite.Twitter supports API version 1.1 of the following:
 ##NuGet Package
 
 ```
-Install-Package BoxKite.Twitter.PCL -Pre
+Install-Package BoxKite.Twitter -Pre
 ```
 
 ## Wiki documentation
