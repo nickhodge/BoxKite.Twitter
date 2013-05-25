@@ -80,8 +80,6 @@ Copyright:
 
 ## Why BoxKite?
 
-![boxkite](https://raw.github.com/nickhodge/BoxKite.Twitter/master/src/BoxKite.Twitter/Assets/logo-wide.png "Logo")
-
 Everyone likes flying kites, right? The original inventor of the [box kite](http://en.wikipedia.org/wiki/Box_kite) was [Lawrence Hargrave](http://en.wikipedia.org/wiki/Lawrence_Hargrave). In 1893. And he was an Australian. Sadly missing from our newer plastic yet colourful currency, Lawrence was one of those guys who helped manned flight become a reality.
 
 And keeping with the Twitter bird theme, flying and airborne I created a fork of the MahTweets twitter client in late 2011 and named it [MahTweets Lawrence Hargrave](https://github.com/nickhodge/MahTweets.LawrenceHargrave).
