@@ -22,7 +22,7 @@ At the present time, BoxKite.Twitter supports API version 1.1 of the following:
 Install-Package BoxKite.Twitter -Pre
 ```
 
-##What Does the Code look like?
+##So What Does the Code look like?
 
 [Pop into the wiki demo](https://github.com/nickhodge/BoxKite.Twitter/wiki)
 
