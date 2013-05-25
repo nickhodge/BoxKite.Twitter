@@ -21,12 +21,19 @@ namespace BoxKite.Twitter
         const string OauthVersion = "1.0";
         private IPlatformAdaptor _platformAdaptor;
 
+#if (PORTABLE)
         public UserSession(TwitterCredentials credentials, IPlatformAdaptor platformAdaptor)
         {
             this.credentials = credentials;
             _platformAdaptor = platformAdaptor;
         }
-
+#elif (WINDOWS)
+        public UserSession(TwitterCredentials credentials)
+        {
+            this.credentials = credentials;
+            _platformAdaptor = new DesktopPlatformAdaptor();
+        }
+#endif
         public Task<HttpResponseMessage> GetAsync(string url, SortedDictionary<string, string> parameters)
         {
             var querystring = parameters.Aggregate("", (current, entry) => current + (entry.Key + "=" + entry.Value + "&"));

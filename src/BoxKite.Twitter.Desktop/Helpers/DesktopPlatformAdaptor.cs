@@ -4,7 +4,7 @@
 using System.Diagnostics;
 using System.Security.Cryptography;
 
-namespace BoxKite.Twitter.Console
+namespace BoxKite.Twitter
 {
     public class DesktopPlatformAdaptor : IPlatformAdaptor
     {

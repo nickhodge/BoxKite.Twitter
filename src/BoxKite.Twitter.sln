@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoxKite.Twitter.Console", "Boxkite.Twitter.Console\BoxKite.Twitter.Console.csproj", "{B0CCE07E-E1A5-4BC4-A6C8-9876D4C6819A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoxKite.Twitter.Tests", "BoxKite.Twitter.Tests\BoxKite.Twitter.Tests.csproj", "{C2F6E177-2755-4258-9C8E-B8E534075049}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{4B62908F-4615-45C0-A61F-D00960B06271}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\NuGet.Config = .nuget\NuGet.Config
@@ -16,6 +14,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoxKite.Twitter", "BoxKite.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoxKite.LiveFireTests", "BoxKite.LiveFireTests\BoxKite.LiveFireTests.csproj", "{717AD3D7-1FE2-4B2E-8DCC-19583D03C471}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoxKite.Twitter.Desktop", "BoxKite.Twitter.Desktop\BoxKite.Twitter.Desktop.csproj", "{98FFBF69-762F-4111-84B9-E757D9A698B9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,10 +26,6 @@ Global
 		{B0CCE07E-E1A5-4BC4-A6C8-9876D4C6819A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0CCE07E-E1A5-4BC4-A6C8-9876D4C6819A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0CCE07E-E1A5-4BC4-A6C8-9876D4C6819A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C2F6E177-2755-4258-9C8E-B8E534075049}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C2F6E177-2755-4258-9C8E-B8E534075049}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C2F6E177-2755-4258-9C8E-B8E534075049}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C2F6E177-2755-4258-9C8E-B8E534075049}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2EB6324B-F465-44AB-823F-E591845B8D80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2EB6324B-F465-44AB-823F-E591845B8D80}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2EB6324B-F465-44AB-823F-E591845B8D80}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -38,6 +34,10 @@ Global
 		{717AD3D7-1FE2-4B2E-8DCC-19583D03C471}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{717AD3D7-1FE2-4B2E-8DCC-19583D03C471}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{717AD3D7-1FE2-4B2E-8DCC-19583D03C471}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98FFBF69-762F-4111-84B9-E757D9A698B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98FFBF69-762F-4111-84B9-E757D9A698B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98FFBF69-762F-4111-84B9-E757D9A698B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98FFBF69-762F-4111-84B9-E757D9A698B9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

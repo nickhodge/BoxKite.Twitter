@@ -25,13 +25,21 @@ namespace BoxKite.Twitter
         private string screenName = "";
         private readonly IPlatformAdaptor _platformAdaptor; // platform specific HMACSHA1
 
+#if (PORTABLE)
         public TwitterAuthenticator(string clientID, string clientSecret, IPlatformAdaptor platformAdaptor)
         {
             this.clientID = clientID;
             this.clientSecret = clientSecret;
             this._platformAdaptor = platformAdaptor;
         }
-
+#elif (WINDOWS)
+        public TwitterAuthenticator(string clientID, string clientSecret)
+        {
+            this.clientID = clientID;
+            this.clientSecret = clientSecret;
+            this._platformAdaptor = new DesktopPlatformAdaptor();
+        }
+#endif
         public async Task<bool> StartAuthentication()
         {
             if (string.IsNullOrWhiteSpace(clientID))
