@@ -48,10 +48,10 @@
     <Compile Include="Extensions\ResponseExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\TweetExtensions.cs" />
-    <Compile Include="Extensions\TwitterEnumerable.cs" />
-    <Compile Include="Extensions\TwitterParametersCollection.cs" />
+    <Compile Include="Models\TwitterEnumerable.cs" />
+    <Compile Include="Models\TwitterParametersCollection.cs" />
     <Compile Include="Helpers\BindableBase.cs" />
-    <Compile Include="Helpers\TwitterResponseCollection.cs" />
+    <Compile Include="Models\TwitterResponseCollection.cs" />
     <Compile Include="Helpers\JSONCustomConverters.cs" />
     <Compile Include="Interfaces\IPlatformAdaptor.cs" />
     <Compile Include="Interfaces\IUserSession.cs" />
@@ -84,7 +84,7 @@
     <Compile Include="Models\Service\SuggestedUsers.cs" />
     <Compile Include="Models\Service\FriendshipLookupResponse.cs" />
     <Compile Include="Models\Service\FriendsFollowersIDsCursored.cs" />
-    <Compile Include="Helpers\TwitterControlBase.cs" />
+    <Compile Include="Models\TwitterControlBase.cs" />
     <Compile Include="Models\Service\TrendsAvailableResponse.cs" />
     <Compile Include="Models\Service\TrendsForPlaceResponse.cs" />
     <Compile Include="Models\Service\TwitterError.cs" />

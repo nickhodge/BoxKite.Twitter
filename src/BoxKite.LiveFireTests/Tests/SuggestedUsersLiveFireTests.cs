@@ -4,10 +4,8 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BoxKite.Twitter;
-using BoxKite.Twitter.Console.Helpers;
 
-namespace BoxKite.LiveFireTests
+namespace BoxKite.Twitter.Console
 {
     public class SuggestedUsersLiveFireTests
     {
@@ -34,10 +32,10 @@ namespace BoxKite.LiveFireTests
                             suggestedSlug = sgg.Slug;
                         }
                     }
+                    else
+                        successStatus = false;
                 }
-                else
-                    successStatus = false;
-
+             
 
                 // 2
                 if (testSeq.Contains(2))
@@ -54,9 +52,10 @@ namespace BoxKite.LiveFireTests
                                      String.Format("UserID: {0} // ScreenName: {1}",sgu.UserId, sgu.ScreenName));
                         }
                     }
+                    else
+                        successStatus = false;
                 }
-                else
-                    successStatus = false;
+                
 
             }
             catch (Exception e)

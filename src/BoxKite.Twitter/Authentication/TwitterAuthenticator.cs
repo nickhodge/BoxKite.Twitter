@@ -3,7 +3,6 @@
 
 using System;
 using BoxKite.Twitter.Extensions;
-using BoxKite.Twitter.Interfaces;
 using BoxKite.Twitter.Models;
 using System.Diagnostics;
 using System.Globalization;
@@ -13,7 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace BoxKite.Twitter.Authentication
+namespace BoxKite.Twitter
 {
     public class TwitterAuthenticator
     {

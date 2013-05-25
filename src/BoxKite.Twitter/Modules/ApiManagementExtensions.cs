@@ -2,7 +2,7 @@
 // License: MS-PL
 using System.Collections.Generic;
 using BoxKite.Twitter.Extensions;
-using BoxKite.Twitter.Models.Service;
+using BoxKite.Twitter.Models;
 using System.Threading.Tasks;
 
 namespace BoxKite.Twitter

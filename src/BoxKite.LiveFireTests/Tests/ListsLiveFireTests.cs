@@ -3,15 +3,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.ComTypes;
-using System.Text;
 using System.Threading.Tasks;
-using BoxKite.Twitter;
-using BoxKite.Twitter.Console.Helpers;
 using BoxKite.Twitter.Models;
-using BoxKite.Twitter.Modules;
 
-namespace BoxKite.LiveFireTests
+namespace BoxKite.Twitter.Console
 {
     public class ListsLiveFireTests
     {

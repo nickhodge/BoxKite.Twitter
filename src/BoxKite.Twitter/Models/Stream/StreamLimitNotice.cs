@@ -2,7 +2,7 @@
 // License: MS-PL
 using Newtonsoft.Json;
 
-namespace BoxKite.Twitter.Models.Stream
+namespace BoxKite.Twitter.Models
 {
     public class StreamLimitNotice
     {

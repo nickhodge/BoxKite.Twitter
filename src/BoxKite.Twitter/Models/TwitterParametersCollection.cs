@@ -5,8 +5,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using BoxKite.Twitter.Extensions;
 
-namespace BoxKite.Twitter.Extensions
+namespace BoxKite.Twitter.Models
 {
     public class TwitterParametersCollection : SortedDictionary<string,string>
     {

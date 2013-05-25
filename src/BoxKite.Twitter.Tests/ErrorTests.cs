@@ -4,8 +4,6 @@
 using System.Net;
 using System.Threading.Tasks;
 using BoxKite.Twitter.Models;
-using BoxKite.Twitter.Modules;
-using BoxKite.Twitter.Tests.Modules;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

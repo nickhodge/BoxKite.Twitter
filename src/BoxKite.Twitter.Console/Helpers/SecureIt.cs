@@ -10,81 +10,85 @@ using System.Text;
 
 // source: http://stackoverflow.com/questions/8871337/how-can-i-encrypt-user-settings-such-as-passwords-in-my-application
 
-public static class SecureIt
+namespace BoxKite.Twitter.Console
 {
-    private static readonly byte[] entropy = Encoding.Unicode.GetBytes("mahtweets rocked in its time");
 
-    public static string EncryptString(this SecureString input)
+    public static class SecureIt
     {
-        if (input == null)
+        private static readonly byte[] entropy = Encoding.Unicode.GetBytes("mahtweets rocked in its time");
+
+        public static string EncryptString(this SecureString input)
         {
-            return null;
-        }
+            if (input == null)
+            {
+                return null;
+            }
 
-        var encryptedData = ProtectedData.Protect(
-            Encoding.Unicode.GetBytes(input.ToInsecureString()),
-            entropy,
-            DataProtectionScope.CurrentUser);
-
-        return Convert.ToBase64String(encryptedData);
-    }
-
-    public static SecureString DecryptString(this string encryptedData)
-    {
-        if (encryptedData == null)
-        {
-            return null;
-        }
-
-        try
-        {
-            var decryptedData = ProtectedData.Unprotect(
-                Convert.FromBase64String(encryptedData),
+            var encryptedData = ProtectedData.Protect(
+                Encoding.Unicode.GetBytes(input.ToInsecureString()),
                 entropy,
                 DataProtectionScope.CurrentUser);
 
-            return Encoding.Unicode.GetString(decryptedData).ToSecureString();
-        }
-        catch
-        {
-            return new SecureString();
-        }
-    }
-
-    public static SecureString ToSecureString(this IEnumerable<char> input)
-    {
-        if (input == null)
-        {
-            return null;
+            return Convert.ToBase64String(encryptedData);
         }
 
-        var secure = new SecureString();
-
-        foreach (var c in input)
+        public static SecureString DecryptString(this string encryptedData)
         {
-            secure.AppendChar(c);
+            if (encryptedData == null)
+            {
+                return null;
+            }
+
+            try
+            {
+                var decryptedData = ProtectedData.Unprotect(
+                    Convert.FromBase64String(encryptedData),
+                    entropy,
+                    DataProtectionScope.CurrentUser);
+
+                return Encoding.Unicode.GetString(decryptedData).ToSecureString();
+            }
+            catch
+            {
+                return new SecureString();
+            }
         }
 
-        secure.MakeReadOnly();
-        return secure;
-    }
-
-    public static string ToInsecureString(this SecureString input)
-    {
-        if (input == null)
+        public static SecureString ToSecureString(this IEnumerable<char> input)
         {
-            return null;
+            if (input == null)
+            {
+                return null;
+            }
+
+            var secure = new SecureString();
+
+            foreach (var c in input)
+            {
+                secure.AppendChar(c);
+            }
+
+            secure.MakeReadOnly();
+            return secure;
         }
 
-        var ptr = Marshal.SecureStringToBSTR(input);
+        public static string ToInsecureString(this SecureString input)
+        {
+            if (input == null)
+            {
+                return null;
+            }
 
-        try
-        {
-            return Marshal.PtrToStringBSTR(ptr);
-        }
-        finally
-        {
-            Marshal.ZeroFreeBSTR(ptr);
+            var ptr = Marshal.SecureStringToBSTR(input);
+
+            try
+            {
+                return Marshal.PtrToStringBSTR(ptr);
+            }
+            finally
+            {
+                Marshal.ZeroFreeBSTR(ptr);
+            }
         }
     }
 }

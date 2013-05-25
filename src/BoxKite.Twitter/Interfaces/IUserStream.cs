@@ -4,9 +4,8 @@
 using System;
 using System.Collections.Generic;
 using BoxKite.Twitter.Models;
-using BoxKite.Twitter.Models.Stream;
 
-namespace BoxKite.Twitter.Modules.Streaming
+namespace BoxKite.Twitter
 {
     public interface IUserStream : IDisposable
     {

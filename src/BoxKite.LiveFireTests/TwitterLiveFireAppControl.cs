@@ -1,16 +1,11 @@
 ﻿// (c) 2012-2013 Nick Hodge mailto:hodgenick@gmail.com & Brendan Forster
 // License: MS-PL
-
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using BoxKite.Console.Helpers;
-using BoxKite.Twitter;
-using BoxKite.Twitter.Models.Service;
-using BoxKite.Twitter.Modules.Streaming;
-using BoxKite.Twitter.Console.Helpers;
+using BoxKite.Twitter.Models;
 
-namespace BoxKite.LiveFireTests
+namespace BoxKite.Twitter.Console
 {
     public class TwitterLiveFireAppControl
     {
@@ -240,6 +235,26 @@ namespace BoxKite.LiveFireTests
                                 ConsoleColor.Red);
                         }
                     }
+
+
+                    // Test Series 11 Lists
+                    if (testSeriesToRun.Contains(11))
+                    {
+                        var cmbs = new CombosFireTests();
+                        var testResult11 = cmbs.DoCombosTest(session, new List<int> { 1 }).Result;
+
+                        if (testResult11)
+                        {
+                            ConsoleOutput.PrintMessage(String.Format("11.0 Combos Tests Status: {0}", testResult11),
+                                ConsoleColor.White);
+                        }
+                        else
+                        {
+                            ConsoleOutput.PrintMessage(String.Format("11.0 Combos Tests Status: {0}", testResult11),
+                                ConsoleColor.Red);
+                        }
+                    }
+
                 }
                 else
                 {

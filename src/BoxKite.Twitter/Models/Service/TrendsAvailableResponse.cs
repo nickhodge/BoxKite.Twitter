@@ -3,7 +3,7 @@
 
 using Newtonsoft.Json;
 
-namespace BoxKite.Twitter.Models.Service
+namespace BoxKite.Twitter.Models
 {
     public class TrendsAvailableLocationsResponse : TwitterControlBase
     {

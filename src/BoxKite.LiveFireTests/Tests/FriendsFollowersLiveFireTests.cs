@@ -5,9 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using BoxKite.Twitter;
-using BoxKite.Twitter.Console.Helpers;
 
-namespace BoxKite.LiveFireTests
+namespace BoxKite.Twitter.Console
 {
     public class FriendsFollowersLiveFireTests
     {

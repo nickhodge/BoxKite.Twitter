@@ -7,7 +7,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using BoxKite.Twitter.Interfaces;
 using BoxKite.Twitter.Models;
 
 namespace BoxKite.Twitter

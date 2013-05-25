@@ -4,9 +4,7 @@
 
 using System.Collections.Generic;
 using BoxKite.Twitter.Extensions;
-using BoxKite.Twitter.Helpers;
 using BoxKite.Twitter.Models;
-using BoxKite.Twitter.Models.Service;
 using System.Threading.Tasks;
 
 namespace BoxKite.Twitter

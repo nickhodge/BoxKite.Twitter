@@ -3,11 +3,9 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using BoxKite.Twitter.Models.Service;
-
 
 // hinted from http://social.msdn.microsoft.com/Forums/en-US/netfxbcl/thread/f71f6592-521f-4dee-b4c8-f7a8149ad819
-namespace BoxKite.Twitter.Helpers
+namespace BoxKite.Twitter.Models
 {
     /// <summary>
     /// Represents a strongly typed enumerable collection of Twitter Response Objects.

@@ -65,14 +65,14 @@ Install-Package BoxKite.Twitter.PCL -Pre
 * Microsoft's Open sourced .NET [Reactive Extensions](https://rx.codeplex.com/) (Apache License 2.0)
 * [Portable version of the HTTP Client Libraries](http://blogs.msdn.com/b/bclteam/p/httpclient.aspx) from the Microsoft ASP.NET WebAPI team [HTTP Client Libraries](http://nuget.org/packages/Microsoft.Net.Http/2.1.6-rc)  (sourced from NuGet, currently Licensed under [DotNetBetaUnsupported](http://go.microsoft.com/fwlink/?LinkID=279007) license)
 
-### (Test dependency only)
+### (Dependency when running BoxKite.Twitter.Tests only)
 
 * Great little collection of extension methods that make writing UnitTests easier [FluentAssertions](http://fluentassertions.codeplex.com/) (MS-PL) 
 
 
 ##Copyright, License Information
 
-[BoxKite.Twitter](https://github.com/shiftkey/BoxKite.Twitter) was started by Brendan Forster ([https://github.com/shiftkey/](https://github.com/shiftkey/)) as a part of a larger Twitter project now on permanent Hiatus.
+[BoxKite.Twitter](https://github.com/shiftkey/BoxKite.Twitter) was started by Brendan Forster ([https://github.com/shiftkey/](https://github.com/shiftkey/)) as a part of a larger Twitter project now on permanent hiatus.
 
 BoxKite.Twitter is Licensed under: 
 [MS-PL] (http://opensource.org/licenses/MS-PL)

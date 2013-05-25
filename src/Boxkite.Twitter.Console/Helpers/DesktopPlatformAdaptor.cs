@@ -2,10 +2,9 @@
 // License: MS-PL
 
 using System.Diagnostics;
-using BoxKite.Twitter.Interfaces;
 using System.Security.Cryptography;
 
-namespace BoxKite.Console.Helpers
+namespace BoxKite.Twitter.Console
 {
     public class DesktopPlatformAdaptor : IPlatformAdaptor
     {

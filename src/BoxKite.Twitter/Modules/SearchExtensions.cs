@@ -4,9 +4,7 @@
 using System;
 using System.Threading.Tasks;
 using BoxKite.Twitter.Extensions;
-using BoxKite.Twitter.Helpers;
 using BoxKite.Twitter.Models;
-using SearchResponse = BoxKite.Twitter.Models.SearchResponse;
 
 namespace BoxKite.Twitter
 {

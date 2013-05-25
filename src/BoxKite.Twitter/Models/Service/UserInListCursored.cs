@@ -3,7 +3,7 @@
 
 using System.Collections.Generic;
 
-namespace BoxKite.Twitter.Models.Service
+namespace BoxKite.Twitter.Models
 {
     public class UserInListCursored : TwitterControlBase
     {

@@ -5,7 +5,6 @@
 
 using System;
 using BoxKite.Twitter.Helpers;
-using BoxKite.Twitter.Models.Service;
 using Newtonsoft.Json;
 
 namespace BoxKite.Twitter.Models

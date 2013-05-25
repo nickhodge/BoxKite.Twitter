@@ -3,9 +3,8 @@
 
 using System;
 using BoxKite.Twitter.Models;
-using BoxKite.Twitter.Models.Stream;
 
-namespace BoxKite.Twitter.Console.Helpers
+namespace BoxKite.Twitter.Console
 {
     public static class ConsoleOutput
     {

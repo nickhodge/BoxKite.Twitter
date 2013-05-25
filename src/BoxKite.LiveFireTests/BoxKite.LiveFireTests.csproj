@@ -7,8 +7,8 @@
     <ProjectGuid>{717AD3D7-1FE2-4B2E-8DCC-19583D03C471}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BoxKite.LiveFireTests</RootNamespace>
-    <AssemblyName>BoxKite.LiveFireTests</AssemblyName>
+    <RootNamespace>BoxKite.Twitter.Console</RootNamespace>
+    <AssemblyName>BoxKite.Twitter.Console</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <PublishUrl>publish\</PublishUrl>
@@ -26,6 +26,8 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -47,19 +49,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>BoxKite.LiveFireTests.TwitterLiveFireAppControl</StartupObject>
+    <StartupObject>BoxKite.Twitter.Console.TwitterLiveFireAppControl</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Tests\ApiManagementLiveFireTests.cs" />
+    <Compile Include="Tests\CombosLiveFireTests.cs" />
     <Compile Include="Tests\ListsLiveFireTests.cs" />
     <Compile Include="Tests\SuggestedUsersLiveFireTests.cs" />
     <Compile Include="Tests\TrendsLiveFireTests.cs" />
@@ -74,6 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Boxkite.Twitter.Console\BoxKite.Twitter.Console.csproj">
@@ -103,6 +102,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

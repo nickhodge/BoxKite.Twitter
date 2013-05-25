@@ -3,7 +3,6 @@
 
 using System.Threading.Tasks;
 using BoxKite.Twitter.Extensions;
-using BoxKite.Twitter.Helpers;
 using BoxKite.Twitter.Models;
 
 namespace BoxKite.Twitter

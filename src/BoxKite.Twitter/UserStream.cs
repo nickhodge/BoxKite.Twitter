@@ -9,8 +9,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using BoxKite.Twitter.Extensions;
 using BoxKite.Twitter.Models;
-using BoxKite.Twitter.Models.Stream;
-using BoxKite.Twitter.Modules.Streaming;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 

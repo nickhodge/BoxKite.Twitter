@@ -4,7 +4,7 @@ using System;
 using BoxKite.Twitter.Helpers;
 using Newtonsoft.Json;
 
-namespace BoxKite.Twitter.Models.Stream
+namespace BoxKite.Twitter.Models
 {
     public class TweetStreamEvent : StreamEvent
     {

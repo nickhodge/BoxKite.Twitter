@@ -3,9 +3,8 @@
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using BoxKite.Twitter.Modules.Streaming;
 
-namespace BoxKite.Twitter.Tests.Modules
+namespace BoxKite.Twitter.Tests
 {
     public static class UserStreamExtensions
     {

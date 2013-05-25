@@ -4,8 +4,6 @@
 using System;
 using System.Net;
 using System.Threading.Tasks;
-using BoxKite.Console.Helpers;
-using BoxKite.Twitter.Authentication;
 using BoxKite.Twitter.Models;
 using Newtonsoft.Json.Linq;
 

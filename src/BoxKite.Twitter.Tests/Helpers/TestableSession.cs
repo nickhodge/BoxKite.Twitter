@@ -7,7 +7,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace BoxKite.Twitter.Tests.Modules
+namespace BoxKite.Twitter.Tests
 {
     public class TestableSession : IUserSession
     {

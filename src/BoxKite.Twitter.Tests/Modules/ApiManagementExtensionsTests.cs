@@ -4,7 +4,7 @@
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace BoxKite.Twitter.Tests.Modules
+namespace BoxKite.Twitter.Tests
 {
     [TestClass]
     public class ApiManagemenentExtensionsTests

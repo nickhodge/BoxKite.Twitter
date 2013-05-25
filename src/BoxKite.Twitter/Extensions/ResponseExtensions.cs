@@ -6,8 +6,7 @@ using System.Reflection;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using BoxKite.Twitter.Helpers;
-using BoxKite.Twitter.Models.Service;
+using BoxKite.Twitter.Models;
 using Newtonsoft.Json;
 
 namespace BoxKite.Twitter.Extensions

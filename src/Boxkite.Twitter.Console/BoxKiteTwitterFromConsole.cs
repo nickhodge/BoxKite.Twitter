@@ -3,13 +3,6 @@
 
 using System;
 using System.Threading;
-using BoxKite.Console.Helpers;
-using BoxKite.Twitter.Extensions;
-using BoxKite.Twitter.Models.Stream;
-using BoxKite.Twitter.Modules;
-using BoxKite.Twitter.Modules.Streaming;
-using BoxKite.Twitter.Console.Helpers;
-
 
 namespace BoxKite.Twitter.Console
 {

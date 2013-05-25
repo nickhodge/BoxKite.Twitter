@@ -2,16 +2,14 @@
 // License: MS-PL
 
 using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using BoxKite.Twitter.Models;
-using BoxKite.Twitter.Tests.Modules;
 using FluentAssertions;
 using Microsoft.Reactive.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace BoxKite.Twitter.Tests.UserStream
+namespace BoxKite.Twitter.Tests
 {
     [TestClass]
     public class SearchStreamTests : ReactiveTest

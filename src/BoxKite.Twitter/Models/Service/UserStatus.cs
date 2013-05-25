@@ -2,7 +2,7 @@
 // License: MS-PL
 using Newtonsoft.Json;
 
-namespace BoxKite.Twitter.Models.Service
+namespace BoxKite.Twitter.Models
 {
     public class UserStatus : TwitterControlBase
     {
