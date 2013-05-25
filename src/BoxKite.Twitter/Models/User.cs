@@ -1,5 +1,8 @@
 // (c) 2012-2013 Nick Hodge mailto:hodgenick@gmail.com & Brendan Forster
 // License: MS-PL
+
+// https://dev.twitter.com/docs/platform-objects/users
+
 using System;
 using BoxKite.Twitter.Helpers;
 using BoxKite.Twitter.Models.Service;
@@ -99,7 +102,7 @@ namespace BoxKite.Twitter.Models
         }
 
         private int _favouritescount;
-        [JsonProperty("favourites_count")]
+        [JsonProperty("favourites_count")] // yes, UK English spelling for a JSON field
         public int FavouritesCount
         {
             get { return _favouritescount; }

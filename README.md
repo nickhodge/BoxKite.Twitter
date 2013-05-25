@@ -6,6 +6,8 @@ BoxKite.Twitter is a .NET Portable Class Library that provides an interface to T
 
 Supporting Windows 8, Windows Phone 8 and .NET 4.5
 
+Questions? You can find me on Twitter, of course! [@NickHodgeMSFT](https://twitter.com/NickHodgeMSFT)
+
 ## Twitter API Coverage
 
 At the present time, BoxKite.Twitter supports API version 1.1 of the following:

@@ -1,6 +1,7 @@
 ﻿// (c) 2012-2013 Nick Hodge mailto:hodgenick@gmail.com & Brendan Forster
 // License: MS-PL
 
+using System.IO;
 using System.Threading.Tasks;
 using BoxKite.Twitter.Extensions;
 using BoxKite.Twitter.Helpers;
@@ -9,7 +10,6 @@ using BoxKite.Twitter.Models.Service;
 
 namespace BoxKite.Twitter
 {
-    // TODO: display_coordinates (optional)
     // TODO: manage https://support.twitter.com/articles/14020-twitter-for-sms-basic-features
 
     public static class TweetExtensions
@@ -163,6 +163,35 @@ namespace BoxKite.Twitter
                           .ContinueWith(c => c.MapToSingle<Tweet>());
         }
 
+        /// <summary>
+        /// Sends a Tweet, with status text, with attached image
+        /// </summary>
+        /// <param name="text">Text of tweet to send</param>
+        /// <param name="fileName">Name of the file, including extension</param>
+        /// <param name="imageData">the image data as a byte array</param>
+        /// <param name="place_id">A place in the world identified by a Twitter place ID. Place IDs can be retrieved from geo/reverse_geocode.</param>
+        /// <returns>Tweet sent</returns>
+        /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/statuses/update_with_media </remarks>
+/*        public async static Task<Tweet> SendTweetWithImage(this IUserSession session, string text, string fileName, Stream imageStream, double latitude = 0.0, double longitude = 0.0, string place_id = "")
+        {
+            var parameters = new TwitterParametersCollection
+                             {
+                                 {"status", text},
+                             };
+            parameters.Create(place_id: place_id);
+
+            if (latitude != 0.0 && longitude != 0.0)
+            {
+                parameters.Add("lat", latitude.ToString());
+                parameters.Add("long", longitude.ToString());
+            }
+
+            //TODO: get byte[] from System.IO.Stream
+
+            return await session.PostFileAsync(Api.Upload("/1/statuses/update_with_media.json"), parameters, fileName, imageData, "media[]")
+                          .ContinueWith(c => c.MapToSingle<Tweet>());
+        }
+*/
         /// <summary>
         /// Sends a Tweet in reply to another tweet
         /// </summary>

@@ -171,10 +171,7 @@ namespace BoxKite.LiveFireTests
                 {
                     ConsoleOutput.PrintMessage("10.7 Lists\\DeleteUsersFromList", ConsoleColor.Gray);
                     var testScreenName = "coatsy";
-                    var testSlug = "autechheads";
-                    var testOwner = "NickHodgeMSFT";
                     var testScreenNames = new List<string> {testScreenName};
-
 
                     var lists7 =
                         await session.DeleteUsersFromList(list_id: 52908745, owner_id: 800364, owner_screen_name:"NickHodgeMSFT", screen_names:testScreenNames);
