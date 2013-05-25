@@ -38,7 +38,7 @@ namespace BoxKite.LiveFireTests
                     // NOTE: some tests require a previous test to work successfully
                     // NOTE: some tests post/delete items. This *is* a live fire test!
 
-                    var testSeriesToRun = new List<int> {10};
+                    var testSeriesToRun = new List<int> {11};
 
                     // Calls tested by Test Series
                     // series 1 => 9 (UserAccounts)
@@ -51,8 +51,9 @@ namespace BoxKite.LiveFireTests
                     // series 8 => 3 (Trends)
                     // series 9 => 2 (SuggestedUsers)
                     // series 10=> 7 (Lists)
+                    // series 11=> 1 (Combos)
                     // =============
-                    // TOTAL      45
+                    // TOTAL      46
 
                     // Test Series 1
                     if (testSeriesToRun.Contains(1))
