@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using BoxKite.Twitter;
+using BoxKite.Twitter.Models;
 
 namespace BoxKite.Twitter.Console
 {
@@ -29,7 +31,7 @@ namespace BoxKite.Twitter.Console
                         foreach (var trnd in combo1)
                         {
                             ConsoleOutput.PrintMessage(
-                                String.Format("Name: {0} // Url: {1}", trnd.Name, trnd.Url));
+                                String.Format("Trend Test: {0}", trnd.Name));
                         }
                     }
                     else
@@ -39,7 +41,7 @@ namespace BoxKite.Twitter.Console
                     }
 
                     var searchstream = session.StartSearchStream(track: trendToFollow);
-                    //searchstream.FoundTweets.Subscribe(t => ConsoleOutput.PrintTweet(t));
+                    searchstream.FoundTweets.Subscribe(t => ConsoleOutput.PrintTweet(t));
                     searchstream.Start();
 
                     while (searchstream.IsActive)

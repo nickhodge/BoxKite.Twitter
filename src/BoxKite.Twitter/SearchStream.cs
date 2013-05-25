@@ -161,5 +161,11 @@ namespace BoxKite.Twitter
         {
             return JsonConvert.DeserializeObject<T>(t);
         }
+
+        public void Dispose()
+        {
+            IsActive = false;
+            foundtweets.Dispose();
+        }
     }
 }

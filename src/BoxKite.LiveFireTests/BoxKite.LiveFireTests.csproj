@@ -52,10 +52,35 @@
     <StartupObject>BoxKite.Twitter.Console.TwitterLiveFireAppControl</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.5.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Reactive.Core, Version=2.1.30214.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Rx-Core.2.1.30214.0\lib\Net45\System.Reactive.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Interfaces, Version=2.1.30214.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Rx-Interfaces.2.1.30214.0\lib\Net45\System.Reactive.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Linq, Version=2.1.30214.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Rx-Linq.2.1.30214.0\lib\Net45\System.Reactive.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.PlatformServices">
+      <HintPath>..\packages\Rx-PlatformServices.2.1.30214.0\lib\Net45\System.Reactive.PlatformServices.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\ConsoleOutput.cs" />
+    <Compile Include="Helpers\DesktopPlatformAdaptor.cs" />
+    <Compile Include="Helpers\ManageTwitterCredentials.cs" />
+    <Compile Include="Helpers\SecureIt.cs" />
+    <Compile Include="Helpers\TwitterConnection.cs" />
     <Compile Include="Tests\ApiManagementLiveFireTests.cs" />
     <Compile Include="Tests\CombosLiveFireTests.cs" />
     <Compile Include="Tests\ListsLiveFireTests.cs" />
@@ -75,10 +100,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Boxkite.Twitter.Console\BoxKite.Twitter.Console.csproj">
-      <Project>{b0cce07e-e1a5-4bc4-a6c8-9876d4c6819a}</Project>
-      <Name>BoxKite.Twitter.Console</Name>
-    </ProjectReference>
     <ProjectReference Include="..\BoxKite.Twitter\BoxKite.Twitter.csproj">
       <Project>{2eb6324b-f465-44ab-823f-e591845b8d80}</Project>
       <Name>BoxKite.Twitter</Name>

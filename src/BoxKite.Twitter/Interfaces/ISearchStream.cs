@@ -6,12 +6,11 @@ using System.Net.Http;
 using System.Reactive.Subjects;
 using System.Threading;
 using System.Threading.Tasks;
-using BoxKite.Twitter.Extensions;
 using BoxKite.Twitter.Models;
 
 namespace BoxKite.Twitter
 {
-    public interface ISearchStream
+    public interface ISearchStream : IDisposable
     {
         IObservable<Tweet> FoundTweets { get; }
         Subject<StreamSearchRequest> SearchRequests { get; }
