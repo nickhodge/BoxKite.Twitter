@@ -2,9 +2,9 @@
 
 ![boxkite logo](http://media.nickhodge.com/boxkite/twitter/github-logo-wide.png)
 
-BoxKite.Twitter is a .NET Portable Class Library that provides an interface to Twitter, licensed MS-PL.
+BoxKite.Twitter is a .NET Library that provides an interface to Twitter API 1.1, licensed [MS-PL](http://opensource.org/licenses/MS-PL).
 
-Supporting Windows 8, Windows Phone 8 and .NET 4.5
+Supporting Windows 8, Windows Phone 8 and .NET 4.5 Portable Class Libaries; it uses modern .NET development mechanisms `async/await` and `Reactive Extensions`.
 
 Questions? You can find me on Twitter, of course! [@NickHodgeMSFT](https://twitter.com/NickHodgeMSFT)
 
