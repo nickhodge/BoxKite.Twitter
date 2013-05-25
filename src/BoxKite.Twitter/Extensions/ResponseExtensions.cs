@@ -188,6 +188,11 @@ namespace BoxKite.Twitter.Extensions
                 twitterControlMessage.twitter_rate_limit_remaining = IntValueForHTTPHeaderKey("x-rate-limit-remaining", m.Result.ToString());
                 twitterControlMessage.twitter_rate_limit_reset = DateTimeForHTTPHeaderKey("x-rate-limit-reset", m.Result.ToString());
 
+                // when posting images, these responses may appear
+                twitterControlMessage.twitter_mediaratelimit_limit = IntValueForHTTPHeaderKey("x-mediaratelimit-limit", m.Result.ToString());
+                twitterControlMessage.twitter_mediaratelimit_remaining = IntValueForHTTPHeaderKey("x-mediaratelimit-remaining", m.Result.ToString());
+                twitterControlMessage.twitter_mediaratelimit_class = StringValueForHTTPHeaderKey("x-mediaratelimit-class", m.Result.ToString());
+
                 if (twitterControlMessage.http_status_code == 429)
                     twitterControlMessage.twitter_error_message = "Rate Limit Exceeded";
                 else
@@ -195,8 +200,11 @@ namespace BoxKite.Twitter.Extensions
 
             
                 var errordetail = JsonConvert.DeserializeObject<TwitterError>(bodyContent.Result);
-                twitterControlMessage.twitter_error_message = errordetail.errors[0].message;
-                twitterControlMessage.twitter_error_code = errordetail.errors[0].code;
+                if (errordetail != null)
+                {
+                    twitterControlMessage.twitter_error_message = errordetail.errors[0].message;
+                    twitterControlMessage.twitter_error_code = errordetail.errors[0].code;
+                }
             }
             catch (Exception e)
             {

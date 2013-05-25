@@ -3,7 +3,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
+using BoxKite.Twitter.Console.Helpers;
 using BoxKite.Twitter.Models;
 
 namespace BoxKite.Twitter.Console
@@ -67,6 +69,32 @@ namespace BoxKite.Twitter.Console
                         successStatus = false;
                 }
 
+                // 4
+                if (testSeq.Contains(4))
+                {
+                    ConsoleOutput.PrintMessage("4.4 Tweets\\SendTweetWithImage", ConsoleColor.Gray);
+
+                    var sr = FilesHelper.FromFile("sampleimage\\Boxkite-Logo-github.jpg");
+
+                    using (var fs = new FileStream(sr, FileMode.Open, FileAccess.Read))
+                    {
+                        var tweets4 =
+                            await
+                                session.SendTweetWithImage("Live Fire Test only, please ignore", Path.GetFileName(sr), fs);
+
+                        if (!tweets4.twitterFaulted)
+                        {
+                            tweetid = tweets4.Id;
+                            ConsoleOutput.PrintMessage(
+                                String.Format("From: {0} // Message: {1}", tweets4.User.ScreenName, tweets4.Text));
+                        }
+                        else
+                        {
+                            TwitterLiveFireAppControl.PrintTwitterErrors(tweets4.twitterControlMessage);
+                            successStatus = false;
+                        }
+                    }
+                }
             }
             catch (Exception e)
             {

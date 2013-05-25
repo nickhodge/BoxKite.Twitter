@@ -2,11 +2,13 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using BoxKite.Twitter.Extensions;
 using BoxKite.Twitter.Models;
 
 namespace BoxKite.Twitter
@@ -66,38 +68,58 @@ namespace BoxKite.Twitter
         }
 
         public Task<HttpResponseMessage> PostFileAsync(string url, SortedDictionary<string, string> parameters,
-            string fileName, byte[] fileContents, string fileContentsKey)
+            string fileName, string fileContentsKey, byte[] fileContents = null, Stream srImageStream = null)
         {
-            var oauth = BuildAuthenticatedResult(url, parameters, "POST", multipartform: true);
-            var client = new HttpClient();
-            client.DefaultRequestHeaders.ExpectContinue = false;
-            client.DefaultRequestHeaders.Add("Authorization", oauth.Header);
-            client.DefaultRequestHeaders.Add("User-Agent", "BoxKite.Twitter/1.0");
-
-            var data = new MultipartFormDataContent();
-            if (parameters.Count > 0)
+            if (fileContents == null && srImageStream == null)
             {
-                foreach (var parameter in parameters)
-                {
-                    var statusData = new StringContent(parameter.Value);
-                    statusData.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
-                                                            {
-                                                                Name = "\"" + parameter.Key + "\""
-                                                            };
-                    data.Add(statusData);
-                }
+                //TODO: fix with appropriate response needs testing
+                return null;
             }
+            else
+            {
+                var oauth = BuildAuthenticatedResult(url, parameters, "POST", multipartform: true);
+                var client = new HttpClient();
+                client.DefaultRequestHeaders.ExpectContinue = false;
+                client.DefaultRequestHeaders.Add("Authorization", oauth.Header);
+                client.DefaultRequestHeaders.Add("User-Agent", "BoxKite.Twitter/1.0");
 
-            var filedata = new ByteArrayContent(fileContents);
-            filedata.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
-            filedata.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
-                                                  {
-                                                      FileName = "\"" + fileName + "\"",
-                                                      Name = "\"" + fileContentsKey + "\"",
-                                                  };
-            data.Add(filedata);
+                var data = new MultipartFormDataContent();
+                if (parameters.Count > 0)
+                {
+                    foreach (var parameter in parameters)
+                    {
+                        var statusData = new StringContent(parameter.Value);
+                        statusData.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
+                                                                {
+                                                                    Name = "\"" + parameter.Key + "\""
+                                                                };
+                        data.Add(statusData);
+                    }
+                }
 
-            return client.PostAsync(url, data);
+                var filedata = FileDataContent(fileContents, srImageStream);
+                filedata.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+                filedata.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
+                                                      {
+                                                          FileName = "\"" + fileName + "\"",
+                                                          Name = "\"" + fileContentsKey + "\"",
+                                                      };
+                data.Add(filedata);
+
+                return client.PostAsync(url, data);
+            }
+        }
+
+        private ByteArrayContent FileDataContent(byte[] fileData=null, Stream srReader=null)
+        {
+            if (fileData!=null)
+                return new ByteArrayContent(fileData);
+            else if (srReader != null)
+            {
+                var fd = srReader.ReadFully();
+                return new ByteArrayContent(fd);
+            }
+            return null;
         }
 
         public HttpRequestMessage CreateGet(string url, SortedDictionary<string, string> parameters)

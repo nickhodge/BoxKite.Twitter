@@ -2,6 +2,7 @@
 // License: MS-PL
 
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -70,7 +71,7 @@ namespace BoxKite.Twitter.Tests
         }
 
 
-        public Task<HttpResponseMessage> PostFileAsync(string url, SortedDictionary<string, string> parameters, string fileName, byte[] fileContents, string fileContentsKey)
+        public Task<HttpResponseMessage> PostFileAsync(string url, SortedDictionary<string, string> parameters, string fileName, string fileContentsKey, byte[] fileContents, Stream srReader)
         {
             if (!string.IsNullOrWhiteSpace(expectedPostUrl))
             {

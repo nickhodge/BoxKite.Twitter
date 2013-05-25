@@ -78,6 +78,7 @@
   <ItemGroup>
     <Compile Include="Helpers\ConsoleOutput.cs" />
     <Compile Include="Helpers\DesktopPlatformAdaptor.cs" />
+    <Compile Include="Helpers\FilesHelper.cs" />
     <Compile Include="Helpers\ManageTwitterCredentials.cs" />
     <Compile Include="Helpers\SecureIt.cs" />
     <Compile Include="Helpers\TwitterConnection.cs" />
@@ -121,6 +122,11 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="sampleimage\Boxkite-Logo-github.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

@@ -37,6 +37,7 @@
   <ItemGroup>
     <Compile Include="Authentication\TwitterAuthenticator.cs" />
     <Compile Include="Extensions\ReactiveExtensionsExtension.cs" />
+    <Compile Include="Extensions\StreamExtensions.cs" />
     <Compile Include="Interfaces\ISearchStream.cs" />
     <Compile Include="Models\Stream\StreamSearchRequest.cs" />
     <Compile Include="Modules\SearchStreamExtensions.cs" />

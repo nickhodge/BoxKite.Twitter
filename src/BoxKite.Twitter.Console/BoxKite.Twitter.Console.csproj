@@ -78,6 +78,8 @@
   <ItemGroup>
     <Compile Include="BoxKiteTwitterFromConsole.cs" />
     <Compile Include="Helpers\ConsoleOutput.cs" />
+    <Compile Include="Helpers\DesktopPlatformAdaptor.cs" />
+    <Compile Include="Helpers\FilesHelper.cs" />
     <Compile Include="Helpers\ManageTwitterCredentials.cs" />
     <Compile Include="Helpers\SecureIt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -88,10 +90,21 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BoxKite.Twitter.Desktop\BoxKite.Twitter.Desktop.csproj">
-      <Project>{98ffbf69-762f-4111-84b9-e757d9a698b9}</Project>
-      <Name>BoxKite.Twitter.Desktop</Name>
+    <ProjectReference Include="..\BoxKite.Twitter\BoxKite.Twitter.csproj">
+      <Project>{2eb6324b-f465-44ab-823f-e591845b8d80}</Project>
+      <Name>BoxKite.Twitter</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="sampleimage\Boxkite-Logo-github.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sampleimage\MaggieThatcherRules.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sampleimage\ooooh.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

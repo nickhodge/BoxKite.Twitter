@@ -83,6 +83,9 @@
     <Compile Include="..\BoxKite.Twitter\Extensions\ResponseExtensions.cs">
       <Link>Extensions\ResponseExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\BoxKite.Twitter\Extensions\StreamExtensions.cs">
+      <Link>Extensions\StreamExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\BoxKite.Twitter\Extensions\StringExtensions.cs">
       <Link>Extensions\StringExtensions.cs</Link>
     </Compile>

@@ -157,7 +157,7 @@ namespace BoxKite.Twitter
                 parameters.Add("long", longitude.ToString());
             }
 
-            return await session.PostFileAsync(Api.Upload("/1/statuses/update_with_media.json"), parameters, fileName, imageData, "media[]")
+            return await session.PostFileAsync(Api.Upload("/1/statuses/update_with_media.json"), parameters, fileName, "media[]", imageData)
                           .ContinueWith(c => c.MapToSingle<Tweet>());
         }
 
@@ -166,11 +166,11 @@ namespace BoxKite.Twitter
         /// </summary>
         /// <param name="text">Text of tweet to send</param>
         /// <param name="fileName">Name of the file, including extension</param>
-        /// <param name="imageData">the image data as a byte array</param>
+        /// <param name="imageData">Stream of the image</param>
         /// <param name="place_id">A place in the world identified by a Twitter place ID. Place IDs can be retrieved from geo/reverse_geocode.</param>
         /// <returns>Tweet sent</returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/statuses/update_with_media </remarks>
-/*        public async static Task<Tweet> SendTweetWithImage(this IUserSession session, string text, string fileName, Stream imageStream, double latitude = 0.0, double longitude = 0.0, string place_id = "")
+        public async static Task<Tweet> SendTweetWithImage(this IUserSession session, string text, string fileName, Stream imageDataStream, double latitude = 0.0, double longitude = 0.0, string place_id = "")
         {
             var parameters = new TwitterParametersCollection
                              {
@@ -184,12 +184,10 @@ namespace BoxKite.Twitter
                 parameters.Add("long", longitude.ToString());
             }
 
-            //TODO: get byte[] from System.IO.Stream
-
-            return await session.PostFileAsync(Api.Upload("/1/statuses/update_with_media.json"), parameters, fileName, imageData, "media[]")
+            return await session.PostFileAsync(Api.Upload("/1/statuses/update_with_media.json"), parameters, fileName, "media[]", srImage:imageDataStream)
                           .ContinueWith(c => c.MapToSingle<Tweet>());
         }
-*/
+
         /// <summary>
         /// Sends a Tweet in reply to another tweet
         /// </summary>
@@ -218,7 +216,39 @@ namespace BoxKite.Twitter
                 parameters.Add("long", longitude.ToString());
             }
 
-            return await session.PostFileAsync(Api.Upload("/1/statuses/update_with_media.json"), parameters, fileName, imageData, "media[]")
+            return await session.PostFileAsync(Api.Upload("/1/statuses/update_with_media.json"), parameters, fileName, "media[]", imageData)
+                          .ContinueWith(c => c.MapToSingle<Tweet>());
+        }
+
+        /// <summary>
+        /// Sends a Tweet in reply to another tweet
+        /// </summary>
+        /// <param name="tweet">Text to send</param>
+        /// <param name="text">Text of tweet to send</param>
+        /// <param name="fileName">Name of the file, including extension</param>
+        /// <param name="imageDataStream">Stream containing the image</param>
+        /// <param name="latitude">Latitude</param>
+        /// <param name="longitude">Longitude</param>
+        /// <param name="place_id">A place in the world identified by a Twitter place ID. Place IDs can be retrieved from geo/reverse_geocode.</param>
+        /// <returns></returns>
+        /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/statuses/update_with_media </remarks>
+        public async static Task<Tweet> ReplyToTweetWithImage(this IUserSession session, Tweet tweet, string text, string fileName, Stream imageDataStream, double latitude = 0.0, double longitude = 0.0, string place_id = "")
+        {
+            var parameters = new TwitterParametersCollection
+                             {
+                                 {"status", text},
+                                 {"in_reply_to_status_id", tweet.Id.ToString()}
+                             };
+
+            parameters.Create(place_id: place_id);
+
+            if (latitude != 0.0 && longitude != 0.0)
+            {
+                parameters.Add("lat", latitude.ToString());
+                parameters.Add("long", longitude.ToString());
+            }
+
+            return await session.PostFileAsync(Api.Upload("/1/statuses/update_with_media.json"), parameters, fileName, "media[]", srImage: imageDataStream)
                           .ContinueWith(c => c.MapToSingle<Tweet>());
         }
     }

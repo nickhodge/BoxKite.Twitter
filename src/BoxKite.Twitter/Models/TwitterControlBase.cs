@@ -40,10 +40,16 @@ namespace BoxKite.Twitter.Models
     {
         public int http_status_code { get; set; } // int as I cannot work out how to extend HttpStatusCodes with 429 etc
         public string http_reason { get; set; }
+
         public int twitter_rate_limit_limit { get; set; }
         public int twitter_rate_limit_remaining { get; set; }
         public DateTime twitter_rate_limit_reset { get; set; }
+
         public int twitter_error_code { get; set; }
         public string twitter_error_message { get; set; }
+
+        public string twitter_mediaratelimit_class { get; set; }
+        public int twitter_mediaratelimit_limit { get; set; }
+        public int twitter_mediaratelimit_remaining { get; set; }
     }
 }

@@ -3,6 +3,7 @@
 
 
 using System.Collections.Generic;
+using System.IO;
 using BoxKite.Twitter.Extensions;
 using BoxKite.Twitter.Models;
 using System.Threading.Tasks;
@@ -163,22 +164,57 @@ namespace BoxKite.Twitter
                                  {"use", useImage.ToString()},
                              };
 
-            return await session.PostFileAsync(Api.Resolve("/1.1/account/update_profile_background_image.json"), parameters, fileName, imageContent, "image")
+            return await session.PostFileAsync(Api.Resolve("/1.1/account/update_profile_background_image.json"), parameters, fileName, "image", imageContent)
                            .ContinueWith(c => c.MapToSingle<AccountProfile>());
         }
 
-        
+
+        /// <summary>
+        /// Updates the authenticating user's background image as displayed on twitter.com.
+        /// </summary>
+        /// <param name="imageDataStream">Stream of image content</param>
+        /// <param name="tile">True or false to tile</param>
+        /// <param name="useImage">Turn on/off image on background</param>
+        /// <returns>Account Profile (note: image update may take up to 5s)</returns>
+        /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/account/update_profile_background_image </remarks>
+        public static async Task<AccountProfile> ChangeAccountBackgroundImage(this IUserSession session, string fileName, Stream imageDataStream, bool tile = true, bool useImage = true)
+        {
+            var parameters = new TwitterParametersCollection
+                             {
+                                 {"tile", tile.ToString()},
+                                 {"use", useImage.ToString()},
+                             };
+
+            return await session.PostFileAsync(Api.Resolve("/1.1/account/update_profile_background_image.json"), parameters, fileName, "image", srImage:imageDataStream)
+                           .ContinueWith(c => c.MapToSingle<AccountProfile>());
+        }
+
+        /// <summary>
+        /// Updates the authenticating user's profile image.
+        /// </summary>
+        /// <param name="fileName">file name for upload</param>
+        /// <param name="imageContent">Stream pointing to the image data</param>
+        /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/account/update_profile_image </remarks>
+        public static async Task<AccountProfile> ChangeAccountProfileImage(this IUserSession session, string fileName, Stream imageContentStream)
+        {
+            var parameters = new TwitterParametersCollection();
+
+            return await session.PostFileAsync(Api.Resolve("/1.1/account/update_profile_image.json"), parameters, fileName, "image", srImage:imageContentStream)
+                           .ContinueWith(c => c.MapToSingle<AccountProfile>());
+        }
+
+       
         /// <summary>
         /// Updates the authenticating user's profile image.
         /// </summary>
         /// <param name="fileName">file name for upload</param>
         /// <param name="imageContent">byte array of image content</param>
-        /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/account/update_profile_image </remarks> </remarks>
+        /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/account/update_profile_image </remarks>
         public static async Task<AccountProfile> ChangeAccountProfileImage(this IUserSession session, string fileName, byte[] imageContent)
         {
             var parameters = new TwitterParametersCollection();
 
-            return await session.PostFileAsync(Api.Resolve("/1.1/account/update_profile_image.json"), parameters, fileName, imageContent, "image")
+            return await session.PostFileAsync(Api.Resolve("/1.1/account/update_profile_image.json"), parameters, fileName, "image", imageContent)
                            .ContinueWith(c => c.MapToSingle<AccountProfile>());
         }
 

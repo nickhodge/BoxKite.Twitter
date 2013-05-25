@@ -17,7 +17,7 @@ namespace BoxKite.Twitter.Tests
             return await reader.ReadToEndAsync();
         }
 
-        static public string AssemblyDirectory
+        public static string AssemblyDirectory
         {
             get
             {
