@@ -80,6 +80,8 @@ BoxKite.Twitter is Licensed under:
 Copyright: 
 [Nick Hodge](https://github.com/nickhodge/) and [Brendan Forster](https://github.com/shiftkey/) 2012-2013
 
+BoxKite Logo is Copyright 2012 [Nick Hodge](https://github.com/nickhodge/)
+
 ## Why BoxKite?
 
 Everyone likes flying kites, right? The original inventor of the [box kite](http://en.wikipedia.org/wiki/Box_kite) was [Lawrence Hargrave](http://en.wikipedia.org/wiki/Lawrence_Hargrave). In 1893. And he was an Australian. Sadly missing from our newer plastic yet colourful currency, Lawrence was one of those guys who helped manned flight become a reality.
