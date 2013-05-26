@@ -21,7 +21,7 @@ namespace BoxKite.Twitter.Console
             }
             if (twitterCreds.Valid) return twitterCreds;
 
-            twitterCreds = TwitterConnection.GetTwitterCredentials();
+            twitterCreds = TwitterBogusTestzOnlyConnection.GetTwitterCredentials();
             SaveCredentialsToFile(fileName, twitterCreds);
 
             return twitterCreds;

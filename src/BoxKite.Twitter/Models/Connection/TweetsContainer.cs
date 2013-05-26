@@ -7,7 +7,13 @@ namespace BoxKite.Twitter.Models
     {
         public void SubscribeTo(IObservable<Tweet> tweetstream)
         {
-            tweetstream.Subscribe(Add);
+            tweetstream.Subscribe(AddIfUnique);
+        }
+
+        public void AddIfUnique(Tweet t)
+        {
+            if (!this.Contains(t.Id))
+                Add(t);
         }
 
         protected override long GetKeyForItem(Tweet item)

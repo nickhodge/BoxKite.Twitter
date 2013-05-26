@@ -9,33 +9,33 @@ using Newtonsoft.Json.Linq;
 
 namespace BoxKite.Twitter.Console
 {
-    public static class TwitterConnection
+    public static class TwitterBogusTestzOnlyConnection
+{
+    public static TwitterCredentials GetTwitterCredentials()
     {
-        public static TwitterCredentials GetTwitterCredentials()
-        {
-            var x = GetTwitterClientKeys().Result;
+        var x = GetTwitterClientKeys().Result;
 
-            var twitterauth = new TwitterAuthenticator(x.Item1, x.Item2, new DesktopPlatformAdaptor());
-            var authstartok = twitterauth.StartAuthentication();
-            if (authstartok.Result)
-            {
-                System.Console.Write("pin: ");
-                var pin = System.Console.ReadLine();
-                return twitterauth.ConfirmPin(pin).Result;
-            }
-            else
-            {
-                return TwitterCredentials.Null;
-            }
+        var twitterauth = new TwitterAuthenticator(x.Item1, x.Item2, new DesktopPlatformAdaptor());
+        var authstartok = twitterauth.StartAuthentication();
+        if (authstartok.Result)
+        {
+            System.Console.Write("pin: ");
+            var pin = System.Console.ReadLine();
+            return twitterauth.ConfirmPin(pin).Result;
         }
-
-        private static async Task<Tuple<string, string>> GetTwitterClientKeys()
+        else
         {
-            var vc = new WebClient();
-            var rawdata =
-                await vc.DownloadStringTaskAsync("http://service.lawrencehargrave.com/1/twitterapikeys/release");
-            var j = JObject.Parse(rawdata);
-            return new Tuple<string, string>(j["consumerkey"].ToString(), j["consumersecret"].ToString());
+            return TwitterCredentials.Null;
         }
     }
+
+    private static async Task<Tuple<string, string>> GetTwitterClientKeys()
+    {
+        var vc = new WebClient();
+        var rawdata =
+            await vc.DownloadStringTaskAsync("http://service.lawrencehargrave.com/1/twitterapikeys/release");
+        var j = JObject.Parse(rawdata);
+        return new Tuple<string, string>(j["consumerkey"].ToString(), j["consumersecret"].ToString());
+    }
+}
 }

@@ -29,6 +29,7 @@ namespace BoxKite.Twitter
             _twitterConsumerKey = twitterConsumerKey;
             _twitterConsumerSecret = twitterConsumerSecret;
             _platformAdaptor = platformAdaptor;
+            TwitterAccounts = new TwitterAccountsDictionary();
             _twitterauth = new TwitterAuthenticator(_twitterConsumerKey, _twitterConsumerSecret, platformAdaptor);
         }
 #elif (WINDOWS)
@@ -50,31 +51,34 @@ namespace BoxKite.Twitter
         }
 
         // second stage of auth confirms the pin is OK
-        public async Task<bool> CompleteAuthentication(string pin)
+        public async Task<TwitterAccount> CompleteAuthentication(string pin)
         {
             PublicState = "Validating PIN";
             var twittercredentials = await _twitterauth.ConfirmPin(pin);
             PublicState = "";
-            if (!twittercredentials.Valid) return false;
+            if (!twittercredentials.Valid) return null;
             return await AddTwitterAccount(twittercredentials);
         }
 
         // or just bypass and add an account from a re-hydrated credentials
-        public async Task<bool> AddTwitterAccount(TwitterCredentials twitterCredentials)
+        public async Task<TwitterAccount> AddTwitterAccount(TwitterCredentials twitterCredentials)
         {
-            if (!twitterCredentials.Valid) return false;
+            if (!twitterCredentials.Valid) return null;
 
-            //var newaccount = new TwitterAccount(twitterCredentials);
+#if (PORTABLE)
+            var newaccount = new TwitterAccount(twitterCredentials,_platformAdaptor);
+#elif (WINDOWS)
+            var newaccount = new TwitterAccount(twitterCredentials);
+#endif
             PublicState = String.Format("Verifying Credentials for {0}", twitterCredentials.ScreenName);
-            //var checkedcreds = await newaccount.VerifyCredentials();
+            var checkedcreds = await newaccount.VerifyCredentials();
             PublicState = "";
-            //if (!checkedcreds) return false;
+            if (!checkedcreds) return null;
 
             // all ok, add to valid Twitter Accounts
 
-            // TODO: REMOVE INT32
-            //TwitterAccounts.Add(twitterCredentials.UserID, newaccount);
-            return true;
+            TwitterAccounts.Add(twitterCredentials.UserID, newaccount);
+            return newaccount;
         }
 
     }

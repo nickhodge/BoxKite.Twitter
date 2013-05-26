@@ -180,7 +180,6 @@ namespace BoxKite.Twitter.Console
                         TwitterLiveFireAppControl.PrintTwitterErrors(lists7.twitterControlMessage);
                     }
                 }
-
             }
             catch (Exception e)
             {

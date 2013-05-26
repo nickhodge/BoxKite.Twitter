@@ -1,0 +1,148 @@
+﻿
+            var twittercredentials = ManageTwitterCredentials.MakeConnection();
+
+            if (twittercredentials.Valid)
+            {
+                System.Console.CancelKeyPress += new ConsoleCancelEventHandler(cancelStreamHandler);
+                var session = new UserSession(twittercredentials, new DesktopPlatformAdaptor());
+                var checkUser = session.GetVerifyCredentials().Result;
+                if (!checkUser.twitterFaulted)
+                {
+                    ConsoleOutput.PrintMessage(twittercredentials.ScreenName + " is authorised to use BoxKite.Twitter.");
+
+                    var accountSettings = session.GetAccountSettings().Result;
+                    if (!accountSettings.twitterFaulted)
+                    {
+
+                        /*
+                        //var locations = new List<string> { "150.700493", "-34.081953", "151.284828", "-33.593316" };
+                        //var locations = new List<string> { "-180", "-90", "180", "90" };
+                        var track = new List<string> { "fisting" };
+
+                        searchstream = session.StartSearchStream(track:track);
+
+                        //searchstream = session.StartSearchStream(track: track);
+
+                        var tweetcount = 0;
+                        double minutes = 10;
+                        searchstream.FoundTweets.Subscribe(t =>
+                                                           {
+                                                               ConsoleOutput.PrintTweet(t, ConsoleColor.Green);
+                                                               tweetcount++;
+                                                           });
+                        searchstream.Start();
+
+                        while (searchstream.IsActive)
+                        {
+                            Thread.Sleep(TimeSpan.FromMinutes(minutes));
+                            searchstream.Stop();
+                            double twpm = tweetcount / minutes;
+                            double twps = twpm / 60;
+                            ConsoleOutput.PrintMessage(String.Format("Tweets per minute: {0}", twpm.ToString("0,0.00")), ConsoleColor.Cyan);
+                            ConsoleOutput.PrintMessage(String.Format("Tweets per second: {0}", twps.ToString("0,0.00")), ConsoleColor.Cyan);
+                        }
+
+                        */
+
+                        /*
+                        //var fileName = @"C:\Users\Nick\Pictures\My Online Avatars\666.jpg";
+                        //if (File.Exists(fileName))
+                        //{
+                        //var newImage = File.ReadAllBytes(fileName);
+
+                        var sr = FilesHelper.FromFile("sampleimage\\MaggieThatcherRules.jpg");
+
+                        // var x = session.SendTweetWithImage("Testing Image Upload. You can Ignore", Path.GetFileName(fileName),newImage).Result;
+
+                        using (var fs = new FileStream(sr, FileMode.Open, FileAccess.Read))
+                        {                               
+                            
+                            //var x = session.ChangeAccountProfileImage("MaggieThatcherRules.jpg", fs).Result;
+
+                            var x = session.SendTweetWithImage("Maggies Rules", "maggie.jpg", fs).Result;
+
+                            if (x.twitterFaulted)
+                            {
+                                PrintTwitterErrors(x.twitterControlMessage);
+                            }
+                            else
+                            {
+                                ConsoleOutput.PrintTweet(x, ConsoleColor.Green);
+                            }
+
+                        }
+
+                        */
+
+                        /*userstream = session.GetUserStream();
+                        userstream.Tweets.Subscribe(
+                            t =>
+                                System.Console.WriteLine(String.Format("ScreenName: {0}, Tweet: {1}", t.User.ScreenName,
+                                    t.Text)));
+                        userstream.Start();
+
+                        while (userstream.IsActive)
+                        {
+                            Thread.Sleep(TimeSpan.FromSeconds(0.5));
+                        }
+
+
+                       userstream = session.GetUserStream();
+                         userstream.Tweets.Subscribe(t => ConsoleOutput.PrintTweet(t, ConsoleColor.Green));
+                         userstream.Events.Subscribe(e => ConsoleOutput.PrintEvent(e, ConsoleColor.Yellow));
+                         userstream.DirectMessages.Subscribe(
+                             d => ConsoleOutput.PrintDirect(d, ConsoleColor.Magenta, ConsoleColor.Black));
+                         userstream.Start();
+
+                         while (userstream.IsActive)
+                         {
+                             Thread.Sleep(TimeSpan.FromSeconds(0.5));
+                         } */
+
+
+
+                        /*
+                         * 
+                         * //var locations = new List<string> { "-34.081953", "150.700493", "-33.593316", "151.284828" };
+                            //searchstream = session.StartSearchStream(locations: locations);
+                            searchstream = session.StartSearchStream(track: "hazel");
+                            searchstream.FoundTweets.Subscribe(t => ConsoleOutput.PrintTweet(t, ConsoleColor.Green));
+                            searchstream.Start();
+
+                            while (searchstream.IsActive)
+                            {
+                                Thread.Sleep(TimeSpan.FromMinutes(1));
+                                var sr = new StreamSearchRequest();
+                                sr.tracks.Add("xbox");
+                                searchstream.SearchRequests.Publish(sr);
+                            }
+                         * 
+                         */
+
+
+                        /*
+                        var x = session.GetMentions(count:100).Result;
+
+                        foreach (var tweet in x)
+                        {
+                            ConsoleOutputPrintTweet(tweet);
+                        }
+                        
+                    
+                         session.GetFavourites(count: 10)
+                            .Subscribe(t => ConsoleOutputPrintTweet(t, ConsoleColor.White, ConsoleColor.Black));
+                        */
+
+                     }
+                }
+                else
+                {
+                    ConsoleOutput.PrintMessage(String.Format("Credentials could not be verified: {0}", checkUser.twitterControlMessage.twitter_error_message), ConsoleColor.Red);
+                }
+            }
+
+            else
+            {
+                ConsoleOutput.PrintMessage("Authenticator could not start. Do you have the correct Client/Consumer IDs and secrets?", ConsoleColor.Red);
+            }
+            System.Console.ReadLine();

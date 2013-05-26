@@ -19,7 +19,9 @@ namespace BoxKite.Twitter
 
         public void AddToHomeTimeLine(Tweet t)
         {
-            _timeline.OnNext(t);
+            // only pump in if unique
+            if(!HomeTimeLine.Contains(t.Id))
+                _timeline.OnNext(t);
         }
 
         public void Start()
@@ -29,8 +31,10 @@ namespace BoxKite.Twitter
             TwitterCommunication = new CancellationTokenSource();
             UserStream = Session.GetUserStream();
             UserStream.Tweets.Subscribe(AddToHomeTimeLine);
+
             HomeTimeLine = new TweetsContainer();
             HomeTimeLine.SubscribeTo(this.TimeLine);
+
             UserStream.Start();
             ProcessBackfillPump();
             //
