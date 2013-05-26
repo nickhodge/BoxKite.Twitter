@@ -1,6 +1,6 @@
 #BoxKite.Twitter
 
-![boxkite logo](http://media.nickhodge.com/boxkite/twitter/github-logo-wide.png)
+![boxkite logo](http://media.nickhodge.com/boxkite/twitter/github-logo-wide-2.png)
 
 BoxKite.Twitter is a .NET Library that provides an interface to Twitter API 1.1, licensed [MS-PL](http://opensource.org/licenses/MS-PL).
 
