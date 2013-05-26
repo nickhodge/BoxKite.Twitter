@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reactive.Subjects;
 using System.Threading;
 using System.Threading.Tasks;
+using BoxKite.Twitter.Extensions;
 using BoxKite.Twitter.Helpers;
 using BoxKite.Twitter.Models;
 
@@ -21,7 +22,7 @@ namespace BoxKite.Twitter
         {
             // only pump in if unique
             if(!HomeTimeLine.Contains(t.Id))
-                _timeline.OnNext(t);
+                _timeline.Publish(t);
         }
 
         public void Start()

@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.ComTypes;
 using System.Threading;
 using BoxKite.Twitter.Models;
 
@@ -19,7 +18,7 @@ namespace BoxKite.Twitter.Console
             ConsoleOutput.PrintMessage("Welcome to BoxKite.Twitter Console");
             ConsoleOutput.PrintMessage("(control-c ends)");
 
-            var tw = new TwitterConnection("","", new DesktopPlatformAdaptor());
+            var tw = new TwitterConnection( new DesktopPlatformAdaptor());
             var x = tw.BeginAuthentication().Result;
             if (x)
             {

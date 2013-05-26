@@ -41,6 +41,17 @@ namespace BoxKite.Twitter
         }
 #endif
 
+#if (PORTABLE)
+        public TwitterConnection(IPlatformAdaptor platformAdaptor)
+        {
+
+        }
+#elif (WINDOWS)
+       public TwitterConnection()
+        {
+        }
+#endif
+
         // auth happens when no creds are present
         public async Task<bool> BeginAuthentication()
         {
