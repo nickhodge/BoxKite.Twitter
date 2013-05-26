@@ -1,6 +1,7 @@
 // (c) 2012-2013 Nick Hodge mailto:hodgenick@gmail.com & Brendan Forster
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -145,7 +146,7 @@ namespace BoxKite.Twitter
             var request = new HttpRequestMessage(HttpMethod.Post, fullUrl);
             request.Headers.Add("Authorization", oauth.Header);
             request.Headers.Add("User-Agent", "BoxKite.Twitter/1.0");
- 
+
             var content = parameters.Aggregate(string.Empty, (current, e) => current + string.Format("{0}={1}&", e.Key, Uri.EscapeDataString(e.Value)));
             request.Content = new StringContent(content, Encoding.UTF8, "application/x-www-form-urlencoded");
             
@@ -198,7 +199,7 @@ namespace BoxKite.Twitter
             foreach (var entry in sd)
             {
                 string value;
-                if (entry.Key == "status" || entry.Key == "text" || entry.Key == "screen_name" || entry.Key == "user_id")
+                if (entry.Key == "status" || entry.Key == "text" || entry.Key == "screen_name" || entry.Key == "user_id" || entry.Key == "track" || entry.Key == "follow" || entry.Key == "locations")
                 {
                     value = Uri.EscapeDataString(entry.Value);
                 }

@@ -2,10 +2,14 @@
 // License: MS-PL
 
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading;
 using BoxKite.Twitter.Console.Helpers;
+using BoxKite.Twitter.Extensions;
 using BoxKite.Twitter.Models;
 
 namespace BoxKite.Twitter.Console
@@ -35,6 +39,36 @@ namespace BoxKite.Twitter.Console
                     if (!accountSettings.twitterFaulted)
                     {
 
+                        var locations = new List<string> { "150.700493", "-34.081953", "151.284828", "-33.593316" };
+                        //var locations = new List<string> { "-180", "-90", "180", "90" };
+                        //var track = new List<string> { "twitter", "facebook", "tweet", "ufc" };
+
+                        searchstream = session.StartSearchStream(locations: locations);
+
+                        //searchstream = session.StartSearchStream(track: track);
+
+                        var tweetcount = 0;
+                        double minutes = 1.2;
+                        searchstream.FoundTweets.Subscribe(t =>
+                                                           {
+                                                               ConsoleOutput.PrintTweet(t, ConsoleColor.Green);
+                                                               tweetcount++;
+                                                           });
+                        searchstream.Start();
+
+                        while (searchstream.IsActive)
+                        {
+                            Thread.Sleep(TimeSpan.FromMinutes(minutes));
+                            searchstream.Stop();
+                            double twpm = tweetcount / minutes;
+                            double twps = twpm / 60;
+                            ConsoleOutput.PrintMessage(String.Format("Tweets per minute: {0}", twpm.ToString("0,0.00")), ConsoleColor.Cyan);
+                            ConsoleOutput.PrintMessage(String.Format("Tweets per second: {0}", twps.ToString("0,0.00")), ConsoleColor.Cyan);
+                        }
+
+                        
+
+                        /*
                         //var fileName = @"C:\Users\Nick\Pictures\My Online Avatars\666.jpg";
                         //if (File.Exists(fileName))
                         //{
@@ -62,7 +96,7 @@ namespace BoxKite.Twitter.Console
 
                         }
 
-
+                        */
 
                         /*userstream = session.GetUserStream();
                         userstream.Tweets.Subscribe(

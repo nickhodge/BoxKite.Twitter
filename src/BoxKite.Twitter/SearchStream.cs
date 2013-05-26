@@ -2,13 +2,20 @@
 // License: MS-PL
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.Linq.Expressions;
 using System.Net.Http;
 using System.Reactive.Subjects;
+using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml;
 using BoxKite.Twitter.Extensions;
 using BoxKite.Twitter.Models;
+using Microsoft.CSharp.RuntimeBinder;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -37,24 +44,25 @@ namespace BoxKite.Twitter
             parentSession = session;
             CancelSearchStream = new CancellationTokenSource();
             SearchRequests.Subscribe(ChangeSearchRequest);
-            IsActive = true;
         }
 
 
         public void Start()
         {
             CancelSearchStream = new CancellationTokenSource();
+            IsActive = true;
             Task.Factory.StartNew(ProcessMessages, CancelSearchStream.Token);  
         }
 
         public void Stop()
         {
+            CancelSearchStream.Cancel(); 
             IsActive = false;
         }
 
         private void ChangeSearchRequest(StreamSearchRequest sr)
         {
-            CancelSearchStream.Cancel();
+            Stop();
             SearchParameters = ChangeSearchParameters(sr);
             Start();
         }
@@ -121,7 +129,7 @@ namespace BoxKite.Twitter
             var responseStream = await GetStream();
             while (!CancelSearchStream.IsCancellationRequested)
             {
-                string line;
+                string line = "";
                 try
                 {
                     line = responseStream.ReadLine();
@@ -129,8 +137,19 @@ namespace BoxKite.Twitter
 
                     if (line == "ENDBOXKITESEARCHSTREAMTEST")
                     {
-                        Stop();
                         responseStream.Dispose();
+                        Dispose();
+                        break;
+                    }
+
+                    if (line == "<html>") // needs embellishment
+                    {
+                        var restofline = responseStream.ReadToEnd();
+#if (DEBUG)
+                        Debug.WriteLine(restofline);
+#endif
+                        responseStream.Dispose();
+                        Dispose();
                         break;
                     }
 
@@ -141,12 +160,23 @@ namespace BoxKite.Twitter
                         continue;
                     }
                 }
+                catch (JsonReaderException jsonex)
+                {
+#if (DEBUG)
+                    Debug.WriteLine(line);
+#endif
+                    continue;
+                }
                 catch (Exception)
                 {
                     responseStream.Dispose();
+                    Dispose(); 
                     break;
                 }
             }
+            responseStream.Dispose();
+            Dispose();
+            return;
         }
 
         private async Task<StreamReader> GetStream()
