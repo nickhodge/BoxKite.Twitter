@@ -24,12 +24,12 @@ Install-Package BoxKite.Twitter -Pre
 
 ##So What Does the Code look like?
 
-[Pop into the wiki demo](https://github.com/nickhodge/BoxKite.Twitter/wiki)
+[Pop into the wiki](https://github.com/nickhodge/BoxKite.Twitter/wiki) to see code examples
 
 
 ## Wiki documentation
 
-[Documentation is online and provided here](https://github.com/nickhodge/BoxKite.Twitter/wiki)
+[Documentation is online and provided in the Wiki](https://github.com/nickhodge/BoxKite.Twitter/wiki)
 
 ##To Build:
 * VS2012 with latest NuGet supporting PCLs (Portable Class Libraries)
@@ -59,7 +59,7 @@ Install-Package BoxKite.Twitter -Pre
 ##Tests:
 * 113 test methods with average of 4 assertion tests each
 * Both Twitter API 1.1 and Userstream Unit Tests
-* 45 "Live Fire Tests". Included as a separate project, it is engaged via the Console; uses a real Twitter Account to exercise the API. Configurable Test series, individual tests that can be run.
+* 47 "Live Fire Tests". Included as a separate project, it is engaged via the Console; uses a real Twitter Account to exercise the API. Configurable Test series, individual tests that can be run.
 * Test source is JSON from [dev.twitter.com](https://dev.twitter.com/) and where innaccurate on the site, taken from live data or corrected to match live data.
 * Error response type testing (eg: 429 rate_limits) & generic decode tests included
 

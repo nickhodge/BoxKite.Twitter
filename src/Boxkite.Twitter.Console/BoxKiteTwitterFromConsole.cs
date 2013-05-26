@@ -3,13 +3,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.ComTypes;
-using System.Text;
 using System.Threading;
-using BoxKite.Twitter.Console.Helpers;
-using BoxKite.Twitter.Extensions;
 using BoxKite.Twitter.Models;
 
 namespace BoxKite.Twitter.Console
@@ -39,16 +33,16 @@ namespace BoxKite.Twitter.Console
                     if (!accountSettings.twitterFaulted)
                     {
 
-                        var locations = new List<string> { "150.700493", "-34.081953", "151.284828", "-33.593316" };
+                        //var locations = new List<string> { "150.700493", "-34.081953", "151.284828", "-33.593316" };
                         //var locations = new List<string> { "-180", "-90", "180", "90" };
-                        //var track = new List<string> { "twitter", "facebook", "tweet", "ufc" };
+                        var track = new List<string> { "fisting" };
 
-                        searchstream = session.StartSearchStream(locations: locations);
+                        searchstream = session.StartSearchStream(track:track);
 
                         //searchstream = session.StartSearchStream(track: track);
 
                         var tweetcount = 0;
-                        double minutes = 1.2;
+                        double minutes = 10;
                         searchstream.FoundTweets.Subscribe(t =>
                                                            {
                                                                ConsoleOutput.PrintTweet(t, ConsoleColor.Green);

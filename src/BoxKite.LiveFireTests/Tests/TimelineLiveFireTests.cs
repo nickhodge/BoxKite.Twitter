@@ -3,7 +3,14 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.Design;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
+using System.Management.Instrumentation;
+using System.Net;
+using System.Reflection;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using BoxKite.Twitter;
 
@@ -20,16 +27,16 @@ namespace BoxKite.Twitter.Console
                 if (testSeq.Contains(1))
                 {
                     ConsoleOutput.PrintMessage("7.1 Timeline\\GetMentions", ConsoleColor.Gray);
-                    var timeline1 = await session.GetMentions(count:100);
+                    var timeline1 = await session.GetMentions(count: 100);
 
                     if (!timeline1.twitterFaulted)
                     {
                         foreach (var tweet in timeline1)
                         {
                             ConsoleOutput.PrintMessage(
-                                     String.Format("From: {0} // Message: {1}", tweet.User.ScreenName, tweet.Text));                            
+                                String.Format("From: {0} // Message: {1}", tweet.User.ScreenName, tweet.Text));
                         }
-                     }
+                    }
                     else
                         successStatus = false;
                 }
@@ -45,7 +52,7 @@ namespace BoxKite.Twitter.Console
                         foreach (var tweet in timeline2)
                         {
                             ConsoleOutput.PrintMessage(
-                                     String.Format("From: {0} // Message: {1}", tweet.User.ScreenName, tweet.Text));
+                                String.Format("From: {0} // Message: {1}", tweet.User.ScreenName, tweet.Text));
                         }
                     }
                     else
@@ -64,7 +71,7 @@ namespace BoxKite.Twitter.Console
                         foreach (var tweet in timeline3)
                         {
                             ConsoleOutput.PrintMessage(
-                                     String.Format("From: {0} // Message: {1}", tweet.User.ScreenName, tweet.Text));
+                                String.Format("From: {0} // Message: {1}", tweet.User.ScreenName, tweet.Text));
                         }
                     }
                     else
@@ -75,7 +82,9 @@ namespace BoxKite.Twitter.Console
                 // 4
                 if (testSeq.Contains(4))
                 {
-                    ConsoleOutput.PrintMessage("7.4 Timeline\\GetHomeTimeline - Paging with IDs", ConsoleColor.Gray);
+                    ConsoleOutput.PrintMessage(
+                        "7.4 Timeline\\GetHomeTimeline - Paging Forward, getting new tweets, with ID mechanism",
+                        ConsoleColor.Gray);
                     var timeline4 = await session.GetHomeTimeline(count: 10);
                     long largestid = 0;
                     long smallestid = 0;
@@ -116,7 +125,7 @@ namespace BoxKite.Twitter.Console
                         }
 
                         ConsoleOutput.PrintMessage(
-                                    String.Format(" LargestID: {0} // SmallestID: {1}", largestid, smallestid));
+                            String.Format(" LargestID: {0} // SmallestID: {1}", largestid, smallestid));
 
 
                         ConsoleOutput.PrintMessage("Now Updating Home Timeline, should show older messages");
@@ -158,6 +167,47 @@ namespace BoxKite.Twitter.Console
                         successStatus = false;
                 }
 
+
+                // 6
+                if (testSeq.Contains(6))
+                {
+                    ConsoleOutput.PrintMessage(
+                        "7.6 Timeline\\GetHomeTimeline - Paging Backward, getting older tweets with ID mechanism",
+                        ConsoleColor.Gray);
+
+                    long smallestid = 0;
+                    long largestid = 0;
+                    int howManyToGet = 100;
+                    int pagingSize = 10;
+
+                    do
+                    {
+                        var timeline6 = await session.GetHomeTimeline(count: pagingSize, max_id: smallestid);
+                        if (!timeline6.twitterFaulted)
+                        {
+                            smallestid = timeline6.ToList()[0].Id; // grab the first for comparator
+                            foreach (var tweet in timeline6)
+                            {
+                                ConsoleOutput.PrintMessage(
+                                    String.Format("ID: {0} // From: {1} // Message: {2}", tweet.Id,
+                                        tweet.User.ScreenName,
+                                        tweet.Text));
+                                if (tweet.Id < smallestid) smallestid = tweet.Id;
+                                if (tweet.Id > largestid) largestid = tweet.Id;
+                                howManyToGet--;
+                            }
+                            ConsoleOutput.PrintMessage(
+                                String.Format("SmallestID: {0}", smallestid),
+                                ConsoleColor.Cyan);
+                        }
+                        else
+                        {
+                            successStatus = false;
+                            TwitterLiveFireAppControl.PrintTwitterErrors(timeline6.twitterControlMessage);
+                            break;
+                        }
+                    } while (howManyToGet > 0);
+                }
             }
             catch (Exception e)
             {

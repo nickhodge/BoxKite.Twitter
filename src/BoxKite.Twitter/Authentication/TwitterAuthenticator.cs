@@ -150,7 +150,7 @@ namespace BoxKite.Twitter
                 Token = accessToken,
                 TokenSecret = accessTokenSecret,
                 ScreenName = screenName,
-                UserID = userID,
+                UserID = Int32.Parse(userID),
                 Valid = true
             };
             return credentials;

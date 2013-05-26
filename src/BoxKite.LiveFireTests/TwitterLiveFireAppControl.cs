@@ -33,7 +33,7 @@ namespace BoxKite.Twitter.Console
                     // NOTE: some tests require a previous test to work successfully
                     // NOTE: some tests post/delete items. This *is* a live fire test!
 
-                    var testSeriesToRun = new List<int> {4};
+                    var testSeriesToRun = new List<int> {7};
 
                     // Calls tested by Test Series
                     // series 1 => 9 (UserAccounts)
@@ -42,13 +42,13 @@ namespace BoxKite.Twitter.Console
                     // series 4 => 4 (Tweets)
                     // series 5 => 3 (Favourites)
                     // series 6 => 8 (Friends/Followers)
-                    // series 7 => 5 (TimeLine)
+                    // series 7 => 6 (TimeLine)
                     // series 8 => 3 (Trends)
                     // series 9 => 2 (SuggestedUsers)
                     // series 10=> 7 (Lists)
                     // series 11=> 1 (Combos)
                     // =============
-                    // TOTAL      46
+                    // TOTAL      47
 
                     // Test Series 1
                     if (testSeriesToRun.Contains(1))
@@ -165,7 +165,7 @@ namespace BoxKite.Twitter.Console
                     if (testSeriesToRun.Contains(7))
                     {
                         var tmln = new TimelineLiveFireTests();
-                        var testResult7 = tmln.DoTimelineTest(session, new List<int> { 4 }).Result;
+                        var testResult7 = tmln.DoTimelineTest(session, new List<int> { 6 }).Result;
 
                         if (testResult7)
                         {
