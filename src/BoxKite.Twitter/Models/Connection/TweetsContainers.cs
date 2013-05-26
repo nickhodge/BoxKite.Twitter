@@ -25,7 +25,7 @@ namespace BoxKite.Twitter.Models
         }
     }
 
-    public class DirectMessagesContainer : KeyedCollection<int, DirectMessage>
+    public class DirectMessagesContainer : KeyedCollection<long, DirectMessage>
     {
         public void SubscribeTo(IObservable<DirectMessage> stream)
         {
