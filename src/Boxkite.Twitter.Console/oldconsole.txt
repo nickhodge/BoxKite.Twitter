@@ -1,4 +1,29 @@
-﻿
+﻿var tw = new TwitterConnection( new DesktopPlatformAdaptor());
+            var x = tw.BeginAuthentication().Result;
+            if (x)
+            {
+                System.Console.Write("PIN: ");
+                var pin = System.Console.ReadLine();
+                var y = tw.CompleteAuthentication(pin).Result;
+                if (y != null)
+                {
+                    y.TimeLine.Subscribe(t => ConsoleOutput.PrintTweet(t, ConsoleColor.Green));
+                    y.Start();
+
+                    while (true)
+                    {
+                        Thread.Sleep(TimeSpan.FromMinutes(2));
+                    }
+
+                }
+            }
+
+
+
+
+
+
+
             var twittercredentials = ManageTwitterCredentials.MakeConnection();
 
             if (twittercredentials.Valid)

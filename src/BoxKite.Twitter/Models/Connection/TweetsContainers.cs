@@ -2,11 +2,12 @@
 // License: MS-PL
 
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace BoxKite.Twitter.Models
 {
-    public class TweetsContainer: KeyedCollection<long,Tweet>
+    /*public class TweetsContainer: KeyedCollection<long,Tweet>
     {
         public void SubscribeTo(IObservable<Tweet> stream)
         {
@@ -60,6 +61,21 @@ namespace BoxKite.Twitter.Models
         protected override int GetKeyForItem(User item)
         {
             return item.UserId;
+        }
+    }
+     */
+
+    public class TweetsContainer : SortedSet<long>
+    {
+        public void SubscribeTo(IObservable<Tweet> stream)
+        {
+            stream.Subscribe(AddIfUnique);
+        }
+
+        public void AddIfUnique(Tweet t)
+        {
+            if (!this.Contains(t.Id))
+                Add(t.Id);
         }
     }
 

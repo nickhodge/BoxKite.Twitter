@@ -20,7 +20,7 @@ namespace BoxKite.Twitter
 
         public void AddToHomeTimeLine(Tweet t)
         {
-            // only pump in if unique
+            // only Publish if unique
             if(!HomeTimeLine.Contains(t.Id))
                 _timeline.Publish(t);
         }
