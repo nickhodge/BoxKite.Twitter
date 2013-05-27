@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using BoxKite.Twitter.Extensions;
 using BoxKite.Twitter.Helpers;
 using Newtonsoft.Json;
 
@@ -25,6 +26,12 @@ namespace BoxKite.Twitter.Models
         {
             get { return _time; }
             set { SetProperty(ref _time, value); }
+        }
+
+        [JsonIgnore]
+        public string ToFriendlyDateTime
+        {
+            get { return _time.ToFriendlyText(); }
         }
 
         private long _id;

@@ -141,7 +141,7 @@ namespace BoxKite.Twitter.Tests.Modules
             removal.lists.ToList()[0].MemberCount.ShouldBeEquivalentTo(46);
             removal.lists.ToList()[1].Name.ShouldBeEquivalentTo("vanessa williams");
             removal.lists.ToList()[0].User.Name.ShouldBeEquivalentTo("Chris Greco");
-            removal.lists.ToList()[0].User.Avatar.ShouldBeEquivalentTo("http://a0.twimg.com/images/themes/theme1/bg.png");
+            removal.lists.ToList()[0].User.Avatar.ShouldBeEquivalentTo("http://a1.twimg.com/profile_images/1331628329/chris_2_normal.jpg");
         }
 
 

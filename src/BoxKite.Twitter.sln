@@ -18,6 +18,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoxKite.Twitter.Desktop", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoxKite.Twitter.Tests", "BoxKite.Twitter.Tests\BoxKite.Twitter.Tests.csproj", "{C2F6E177-2755-4258-9C8E-B8E534075049}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoxKite.WPFSimpleClient", "BoxKite.Twitter.SimpleWPFClient\BoxKite.WPFSimpleClient.csproj", "{346B80E3-CD8D-4161-AFF8-63E55E1D99F3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +46,10 @@ Global
 		{C2F6E177-2755-4258-9C8E-B8E534075049}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C2F6E177-2755-4258-9C8E-B8E534075049}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C2F6E177-2755-4258-9C8E-B8E534075049}.Release|Any CPU.Build.0 = Release|Any CPU
+		{346B80E3-CD8D-4161-AFF8-63E55E1D99F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{346B80E3-CD8D-4161-AFF8-63E55E1D99F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{346B80E3-CD8D-4161-AFF8-63E55E1D99F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{346B80E3-CD8D-4161-AFF8-63E55E1D99F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

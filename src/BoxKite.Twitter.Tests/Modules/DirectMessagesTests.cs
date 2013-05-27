@@ -26,7 +26,7 @@ namespace BoxKite.Twitter.Tests
             directmessages.Count().ShouldBeEquivalentTo(1);
             directmessages.ToList()[0].Id.ShouldBeEquivalentTo(240136858829479936);
             directmessages.ToList()[0].Recipient.Name.ShouldBeEquivalentTo("Mick Jagger");
-            directmessages.ToList()[0].Recipient.Avatar.ShouldBeEquivalentTo("http://a0.twimg.com/profile_background_images/644522235/cdjlccey99gy36j3em67.jpeg");
+            directmessages.ToList()[0].Recipient.Avatar.ShouldBeEquivalentTo("http://a0.twimg.com/profile_images/2550226257/y0ef5abcx5yrba8du0sk_normal.jpeg");
             directmessages.ToList()[0].Text.ShouldBeEquivalentTo("booyakasha");
         }
 

@@ -189,7 +189,6 @@ namespace BoxKite.Twitter.Tests
 
             Assert.IsNotNull(twitteruser);
             Assert.IsInstanceOfType(twitteruser, typeof(BoxKite.Twitter.Models.User));
-            twitteruser.Avatar.ShouldBeEquivalentTo("http://a0.twimg.com/profile_background_images/113854313/xa60e82408188860c483d73444d53e21.png");
             twitteruser.Followers.ShouldBeEquivalentTo(276334);
             twitteruser.Friends.ShouldBeEquivalentTo(1780);
             twitteruser.IsFollowedByMe.ShouldBeEquivalentTo(false);
@@ -215,7 +214,7 @@ namespace BoxKite.Twitter.Tests
             twitteruser.Notifications.ShouldBeEquivalentTo(false);
             twitteruser.ProfileBackgroundColour.ShouldBeEquivalentTo("45ADA8");
             twitteruser.ProfileBackgroundTile.ShouldBeEquivalentTo(true);
-            twitteruser.ProfileImageUrl.ShouldBeEquivalentTo("http://a0.twimg.com/profile_images/1777569006/image1327396628_normal.png");
+            twitteruser.Avatar.ShouldBeEquivalentTo("http://a0.twimg.com/profile_images/1777569006/image1327396628_normal.png");
             twitteruser.ProfileLinkColour.ShouldBeEquivalentTo("547980");
             twitteruser.ProfileSidebarBorderColour.ShouldBeEquivalentTo("547980");
             twitteruser.ShowAllInlineMedia.ShouldBeEquivalentTo(true);

@@ -20,7 +20,7 @@ namespace BoxKite.Twitter.Models
         }
 
         private string _avatar;
-        [JsonProperty("profile_background_image_url")]
+        [JsonProperty("profile_image_url")]
         public string Avatar
         {
             get { return _avatar; }
@@ -157,14 +157,6 @@ namespace BoxKite.Twitter.Models
 
         [JsonProperty("profile_background_tile")]
         public bool ProfileBackgroundTile { get; set; }
-
-        private string _profileimageurl;
-        [JsonProperty("profile_image_url")]
-        public string ProfileImageUrl
-        {
-            get { return _profileimageurl; }
-            set { SetProperty(ref _profileimageurl, value); }
-        }
 
         private string _profileimageurlhttps;
         [JsonProperty("profile_image_url_https")]

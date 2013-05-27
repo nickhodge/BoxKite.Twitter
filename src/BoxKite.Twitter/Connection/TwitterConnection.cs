@@ -16,7 +16,8 @@ namespace BoxKite.Twitter
             get { return _publicState; }
             set { SetProperty(ref _publicState, value); }
         }        
-        public TwitterAccountsDictionary TwitterAccounts { get; set; }
+        private TwitterAccountsDictionary _twitterAccounts = new TwitterAccountsDictionary();
+        public TwitterAccountsDictionary TwitterAccounts { get { return _twitterAccounts; } set { _twitterAccounts = value; } }
 
         private readonly string _twitterConsumerKey;
         private readonly string _twitterConsumerSecret;
@@ -29,7 +30,6 @@ namespace BoxKite.Twitter
             _twitterConsumerKey = twitterConsumerKey;
             _twitterConsumerSecret = twitterConsumerSecret;
             _platformAdaptor = platformAdaptor;
-            TwitterAccounts = new TwitterAccountsDictionary();
             _twitterauth = new TwitterAuthenticator(_twitterConsumerKey, _twitterConsumerSecret, platformAdaptor);
         }
 #elif (WINDOWS)
@@ -41,10 +41,10 @@ namespace BoxKite.Twitter
         }
 #endif
 
+
 #if (PORTABLE)
         public TwitterConnection(IPlatformAdaptor platformAdaptor)
         {
-
         }
 #elif (WINDOWS)
        public TwitterConnection()

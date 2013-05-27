@@ -77,6 +77,9 @@
     <Compile Include="..\BoxKite.Twitter\Connection\TwitterConnection.cs">
       <Link>Connection\TwitterConnection.cs</Link>
     </Compile>
+    <Compile Include="..\BoxKite.Twitter\Connection\TwitterConnectionSearch.cs">
+      <Link>Connection\TwitterConnectionSearch.cs</Link>
+    </Compile>
     <Compile Include="..\BoxKite.Twitter\Extensions\Api.cs">
       <Link>Extensions\Api.cs</Link>
     </Compile>
@@ -85,9 +88,6 @@
     </Compile>
     <Compile Include="..\BoxKite.Twitter\Extensions\EnumerableExtensions.cs">
       <Link>Extensions\EnumerableExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\BoxKite.Twitter\Extensions\ReactiveExtensionsExtension.cs">
-      <Link>Extensions\ReactiveExtensionsExtension.cs</Link>
     </Compile>
     <Compile Include="..\BoxKite.Twitter\Extensions\ResponseExtensions.cs">
       <Link>Extensions\ResponseExtensions.cs</Link>
@@ -121,9 +121,6 @@
     </Compile>
     <Compile Include="..\BoxKite.Twitter\Models\BoundingBox.cs">
       <Link>Models\BoundingBox.cs</Link>
-    </Compile>
-    <Compile Include="..\BoxKite.Twitter\Models\Connection\TweetsContainers.cs">
-      <Link>Models\Connection\TweetsContainers.cs</Link>
     </Compile>
     <Compile Include="..\BoxKite.Twitter\Models\Connection\TwitterAccountsDictionary.cs">
       <Link>Models\Connection\TwitterAccountsDictionary.cs</Link>

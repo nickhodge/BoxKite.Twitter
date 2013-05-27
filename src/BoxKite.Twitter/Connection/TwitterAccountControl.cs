@@ -18,13 +18,12 @@ namespace BoxKite.Twitter
             get { return _publicState; }
             set { SetProperty(ref _publicState, value); }
         }
-        public User Details { get; set; }
+        public User accountDetails { get; set; }
         public TwitterCredentials _TwitterCredentials { get; set; }
-        public AccountSettings Settings { get; set; }
+        public AccountSettings accountSettings { get; set; }
         public IUserSession Session;
         public IUserStream UserStream;
         public ISearchStream SearchStream;
-        public CancellationTokenSource TwitterCommunication { get; set; }
 
 #if (PORTABLE)
         public TwitterAccount(TwitterCredentials twitterCredentials, IPlatformAdaptor platformAdaptor)
@@ -49,23 +48,13 @@ namespace BoxKite.Twitter
             if (!checkedUser.twitterFaulted) // go deeper
             {
                 String.Format("Getting Account Settings & Profile for {0}", checkedUser.ScreenName);
-                Settings = await Session.GetAccountSettings();
-                Details = await Session.GetUserProfile(user_id: checkedUser.UserId);
+                accountSettings = await Session.GetAccountSettings();
+                accountDetails = await Session.GetUserProfile(user_id: checkedUser.UserId);
                 PublicState = "OK";
-                return !Settings.twitterFaulted && !Details.twitterFaulted;
+                return !accountSettings.twitterFaulted && !accountDetails.twitterFaulted;
             }
             else
                 return false; // return false here will abandon all hope
         }
-
-
-        /*
-            List<xx> directmessages
-            (search when required)
-
-            List<xx> TweetSoup
-            List<xx> UserSoup
-
-         */
     }
 }

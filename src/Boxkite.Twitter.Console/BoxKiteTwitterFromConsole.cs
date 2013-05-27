@@ -36,14 +36,14 @@ namespace BoxKite.Twitter.Console
                         
                         //var locations = new List<string> { "150.700493", "-34.081953", "151.284828", "-33.593316" };
                         //var locations = new List<string> { "-180", "-90", "180", "90" };
-                        var track = new List<string> { "twitter","tweet","facebook","instagram","twitpic" };
+                        var track = new List<string> { "qanda" };
 
                         searchstream = session.StartSearchStream(track:track);
 
                         //searchstream = session.StartSearchStream(track: track);
 
                         var tweetcount = 0;
-                        double minutes = 3;
+                        double minutes = 10;
                         searchstream.FoundTweets.Subscribe(t =>
                                                            {
                                                                ConsoleOutput.PrintTweet(t, ConsoleColor.Green);

@@ -107,13 +107,13 @@ namespace BoxKite.Twitter
 
                 if (obj["direct_message"] != null)
                 {
-                    directmessages.Publish(MapFromStreamTo<DirectMessage>(obj["direct_message"].ToString()));
+                    directmessages.OnNext(MapFromStreamTo<DirectMessage>(obj["direct_message"].ToString()));
                     continue;
                 }
 
                 if (obj["in_reply_to_user_id"] != null)
                 {
-                    tweets.Publish(MapFromStreamTo<Tweet>(obj.ToString()));
+                    tweets.OnNext(MapFromStreamTo<Tweet>(obj.ToString()));
                     continue;
                 }
 
@@ -126,38 +126,38 @@ namespace BoxKite.Twitter
                 // source: https://dev.twitter.com/docs/streaming-apis/messages#Events_event
                 if (obj["event"] != null)
                 {
-                    events.Publish(MapFromEventInStream(obj));
+                    events.OnNext(MapFromEventInStream(obj));
                     continue;
                 }
 
                 if (obj["scrub_geo"] != null)
                 {
-                    scrubgeorequests.Publish(MapFromStreamTo<StreamScrubGeo>(obj["scrub_geo"].ToString()));
+                    scrubgeorequests.OnNext(MapFromStreamTo<StreamScrubGeo>(obj["scrub_geo"].ToString()));
                     continue;
                 }
 
                 if (obj["limit"] != null)
                 {
-                    limitnotices.Publish(MapFromStreamTo<StreamLimitNotice>(obj["limit"].ToString()));
+                    limitnotices.OnNext(MapFromStreamTo<StreamLimitNotice>(obj["limit"].ToString()));
                     continue;
                 }
 
                 if (obj["delete"] != null)
                 {
-                    deleteevents.Publish(MapFromStreamTo<DeleteEvent>(obj["delete"].ToString()));
+                    deleteevents.OnNext(MapFromStreamTo<DeleteEvent>(obj["delete"].ToString()));
                     continue;
                 }
 
                 if (obj["status_withheld"] != null)
                 {
-                    statuswithheld.Publish(
+                    statuswithheld.OnNext(
                         MapFromStreamTo<StreamStatusWithheld>(obj["status_withheld"].ToString()));
                     continue;
                 }
 
                 if (obj["user_withheld"] != null)
                 {
-                    userwithheld.Publish(MapFromStreamTo<StreamUserWithheld>(obj["user_withheld"].ToString()));
+                    userwithheld.OnNext(MapFromStreamTo<StreamUserWithheld>(obj["user_withheld"].ToString()));
                     continue;
                 }
 
@@ -196,7 +196,7 @@ namespace BoxKite.Twitter
 
         private void SendFriendsMessage(IEnumerable<long> obj)
         {
-            friends.Publish(obj);
+            friends.OnNext(obj);
         }
 
         public void Dispose()

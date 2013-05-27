@@ -150,7 +150,7 @@ namespace BoxKite.Twitter
                     var obj = JsonConvert.DeserializeObject<JObject>(line);
                     if (obj["in_reply_to_user_id"] != null)
                     {
-                        foundtweets.Publish(MapFromStreamTo<Tweet>(obj.ToString()));
+                        foundtweets.OnNext(MapFromStreamTo<Tweet>(obj.ToString()));
                         continue;
                     }
                 }
