@@ -5,7 +5,7 @@
         xmlns:helpers="clr-namespace:BoxKite.Twitter.Helpers"
         FontSize="14"
         UseLayoutRounding="False" 
-        Title="{Binding  mainTwitterAccount.accountDetails.ScreenName}" Height="630" MinHeight="400" Width="1024" MinWidth="890" Initialized="MainWindow_OnInitialized">
+        Title="{Binding  mainTwitterAccount.accountDetails.ScreenName}" Height="630" MinHeight="400" Width="1130" MinWidth="890" Initialized="MainWindow_OnInitialized">
 
     <Window.Resources>
         <BitmapImage x:Key="boxkitelogo" UriSource="../Assets/Boxkite-wpf-Logo.png" />
@@ -47,8 +47,8 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="17"/>
                     </Grid.RowDefinitions>
-                    <TextBlock HorizontalAlignment="Left" Height="17" Grid.Row="0" FontWeight="Bold" Text="{Binding User.ScreenName}"></TextBlock>
-                    <TextBlock HorizontalAlignment="Left" FontSize="14" MinWidth="136" Grid.Row="1" Text="{Binding Text}" TextWrapping="Wrap"></TextBlock>
+                    <TextBlock HorizontalAlignment="Left" Height="19" Padding="0,-2,0,0" Grid.Row="0" FontWeight="Bold" Text="{Binding User.ScreenName}"></TextBlock>
+                    <TextBlock HorizontalAlignment="Left" FontSize="14" Margin="0,2,0,0" MinWidth="136" Grid.Row="1" Text="{Binding Text}" TextWrapping="Wrap"></TextBlock>
                     <TextBlock HorizontalAlignment="Left" FontStyle="Italic" FontSize="11" Height="17" Grid.Row="2"  Text="{Binding ToFriendlyDateTime}"></TextBlock>
                 </Grid>
             </Grid>
@@ -66,8 +66,8 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="17"/>
                     </Grid.RowDefinitions>
-                    <TextBlock HorizontalAlignment="Left" Height="17" Grid.Row="0" FontWeight="Bold" Text="{Binding Sender.ScreenName}"></TextBlock>
-                    <TextBlock HorizontalAlignment="Left" FontSize="14" MinWidth="136" Grid.Row="1" Text="{Binding Text}" TextWrapping="Wrap"></TextBlock>
+                    <TextBlock HorizontalAlignment="Left" Height="19" Padding="0,-2,0,0" Grid.Row="0" FontWeight="Bold" Text="{Binding Sender.ScreenName}"></TextBlock>
+                    <TextBlock HorizontalAlignment="Left" Margin="0,2,0,0" FontSize="14" MinWidth="136" Grid.Row="1" Text="{Binding Text}" TextWrapping="Wrap"></TextBlock>
                     <TextBlock HorizontalAlignment="Left" FontSize="11" FontStyle="Italic" Height="17" Grid.Row="2"  Text="{Binding ToFriendlyDateTime}"></TextBlock>
                 </Grid>
             </Grid>
@@ -97,7 +97,7 @@
                         <RowDefinition Height="20"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Margin="5,0,0,0" FontWeight="Bold" FontSize="16">Home Time Line</TextBlock>
+                    <TextBlock Grid.Row="0" Margin="6,0,0,0" FontWeight="Bold" FontSize="16">Home Time Line</TextBlock>
                     <ListView Grid.Row="1" BorderBrush="Transparent" MinWidth="200" x:Name="hometimelinelistview" ItemsSource="{Binding Source={StaticResource homeTimeLine}}" 
                                   ItemTemplate="{Binding Source={StaticResource atweet}}">
                     </ListView>
@@ -107,7 +107,7 @@
                         <RowDefinition Height="20"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Margin="5,0,0,0" FontWeight="Bold" FontSize="16">Mentions</TextBlock>
+                    <TextBlock Grid.Row="0" Margin="6,0,0,0" FontWeight="Bold" FontSize="16">Mentions</TextBlock>
                     <ListView Grid.Row="1" BorderBrush="Transparent" MinWidth="200" Grid.Column="1" x:Name="mentionstimelinelistview" ItemsSource="{Binding Source={StaticResource mentionsTimeLine}}" 
                                   ItemTemplate="{Binding Source={StaticResource atweet}}">
                     </ListView>
@@ -117,7 +117,7 @@
                         <RowDefinition Height="20"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Margin="5,0,0,0" FontWeight="Bold" FontSize="16">Direct Messages</TextBlock>
+                    <TextBlock Grid.Row="0" Margin="6,0,0,0" FontWeight="Bold" FontSize="16">Direct Messages</TextBlock>
                     <ListView Grid.Row="1" BorderBrush="Transparent" MinWidth="200" Grid.Column="2" x:Name="dmtimelinelistview" ItemsSource="{Binding Source={StaticResource dmTimeLine}}" 
                                   ItemTemplate="{Binding Source={StaticResource adm}}">
                     </ListView>
@@ -129,11 +129,11 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Row="0" Orientation="Horizontal">
-                        <TextBlock Margin="5,0,10,0" FontSize="16" FontWeight="Bold">Search</TextBlock>
+                        <TextBlock Margin="6,0,10,0" FontSize="16" FontWeight="Bold">Search</TextBlock>
                         <TextBlock HorizontalAlignment="Right" Text="{Binding SearchPerformance}"></TextBlock>
                     </StackPanel>
                     <StackPanel Grid.Row="1" Orientation="Horizontal">
-                        <TextBox Margin="0,0,10,0" x:Name="searchforit" Text="{Binding SearchText, Mode=TwoWay}"  Width="170" TextWrapping="Wrap"></TextBox>
+                        <TextBox Margin="6,0,10,0" x:Name="searchforit" Text="{Binding SearchText, Mode=TwoWay}"  Width="170" TextWrapping="Wrap"></TextBox>
                         <Button Visibility="{Binding SearchingOn, Converter={StaticResource searchingon}}" 
                                 x:Name="searchgo" Command="{Binding SearchCommand}">Search</Button>
                         <Button Visibility="{Binding SearchingOn, Converter={StaticResource searchingoff}}"

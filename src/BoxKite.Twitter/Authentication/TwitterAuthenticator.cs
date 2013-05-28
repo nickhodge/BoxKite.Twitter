@@ -217,11 +217,8 @@ namespace BoxKite.Twitter
                 var response = await client.SendAsync(request);
                 return await response.Content.ReadAsStringAsync();
             }
-            catch (Exception e)
+            catch (Exception)
             {
-#if DEBUG
-                Debug.WriteLine(e);
-#endif
                 return "";
             }
         }

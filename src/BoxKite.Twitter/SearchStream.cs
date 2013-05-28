@@ -140,6 +140,7 @@ namespace BoxKite.Twitter
                     if (line == "<html>") // needs embellishment
                     {
                         var restofline = responseStream.ReadToEnd();
+//TODO: manage the upward handling of the error message encapsulated in the <html>...
 #if (DEBUG)
                         Debug.WriteLine(restofline);
 #endif
@@ -155,20 +156,17 @@ namespace BoxKite.Twitter
                         continue;
                     }
                 }
-                catch (JsonReaderException jsonex)
+                catch (JsonReaderException)
                 {
-#if (DEBUG)
-                    Debug.WriteLine(line);
-#endif
                     continue;
                 }
-                catch (IOException iofault)
+                catch (IOException)
                 {
                     responseStream.Dispose();
                     Dispose();
                     break;
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     responseStream.Dispose();
                     Dispose(); 

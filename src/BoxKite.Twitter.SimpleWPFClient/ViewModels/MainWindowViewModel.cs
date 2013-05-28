@@ -6,7 +6,6 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive.Linq;
-using System.Security.Policy;
 using System.Threading;
 using System.Windows.Input;
 using BoxKite.Twitter.Helpers;
