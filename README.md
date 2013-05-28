@@ -31,6 +31,13 @@ Install-Package BoxKite.Twitter -Pre
 
 [Documentation is online and provided in the Wiki](https://github.com/nickhodge/BoxKite.Twitter/wiki)
 
+## Extra Info and Documentation
+
+* More indepth [developer details are documented here](wiki/devdetails)
+* There are a few, [small missing pieces documented here](wiki/todos)
+* ["Live Fire" tests are explained here](wiki/livefire)
+* [Sample, Simple WPF 4.5 Client App](wiki/samplewpf)
+
 ##To Build:
 * VS2012 with latest NuGet supporting PCLs (Portable Class Libraries)
 
