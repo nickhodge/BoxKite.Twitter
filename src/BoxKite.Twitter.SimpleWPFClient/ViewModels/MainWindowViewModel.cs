@@ -149,11 +149,6 @@ namespace BoxKite.WPFSimpleClient
             set { SetProperty(ref _loggedOn, value); }
         }
 
-
-        // holds start/end times for performance measurement
-        private DateTime _startSearchTime;
-        private DateTime _endSearchTime;
-
         public MainWindowViewModel()
         {
             this.homeTimeLineTweets = new ObservableCollection<Tweet>();
@@ -200,16 +195,18 @@ namespace BoxKite.WPFSimpleClient
         {
             if (SearchingOn) // the app is getting responses from search, now turn it off & get performance
             {
-                _endSearchTime = DateTime.Now;
+                var endSearchTime = DateTime.Now;
                 mainTwitterAccount.StopSearch();
+                // firstly, get the "oldest" tweet
+                var correctedStartSearchTime = searchTweets.Min(t => t.Time);
                 // calc the performance by getting the time difference & number of tweets collected
-                TimeSpan searchDuration = _endSearchTime - _startSearchTime;
+                TimeSpan searchDuration = endSearchTime - correctedStartSearchTime;
                 double searchInSeconds = searchDuration.TotalSeconds;
                 int searchFound = searchTweets.Count();
                 double perf = (searchFound / searchInSeconds);
 
                 // and display
-                SearchPerformance = String.Format("Tweets per second: {0}", perf.ToString("0.00"));
+                SearchPerformance = String.Format("Tw/sec: {0} Tw/min: {1}", perf.ToString("0.00"), (perf * 60).ToString("0.00"));
                 SearchingOn = false;
                 
                 // using below for memory cleanup testing
@@ -218,7 +215,7 @@ namespace BoxKite.WPFSimpleClient
             }
             else // turn on the search
             {
-                _startSearchTime = DateTime.Now;
+                searchTweets.Clear();
                 SearchPerformance = "";
                 mainTwitterAccount.StartSearch(_searchText);
                 SearchingOn = true;

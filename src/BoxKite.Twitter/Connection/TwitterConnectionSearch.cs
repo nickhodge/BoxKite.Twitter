@@ -2,8 +2,6 @@
 // License: MS-PL
 
 using System;
-using System.Collections.Generic;
-using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Threading;
 using System.Threading.Tasks;
@@ -52,7 +50,8 @@ namespace BoxKite.Twitter
 
             do
             {
-                var searchtl = await Session.SearchFor(searchtext:_currentSearchText, searchResponseType:SearchResultType.Mixed, count: pagingSize, max_id: smallestid);
+                //TODO: need to unhardcode SearchResultType
+                var searchtl = await Session.SearchFor(searchtext:_currentSearchText, searchResponseType:SearchResultType.Recent, count: pagingSize, max_id: smallestid);
                 if (searchtl.OK)
                 {
                     smallestid = long.MaxValue;
