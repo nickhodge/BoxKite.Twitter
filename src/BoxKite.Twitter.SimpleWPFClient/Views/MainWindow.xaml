@@ -40,7 +40,7 @@
                     <ColumnDefinition Width="44"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Image VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Column="0" Width="40" Height="40" Source="{Binding User.Avatar, IsAsync=True}"></Image>
+                <Image Margin="0,5,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Column="0" Width="40" Height="40" Source="{Binding User.Avatar, IsAsync=True}"></Image>
                 <Grid Grid.Column="1" MinWidth="136">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="17"/>
@@ -59,7 +59,7 @@
                     <ColumnDefinition Width="44"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Image VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Column="0" Width="40" Height="40" Source="{Binding Sender.Avatar, IsAsync=True}"></Image>
+                <Image Margin="0,5,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Column="0" Width="40" Height="40" Source="{Binding Sender.Avatar, IsAsync=True}"></Image>
                 <Grid Grid.Column="1" MinWidth="136">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="17"/>
@@ -73,7 +73,7 @@
             </Grid>
         </DataTemplate>
     </Window.Resources>
-    <StackPanel>
+    <Grid>
         <Grid Margin="10,10,0,0" x:Name="maintweetview" Visibility="{Binding LoggedOn, Converter={StaticResource loggedon}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="50"/>
@@ -92,40 +92,57 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <StackPanel Grid.Column="0" Orientation="Vertical">
-                    <TextBlock FontWeight="Bold" FontSize="16">Home Time Line</TextBlock>
-                    <ListView BorderBrush="Transparent" MinWidth="200" x:Name="hometimelinelistview" ItemsSource="{Binding Source={StaticResource homeTimeLine}}" 
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Margin="5,0,0,0" FontWeight="Bold" FontSize="16">Home Time Line</TextBlock>
+                    <ListView Grid.Row="1" BorderBrush="Transparent" MinWidth="200" x:Name="hometimelinelistview" ItemsSource="{Binding Source={StaticResource homeTimeLine}}" 
                                   ItemTemplate="{Binding Source={StaticResource atweet}}">
                     </ListView>
-                </StackPanel>
-                <StackPanel Grid.Column="1" Orientation="Vertical">
-                    <TextBlock FontWeight="Bold" FontSize="16">Mentions</TextBlock>
-                    <ListView BorderBrush="Transparent" MinWidth="200" Grid.Column="1" x:Name="mentionstimelinelistview" ItemsSource="{Binding Source={StaticResource mentionsTimeLine}}" 
+                </Grid>
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Margin="5,0,0,0" FontWeight="Bold" FontSize="16">Mentions</TextBlock>
+                    <ListView Grid.Row="1" BorderBrush="Transparent" MinWidth="200" Grid.Column="1" x:Name="mentionstimelinelistview" ItemsSource="{Binding Source={StaticResource mentionsTimeLine}}" 
                                   ItemTemplate="{Binding Source={StaticResource atweet}}">
                     </ListView>
-                </StackPanel>
-                <StackPanel Grid.Column="2" Orientation="Vertical">
-                    <TextBlock FontWeight="Bold" FontSize="16">Direct Messages</TextBlock>
-                    <ListView BorderBrush="Transparent" MinWidth="200" Grid.Column="2" x:Name="dmtimelinelistview" ItemsSource="{Binding Source={StaticResource dmTimeLine}}" 
+                </Grid>
+                <Grid Grid.Column="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Margin="5,0,0,0" FontWeight="Bold" FontSize="16">Direct Messages</TextBlock>
+                    <ListView Grid.Row="1" BorderBrush="Transparent" MinWidth="200" Grid.Column="2" x:Name="dmtimelinelistview" ItemsSource="{Binding Source={StaticResource dmTimeLine}}" 
                                   ItemTemplate="{Binding Source={StaticResource adm}}">
                     </ListView>
-                </StackPanel>
-                <StackPanel Grid.Column="3" Orientation="Vertical">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Margin="0,0,10,0" FontSize="16" FontWeight="Bold">Search</TextBlock>
+                </Grid>
+                <Grid Grid.Column="3">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0" Orientation="Horizontal">
+                        <TextBlock Margin="5,0,10,0" FontSize="16" FontWeight="Bold">Search</TextBlock>
                         <TextBlock HorizontalAlignment="Right" Text="{Binding SearchPerformance}"></TextBlock>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBox x:Name="searchforit" Text="{Binding SearchText, Mode=TwoWay}"  Width="170" TextWrapping="Wrap"></TextBox>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+                        <TextBox Margin="0,0,10,0" x:Name="searchforit" Text="{Binding SearchText, Mode=TwoWay}"  Width="170" TextWrapping="Wrap"></TextBox>
                         <Button Visibility="{Binding SearchingOn, Converter={StaticResource searchingon}}" 
                                 x:Name="searchgo" Command="{Binding SearchCommand}">Search</Button>
                         <Button Visibility="{Binding SearchingOn, Converter={StaticResource searchingoff}}"
                                 x:Name="searchstop" Command="{Binding SearchCommand}">Stop</Button>
                     </StackPanel>
-                    <ListView  BorderBrush="Transparent" MinWidth="200" Grid.Column="3" x:Name="searchlistview" ItemsSource="{Binding Source={StaticResource searchTimeLine}}" 
+                    <ListView Grid.Row="3" BorderBrush="Transparent" MinWidth="200" Grid.Column="3" x:Name="searchlistview" ItemsSource="{Binding Source={StaticResource searchTimeLine}}" 
                                   ItemTemplate="{Binding Source={StaticResource atweet}}">
                     </ListView>
-                </StackPanel>
+                </Grid>
             </Grid>
         </Grid>
         <StackPanel x:Name="loggingonpanel" Margin="0,150,0,0" Orientation="Vertical" Visibility="{Binding LoggingOn, Converter={StaticResource loggingon}}">
@@ -147,5 +164,5 @@
                 </StackPanel>
             </StackPanel>
         </Grid>
-    </StackPanel>
+    </Grid>
 </Window>
