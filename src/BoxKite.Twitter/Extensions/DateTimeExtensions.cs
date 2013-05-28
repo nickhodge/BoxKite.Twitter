@@ -1,5 +1,6 @@
 ﻿// (c) 2012// (c) 2012-2013 Nick Hodge mailto:hodgenick@gmail.com & Brendan Forster
 // License: MS-PL
+// UNLESS NOTED ALTERNATIVE SOURCE
 
 using System;
 
@@ -30,40 +31,55 @@ namespace BoxKite.Twitter.Extensions
 
         public static string ToFriendlyText(this DateTimeOffset pastTime, DateTimeOffset currentTime)
         {
-            var currentOffset = DateTimeOffset.Now.Offset;
+            // this is LITERALLY from stackoverflow
+            // ref: http://stackoverflow.com/questions/11/how-do-i-calculate-relative-time
+            // no, really
 
-            var timeSince = currentTime - pastTime;
-            if (timeSince >= new TimeSpan(24, 0, 0))
+            var ts = new TimeSpan(currentTime.Ticks - pastTime.Ticks);
+            double delta = Math.Abs(ts.TotalSeconds);
+
+            if (delta < 30)
             {
-                var translated = pastTime.ToOffset(currentOffset);
-
-                if (timeSince < new TimeSpan(48, 0, 0))
-                {
-                    return "Yesterday, " + translated.ToString("hh:mm:ss tt");
-                }
-
-                return translated.ToString("hh:mm:ss tt, dd/MM/yy");
-            }
-
-            if (timeSince < new TimeSpan(0, 1, 0))
+//                return ts.Seconds == 1 ? "one second ago" : ts.Seconds
+//                        + " seconds ago";
+                return "Just now";
+            } if (delta < 60)
             {
-                return "< 1 minute ago";
-            }
-
-            if (timeSince < new TimeSpan(1, 0, 0))
+                return "Less than a minute ago";
+            } if (delta < 90)
             {
-                return timeSince > new TimeSpan(0, 1, 59)
-                           ? timeSince.Minutes + " minutes ago"
-                           : timeSince.Minutes + " minute ago";
-            }
-
-            if (timeSince < new TimeSpan(24, 0, 0))
+                return "About a minute ago";
+            } if (delta < 120)
             {
-                return timeSince > new TimeSpan(1, 59, 59)
-                           ? timeSince.Hours + " hours ago"
-                           : timeSince.Hours + " hour ago";
+                return "a minute ago";
             }
-            return pastTime.ToOffset(currentOffset).ToString("hh:mm:ss tt");
+            if (delta < 2700) // 45 * 60
+            {
+                return ts.Minutes + " minutes ago";
+            }
+            if (delta < 5400) // 90 * 60
+            {
+                return "an hour ago";
+            }
+            if (delta < 86400)
+            { // 24 * 60 * 60
+                return ts.Hours + " hours ago";
+            }
+            if (delta < 172800)
+            { // 48 * 60 * 60
+                return "yesterday";
+            }
+            if (delta < 2592000)
+            { // 30 * 24 * 60 * 60
+                return ts.Days + " days ago";
+            }
+            if (delta < 31104000)
+            { // 12 * 30 * 24 * 60 * 60
+                int months = Convert.ToInt32(Math.Floor((double)ts.Days / 30));
+                return months <= 1 ? "one month ago" : months + " months ago";
+            }
+            int years = Convert.ToInt32(Math.Floor((double)ts.Days / 365));
+            return years <= 1 ? "one year ago" : years + " years ago";
         }
 
         public static string FormatDayOfMonth(this DateTimeOffset dateTime)

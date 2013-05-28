@@ -9,7 +9,7 @@
         <helpers:BoolToVisibilityConverter x:Key="searchingon" FalseValue="Visible" TrueValue="Collapsed"/>
         <helpers:BoolToVisibilityConverter x:Key="searchingoff" FalseValue="Collapsed" TrueValue="Visible"/>
         <helpers:BoolToVisibilityConverter x:Key="loggingon" FalseValue="Visible" TrueValue="Collapsed"/>
-        <helpers:BoolToVisibilityConverter x:Key="loggingoff" FalseValue="Collapsed" TrueValue="Visible"/>
+        <helpers:BoolToVisibilityConverter x:Key="creatingcreds" FalseValue="Collapsed" TrueValue="Visible"/>
         <CollectionViewSource x:Key="homeTimeLine" Source="{Binding homeTimeLineTweets}">
                 <CollectionViewSource.SortDescriptions>
                     <componentModel:SortDescription PropertyName="Time" Direction="Descending"/>
@@ -70,19 +70,17 @@
         </DataTemplate>
     </Window.Resources>
 
-    <Grid>
+    <Grid x:Name="maintweetview" Visibility="{Binding LoggingOn, Converter={StaticResource loggingon}}">
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <WrapPanel Grid.Row="0">
+        <WrapPanel Grid.Row="0" Visibility="{Binding LoggingOn, Converter={StaticResource loggingon}}">
             <Image x:Name="userAvatar" Source="{Binding mainTwitterAccount.accountDetails.Avatar}" Width="50" Height="50"></Image>
             <TextBox Text="{Binding TweetText, Mode=TwoWay}" x:Name="tweetBox" Width="500" TextWrapping="Wrap"></TextBox>
             <Button x:Name="sendit" Command="{Binding SendTweetCommand}">Send Tweet</Button>
         </WrapPanel>
-        <StackPanel Grid.Row="1" Orientation="Horizontal" 
-                    Visibility="{Binding LoggingOn, Converter={StaticResource loggingon}}"
-                    >
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -109,7 +107,10 @@
                     </ListView>
                 </StackPanel>
                 <StackPanel Grid.Column="3" Orientation="Vertical">
-                            <TextBlock>Search</TextBlock>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="0,0,10,0">Search</TextBlock>
+                        <TextBlock HorizontalAlignment="Right" Text="{Binding SearchPerformance}"></TextBlock>
+                    </StackPanel>          
                     <ListView Width="250" Height="500" Grid.Column="3" x:Name="searchlistview" ItemsSource="{Binding Source={StaticResource searchTimeLine}}" 
                               ItemTemplate="{Binding Source={StaticResource atweet}}">
                     </ListView>

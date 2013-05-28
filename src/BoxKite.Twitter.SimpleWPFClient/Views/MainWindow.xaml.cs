@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Windows;
 using BoxKite.Twitter.Helpers;
 
@@ -17,16 +16,19 @@ namespace BoxKite.WPFSimpleClient
             if (mainWindowViewModel == null)
                 mainWindowViewModel = new MainWindowViewModel(); 
             InitializeComponent();
+            // now set the DataContext, used for XAML binding, to the new viewmodel created above
             this.DataContext = mainWindowViewModel;   
         }
 
+        // once initialized, wire the up the view model.
+        // also, manage the credentials to twitter
         private async void MainWindow_OnInitialized(object sender, EventArgs e)
         {
             mainWindowViewModel.LoggingOn = true;
-            var tc = ManageTwitterCredentials.GetCredentialsFromFile();
-            if (!tc.Valid) return;
-            var ta = await App.twitterConnection.AddTwitterAccount(tc);
-            mainWindowViewModel.mainTwitterAccount = ta;
+            var twittercreds = ManageTwitterCredentials.GetCredentialsFromFile();
+            if (!twittercreds.Valid) return;
+            var twitteraccount = await App.twitterConnection.AddTwitterAccount(twittercreds);
+            mainWindowViewModel.mainTwitterAccount = twitteraccount;
             mainWindowViewModel.Connect();
             mainWindowViewModel.LoggingOn = false;
         }

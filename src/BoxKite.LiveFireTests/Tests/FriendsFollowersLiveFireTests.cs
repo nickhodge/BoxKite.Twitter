@@ -81,7 +81,7 @@ namespace BoxKite.Twitter.Console
                     ConsoleOutput.PrintMessage("6.3 FriendsFollowers\\GetFriendships", ConsoleColor.Gray);
                     var ff3 = await session.GetFriendships(new List<string>{"katyperry","shiftkey"});
 
-                    if (!ff3.twitterFaulted)
+                    if (ff3.OK)
                     {
                         foreach (var t in ff3)
                         {
@@ -164,7 +164,7 @@ namespace BoxKite.Twitter.Console
                 {
                     ConsoleOutput.PrintMessage("6.6 FriendsFollowers\\CreateFriendship", ConsoleColor.Gray);
                     var ff6 = await session.CreateFriendship("katyperry");
-                    if (!ff6.twitterFaulted)
+                    if (ff6.OK)
                     {
                         ConsoleOutput.PrintMessage(String.Format("Name: {0}", ff6.Name));
                         ConsoleOutput.PrintMessage(String.Format("User ID: {0}", ff6.UserId));
@@ -182,7 +182,7 @@ namespace BoxKite.Twitter.Console
                 {
                     ConsoleOutput.PrintMessage("6.7 FriendsFollowers\\DeleteFriendship", ConsoleColor.Gray);
                     var ff7 = await session.DeleteFriendship(user_id: 21447363);
-                    if (!ff7.twitterFaulted)
+                    if (ff7.OK)
                     {
                         ConsoleOutput.PrintMessage(String.Format("Name: {0}", ff7.Name));
                         ConsoleOutput.PrintMessage(String.Format("User ID: {0}", ff7.UserId));

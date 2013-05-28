@@ -23,7 +23,7 @@ namespace BoxKite.Twitter.Console
                     ConsoleOutput.PrintMessage("9.1 SuggestedUsers\\GetSuggestedLists", ConsoleColor.Gray);
                     var suggs1 = await session.GetSuggestedLists();
 
-                    if (!suggs1.twitterFaulted)
+                    if (suggs1.OK)
                     {
                         foreach (var sgg in suggs1)
                         {
@@ -44,7 +44,7 @@ namespace BoxKite.Twitter.Console
                     ConsoleOutput.PrintMessage("9.2 SuggestedUsers\\GetSuggestedUsers", ConsoleColor.Gray);
                     var suggs2 = await session.GetSuggestedUsers(slug:suggestedSlug);
 
-                    if (!suggs2.twitterFaulted)
+                    if (suggs2.OK)
                     {
                         foreach (var sgu in suggs2.Users)
                         {

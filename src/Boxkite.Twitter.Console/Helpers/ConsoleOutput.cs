@@ -18,7 +18,7 @@ namespace BoxKite.Twitter.Console
             ConsoleColor bgColour = ConsoleColor.Black)
         {
             System.Console.BackgroundColor = bgColour;
-            if (!t.twitterFaulted)
+            if (t.OK)
             {
                 PrintLineHeader(t.User.ScreenName, ConsoleColor.Gray);
                 System.Console.ForegroundColor = fgColour;
@@ -34,7 +34,7 @@ namespace BoxKite.Twitter.Console
             ConsoleColor bgColour = ConsoleColor.Blue)
         {
             System.Console.BackgroundColor = bgColour;
-            if (!d.twitterFaulted)
+            if (d.OK)
             {
                 PrintLineHeader(d.SenderScreenName, ConsoleColor.Gray);
                 System.Console.ForegroundColor = fgColour;

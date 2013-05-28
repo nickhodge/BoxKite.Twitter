@@ -21,7 +21,7 @@ namespace BoxKite.Twitter.Console
                     ConsoleOutput.PrintMessage("5.1 Favourites\\GetFavourites", ConsoleColor.Gray);
                     var favourites1 = await session.GetFavourites(count:50);
 
-                    if (!favourites1.twitterFaulted)
+                    if (favourites1.OK)
                     {
                         foreach (var t in favourites1)
                         {
@@ -41,7 +41,7 @@ namespace BoxKite.Twitter.Console
                     var tweettofav = await session.GetTweet(336452534531137537);
                     var favourites2 = await session.CreateFavourite(tweettofav);
 
-                    if (!favourites2.twitterFaulted)
+                    if (favourites2.OK)
                     {
                         ConsoleOutput.PrintMessage(
                                 String.Format("From: {0} // Favourited Status: {1}", favourites2.User.ScreenName, favourites2.Favourited));
@@ -58,7 +58,7 @@ namespace BoxKite.Twitter.Console
                     var tweettofav = await session.GetTweet(336452534531137537);
                     var favourites3 = await session.DeleteFavourite(tweettofav);
 
-                    if (!favourites3.twitterFaulted)
+                    if (favourites3.OK)
                     {
                         ConsoleOutput.PrintMessage(
                                 String.Format("From: {0} // Favourited Status: {1}", favourites3.User.ScreenName, favourites3.Favourited));

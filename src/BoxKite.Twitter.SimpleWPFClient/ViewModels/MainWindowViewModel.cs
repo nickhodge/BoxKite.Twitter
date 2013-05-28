@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Threading;
+using System.Windows.Automation.Peers;
 using System.Windows.Input;
 using BoxKite.Twitter.Helpers;
 using BoxKite.Twitter.Models;
@@ -12,6 +13,8 @@ namespace BoxKite.WPFSimpleClient
 {
     public class MainWindowViewModel : BindableBase
     {
+        // Collections containing the Tweets to be displayed
+        // These are populated by ".Subscribing" to BoxKite.Twitter's channels of Tweets/DMs
         public ObservableCollection<Tweet> homeTimeLineTweets { get; set; }
         public ObservableCollection<Tweet> mentionsTimeLineTweets { get; set; }
         public ObservableCollection<DirectMessage> dmTimeLineTweets { get; set; }
@@ -63,6 +66,13 @@ namespace BoxKite.WPFSimpleClient
             set { SetProperty(ref _searchText, value); }
         }
 
+        private string _searchPerformance;
+        public string SearchPerformance
+        {
+            get { return _searchPerformance; }
+            set { SetProperty(ref _searchPerformance, value); }
+        }
+
         private bool _searchingOn;
         public bool SearchingOn
         {
@@ -77,6 +87,9 @@ namespace BoxKite.WPFSimpleClient
             set { SetProperty(ref _loggingOn, value); }
         }
 
+        // holds start/end times for performance measurement
+        private DateTime _startSearchTime;
+        private DateTime _endSearchTime;
 
         public MainWindowViewModel()
         {
@@ -89,8 +102,12 @@ namespace BoxKite.WPFSimpleClient
             LoggingOn = true;
             TweetText = "";
             SearchText = "";
+            SearchPerformance = "";
         }
 
+        // wire the BoxKite.Twitter channels to Collections of Tweets
+        // Note: "ObserveOn.Synchronization"; ensures all the background tasks getting the messages
+        //       pop onto the correct thread where the Collections live. All works async under the covers, so that's nice
         public void Connect()
         {
             mainTwitterAccount.TimeLine.ObserveOn(SynchronizationContext.Current).Subscribe(t => homeTimeLineTweets.Add(t));
@@ -104,19 +121,29 @@ namespace BoxKite.WPFSimpleClient
         public async void SendTweet()
         {
             var st = await mainTwitterAccount.Session.SendTweet(TweetText);
-            if (!st.twitterFaulted)
+            if (st.OK)
                 TweetText = "";
         }
 
-        public async void StartSearch()
+        public void StartSearch()
         {
-            if (SearchingOn)
+            if (SearchingOn) // the app is getting responses from search, now turn it off & get performance
             {
+                _endSearchTime = DateTime.Now;
                 mainTwitterAccount.StopSearch();
+                // calc the performance by getting the time difference & number of tweets collected
+                TimeSpan searchDuration = _endSearchTime - _startSearchTime;
+                double searchInSeconds = searchDuration.TotalSeconds;
+                int searchFound = searchTweets.Count();
+                double perf = (searchFound / searchInSeconds);
+                SearchPerformance = String.Format("Tweets per second: {0}", perf.ToString("0.00"));
                 SearchingOn = false;
+                searchTweets.Clear();
             }
-            else
+            else // turn on the search
             {
+                _startSearchTime = DateTime.Now;
+                SearchPerformance = "";
                 mainTwitterAccount.StartSearch(_searchText);
                 SearchingOn = true;
             }

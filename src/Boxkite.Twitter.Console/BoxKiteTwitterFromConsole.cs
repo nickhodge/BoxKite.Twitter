@@ -25,12 +25,12 @@ namespace BoxKite.Twitter.Console
                 System.Console.CancelKeyPress += new ConsoleCancelEventHandler(cancelStreamHandler);
                 var session = new UserSession(twittercredentials, new DesktopPlatformAdaptor());
                 var checkUser = session.GetVerifyCredentials().Result;
-                if (!checkUser.twitterFaulted)
+                if (checkUser.OK)
                 {
                     ConsoleOutput.PrintMessage(twittercredentials.ScreenName + " is authorised to use BoxKite.Twitter.");
 
                     var accountSettings = session.GetAccountSettings().Result;
-                    if (!accountSettings.twitterFaulted)
+                    if (accountSettings.OK)
                     {
 
                         

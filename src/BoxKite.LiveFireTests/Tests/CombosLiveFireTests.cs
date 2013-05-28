@@ -25,7 +25,7 @@ namespace BoxKite.Twitter.Console
                     ConsoleOutput.PrintMessage("11.1 Combo\\GetTrendsByLocation then Searchstream for 2 minutes", ConsoleColor.Gray);
                     var combo1 = await session.GetTrendsByLocation(latitude:-33.884097,longitude:151.134796);
 
-                    if (!combo1.twitterFaulted)
+                    if (combo1.OK)
                     {
                         trendToFollow = combo1[0].Name; // grab the first
                         foreach (var trnd in combo1)

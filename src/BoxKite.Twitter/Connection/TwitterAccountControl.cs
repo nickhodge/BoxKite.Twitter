@@ -45,13 +45,13 @@ namespace BoxKite.Twitter
             PublicState = "Verifying Credentials";
             var checkedUser = await Session.GetVerifyCredentials();
             PublicState = "";
-            if (!checkedUser.twitterFaulted) // go deeper
+            if (checkedUser.OK) // go deeper
             {
                 String.Format("Getting Account Settings & Profile for {0}", checkedUser.ScreenName);
                 accountSettings = await Session.GetAccountSettings();
                 accountDetails = await Session.GetUserProfile(user_id: checkedUser.UserId);
                 PublicState = "OK";
-                return !accountSettings.twitterFaulted && !accountDetails.twitterFaulted;
+                return accountSettings.OK && accountDetails.OK;
             }
             else
                 return false; // return false here will abandon all hope

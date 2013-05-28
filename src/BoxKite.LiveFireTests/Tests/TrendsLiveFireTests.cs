@@ -25,7 +25,7 @@ namespace BoxKite.Twitter.Console
                     ConsoleOutput.PrintMessage("8.1 Trends\\GetTrendsByLocation", ConsoleColor.Gray);
                     var trends1 = await session.GetTrendsByLocation(latitude:-33.884097,longitude:151.134796);
 
-                    if (!trends1.twitterFaulted)
+                    if (trends1.OK)
                     {
                         foreach (var trnd in trends1)
                         {
@@ -45,7 +45,7 @@ namespace BoxKite.Twitter.Console
                     ConsoleOutput.PrintMessage("8.2 Trends\\GetTrendsForPlace as specified in location", ConsoleColor.Gray);
                     var trends2 = await session.GetTrendsForPlace(place_id: woeidToSearch);
 
-                    if (!trends2.twitterFaulted)
+                    if (trends2.OK)
                     {
                         foreach (var trnd in trends2.ToList()[0].trends)
                         {
@@ -61,7 +61,7 @@ namespace BoxKite.Twitter.Console
                     ConsoleOutput.PrintMessage("8.2.1 Search\\SearchFor from Trend", ConsoleColor.Gray);
                     var trends21 = await session.SearchFor(trendToSearch, SearchResultType.Popular, count: 20 );
 
-                    if (!trends21.twitterFaulted)
+                    if (trends21.OK)
                     {
                         foreach (var tweet in trends21.Tweets)
                         {

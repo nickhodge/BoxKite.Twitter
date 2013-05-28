@@ -26,7 +26,7 @@ namespace BoxKite.Twitter.Console
                     ConsoleOutput.PrintMessage("1.1 UsersExtensions\\GetAccountSettings", ConsoleColor.Gray);
                     var accountSettings = await session.GetAccountSettings();
                     testScreenName = accountSettings.ScreenName;
-                    if (!accountSettings.twitterFaulted && !string.IsNullOrWhiteSpace(testScreenName))
+                    if (accountSettings.OK && !string.IsNullOrWhiteSpace(testScreenName))
                     {
                         ConsoleOutput.PrintMessage(String.Format("Screen Name: {0}", testScreenName));
                         ConsoleOutput.PrintMessage(String.Format("Time Zone: {0}", accountSettings.TimeZone.name));
@@ -41,7 +41,7 @@ namespace BoxKite.Twitter.Console
                 {
                     ConsoleOutput.PrintMessage("1.2 UsersExtensions\\GetVerifyCredentials", ConsoleColor.Gray);
                     loggedInUserProfile = await session.GetVerifyCredentials();
-                    if (!loggedInUserProfile.twitterFaulted)
+                    if (loggedInUserProfile.OK)
                     {
                         ConsoleOutput.PrintMessage("Credentials Verified OK.");
                         ConsoleOutput.PrintMessage(String.Format("User ID Verified OK: {0}", loggedInUserProfile.UserId));
@@ -54,7 +54,7 @@ namespace BoxKite.Twitter.Console
                 {
                     ConsoleOutput.PrintMessage("1.3 UsersExtensions\\GetUserProfile", ConsoleColor.Gray);
                     var getProfile = await session.GetUserProfile(testScreenName);
-                    if (!getProfile.twitterFaulted)
+                    if (getProfile.OK)
                     {
                         ConsoleOutput.PrintMessage(String.Format("Name: {0}", getProfile.Name));
                         ConsoleOutput.PrintMessage(String.Format("User ID: {0}", getProfile.UserId));
@@ -71,7 +71,7 @@ namespace BoxKite.Twitter.Console
                 {
                     ConsoleOutput.PrintMessage("1.4 UsersExtensions\\ChangeAccountSettings", ConsoleColor.Gray);
                     var changeSettings = await session.ChangeAccountSettings(trend_location_woeid: "1");
-                    if (!changeSettings.twitterFaulted)
+                    if (changeSettings.OK)
                     {
                         ConsoleOutput.PrintMessage(String.Format("Trend Location: {0}",
                             changeSettings.TrendLocation.ToList()[0].name));
@@ -109,7 +109,7 @@ namespace BoxKite.Twitter.Console
                 {
                     ConsoleOutput.PrintMessage("1.6 UsersExtensions\\DeleteUserBlock", ConsoleColor.Gray);
                     var deleteUserBlock = await session.DeleteUserBlock(screen_name: "NickHodgeMSFT");
-                    if (!deleteUserBlock.twitterFaulted)
+                    if (deleteUserBlock.OK)
                         ConsoleOutput.PrintMessage(String.Format("ScreenName: {0}", deleteUserBlock.ScreenName));
                     else
                         successStatus = false;
@@ -121,7 +121,7 @@ namespace BoxKite.Twitter.Console
                         ConsoleColor.Gray);
                     var screennames = new List<string> {"shiftkey", "katyperry"};
                     var getUserDetailsFullFromScreenNames = await session.GetUsersDetailsFull(screen_names: screennames);
-                    if (!getUserDetailsFullFromScreenNames.twitterFaulted)
+                    if (getUserDetailsFullFromScreenNames.OK)
                     {
                         ConsoleOutput.PrintMessage(String.Format("Returned: {0}",
                             getUserDetailsFullFromScreenNames.Count()));
@@ -140,7 +140,7 @@ namespace BoxKite.Twitter.Console
                     ConsoleOutput.PrintMessage("1.8 UsersExtensions\\GetUsersDetailsFull From IDs", ConsoleColor.Gray);
                     var usersids = new List<int> {21447363, 14671135};
                     var getUserDetailsFullFromIDs = await session.GetUsersDetailsFull(user_ids: usersids);
-                    if (!getUserDetailsFullFromIDs.twitterFaulted)
+                    if (getUserDetailsFullFromIDs.OK)
                     {
                         ConsoleOutput.PrintMessage(String.Format("Returned: {0}", getUserDetailsFullFromIDs.Count()));
                         foreach (var u in getUserDetailsFullFromIDs)
@@ -159,7 +159,7 @@ namespace BoxKite.Twitter.Console
                     ConsoleOutput.PrintMessage("1.9 UsersExtensions\\SearchForUsers", ConsoleColor.Gray);
                     var q = "troll";
                     var searchForUsers = await session.SearchForUsers(q, 200, 1);
-                    if (!searchForUsers.twitterFaulted)
+                    if (searchForUsers.OK)
                     {
                         ConsoleOutput.PrintMessage(String.Format("Returned: {0}", searchForUsers.Count()));
                         foreach (var u in searchForUsers)

@@ -19,7 +19,7 @@ namespace BoxKite.Twitter.Console
                 {
                     ConsoleOutput.PrintMessage("ApiManagement\\GetCurrentAPIStatus", ConsoleColor.Gray);
                     var currentapi = await session.GetCurrentAPIStatus();
-                    if (!currentapi.twitterFaulted)
+                    if (currentapi.OK)
                     {
                         foreach (var x in currentapi.ApiRateStatuses)
                         {

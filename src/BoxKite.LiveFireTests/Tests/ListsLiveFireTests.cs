@@ -23,7 +23,7 @@ namespace BoxKite.Twitter.Console
 
                     var lists1 = await session.GetLists(screen_name:"NickHodgeMSFT");
 
-                    if (!lists1.twitterFaulted)
+                    if (lists1.OK)
                     {
                         foreach (var lst in lists1)
                         {
@@ -46,7 +46,7 @@ namespace BoxKite.Twitter.Console
 
                     var lists2 = await session.GetListTimeline(list_id: twList.Id, slug:twList.Slug);
 
-                    if (!lists2.twitterFaulted)
+                    if (lists2.OK)
                     {
                         foreach (var tweet in lists2)
                         {
@@ -132,7 +132,7 @@ namespace BoxKite.Twitter.Console
                     var lists5 =
                         await session.IsUserOnList(screen_name: testScreenName, list_id: 52908745, owner_id: 800364, owner_screen_name:"NickHodgeMSFT");
 
-                    if (!lists5.twitterFaulted)
+                    if (lists5.OK)
                     {
                         if (lists5.ScreenName == null)
                             ConsoleOutput.PrintMessage(String.Format("UserID: {0} is NOT ON the list", testScreenName));

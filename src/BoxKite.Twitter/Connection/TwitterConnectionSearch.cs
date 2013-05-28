@@ -51,7 +51,7 @@ namespace BoxKite.Twitter
             do
             {
                 var timeline6 = await Session.GetHomeTimeline(count: pagingSize, max_id: smallestid);
-                if (!timeline6.twitterFaulted)
+                if (timeline6.OK)
                 {
                     smallestid = long.MaxValue;
                     foreach (var tweet in timeline6)

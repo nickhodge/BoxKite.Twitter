@@ -76,7 +76,7 @@ namespace BoxKite.Twitter
             do
             {
                 var timeline6 = await Session.GetHomeTimeline(count: pagingSize, max_id: smallestid);
-                if (!timeline6.twitterFaulted)
+                if (timeline6.OK)
                 {
                     smallestid = long.MaxValue;
                     foreach (var tweet in timeline6)
@@ -104,7 +104,7 @@ namespace BoxKite.Twitter
             do
             {
                 var timeline6 = await Session.GetMentions(count: pagingSize, max_id: smallestid);
-                if (!timeline6.twitterFaulted)
+                if (timeline6.OK)
                 {
                     smallestid = long.MaxValue;
                     foreach (var tweet in timeline6)
@@ -132,7 +132,7 @@ namespace BoxKite.Twitter
             do
             {
                 var timeline6 = await Session.GetDirectMessages(count: pagingSize, max_id: smallestid);
-                if (!timeline6.twitterFaulted)
+                if (timeline6.OK)
                 {
                     smallestid = long.MaxValue;
                     foreach (var dm in timeline6)
@@ -160,7 +160,7 @@ namespace BoxKite.Twitter
             do
             {
                 var timeline6 = await Session.GetDirectMessagesSent(count: pagingSize, max_id: smallestid);
-                if (!timeline6.twitterFaulted)
+                if (timeline6.OK)
                 {
                     smallestid = long.MaxValue;
                     foreach (var dm in timeline6)

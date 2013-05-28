@@ -23,7 +23,7 @@ namespace BoxKite.Twitter.Console
                     ConsoleOutput.PrintMessage("3.1 DirectMessages\\GetDirectMessages", ConsoleColor.Gray);
                     var directmessages1 = await session.GetDirectMessages();
 
-                    if (!directmessages1.twitterFaulted)
+                    if (directmessages1.OK)
                     {
                         dmid = directmessages1.ToList()[0].Id;
                         foreach (var x in directmessages1)
@@ -42,7 +42,7 @@ namespace BoxKite.Twitter.Console
                     ConsoleOutput.PrintMessage("3.2 DirectMessages\\GetDirectMessagesSent", ConsoleColor.Gray);
                     var directmessages2 = await session.GetDirectMessagesSent();
 
-                    if (!directmessages2.twitterFaulted)
+                    if (directmessages2.OK)
                     {
                         foreach (var x in directmessages2)
                         {
@@ -60,7 +60,7 @@ namespace BoxKite.Twitter.Console
                     ConsoleOutput.PrintMessage("3.3 DirectMessages\\GetDirectMessageSingle", ConsoleColor.Gray);
                     var directmessages3 = await session.GetDirectMessageSingle(dmid);
 
-                    if (!directmessages3.twitterFaulted)
+                    if (directmessages3.OK)
                     {
                             ConsoleOutput.PrintMessage(
                                 String.Format("From: {0} // Message: {1}", directmessages3.SenderScreenName, directmessages3.Text));
@@ -76,7 +76,7 @@ namespace BoxKite.Twitter.Console
                     var directmessages4 =
                         await session.SendDirectMessage("livefire test of boxkite.twitter please ignore", "neilfinn");
 
-                    if (!directmessages4.twitterFaulted)
+                    if (directmessages4.OK)
                     {
                         ConsoleOutput.PrintMessage(
                             String.Format("From: {0} // Message: {1}", directmessages4.SenderScreenName, directmessages4.Text));

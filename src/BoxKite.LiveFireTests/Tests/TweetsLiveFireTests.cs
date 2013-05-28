@@ -24,7 +24,7 @@ namespace BoxKite.Twitter.Console
                     ConsoleOutput.PrintMessage("4.1 Tweets\\SendTweet", ConsoleColor.Gray);
                     var tweets1 = await session.SendTweet("Live Fire Test only, please ignore");
 
-                    if (!tweets1.twitterFaulted)
+                    if (tweets1.OK)
                     {
                         tweetid = tweets1.Id;
                         ConsoleOutput.PrintMessage(
@@ -42,7 +42,7 @@ namespace BoxKite.Twitter.Console
                     ConsoleOutput.PrintMessage("4.2 Tweets\\GetTweet", ConsoleColor.Gray);
                     tweets2 = await session.GetTweet(336377569098207233);
 
-                    if (!tweets2.twitterFaulted)
+                    if (tweets2.OK)
                     {
                         ConsoleOutput.PrintMessage(
                             String.Format("From: {0} // Message: {1}", tweets2.User.ScreenName, tweets2.Text));
@@ -57,7 +57,7 @@ namespace BoxKite.Twitter.Console
                     ConsoleOutput.PrintMessage("4.3 Tweets\\GetRetweets", ConsoleColor.Gray);
                     var tweets3 = await session.GetRetweets(tweets2);
 
-                    if (!tweets3.twitterFaulted)
+                    if (tweets3.OK)
                     {
                         foreach (var t in tweets3)
                         {
@@ -82,7 +82,7 @@ namespace BoxKite.Twitter.Console
                             await
                                 session.SendTweetWithImage("Live Fire Test only, please ignore", Path.GetFileName(sr), fs);
 
-                        if (!tweets4.twitterFaulted)
+                        if (tweets4.OK)
                         {
                             tweetid = tweets4.Id;
                             ConsoleOutput.PrintMessage(

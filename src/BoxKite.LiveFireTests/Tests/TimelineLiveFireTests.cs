@@ -3,16 +3,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.Design;
-using System.Diagnostics.Eventing.Reader;
 using System.Linq;
-using System.Management.Instrumentation;
-using System.Net;
-using System.Reflection;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using BoxKite.Twitter;
 
 namespace BoxKite.Twitter.Console
 {
@@ -29,7 +21,7 @@ namespace BoxKite.Twitter.Console
                     ConsoleOutput.PrintMessage("7.1 Timeline\\GetMentions", ConsoleColor.Gray);
                     var timeline1 = await session.GetMentions(count: 100);
 
-                    if (!timeline1.twitterFaulted)
+                    if (timeline1.OK)
                     {
                         foreach (var tweet in timeline1)
                         {
@@ -47,7 +39,7 @@ namespace BoxKite.Twitter.Console
                     ConsoleOutput.PrintMessage("7.2 Timeline\\GetUserTimeline", ConsoleColor.Gray);
                     var timeline2 = await session.GetUserTimeline(screen_name: "shiftkey", count: 20);
 
-                    if (!timeline2.twitterFaulted)
+                    if (timeline2.OK)
                     {
                         foreach (var tweet in timeline2)
                         {
@@ -66,7 +58,7 @@ namespace BoxKite.Twitter.Console
                     ConsoleOutput.PrintMessage("7.3 Timeline\\GetHomeTimeline", ConsoleColor.Gray);
                     var timeline3 = await session.GetHomeTimeline(count: 30);
 
-                    if (!timeline3.twitterFaulted)
+                    if (timeline3.OK)
                     {
                         foreach (var tweet in timeline3)
                         {
@@ -89,7 +81,7 @@ namespace BoxKite.Twitter.Console
                     long largestid = 0;
                     long smallestid = 0;
 
-                    if (!timeline4.twitterFaulted)
+                    if (timeline4.OK)
                     {
                         smallestid = timeline4.ToList()[0].Id;
                         foreach (var tweet in timeline4)
@@ -110,7 +102,7 @@ namespace BoxKite.Twitter.Console
 
                         ConsoleOutput.PrintMessage("Now Updating Home Timeline, should add newer messages");
                         var timeline41 = await session.GetHomeTimeline(since_id: largestid, count: 10);
-                        if (!timeline41.twitterFaulted)
+                        if (timeline41.OK)
                         {
                             foreach (var tweet in timeline41)
                             {
@@ -130,7 +122,7 @@ namespace BoxKite.Twitter.Console
 
                         ConsoleOutput.PrintMessage("Now Updating Home Timeline, should show older messages");
                         var timeline42 = await session.GetHomeTimeline(max_id: smallestid, count: 10);
-                        if (!timeline42.twitterFaulted)
+                        if (timeline42.OK)
                         {
                             foreach (var tweet in timeline42)
                             {
@@ -154,7 +146,7 @@ namespace BoxKite.Twitter.Console
                     ConsoleOutput.PrintMessage("7.5 Timeline\\GetRetweetsOfMe", ConsoleColor.Gray);
                     var timeline5 = await session.GetRetweetsOfMe(count: 30);
 
-                    if (!timeline5.twitterFaulted)
+                    if (timeline5.OK)
                     {
                         foreach (var tweet in timeline5)
                         {
@@ -183,7 +175,7 @@ namespace BoxKite.Twitter.Console
                     do
                     {
                         var timeline6 = await session.GetHomeTimeline(count: pagingSize, max_id: smallestid);
-                        if (!timeline6.twitterFaulted)
+                        if (timeline6.OK)
                         {
                             smallestid = timeline6.ToList()[0].Id; // grab the first for comparator
                             foreach (var tweet in timeline6)
