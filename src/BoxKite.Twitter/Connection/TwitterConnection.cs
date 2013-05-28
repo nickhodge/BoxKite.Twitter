@@ -2,6 +2,7 @@
 // License: MS-PL
 
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using BoxKite.Twitter.Helpers;
 using BoxKite.Twitter.Models;
@@ -28,6 +29,7 @@ namespace BoxKite.Twitter
         public TwitterConnection(string twitterConsumerKey,string twitterConsumerSecret, IPlatformAdaptor platformAdaptor)
         {
             _twitterConsumerKey = twitterConsumerKey;
+            CheckClientKey(twitterConsumerKey);
             _twitterConsumerSecret = twitterConsumerSecret;
             _platformAdaptor = platformAdaptor;
             _twitterauth = new TwitterAuthenticator(_twitterConsumerKey, _twitterConsumerSecret, platformAdaptor);
@@ -36,6 +38,7 @@ namespace BoxKite.Twitter
        public TwitterConnection(string twitterConsumerKey,string twitterConsumerSecret)
         {
             _twitterConsumerKey = twitterConsumerKey;
+            CheckClientKey(twitterConsumerKey);
             _twitterConsumerSecret = twitterConsumerSecret;
             _twitterauth = new TwitterAuthenticator(_twitterConsumerKey, _twitterConsumerSecret);
         }
@@ -45,12 +48,23 @@ namespace BoxKite.Twitter
 #if (PORTABLE)
         public TwitterConnection(IPlatformAdaptor platformAdaptor)
         {
+            _platformAdaptor = platformAdaptor;
         }
 #elif (WINDOWS)
        public TwitterConnection()
-        {
-        }
+       {
+           _platformAdaptor = new DesktopPlatformAdaptor();
+       }
 #endif
+
+        private void CheckClientKey(string ck)
+        {
+            if (ck.ToLower().Contains("dev.twitter.com"))
+            {
+                PublicState = "You need to obtain a valid Client Secret & Client Key from dev.windows.com, and put it into the source code somewhere, dude.";
+                Debug.WriteLine(PublicState);
+            }
+        }
 
         // auth happens when no creds are present
         public async Task<bool> BeginAuthentication()

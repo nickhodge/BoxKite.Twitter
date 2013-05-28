@@ -88,7 +88,6 @@
     </Compile>
     <Compile Include="Helpers\BoolToValueConverter.cs" />
     <Compile Include="Helpers\CommandHandler.cs" />
-    <Compile Include="Helpers\DesktopPlatformAdaptor.cs" />
     <Compile Include="Helpers\ManageTwitterCredentials.cs" />
     <Compile Include="Helpers\SecureIt.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
@@ -135,6 +134,11 @@
       <Project>{98ffbf69-762f-4111-84b9-e757d9a698b9}</Project>
       <Name>BoxKite.Twitter.Desktop</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Boxkite-wpf-Logo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.5\tools\Microsoft.Bcl.Build.targets" />

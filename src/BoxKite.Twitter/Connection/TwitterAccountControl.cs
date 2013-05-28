@@ -2,7 +2,6 @@
 // License: MS-PL
 
 using System;
-using System.Threading;
 using System.Threading.Tasks;
 using BoxKite.Twitter.Helpers;
 using BoxKite.Twitter.Models;

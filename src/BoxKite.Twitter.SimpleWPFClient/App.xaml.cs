@@ -1,4 +1,5 @@
-﻿using BoxKite.Twitter;
+﻿using System.Runtime.InteropServices.ComTypes;
+using BoxKite.Twitter;
 using System.Windows;
 
 namespace BoxKite.WPFSimpleClient
@@ -12,7 +13,7 @@ namespace BoxKite.WPFSimpleClient
 
         public App()
         {
-            twitterConnection = new TwitterConnection();
+            twitterConnection = new TwitterConnection("needs client key from dev.twitter.com", "needs client secret from dev.twitter.com");
         }
     }
 }

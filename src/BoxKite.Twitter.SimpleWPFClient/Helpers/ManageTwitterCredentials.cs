@@ -1,4 +1,5 @@
-﻿// (c) 2012-2013 Nick Hodge mailto:hodgenick@gmail.com & Brendan Forster
+﻿// (c) 2012// (c) 2012-2013 Nick Hodge mailto:hodgenick@gmail.com & Brendan Forster
+// License: MS-PL
 
 using System;
 using System.IO;
@@ -9,6 +10,7 @@ namespace BoxKite.Twitter.Helpers
 {
     public class ManageTwitterCredentials
     {
+        // file name to save (securely) the credentials
         private const string BoxKiteTwitterCredentialsStore = "BoxKiteTwitterCredentials.bk";
 
         public static TwitterCredentials GetCredentialsFromFile()
@@ -19,6 +21,8 @@ namespace BoxKite.Twitter.Helpers
 
             var json = File.ReadAllText(fileName);
             var clearText = json.DecryptString().ToInsecureString();
+
+            // note that BoxKite.Twitter.Models.TwitterCredentials has DataContracts assigned
             twitterCreds = JsonConvert.DeserializeObject<TwitterCredentials>(clearText);
             return twitterCreds;
         }

@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Reactive.Subjects;
@@ -161,7 +162,13 @@ namespace BoxKite.Twitter
 #endif
                     continue;
                 }
-                catch (Exception)
+                catch (IOException iofault)
+                {
+                    responseStream.Dispose();
+                    Dispose();
+                    break;
+                }
+                catch (Exception e)
                 {
                     responseStream.Dispose();
                     Dispose(); 

@@ -24,5 +24,6 @@ namespace BoxKite.Twitter
         {
             return _hmacsha1.ComputeHash(buffer);
         }
-    }
+
+     }
 }

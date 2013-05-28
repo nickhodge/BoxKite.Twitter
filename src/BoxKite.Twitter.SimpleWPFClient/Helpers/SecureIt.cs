@@ -1,5 +1,4 @@
-﻿// (c) 2012-2013 Nick Hodge mailto:hodgenick@gmail.com & Brendan Forster
-// License: MS-PL
+﻿// source: http://stackoverflow.com/questions/8871337/how-can-i-encrypt-user-settings-such-as-passwords-in-my-application
 
 using System;
 using System.Collections.Generic;
@@ -7,8 +6,6 @@ using System.Runtime.InteropServices;
 using System.Security;
 using System.Security.Cryptography;
 using System.Text;
-
-// source: http://stackoverflow.com/questions/8871337/how-can-i-encrypt-user-settings-such-as-passwords-in-my-application
 
 namespace BoxKite.Twitter.Helpers
 {

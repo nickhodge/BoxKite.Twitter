@@ -3,18 +3,22 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         xmlns:helpers="clr-namespace:BoxKite.Twitter.Helpers"
+        FontSize="14"
+        UseLayoutRounding="False" 
         Title="{Binding  mainTwitterAccount.accountDetails.ScreenName}" Height="630" Width="1024" Initialized="MainWindow_OnInitialized">
 
-        <Window.Resources>
+    <Window.Resources>
+        <BitmapImage x:Key="boxkitelogo" UriSource="../Assets/Boxkite-wpf-Logo.png" />
         <helpers:BoolToVisibilityConverter x:Key="searchingon" FalseValue="Visible" TrueValue="Collapsed"/>
         <helpers:BoolToVisibilityConverter x:Key="searchingoff" FalseValue="Collapsed" TrueValue="Visible"/>
-        <helpers:BoolToVisibilityConverter x:Key="loggingon" FalseValue="Visible" TrueValue="Collapsed"/>
-        <helpers:BoolToVisibilityConverter x:Key="creatingcreds" FalseValue="Collapsed" TrueValue="Visible"/>
+        <helpers:BoolToVisibilityConverter x:Key="loggedon" FalseValue="Collapsed" TrueValue="Visible" />
+        <helpers:BoolToVisibilityConverter x:Key="loggingon" FalseValue="Collapsed" TrueValue="Visible"/>
+        <helpers:BoolToVisibilityConverter x:Key="gettingcredentials" FalseValue="Collapsed" TrueValue="Visible"/>
         <CollectionViewSource x:Key="homeTimeLine" Source="{Binding homeTimeLineTweets}">
-                <CollectionViewSource.SortDescriptions>
-                    <componentModel:SortDescription PropertyName="Time" Direction="Descending"/>
-                </CollectionViewSource.SortDescriptions>
-            </CollectionViewSource>
+            <CollectionViewSource.SortDescriptions>
+                <componentModel:SortDescription PropertyName="Time" Direction="Descending"/>
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
         <CollectionViewSource x:Key="mentionsTimeLine" Source="{Binding mentionsTimeLineTweets}">
             <CollectionViewSource.SortDescriptions>
                 <componentModel:SortDescription PropertyName="Time" Direction="Descending"/>
@@ -29,7 +33,7 @@
             <CollectionViewSource.SortDescriptions>
                 <componentModel:SortDescription PropertyName="Time" Direction="Descending"/>
             </CollectionViewSource.SortDescriptions>
-        </CollectionViewSource>  
+        </CollectionViewSource>
         <DataTemplate x:Key="atweet">
             <Grid Width="218">
                 <Grid.ColumnDefinitions>
@@ -44,7 +48,7 @@
                         <RowDefinition Height="17"/>
                     </Grid.RowDefinitions>
                     <TextBlock HorizontalAlignment="Left" Height="17" Grid.Row="0" FontWeight="Bold" Text="{Binding User.ScreenName}"></TextBlock>
-                    <TextBlock HorizontalAlignment="Left" Width="184" Grid.Row="1" Text="{Binding Text}" TextWrapping="Wrap"></TextBlock>
+                    <TextBlock HorizontalAlignment="Left" FontSize="14" Width="172" Grid.Row="1" Text="{Binding Text}" TextWrapping="Wrap"></TextBlock>
                     <TextBlock HorizontalAlignment="Left" Height="17" Grid.Row="2"  Text="{Binding ToFriendlyDateTime}"></TextBlock>
                 </Grid>
             </Grid>
@@ -63,25 +67,29 @@
                         <RowDefinition Height="17"/>
                     </Grid.RowDefinitions>
                     <TextBlock HorizontalAlignment="Left" Height="17" Grid.Row="0" FontWeight="Bold" Text="{Binding Sender.ScreenName}"></TextBlock>
-                    <TextBlock HorizontalAlignment="Left" Width="184" Grid.Row="1" Text="{Binding Text}" TextWrapping="Wrap"></TextBlock>
+                    <TextBlock HorizontalAlignment="Left" FontSize="14" Width="172" Grid.Row="1" Text="{Binding Text}" TextWrapping="Wrap"></TextBlock>
                     <TextBlock HorizontalAlignment="Left" Height="17" Grid.Row="2"  Text="{Binding ToFriendlyDateTime}"></TextBlock>
                 </Grid>
             </Grid>
         </DataTemplate>
     </Window.Resources>
-
-    <Grid x:Name="maintweetview" Visibility="{Binding LoggingOn, Converter={StaticResource loggingon}}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <WrapPanel Grid.Row="0" Visibility="{Binding LoggingOn, Converter={StaticResource loggingon}}">
-            <Image x:Name="userAvatar" Source="{Binding mainTwitterAccount.accountDetails.Avatar}" Width="50" Height="50"></Image>
-            <TextBox Text="{Binding TweetText, Mode=TwoWay}" x:Name="tweetBox" Width="500" TextWrapping="Wrap"></TextBox>
-            <Button x:Name="sendit" Command="{Binding SendTweetCommand}">Send Tweet</Button>
-        </WrapPanel>
-        <StackPanel Grid.Row="1" Orientation="Horizontal">
-            <Grid>
+    <StackPanel>
+        <StackPanel x:Name="loggingonpanel" Margin="0,150,0,0" Orientation="Vertical" Visibility="{Binding LoggingOn, Converter={StaticResource loggingon}}">
+            <TextBlock TextAlignment="Center" TextWrapping="Wrap" FontSize="24" Margin="10,20">Logging on to Twitter:</TextBlock>
+            <ProgressBar Height="30" Width="500" IsIndeterminate="True"></ProgressBar>
+        </StackPanel>
+        <Grid x:Name="maintweetview" Visibility="{Binding LoggedOn, Converter={StaticResource loggedon}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <DockPanel Grid.Row="0">
+                <Image DockPanel.Dock="Left" x:Name="userAvatar" Source="{Binding mainTwitterAccount.accountDetails.Avatar}" Width="50" Height="50"></Image>
+                <TextBox DockPanel.Dock="Left" Text="{Binding TweetText, Mode=TwoWay}" x:Name="tweetBox" Width="500" TextWrapping="Wrap" Margin="5,0,0,5"></TextBox>
+                <Button DockPanel.Dock="Left" x:Name="sendit" Command="{Binding SendTweetCommand}" Margin="5,0,0,5" Width="120">Send Tweet</Button>
+                <Image HorizontalAlignment="Right" DockPanel.Dock="Right" x:Name="boxkite" Source="{StaticResource boxkitelogo}" Width="200" Height="50" Margin="0"></Image>
+            </DockPanel>
+            <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
@@ -89,40 +97,55 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0" Orientation="Vertical">
-                    <TextBlock>Home Time Line</TextBlock>
-                    <ListView Width="250" Height="500" x:Name="hometimelinelistview" ItemsSource="{Binding Source={StaticResource homeTimeLine}}" 
-                              ItemTemplate="{Binding Source={StaticResource atweet}}">
+                    <TextBlock FontWeight="Bold">Home Time Line</TextBlock>
+                    <ListView BorderBrush="Transparent" Width="250" Height="500" x:Name="hometimelinelistview" ItemsSource="{Binding Source={StaticResource homeTimeLine}}" 
+                                  ItemTemplate="{Binding Source={StaticResource atweet}}">
                     </ListView>
                 </StackPanel>
                 <StackPanel Grid.Column="1" Orientation="Vertical">
-                    <TextBlock>Mentions</TextBlock>
-                    <ListView Width="250" Height="500" Grid.Column="1" x:Name="mentionstimelinelistview" ItemsSource="{Binding Source={StaticResource mentionsTimeLine}}" 
-                              ItemTemplate="{Binding Source={StaticResource atweet}}">
-                </ListView>
+                    <TextBlock FontWeight="Bold">Mentions</TextBlock>
+                    <ListView BorderBrush="Transparent" Width="250" Height="500" Grid.Column="1" x:Name="mentionstimelinelistview" ItemsSource="{Binding Source={StaticResource mentionsTimeLine}}" 
+                                  ItemTemplate="{Binding Source={StaticResource atweet}}">
+                    </ListView>
                 </StackPanel>
                 <StackPanel Grid.Column="2" Orientation="Vertical">
-                        <TextBlock>Direct Messages</TextBlock>
-                    <ListView Width="250" Height="500" Grid.Column="2" x:Name="dmtimelinelistview" ItemsSource="{Binding Source={StaticResource dmTimeLine}}" 
-                              ItemTemplate="{Binding Source={StaticResource adm}}">
+                    <TextBlock FontWeight="Bold">Direct Messages</TextBlock>
+                    <ListView BorderBrush="Transparent" Width="250" Height="500" Grid.Column="2" x:Name="dmtimelinelistview" ItemsSource="{Binding Source={StaticResource dmTimeLine}}" 
+                                  ItemTemplate="{Binding Source={StaticResource adm}}">
                     </ListView>
                 </StackPanel>
                 <StackPanel Grid.Column="3" Orientation="Vertical">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Margin="0,0,10,0">Search</TextBlock>
+                        <TextBlock Margin="0,0,10,0" FontWeight="Bold">Search</TextBlock>
                         <TextBlock HorizontalAlignment="Right" Text="{Binding SearchPerformance}"></TextBlock>
-                    </StackPanel>          
-                    <ListView Width="250" Height="500" Grid.Column="3" x:Name="searchlistview" ItemsSource="{Binding Source={StaticResource searchTimeLine}}" 
-                              ItemTemplate="{Binding Source={StaticResource atweet}}">
+                    </StackPanel>
+                    <ListView  BorderBrush="Transparent" Width="250" Height="500" Grid.Column="3" x:Name="searchlistview" ItemsSource="{Binding Source={StaticResource searchTimeLine}}" 
+                                  ItemTemplate="{Binding Source={StaticResource atweet}}">
                     </ListView>
                     <StackPanel Orientation="Horizontal">
                         <TextBox x:Name="searchforit" Text="{Binding SearchText, Mode=TwoWay}"  Width="170" TextWrapping="Wrap"></TextBox>
                         <Button Visibility="{Binding SearchingOn, Converter={StaticResource searchingon}}" 
-                            x:Name="searchgo" Command="{Binding SearchCommand}">Search</Button>
+                                x:Name="searchgo" Command="{Binding SearchCommand}">Search</Button>
                         <Button Visibility="{Binding SearchingOn, Converter={StaticResource searchingoff}}"
-                            x:Name="searchstop" Command="{Binding SearchCommand}">Stop</Button>
+                                x:Name="searchstop" Command="{Binding SearchCommand}">Stop</Button>
                     </StackPanel>
                 </StackPanel>
             </Grid>
-        </StackPanel>
-     </Grid>
+        </Grid>
+        <Grid x:Name="credentialsflow" Visibility="{Binding needsCredentialsCommands, Converter={StaticResource gettingcredentials}}">
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Vertical" Visibility="{Binding stage1, Converter={StaticResource gettingcredentials}}">
+                    <TextBlock FontWeight="Bold" TextWrapping="Wrap" FontSize="24" Margin="10,20">Step 1 of 2:</TextBlock>
+                    <TextBlock TextWrapping="Wrap" FontSize="24" Margin="10,20">To authorise BoxKite to use your Twitter account, you need to log in and authenticate BoxKite in Web browser. This is easy; just click on the button below:</TextBlock>
+                    <Button Command="{Binding getPINCommand}" FontSize="18" FontWeight="Bold" Margin="10,20,20,10">Click to launch Webbrowser window, login and authorise BoxKite to use your Twitter Account</Button>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Visibility="{Binding stage2, Converter={StaticResource gettingcredentials}}">
+                    <TextBlock FontWeight="Bold" TextWrapping="Wrap" FontSize="24" Margin="10,20">Step 2 of 2:</TextBlock>
+                    <TextBlock TextWrapping="Wrap" FontSize="24" Margin="10,20">If successfully authorised, there will be a six or seven digit number (eg: 345323) Type this in below, and click Authorise:</TextBlock>
+                    <TextBox FontSize="32" Text="{Binding authPIN, Mode=TwoWay}"></TextBox>
+                    <Button FontSize="18" FontWeight="Bold" Command="{Binding acceptPINCommand}" Margin="10,20,20,10">Authorise BoxKite to use your Twitter Account</Button>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </StackPanel>
 </Window>

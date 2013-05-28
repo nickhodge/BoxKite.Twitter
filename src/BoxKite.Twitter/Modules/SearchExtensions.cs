@@ -11,7 +11,7 @@ namespace BoxKite.Twitter
     public static class SearchExtensions
     {
         /// <summary>
-        /// dedicated API for running searches against the real-time index of recent Tweets. 6-9 days
+        /// dedicated API for running searches against the real-time index of recent Tweets. 6-9 days of historical data
         /// </summary>
         /// <param name="searchtext">search query of 1,000 characters maximum, including operators. Queries may additionally be limited by complexity.</param>
         /// <param name="max_id"></param>

@@ -16,6 +16,7 @@ namespace BoxKite.Twitter
     {
         readonly Subject<Tweet> _searchtimeline = new Subject<Tweet>();
         public IObservable<Tweet> SearchTimeLine { get { return _searchtimeline; } }
+        private string _currentSearchText = "";
 
         private CancellationTokenSource TwitterSearchCommunication;
 
@@ -23,11 +24,12 @@ namespace BoxKite.Twitter
         {
             TwitterSearchCommunication = new CancellationTokenSource();
             //
+            _currentSearchText = textToSearch;
             SearchStream = Session.StartSearchStream(track:textToSearch);
             SearchStream.FoundTweets.Subscribe(_searchtimeline.OnNext);
             SearchStream.Start();
             //
-            //ProcessSearchBackFill_Pump();
+            ProcessSearchBackFill_Pump();
         }
 
         public void StopSearch()
@@ -37,7 +39,7 @@ namespace BoxKite.Twitter
         }
 
         private void ProcessSearchBackFill_Pump()
-        {
+        {   
             Task.Factory.StartNew(GetSearchTimeLine_Backfill);
         }
 
@@ -50,13 +52,13 @@ namespace BoxKite.Twitter
 
             do
             {
-                var timeline6 = await Session.GetHomeTimeline(count: pagingSize, max_id: smallestid);
-                if (timeline6.OK)
+                var searchtl = await Session.SearchFor(searchtext:_currentSearchText, searchResponseType:SearchResultType.Mixed, count: pagingSize, max_id: smallestid);
+                if (searchtl.OK)
                 {
                     smallestid = long.MaxValue;
-                    foreach (var tweet in timeline6)
+                    foreach (var tweet in searchtl.Tweets)
                     {
-                        AddToHomeTimeLine(tweet);
+                        _searchtimeline.OnNext(tweet);
                         if (tweet.Id < smallestid) smallestid = tweet.Id;
                         if (tweet.Id > largestid) largestid = tweet.Id;
                         backfillQuota--;
@@ -68,6 +70,5 @@ namespace BoxKite.Twitter
                 }
             } while (backfillQuota > 0);
         }
-
     }
 }

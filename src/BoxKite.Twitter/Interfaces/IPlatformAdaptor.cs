@@ -2,6 +2,8 @@
 // License: MS-PL
 
 
+using System;
+
 namespace BoxKite.Twitter
 {
     public interface IPlatformAdaptor

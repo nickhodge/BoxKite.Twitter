@@ -24,5 +24,10 @@ namespace BoxKite.Twitter.Console
         {
             return _hmacsha1.ComputeHash(buffer);
         }
+
+        public void DisplayMessageBox(string message, string caption)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

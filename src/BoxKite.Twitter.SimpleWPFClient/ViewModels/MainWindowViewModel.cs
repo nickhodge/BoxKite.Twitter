@@ -1,9 +1,13 @@
-﻿using System;
+﻿// (c) 2012// (c) 2012-2013 Nick Hodge mailto:hodgenick@gmail.com & Brendan Forster
+// License: MS-PL
+// UNLESS NOTED ALTERNATIVE SOURCE
+
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Security.Policy;
 using System.Threading;
-using System.Windows.Automation.Peers;
 using System.Windows.Input;
 using BoxKite.Twitter.Helpers;
 using BoxKite.Twitter.Models;
@@ -27,6 +31,55 @@ namespace BoxKite.WPFSimpleClient
             set { SetProperty(ref _mainTwitterAccount, value); }
         }
 
+        // getting credentials commanding
+        private bool _needsCredentialsCommands;
+        public bool needsCredentialsCommands
+        {
+            get { return _needsCredentialsCommands; }
+            set { SetProperty(ref _needsCredentialsCommands, value); }
+        }
+
+        private bool _stage1;
+        public bool stage1
+        {
+            get { return _stage1; }
+            set { SetProperty(ref _stage1, value); }
+        }
+
+        private bool _stage2;
+        public bool stage2
+        {
+            get { return _stage2; }
+            set { SetProperty(ref _stage2, value); }
+        }
+
+        private ICommand _getPINCommand;
+        public ICommand getPINCommand
+        {
+            get
+            {
+                return _getPINCommand ?? (new CommandHandler(DoPINDisplay, _needsCredentialsCommands));
+            }
+        }
+
+        // storage for the PIN when entered
+        private string _authPIN;
+        public string authPIN
+        {
+            get { return _authPIN; }
+            set { SetProperty(ref _authPIN, value); }
+        }
+
+        private ICommand _acceptCommand;
+        public ICommand acceptPINCommand
+        {
+            get
+            {
+                return _acceptCommand ?? (new CommandHandler(AuthPIN, _needsCredentialsCommands));
+            }
+        }
+
+        // normal view commanding
         private bool _canExecuteCommands;
         public bool canExecuteCommands
         {
@@ -52,6 +105,7 @@ namespace BoxKite.WPFSimpleClient
             }
         }
 
+        // storage for the TextBox where a tweet is composed (two-way binding)
         private string _tweetText;
         public string TweetText
         {
@@ -59,6 +113,7 @@ namespace BoxKite.WPFSimpleClient
             set { SetProperty(ref _tweetText, value); }
         }
 
+        // storage for the TextBox where a search text is entered (two-way binding)
         private string _searchText;
         public string SearchText
         {
@@ -87,6 +142,14 @@ namespace BoxKite.WPFSimpleClient
             set { SetProperty(ref _loggingOn, value); }
         }
 
+        private bool _loggedOn;
+        public bool LoggedOn
+        {
+            get { return _loggedOn; }
+            set { SetProperty(ref _loggedOn, value); }
+        }
+
+
         // holds start/end times for performance measurement
         private DateTime _startSearchTime;
         private DateTime _endSearchTime;
@@ -97,9 +160,16 @@ namespace BoxKite.WPFSimpleClient
             this.mentionsTimeLineTweets = new ObservableCollection<Tweet>();
             this.dmTimeLineTweets = new ObservableCollection<DirectMessage>();
             this.searchTweets = new ObservableCollection<Tweet>();
+
+            // setup screen state machine; this makes visible the correct UI depending
+            // on the state of the connection with twitter
             canExecuteCommands = true;
             SearchingOn = false;
             LoggingOn = true;
+            LoggedOn = false;
+            needsCredentialsCommands = false;
+            stage1 = false;
+            stage2 = false;
             TweetText = "";
             SearchText = "";
             SearchPerformance = "";
@@ -116,6 +186,7 @@ namespace BoxKite.WPFSimpleClient
             mainTwitterAccount.SearchTimeLine.ObserveOn(SynchronizationContext.Current).Subscribe(s => searchTweets.Add(s));
             mainTwitterAccount.Start();
             canExecuteCommands = true;
+            needsCredentialsCommands = false;
         }
 
         public async void SendTweet()
@@ -136,9 +207,14 @@ namespace BoxKite.WPFSimpleClient
                 double searchInSeconds = searchDuration.TotalSeconds;
                 int searchFound = searchTweets.Count();
                 double perf = (searchFound / searchInSeconds);
+
+                // and display
                 SearchPerformance = String.Format("Tweets per second: {0}", perf.ToString("0.00"));
                 SearchingOn = false;
-                searchTweets.Clear();
+                
+                // using below for memory cleanup testing
+                //searchTweets.Clear();
+                //GC.Collect();
             }
             else // turn on the search
             {
@@ -146,6 +222,39 @@ namespace BoxKite.WPFSimpleClient
                 SearchPerformance = "";
                 mainTwitterAccount.StartSearch(_searchText);
                 SearchingOn = true;
+            }
+        }
+
+        public async void DoPINDisplay()
+        {
+            // this is the result of the user accepting the "go into browser"
+            stage1 = false;
+            stage2 = true;
+            // this will ask the connection to display a browser window, going to twitter
+            // asking the user to authenticate themselves, then authorise BoxKite to access their
+            // twitter account
+            await App.twitterConnection.BeginAuthentication();
+        }
+
+        public async void AuthPIN()
+        {
+            // after entering the PIN, and clicking OK, this method is run
+            if (!string.IsNullOrWhiteSpace(authPIN))
+            {
+                stage2 = false;
+                LoggingOn = true;
+                var twitteraccount = await App.twitterConnection.CompleteAuthentication(authPIN);
+                if (twitteraccount == null) // oops, not a good auth
+                {
+                    authPIN = "";
+                    stage1 = true; // go around again :-(
+                    LoggingOn = false;
+                }
+                mainTwitterAccount = twitteraccount;
+                Connect();
+                LoggingOn = false;
+                LoggedOn = true;
+                ManageTwitterCredentials.SaveCredentialsToFile(mainTwitterAccount._TwitterCredentials);
             }
         }
     }
