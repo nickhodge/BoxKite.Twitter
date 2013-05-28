@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices.ComTypes;
-using BoxKite.Twitter;
+﻿using BoxKite.Twitter;
 using System.Windows;
 
 namespace BoxKite.WPFSimpleClient
