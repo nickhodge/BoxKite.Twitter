@@ -33,6 +33,15 @@ namespace BoxKite.Twitter.Console
                     if (accountSettings.OK)
                     {
 
+                        var x = session.SendTweet("d realnickhodge testing & ampersands");
+
+                        if (x.IsFaulted)
+                        {
+                            ConsoleOutput.PrintMessage("bugger");
+                        }
+
+
+                        /*
                         
                         //var locations = new List<string> { "150.700493", "-34.081953", "151.284828", "-33.593316" };
                         //var locations = new List<string> { "-180", "-90", "180", "90" };
@@ -61,7 +70,7 @@ namespace BoxKite.Twitter.Console
                             ConsoleOutput.PrintMessage(String.Format("Tweets per second: {0}", twps.ToString("0,0.00")), ConsoleColor.Cyan);
                         }
 
-                        
+                        */
 
                         /*
                         //var fileName = @"C:\Users\Nick\Pictures\My Online Avatars\666.jpg";

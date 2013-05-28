@@ -23,7 +23,7 @@ namespace BoxKite.Twitter.Tests
 
             Assert.IsNotNull(tweet);
             Assert.IsInstanceOfType(tweet, typeof(BoxKite.Twitter.Models.Tweet));
-            tweet.Text.ShouldBeEquivalentTo("My take: design &amp; development are facets of the same process. Design leads development, development informs design. #fowd");
+            tweet.Text.ShouldBeEquivalentTo("My take: design & development are facets of the same process. Design leads development, development informs design. #fowd");
         }
 
         [TestMethod]
@@ -35,7 +35,7 @@ namespace BoxKite.Twitter.Tests
 
             Assert.IsNotNull(tweet);
             Assert.IsInstanceOfType(tweet, typeof(BoxKite.Twitter.Models.Tweet));
-            tweet.Text.ShouldBeEquivalentTo("School -&gt; Research Assignment -&gt; Uni -&gt; Assignment -&gt; Library -&gt; Marking. #fml");
+            tweet.Text.ShouldBeEquivalentTo("School -> Research Assignment -> Uni -> Assignment -> Library -> Marking. #fml");
         }
 
         [TestMethod]

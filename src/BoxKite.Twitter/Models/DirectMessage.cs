@@ -2,6 +2,7 @@
 // License: MS-PL
 
 using System;
+using System.Threading;
 using BoxKite.Twitter.Extensions;
 using BoxKite.Twitter.Helpers;
 using Newtonsoft.Json;
@@ -89,12 +90,18 @@ namespace BoxKite.Twitter.Models
             set { SetProperty(ref _senderscreenname, value); }
         }
 
-        private string _text;
+        private string _rawtext;
         [JsonProperty("text")]
+        public string RawText
+        {
+            get { return _rawtext; }
+            set { SetProperty(ref _rawtext, value); }
+        }
+
+        [JsonIgnore]
         public string Text
         {
-            get { return _text; }
-            set { SetProperty(ref _text, value); }
+            get { return _rawtext.HTMLDecode(); }
         }
     }
 }

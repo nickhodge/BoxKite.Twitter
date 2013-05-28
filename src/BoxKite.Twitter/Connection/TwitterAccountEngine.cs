@@ -62,6 +62,7 @@ namespace BoxKite.Twitter
         {
             Task.Factory.StartNew(GetHomeTimeLine_Backfill);
             Task.Factory.StartNew(GetDirectMessages_Received_Backfill);
+            Task.Factory.StartNew(GetRTOfMe_Backfill);
             Task.Factory.StartNew(GetDirectMessages_Sent_Backfill);
             Task.Factory.StartNew(GetMentions_Backfill);
         }
@@ -75,11 +76,11 @@ namespace BoxKite.Twitter
 
             do
             {
-                var timeline6 = await Session.GetHomeTimeline(count: pagingSize, max_id: smallestid);
-                if (timeline6.OK)
+                var hometl = await Session.GetHomeTimeline(count: pagingSize, max_id: smallestid);
+                if (hometl.OK)
                 {
                     smallestid = long.MaxValue;
-                    foreach (var tweet in timeline6)
+                    foreach (var tweet in hometl)
                     {
                         AddToHomeTimeLine(tweet);
                         if (tweet.Id < smallestid) smallestid = tweet.Id;
@@ -103,11 +104,39 @@ namespace BoxKite.Twitter
 
             do
             {
-                var timeline6 = await Session.GetMentions(count: pagingSize, max_id: smallestid);
-                if (timeline6.OK)
+                var mentionsofme = await Session.GetMentions(count: pagingSize, max_id: smallestid);
+                if (mentionsofme.OK)
                 {
                     smallestid = long.MaxValue;
-                    foreach (var tweet in timeline6)
+                    foreach (var tweet in mentionsofme)
+                    {
+                        _mentions.OnNext(tweet);
+                        if (tweet.Id < smallestid) smallestid = tweet.Id;
+                        if (tweet.Id > largestid) largestid = tweet.Id;
+                        backfillQuota--;
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            } while (backfillQuota > 0);
+        }
+
+        private async void GetRTOfMe_Backfill()
+        {
+            long smallestid = 0;
+            long largestid = 0;
+            int backfillQuota = 20;
+            int pagingSize = 20;
+
+            do
+            {
+                var rtofme = await Session.GetRetweetsOfMe(count: pagingSize, max_id: smallestid);
+                if (rtofme.OK)
+                {
+                    smallestid = long.MaxValue;
+                    foreach (var tweet in rtofme)
                     {
                         _mentions.OnNext(tweet);
                         if (tweet.Id < smallestid) smallestid = tweet.Id;
@@ -131,11 +160,11 @@ namespace BoxKite.Twitter
 
             do
             {
-                var timeline6 = await Session.GetDirectMessages(count: pagingSize, max_id: smallestid);
-                if (timeline6.OK)
+                var dmrecd = await Session.GetDirectMessages(count: pagingSize, max_id: smallestid);
+                if (dmrecd.OK)
                 {
                     smallestid = long.MaxValue;
-                    foreach (var dm in timeline6)
+                    foreach (var dm in dmrecd)
                     {
                         _directmessages.OnNext(dm);
                         if (dm.Id < smallestid) smallestid = dm.Id;
@@ -159,11 +188,11 @@ namespace BoxKite.Twitter
 
             do
             {
-                var timeline6 = await Session.GetDirectMessagesSent(count: pagingSize, max_id: smallestid);
-                if (timeline6.OK)
+                var mysentdms = await Session.GetDirectMessagesSent(count: pagingSize, max_id: smallestid);
+                if (mysentdms.OK)
                 {
                     smallestid = long.MaxValue;
-                    foreach (var dm in timeline6)
+                    foreach (var dm in mysentdms)
                     {
                         _directmessages.OnNext(dm);
                         if (dm.Id < smallestid) smallestid = dm.Id;

@@ -65,7 +65,7 @@ namespace BoxKite.Twitter.Tests
                              {
                                  Id = 193577612956811264,
                                  User = new User {UserId = 823083},
-                                 Text = "Replying to this faked tweet"
+                                 RawText = "Replying to this faked tweet"
                              };
             var tweetreply = await session.ReplyToTweet(replytweet, "@migueldeicaza my issue is if an assembly is compiled against System.Json.dll http://t.co/CByp6ds6 it wont work on the iphone");
 
@@ -85,7 +85,7 @@ namespace BoxKite.Twitter.Tests
             {
                 Id = 193577612956811264,
                 User = new User { UserId = 823083 },
-                Text = "Replying to this faked tweet"
+                RawText = "Replying to this faked tweet"
             };
             var tweetreply = await session.ReplyToTweet(replytweet, "@migueldeicaza my issue is if an assembly is compiled against System.Json.dll http://t.co/CByp6ds6 it wont work on the iphone", 37.7821120598956, -122.400612831116);
 
@@ -105,7 +105,7 @@ namespace BoxKite.Twitter.Tests
             var otweet = new Tweet
             {
                 Id = 243149503589400576,
-                Text = "Replying to this faked tweet"
+                RawText = "Replying to this faked tweet"
             };
 
             var retweet = await session.Retweet(otweet);

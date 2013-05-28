@@ -3,12 +3,28 @@
 
 using System;
 using System.Globalization;
+using System.Reactive.PlatformServices;
 using System.Text;
 
 namespace BoxKite.Twitter.Extensions
 {
     public static class StringExtensions
     {
+        public static string HTMLDecode(this string sourceString)
+        {
+            return
+                sourceString.Replace("&amp;", "&")
+                    .Replace("&quot;", "\"")
+                    .Replace("&#39", "\"")
+                    .Replace("&lt;", "<")
+                    .Replace("&gt;", ">");
+        }
+
+        public static string UrlEncode(this string sourceString)
+        {
+            return Uri.EscapeUriString(sourceString);
+        }
+
         /// <summary>
         /// Remove last character of a string
         /// </summary>
@@ -69,7 +85,7 @@ namespace BoxKite.Twitter.Extensions
             return inputString.Length <= targetLength ? inputString : inputString.Trim().Substring(0, targetLength);
         }
 
-        public static string UrlEncode(this string inputString)
+        /*public static string UrlEncode(this string inputString)
         {
             var encoded = "";
 
@@ -91,6 +107,6 @@ namespace BoxKite.Twitter.Extensions
                 }
             }
             return encoded;
-        }
+        } */
     }
 }
