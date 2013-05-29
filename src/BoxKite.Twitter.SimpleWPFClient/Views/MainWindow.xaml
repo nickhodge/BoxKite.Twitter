@@ -48,7 +48,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Image Margin="0,3,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Column="0" Width="50" Height="50" Source="{Binding User.Avatar, IsAsync=True}"></Image>
-                <Grid Grid.Column="1" Margin="3,0,0,0">
+                <Grid Grid.Column="1" Margin="3,0,0,0" MouseUp="DisplayedTweet_MouseUp" Tag="{Binding}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>

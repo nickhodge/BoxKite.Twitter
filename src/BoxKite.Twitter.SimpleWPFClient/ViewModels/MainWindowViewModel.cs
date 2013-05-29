@@ -253,5 +253,10 @@ namespace BoxKite.WPFSimpleClient
                 ManageTwitterCredentials.SaveCredentialsToFile(mainTwitterAccount._TwitterCredentials);
             }
         }
+
+        public async void NavigateToTweet()
+        {
+            
+        }
     }
 }

@@ -3,8 +3,13 @@
 // UNLESS NOTED ALTERNATIVE SOURCE
 
 using System;
+using System.Diagnostics;
+using System.Runtime.Serialization.Formatters;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 using BoxKite.Twitter.Helpers;
+using BoxKite.Twitter.Models;
 
 namespace BoxKite.WPFSimpleClient
 {
@@ -55,6 +60,17 @@ namespace BoxKite.WPFSimpleClient
                 mainWindowViewModel.needsCredentialsCommands = true;
                 mainWindowViewModel.stage1 = true;
             }
+        }
+
+        // In a perfect world, this would be on the ViewModel. 
+        private void DisplayedTweet_MouseUp(object sender, MouseEventArgs me)
+        {
+            var gridItem = sender as Grid;
+            if (gridItem == null) return;
+            var attachedTweet = (Tweet)gridItem.Tag;
+            if (attachedTweet == null) return;
+            if (attachedTweet.User == null) return;
+            Process.Start(String.Format("https://twitter.com/{0}/status/{1}",attachedTweet.User.ScreenName,attachedTweet.Id));
         }
     }
 }
