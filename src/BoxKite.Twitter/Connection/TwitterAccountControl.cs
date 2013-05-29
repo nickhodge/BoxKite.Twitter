@@ -46,7 +46,7 @@ namespace BoxKite.Twitter
             PublicState = "";
             if (checkedUser.OK) // go deeper
             {
-                String.Format("Getting Account Settings & Profile for {0}", checkedUser.ScreenName);
+                PublicState = String.Format("Getting Account Settings & Profile for {0}", checkedUser.ScreenName);
                 accountSettings = await Session.GetAccountSettings();
                 accountDetails = await Session.GetUserProfile(user_id: checkedUser.UserId);
                 PublicState = "OK";

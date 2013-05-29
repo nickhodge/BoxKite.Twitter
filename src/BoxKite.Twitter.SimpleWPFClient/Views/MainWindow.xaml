@@ -98,7 +98,7 @@
                 <Image DockPanel.Dock="Left" x:Name="userAvatar" Source="{Binding mainTwitterAccount.accountDetails.Avatar}" Width="50" Height="50"></Image>
                 <TextBox DockPanel.Dock="Left" Text="{Binding TweetText, Mode=TwoWay}" x:Name="tweetBox" Width="500" TextWrapping="Wrap" Margin="10,0,0,0"></TextBox>
                 <Button DockPanel.Dock="Left" Margin="10,0,0,0" x:Name="sendit" Command="{Binding SendTweetCommand}" Width="120">Send Tweet</Button>
-                <Image HorizontalAlignment="Right" DockPanel.Dock="Right" x:Name="boxkite" Source="{StaticResource boxkitelogo}" Width="200" Height="50" Margin="0"></Image>
+                <Image HorizontalAlignment="Right" DockPanel.Dock="Right" x:Name="boxkite" MouseUp="BoxKiteLogo_MouseUp" Source="{StaticResource boxkitelogo}" Width="200" Height="50" Margin="0"></Image>
             </DockPanel>
             <Grid Grid.Row="1" Margin="0,10,0,0" x:Name="columnspanel">
                 <Grid.ColumnDefinitions>

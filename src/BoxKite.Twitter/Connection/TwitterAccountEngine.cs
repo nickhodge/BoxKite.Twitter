@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using BoxKite.Twitter.Helpers;
@@ -74,9 +73,11 @@ namespace BoxKite.Twitter
         private void ProcessBackfillPump()
         {
             Task.Factory.StartNew(GetHomeTimeLine_Backfill);
+
             Task.Factory.StartNew(GetDirectMessages_Received_Backfill);
-            Task.Factory.StartNew(GetRTOfMe_Backfill);
             Task.Factory.StartNew(GetDirectMessages_Sent_Backfill);
+
+            Task.Factory.StartNew(GetRTOfMe_Backfill);
             Task.Factory.StartNew(GetMentions_Backfill);
         }
 
