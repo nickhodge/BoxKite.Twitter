@@ -18,6 +18,8 @@ At the present time, BoxKite.Twitter supports API version 1.1 of the following:
 
 ##NuGet Package
 
+[BoxKite.Twitter listing on NuGet](https://nuget.org/packages/BoxKite.Twitter)
+
 ```
 Install-Package BoxKite.Twitter -Pre
 ```
