@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using BoxKite.Twitter.Helpers;
@@ -97,6 +98,8 @@ namespace BoxKite.Twitter
 
         private async void GetMentions_Backfill()
         {
+            int backofftimer = 30;
+            int maxbackoff = 450;
             long smallestid = 0;
             long largestid = 0;
             int backfillQuota = 50;
@@ -118,13 +121,18 @@ namespace BoxKite.Twitter
                 }
                 else
                 {
-                    break;
+                    Task.Delay(TimeSpan.FromSeconds(backofftimer));
+                    backofftimer = backofftimer*2;
+                    if (backofftimer > maxbackoff)
+                        break;
                 }
             } while (backfillQuota > 0);
         }
 
         private async void GetRTOfMe_Backfill()
         {
+            int backofftimer = 30;
+            int maxbackoff = 450;
             long smallestid = 0;
             long largestid = 0;
             int backfillQuota = 20;
@@ -146,13 +154,18 @@ namespace BoxKite.Twitter
                 }
                 else
                 {
-                    break;
+                    Task.Delay(TimeSpan.FromSeconds(backofftimer));
+                    backofftimer = backofftimer * 2;
+                    if (backofftimer > maxbackoff)
+                        break;
                 }
             } while (backfillQuota > 0);
         }
 
         private async void GetDirectMessages_Received_Backfill()
         {
+            int backofftimer = 30;
+            int maxbackoff = 450;
             long smallestid = 0;
             long largestid = 0;
             int backfillQuota = 20;
@@ -174,13 +187,18 @@ namespace BoxKite.Twitter
                 }
                 else
                 {
-                    break;
+                    Task.Delay(TimeSpan.FromSeconds(backofftimer));
+                    backofftimer = backofftimer * 2;
+                    if (backofftimer > maxbackoff)
+                        break;
                 }
             } while (backfillQuota > 0);
         }
 
         private async void GetDirectMessages_Sent_Backfill()
         {
+            int backofftimer = 30;
+            int maxbackoff = 450;
             long smallestid = 0;
             long largestid = 0;
             int backfillQuota = 20;
@@ -202,7 +220,10 @@ namespace BoxKite.Twitter
                 }
                 else
                 {
-                    break;
+                    Task.Delay(TimeSpan.FromSeconds(backofftimer));
+                    backofftimer = backofftimer * 2;
+                    if (backofftimer > maxbackoff)
+                        break;
                 }
             } while (backfillQuota > 0);
         }

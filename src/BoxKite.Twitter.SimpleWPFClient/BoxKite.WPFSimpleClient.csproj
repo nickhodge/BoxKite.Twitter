@@ -29,7 +29,7 @@
     <InstallUrl>http://media.nickhodge.com/boxkite/app/</InstallUrl>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>6</ApplicationRevision>
+    <ApplicationRevision>14</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -119,6 +119,7 @@
     </Compile>
     <Compile Include="Helpers\BoolToValueConverter.cs" />
     <Compile Include="Helpers\CommandHandler.cs" />
+    <Compile Include="Helpers\ListViewColumnWidthConverter.cs" />
     <Compile Include="Helpers\ManageTwitterCredentials.cs" />
     <Compile Include="Helpers\SecureIt.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
