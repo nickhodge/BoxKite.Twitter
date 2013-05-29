@@ -42,11 +42,23 @@ namespace BoxKite.Twitter
             //
             UserStream = Session.GetUserStream();
             UserStream.Tweets.Subscribe(AddToHomeTimeLine);
+
+            // MAGIC HAPPENS HERE
+            // there is no specific "catch" for mentions in the Userstream, but here we can fake it!
+            // Using LINQ, we can ask RX to show us incoming tweets that contain the screen name of the current user
+            // then push this into the "Mentions" Observable
+            
             UserStream.Tweets.Where(t => t.Text.ToLower().Contains(accountDetails.ScreenName.ToLower())).Subscribe(_mentions.OnNext);
             UserStream.Start();
-            //
+
             UserStream.DirectMessages.Subscribe(_directmessages.OnNext);
-            //
+
+            // MORE MAGIC HAPPENS HERE
+            // The Userstreams only get tweets/direct messages from the point the connection is opened.
+            // Historical tweets/direct messages have to be gathered using the traditional paging/cursoring APIs
+            // (Request/Response REST).
+            // but the higher level client doesnt want to worry about all that complexity.
+            // in the BackfillPump, we gather these tweets/direct messages and pump them into the correct Observable
             ProcessBackfillPump();
             PublicState = "OK";
         }
@@ -70,6 +82,8 @@ namespace BoxKite.Twitter
 
         private async void GetHomeTimeLine_Backfill()
         {
+            int backofftimer = 30;
+            int maxbackoff = 450;
             long smallestid = 0;
             long largestid = 0;
             int backfillQuota = 50;
@@ -91,7 +105,13 @@ namespace BoxKite.Twitter
                 }
                 else
                 {
-                    break;
+                    // The Backoff will trigger 7 times before just giving up
+                    // once at 30s, 60s, 1m, 2m, 4m, 8m and then 16m
+                    // note that the last call into this will be 1m above the 15 "rate limit reset" window 
+                    Task.Delay(TimeSpan.FromSeconds(backofftimer));
+                    if (backofftimer > maxbackoff)
+                        break;
+                    backofftimer = backofftimer * 2;
                 }
             } while (backfillQuota > 0);
         }
@@ -121,10 +141,13 @@ namespace BoxKite.Twitter
                 }
                 else
                 {
+                    // The Backoff will trigger 7 times before just giving up
+                    // once at 30s, 60s, 1m, 2m, 4m, 8m and then 16m
+                    // note that the last call into this will be 1m above the 15 "rate limit reset" window 
                     Task.Delay(TimeSpan.FromSeconds(backofftimer));
-                    backofftimer = backofftimer*2;
                     if (backofftimer > maxbackoff)
                         break;
+                    backofftimer = backofftimer * 2;
                 }
             } while (backfillQuota > 0);
         }
@@ -154,10 +177,13 @@ namespace BoxKite.Twitter
                 }
                 else
                 {
+                    // The Backoff will trigger 7 times before just giving up
+                    // once at 30s, 60s, 1m, 2m, 4m, 8m and then 16m
+                    // note that the last call into this will be 1m above the 15 "rate limit reset" window 
                     Task.Delay(TimeSpan.FromSeconds(backofftimer));
-                    backofftimer = backofftimer * 2;
                     if (backofftimer > maxbackoff)
                         break;
+                    backofftimer = backofftimer * 2;
                 }
             } while (backfillQuota > 0);
         }
@@ -187,10 +213,13 @@ namespace BoxKite.Twitter
                 }
                 else
                 {
+                    // The Backoff will trigger 7 times before just giving up
+                    // once at 30s, 60s, 1m, 2m, 4m, 8m and then 16m
+                    // note that the last call into this will be 1m above the 15 "rate limit reset" window 
                     Task.Delay(TimeSpan.FromSeconds(backofftimer));
-                    backofftimer = backofftimer * 2;
                     if (backofftimer > maxbackoff)
                         break;
+                    backofftimer = backofftimer * 2;
                 }
             } while (backfillQuota > 0);
         }
@@ -220,10 +249,13 @@ namespace BoxKite.Twitter
                 }
                 else
                 {
+                    // The Backoff will trigger 7 times before just giving up
+                    // once at 30s, 60s, 1m, 2m, 4m, 8m and then 16m
+                    // note that the last call into this will be 1m above the 15 "rate limit reset" window 
                     Task.Delay(TimeSpan.FromSeconds(backofftimer));
-                    backofftimer = backofftimer * 2;
                     if (backofftimer > maxbackoff)
                         break;
+                    backofftimer = backofftimer * 2;
                 }
             } while (backfillQuota > 0);
         }
