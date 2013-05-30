@@ -42,7 +42,7 @@ namespace BoxKite.Twitter
                 nextcursor = ff2List.next_cursor;
                 foreach (var l in ff2List.IDs)
                 {
-                    ConsoleOutput.PrintMessage(String.Format("User ID: {0}", l));
+                    //
                 }
             } while (nextcursor != 0);
         }
