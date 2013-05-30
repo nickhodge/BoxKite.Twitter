@@ -254,9 +254,5 @@ namespace BoxKite.WPFSimpleClient
             }
         }
 
-        public async void NavigateToTweet()
-        {
-            
-        }
-    }
+      }
 }

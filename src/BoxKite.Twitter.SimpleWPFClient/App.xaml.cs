@@ -12,7 +12,8 @@ namespace BoxKite.WPFSimpleClient
 
         public App()
         {
-            twitterConnection = new TwitterConnection("needs client key from dev.twitter.com", "needs client secret from dev.twitter.com");
+            //twitterConnection = new TwitterConnection("needs client key from dev.twitter.com", "needs client secret from dev.twitter.com");
+            twitterConnection = new TwitterConnection("3izxqWiej34yTlofisw", "uncicYQtDx5SoWth1I9xcn5vrpczUct1Oz9ydwTY4");
         }
     }
 }
