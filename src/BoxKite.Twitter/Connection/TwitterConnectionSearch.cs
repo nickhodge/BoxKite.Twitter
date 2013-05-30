@@ -27,7 +27,7 @@ namespace BoxKite.Twitter
             SearchStream.FoundTweets.Subscribe(_searchtimeline.OnNext);
             SearchStream.Start();
             //
-            ProcessSearchBackFill_Pump();
+            Task.Factory.StartNew(ProcessSearchBackFill_Pump);
         }
 
         public void StopSearch()
@@ -38,7 +38,7 @@ namespace BoxKite.Twitter
 
         private void ProcessSearchBackFill_Pump()
         {   
-            Task.Factory.StartNew(GetSearchTimeLine_Backfill);
+            GetSearchTimeLine_Backfill();
         }
 
         private async void GetSearchTimeLine_Backfill()

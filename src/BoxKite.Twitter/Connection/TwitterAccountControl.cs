@@ -24,6 +24,7 @@ namespace BoxKite.Twitter
         public IUserStream UserStream;
         public ISearchStream SearchStream;
 
+
 #if (PORTABLE)
         public TwitterAccount(TwitterCredentials twitterCredentials, IPlatformAdaptor platformAdaptor)
         {

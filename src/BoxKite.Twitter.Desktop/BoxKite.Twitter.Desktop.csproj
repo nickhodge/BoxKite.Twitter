@@ -80,6 +80,9 @@
     <Compile Include="..\BoxKite.Twitter\Connection\TwitterConnection.cs">
       <Link>Connection\TwitterConnection.cs</Link>
     </Compile>
+    <Compile Include="..\BoxKite.Twitter\Connection\TwitterConnectionEvents.cs">
+      <Link>Connection\TwitterConnectionEvents.cs</Link>
+    </Compile>
     <Compile Include="..\BoxKite.Twitter\Connection\TwitterConnectionSearch.cs">
       <Link>Connection\TwitterConnectionSearch.cs</Link>
     </Compile>

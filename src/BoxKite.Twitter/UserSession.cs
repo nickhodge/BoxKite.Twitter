@@ -1,7 +1,6 @@
 // (c) 2012-2013 Nick Hodge mailto:hodgenick@gmail.com & Brendan Forster
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -44,7 +43,7 @@ namespace BoxKite.Twitter
             var oauth = BuildAuthenticatedResult(url, parameters, "GET");
             var fullUrl = url;
 
-            var client = new HttpClient { MaxResponseContentBufferSize = 10 * 1024 * 1024 };
+            var client = new HttpClient();
             client.DefaultRequestHeaders.Add("Authorization", oauth.Header);
             client.DefaultRequestHeaders.Add("User-Agent", "BoxKite.Twitter/1.0");
 

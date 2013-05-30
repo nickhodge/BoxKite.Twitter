@@ -20,13 +20,16 @@ namespace BoxKite.Twitter
         readonly Subject<Tweet> _mentions = new Subject<Tweet>();
         public IObservable<Tweet> Mentions { get { return _mentions; } }
 
+        readonly Subject<Tweet> _mytweets = new Subject<Tweet>();
+        public IObservable<Tweet> MyTweets { get { return _mytweets; } }
+
         readonly Subject<DirectMessage> _directmessages = new Subject<DirectMessage>();
         public IObservable<DirectMessage> DirectMessages { get { return _directmessages; } }
 
         private List<long> _tweetsSeen = new List<long>();
         private CancellationTokenSource TwitterCommunication;
 
-        public void AddToHomeTimeLine(Tweet t)
+        private void AddToHomeTimeLine(Tweet t)
         {
             // only Publish if unique
             if (_tweetsSeen.Contains(t.Id)) return;
@@ -40,6 +43,10 @@ namespace BoxKite.Twitter
             TwitterCommunication = new CancellationTokenSource();
             //
             UserStream = Session.GetUserStream();
+
+            // Separate stream events start 
+            StartStreamEvents();
+
             UserStream.Tweets.Subscribe(AddToHomeTimeLine);
 
             // MAGIC HAPPENS HERE
@@ -52,13 +59,15 @@ namespace BoxKite.Twitter
 
             UserStream.DirectMessages.Subscribe(_directmessages.OnNext);
 
+            UserStream.Tweets.Where(t => t.User.UserId == accountDetails.UserId).Subscribe(_mytweets.OnNext);
+
             // MORE MAGIC HAPPENS HERE
             // The Userstreams only get tweets/direct messages from the point the connection is opened.
             // Historical tweets/direct messages have to be gathered using the traditional paging/cursoring APIs
             // (Request/Response REST).
             // but the higher level client doesnt want to worry about all that complexity.
             // in the BackfillPump, we gather these tweets/direct messages and pump them into the correct Observable
-            ProcessBackfillPump();
+            Task.Factory.StartNew(ProcessBackfillPump);
             PublicState = "OK";
         }
 
@@ -72,13 +81,15 @@ namespace BoxKite.Twitter
 
         private void ProcessBackfillPump()
         {
-            Task.Factory.StartNew(GetHomeTimeLine_Backfill);
+            GetHomeTimeLine_Backfill();
 
-            Task.Factory.StartNew(GetDirectMessages_Received_Backfill);
-            Task.Factory.StartNew(GetDirectMessages_Sent_Backfill);
+            GetDirectMessages_Received_Backfill();
+            GetDirectMessages_Sent_Backfill();
 
-            Task.Factory.StartNew(GetRTOfMe_Backfill);
-            Task.Factory.StartNew(GetMentions_Backfill);
+            GetRTOfMe_Backfill();
+            GetMentions_Backfill();
+
+            GetMyTweets_Backfill();
         }
 
         private async void GetHomeTimeLine_Backfill()
@@ -245,6 +256,42 @@ namespace BoxKite.Twitter
                         _directmessages.OnNext(dm);
                         if (dm.Id < smallestid) smallestid = dm.Id;
                         if (dm.Id > largestid) largestid = dm.Id;
+                        backfillQuota--;
+                    }
+                }
+                else
+                {
+                    // The Backoff will trigger 7 times before just giving up
+                    // once at 30s, 60s, 1m, 2m, 4m, 8m and then 16m
+                    // note that the last call into this will be 1m above the 15 "rate limit reset" window 
+                    Task.Delay(TimeSpan.FromSeconds(backofftimer));
+                    if (backofftimer > maxbackoff)
+                        break;
+                    backofftimer = backofftimer * 2;
+                }
+            } while (backfillQuota > 0);
+        }
+
+        private async void GetMyTweets_Backfill()
+        {
+            int backofftimer = 30;
+            int maxbackoff = 450;
+            long smallestid = 0;
+            long largestid = 0;
+            int backfillQuota = 50;
+            int pagingSize = 50;
+
+            do
+            {
+                var hometl = await Session.GetUserTimeline(user_id:accountDetails.UserId, count: pagingSize, max_id: smallestid);
+                if (hometl.OK)
+                {
+                    smallestid = long.MaxValue;
+                    foreach (var tweet in hometl)
+                    {
+                        _mytweets.OnNext(tweet);
+                        if (tweet.Id < smallestid) smallestid = tweet.Id;
+                        if (tweet.Id > largestid) largestid = tweet.Id;
                         backfillQuota--;
                     }
                 }

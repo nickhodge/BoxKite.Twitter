@@ -209,7 +209,8 @@ namespace BoxKite.Twitter.Extensions
             }
             catch (Exception e)
             {
-                twitterControlMessage.twitter_error_message = m.Result.ToString();
+                twitterControlMessage.twitter_error_message = "Unknown Error. Panic Now.";
+                twitterControlMessage.twitter_error_code = 42;
             }
 
             return twitterControlMessage;
