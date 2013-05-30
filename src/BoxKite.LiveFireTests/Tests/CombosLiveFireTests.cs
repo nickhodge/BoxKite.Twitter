@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using BoxKite.Twitter;
@@ -84,20 +85,23 @@ namespace BoxKite.Twitter.Console
                     ConsoleOutput.PrintMessage(String.Format("Total Outstanding Outgoing Friend Requests Count: {0}",
                        ff5ListCount));
 
-                    var userlist2 = await session.GetUsersDetailsFull(user_ids: userids2);
-                    if (userlist2.OK)
+                    if (userids2.Any())
                     {
-                        foreach (var requsers in userlist2)
+                        var userlist2 = await session.GetUsersDetailsFull(user_ids: userids2);
+                        if (userlist2.OK)
                         {
-                            ConsoleOutput.PrintMessage(
-                                     String.Format("UserID: {0} // ScreenName: {1}", requsers.UserId, requsers.ScreenName));
+                            foreach (var requsers in userlist2)
+                            {
+                                ConsoleOutput.PrintMessage(
+                                    String.Format("UserID: {0} // ScreenName: {1}", requsers.UserId, requsers.ScreenName));
+                            }
+
                         }
- 
+                        else
+                        {
+                            successStatus = false;
+                        }
                     }
-                    else
-                    {
-                        successStatus = false;
-                    };
                 }
 
                 // 3
@@ -131,20 +135,23 @@ namespace BoxKite.Twitter.Console
                     ConsoleOutput.PrintMessage(String.Format("Total Outstanding Incoming Friend Requests Count: {0}",
                        ff5ListCount));
 
-                    var userlist3 = await session.GetUsersDetailsFull(user_ids: userids3);
-                    if (userlist3.OK)
+                    if (userids3.Any())
                     {
-                        foreach (var requsers in userlist3)
+                        var userlist3 = await session.GetUsersDetailsFull(user_ids: userids3);
+                        if (userlist3.OK)
                         {
-                            ConsoleOutput.PrintMessage(
-                                     String.Format("UserID: {0} // ScreenName: {1}", requsers.UserId, requsers.ScreenName));
-                        }
+                            foreach (var requsers in userlist3)
+                            {
+                                ConsoleOutput.PrintMessage(
+                                    String.Format("UserID: {0} // ScreenName: {1}", requsers.UserId, requsers.ScreenName));
+                            }
 
+                        }
+                        else
+                        {
+                            successStatus = false;
+                        }
                     }
-                    else
-                    {
-                        successStatus = false;
-                    };
                 }
 
 
