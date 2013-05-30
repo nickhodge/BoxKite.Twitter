@@ -1,4 +1,4 @@
-﻿// (c) 2012// (c) 2012-2013 Nick Hodge mailto:hodgenick@gmail.com & Brendan Forster
+﻿// (c) 2012-2013 Nick Hodge mailto:hodgenick@gmail.com & Brendan Forster
 // License: MS-PL
 // UNLESS NOTED ALTERNATIVE SOURCE
 
@@ -62,7 +62,7 @@ namespace BoxKite.WPFSimpleClient
         }
 
         // In a perfect world, these would be on the ViewModel. 
-        private void DisplayedTweet_MouseUp(object sender, MouseEventArgs me)
+        private void DisplayTweet_MouseUp(object sender, MouseEventArgs me)
         {
             var gridItem = sender as Grid;
             if (gridItem == null) return;
