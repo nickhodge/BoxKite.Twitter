@@ -1,5 +1,6 @@
 // (c) 2012-2013 Nick Hodge mailto:hodgenick@gmail.com & Brendan Forster
 // License: MS-PL
+
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -208,7 +209,7 @@ namespace BoxKite.Twitter.Extensions
             }
             catch (Exception e)
             {
-                twitterControlMessage.twitter_error_message = m.Result.ToString() + e.ToString();
+                twitterControlMessage.twitter_error_message = m.Result.ToString();
             }
 
             return twitterControlMessage;
