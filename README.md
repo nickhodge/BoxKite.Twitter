@@ -77,7 +77,7 @@ Install-Package BoxKite.Twitter -Pre
 
 * Without [Newtonsoft Json.NET](http://json.net) this library would not exist (MIT License)
 * Microsoft's Open sourced .NET [Reactive Extensions](https://rx.codeplex.com/) (Apache License 2.0)
-* [Portable version of the HTTP Client Libraries](http://blogs.msdn.com/b/bclteam/p/httpclient.aspx) from the Microsoft ASP.NET WebAPI team [HTTP Client Libraries](http://nuget.org/packages/Microsoft.Net.Http/2.1.6-rc)  (sourced from NuGet, currently Licensed under [DotNetBetaUnsupported](http://go.microsoft.com/fwlink/?LinkID=279007) license)
+* [Portable version of the HTTP Client Libraries](http://blogs.msdn.com/b/bclteam/p/httpclient.aspx) from the Microsoft ASP.NET WebAPI team [HTTP Client Libraries](http://nuget.org/packages/Microsoft.Net.Http/)  (sourced from NuGet, currently Licensed under a [Binary Redistributable](http://go.microsoft.com/fwlink/?LinkID=306162) license)
 
 ### (Dependency when running BoxKite.Twitter.Tests only)
 
