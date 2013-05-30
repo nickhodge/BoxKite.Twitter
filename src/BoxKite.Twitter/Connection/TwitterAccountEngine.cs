@@ -39,7 +39,6 @@ namespace BoxKite.Twitter
 
         public void Start()
         {
-            PublicState = "Starting Up";
             TwitterCommunication = new CancellationTokenSource();
             //
             UserStream = Session.GetUserStream();
@@ -68,16 +67,13 @@ namespace BoxKite.Twitter
             // but the higher level client doesnt want to worry about all that complexity.
             // in the BackfillPump, we gather these tweets/direct messages and pump them into the correct Observable
             Task.Factory.StartNew(ProcessBackfillPump);
-            PublicState = "OK";
         }
 
         public void Stop()
         {
-            PublicState = "Shutting Down";
             TwitterCommunication.Cancel();
             UserStream.Stop();
-            PublicState = "";
-        }
+         }
 
         private void ProcessBackfillPump()
         {
@@ -114,6 +110,7 @@ namespace BoxKite.Twitter
                         if (tweet.Id > largestid) largestid = tweet.Id;
                         backfillQuota--;
                     }
+                    await Task.Delay(_multiFetchBackoffTimer);
                 }
                 else
                 {
@@ -150,6 +147,7 @@ namespace BoxKite.Twitter
                         if (tweet.Id > largestid) largestid = tweet.Id;
                         backfillQuota--;
                     }
+                    await Task.Delay(_multiFetchBackoffTimer);
                 }
                 else
                 {
@@ -186,6 +184,7 @@ namespace BoxKite.Twitter
                         if (tweet.Id > largestid) largestid = tweet.Id;
                         backfillQuota--;
                     }
+                    await Task.Delay(_multiFetchBackoffTimer);
                 }
                 else
                 {
@@ -222,6 +221,7 @@ namespace BoxKite.Twitter
                         if (dm.Id > largestid) largestid = dm.Id;
                         backfillQuota--;
                     }
+                    await Task.Delay(_multiFetchBackoffTimer);
                 }
                 else
                 {
@@ -258,6 +258,7 @@ namespace BoxKite.Twitter
                         if (dm.Id > largestid) largestid = dm.Id;
                         backfillQuota--;
                     }
+                    await Task.Delay(_multiFetchBackoffTimer);
                 }
                 else
                 {
@@ -294,6 +295,7 @@ namespace BoxKite.Twitter
                         if (tweet.Id > largestid) largestid = tweet.Id;
                         backfillQuota--;
                     }
+                    await Task.Delay(_multiFetchBackoffTimer);
                 }
                 else
                 {

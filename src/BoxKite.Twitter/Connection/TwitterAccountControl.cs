@@ -11,12 +11,6 @@ namespace BoxKite.Twitter
     public partial class TwitterAccount : BindableBase
     {
         private readonly IPlatformAdaptor _platformAdaptor;
-        private string _publicState;
-        public string PublicState
-        {
-            get { return _publicState; }
-            set { SetProperty(ref _publicState, value); }
-        }
         public User accountDetails { get; set; }
         public TwitterCredentials _TwitterCredentials { get; set; }
         public AccountSettings accountSettings { get; set; }
@@ -24,6 +18,7 @@ namespace BoxKite.Twitter
         public IUserStream UserStream;
         public ISearchStream SearchStream;
 
+        private readonly TimeSpan _multiFetchBackoffTimer = new TimeSpan(1200);
 
 #if (PORTABLE)
         public TwitterAccount(TwitterCredentials twitterCredentials, IPlatformAdaptor platformAdaptor)
@@ -42,15 +37,11 @@ namespace BoxKite.Twitter
 
         public async Task<bool> VerifyCredentials()
         {
-            PublicState = "Verifying Credentials";
             var checkedUser = await Session.GetVerifyCredentials();
-            PublicState = "";
             if (checkedUser.OK) // go deeper
             {
-                PublicState = String.Format("Getting Account Settings & Profile for {0}", checkedUser.ScreenName);
                 accountSettings = await Session.GetAccountSettings();
                 accountDetails = await Session.GetUserProfile(user_id: checkedUser.UserId);
-                PublicState = "OK";
                 return accountSettings.OK && accountDetails.OK;
             }
             else

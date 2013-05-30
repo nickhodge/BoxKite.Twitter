@@ -51,8 +51,54 @@ namespace BoxKite.Twitter.Console
                         searchstream.Stop();  
                     }
                 }
-                
 
+
+                // 2
+                if (testSeq.Contains(2))
+                {
+                    ConsoleOutput.PrintMessage("11.2 Combo\\GetFriendshipRequestsOutgoing, then hydrate User Details", ConsoleColor.Gray);
+
+                    long nextcursor = -1;
+                    var ff5ListCount = 0;
+                    var userids = new List<int>(); 
+
+                    do
+                    {
+                        var ff2List = await session.GetFriendshipRequestsOutgoing(cursor: nextcursor);
+                        if (ff2List.twitterFaulted)
+                        {
+                            successStatus = false;
+                            break;
+                        };
+                        nextcursor = ff2List.next_cursor;
+                        ConsoleOutput.PrintMessage(String.Format("Previous cursor: {0} Next cursor: {1}",
+                            ff2List.previous_cursor, ff2List.next_cursor));
+                        foreach (var l in ff2List.IDs)
+                        {
+                            userids.Add(l);
+                            ff5ListCount++;
+                            ConsoleOutput.PrintMessage(String.Format("User ID: {0}", l));
+                        }
+                    } while (nextcursor != 0);
+
+                    ConsoleOutput.PrintMessage(String.Format("Total Outstanding Friend Requests Count: {0}",
+                       ff5ListCount));
+
+                    var userlist2 = await session.GetUsersDetailsFull(user_ids: userids);
+                    if (userlist2.OK)
+                    {
+                        foreach (var requsers in userlist2)
+                        {
+                            ConsoleOutput.PrintMessage(
+                                     String.Format("UserID: {0} // ScreenName: {1}", requsers.UserId, requsers.ScreenName));
+                        }
+ 
+                    }
+                    else
+                    {
+                        successStatus = false;
+                    };
+                }
             }
             catch (Exception e)
             {

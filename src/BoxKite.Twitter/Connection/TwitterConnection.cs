@@ -11,13 +11,7 @@ namespace BoxKite.Twitter
 {
     public class TwitterConnection : BindableBase
     {
-        private string _publicState;
-        public string PublicState
-        {
-            get { return _publicState; }
-            set { SetProperty(ref _publicState, value); }
-        }        
-        private TwitterAccountsDictionary _twitterAccounts = new TwitterAccountsDictionary();
+         private TwitterAccountsDictionary _twitterAccounts = new TwitterAccountsDictionary();
         public TwitterAccountsDictionary TwitterAccounts { get { return _twitterAccounts; } set { _twitterAccounts = value; } }
 
         private readonly string _twitterConsumerKey;
@@ -61,26 +55,21 @@ namespace BoxKite.Twitter
         {
             if (ck.ToLower().Contains("dev.twitter.com"))
             {
-                PublicState = "You need to obtain a valid Client Secret & Client Key from dev.windows.com, and put it into the source code somewhere, dude.";
-                Debug.WriteLine(PublicState);
+                Debug.WriteLine("You need to obtain a valid Client Secret & Client Key from dev.windows.com, and put it into the source code somewhere, dude.");;
             }
         }
 
         // auth happens when no creds are present
         public async Task<bool> BeginAuthentication()
         {
-            PublicState = "Authenticating with Twitter";
             var authstartok = await _twitterauth.StartAuthentication();
-            PublicState = "";
             return authstartok;
         }
 
         // second stage of auth confirms the pin is OK
         public async Task<TwitterAccount> CompleteAuthentication(string pin)
         {
-            PublicState = "Validating PIN";
             var twittercredentials = await _twitterauth.ConfirmPin(pin);
-            PublicState = "";
             if (!twittercredentials.Valid) return null;
             return await AddTwitterAccount(twittercredentials);
         }
@@ -95,9 +84,7 @@ namespace BoxKite.Twitter
 #elif (WINDOWS)
             var newaccount = new TwitterAccount(twitterCredentials);
 #endif
-            PublicState = String.Format("Verifying Credentials for {0}", twitterCredentials.ScreenName);
-            var checkedcreds = await newaccount.VerifyCredentials();
-            PublicState = "";
+             var checkedcreds = await newaccount.VerifyCredentials();
             if (!checkedcreds) return null;
 
             // all ok, add to valid Twitter Accounts

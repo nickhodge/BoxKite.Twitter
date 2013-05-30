@@ -33,7 +33,7 @@ namespace BoxKite.Twitter.Console
                     // NOTE: some tests require a previous test to work successfully
                     // NOTE: some tests post/delete items. This *is* a live fire test!
 
-                    var testSeriesToRun = new List<int> {7};
+                    var testSeriesToRun = new List<int> {11};
 
                     // Calls tested by Test Series
                     // series 1 => 9 (UserAccounts)
@@ -46,9 +46,9 @@ namespace BoxKite.Twitter.Console
                     // series 8 => 3 (Trends)
                     // series 9 => 2 (SuggestedUsers)
                     // series 10=> 7 (Lists)
-                    // series 11=> 1 (Combos)
+                    // series 11=> 2 (Combos)
                     // =============
-                    // TOTAL      47
+                    // TOTAL      48
 
                     // Test Series 1
                     if (testSeriesToRun.Contains(1))
@@ -147,7 +147,7 @@ namespace BoxKite.Twitter.Console
                     if (testSeriesToRun.Contains(6))
                     {
                         var ffvs = new FriendsFollowersLiveFireTests();
-                        var testResult6 = ffvs.DoFriendsFollowersTest(session, new List<int> { 7 }).Result;
+                        var testResult6 = ffvs.DoFriendsFollowersTest(session, new List<int> { 4,5 }).Result;
 
                         if (testResult6)
                         {
@@ -184,7 +184,7 @@ namespace BoxKite.Twitter.Console
                     if (testSeriesToRun.Contains(8))
                     {
                         var trln = new TrendsLiveFireTests();
-                        var testResult8 = trln.DoTrendsTest(session, new List<int> { 1, 2 }).Result;
+                        var testResult8 = trln.DoTrendsTest(session, new List<int> { 4,5}).Result;
 
                         if (testResult8)
                         {
@@ -241,7 +241,7 @@ namespace BoxKite.Twitter.Console
                     if (testSeriesToRun.Contains(11))
                     {
                         var cmbs = new CombosFireTests();
-                        var testResult11 = cmbs.DoCombosTest(session, new List<int> { 1 }).Result;
+                        var testResult11 = cmbs.DoCombosTest(session, new List<int> { 2 }).Result;
 
                         if (testResult11)
                         {
