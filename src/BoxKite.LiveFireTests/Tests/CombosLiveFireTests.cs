@@ -60,7 +60,7 @@ namespace BoxKite.Twitter.Console
 
                     long nextcursor = -1;
                     var ff5ListCount = 0;
-                    var userids = new List<int>(); 
+                    var userids2 = new List<int>(); 
 
                     do
                     {
@@ -75,16 +75,16 @@ namespace BoxKite.Twitter.Console
                             ff2List.previous_cursor, ff2List.next_cursor));
                         foreach (var l in ff2List.IDs)
                         {
-                            userids.Add(l);
+                            userids2.Add(l);
                             ff5ListCount++;
                             ConsoleOutput.PrintMessage(String.Format("User ID: {0}", l));
                         }
                     } while (nextcursor != 0);
 
-                    ConsoleOutput.PrintMessage(String.Format("Total Outstanding Friend Requests Count: {0}",
+                    ConsoleOutput.PrintMessage(String.Format("Total Outstanding Outgoing Friend Requests Count: {0}",
                        ff5ListCount));
 
-                    var userlist2 = await session.GetUsersDetailsFull(user_ids: userids);
+                    var userlist2 = await session.GetUsersDetailsFull(user_ids: userids2);
                     if (userlist2.OK)
                     {
                         foreach (var requsers in userlist2)
@@ -99,6 +99,56 @@ namespace BoxKite.Twitter.Console
                         successStatus = false;
                     };
                 }
+
+                // 3
+                if (testSeq.Contains(3))
+                {
+                    ConsoleOutput.PrintMessage("11.3 Combo\\GetFriendshipRequestsIncoming, then hydrate User Details", ConsoleColor.Gray);
+
+                    long nextcursor = -1;
+                    var ff5ListCount = 0;
+                    var userids3 = new List<int>();
+
+                    do
+                    {
+                        var ff3List = await session.GetFriendshipRequestsIncoming(cursor: nextcursor);
+                        if (ff3List.twitterFaulted)
+                        {
+                            successStatus = false;
+                            break;
+                        };
+                        nextcursor = ff3List.next_cursor;
+                        ConsoleOutput.PrintMessage(String.Format("Previous cursor: {0} Next cursor: {1}",
+                            ff3List.previous_cursor, ff3List.next_cursor));
+                        foreach (var l in ff3List.IDs)
+                        {
+                            userids3.Add(l);
+                            ff5ListCount++;
+                            ConsoleOutput.PrintMessage(String.Format("User ID: {0}", l));
+                        }
+                    } while (nextcursor != 0);
+
+                    ConsoleOutput.PrintMessage(String.Format("Total Outstanding Incoming Friend Requests Count: {0}",
+                       ff5ListCount));
+
+                    var userlist3 = await session.GetUsersDetailsFull(user_ids: userids3);
+                    if (userlist3.OK)
+                    {
+                        foreach (var requsers in userlist3)
+                        {
+                            ConsoleOutput.PrintMessage(
+                                     String.Format("UserID: {0} // ScreenName: {1}", requsers.UserId, requsers.ScreenName));
+                        }
+
+                    }
+                    else
+                    {
+                        successStatus = false;
+                    };
+                }
+
+
+
             }
             catch (Exception e)
             {

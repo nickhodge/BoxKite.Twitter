@@ -46,9 +46,9 @@ namespace BoxKite.Twitter.Console
                     // series 8 => 3 (Trends)
                     // series 9 => 2 (SuggestedUsers)
                     // series 10=> 7 (Lists)
-                    // series 11=> 2 (Combos)
+                    // series 11=> 3 (Combos)
                     // =============
-                    // TOTAL      48
+                    // TOTAL      49
 
                     // Test Series 1
                     if (testSeriesToRun.Contains(1))
@@ -241,7 +241,7 @@ namespace BoxKite.Twitter.Console
                     if (testSeriesToRun.Contains(11))
                     {
                         var cmbs = new CombosFireTests();
-                        var testResult11 = cmbs.DoCombosTest(session, new List<int> { 2 }).Result;
+                        var testResult11 = cmbs.DoCombosTest(session, new List<int> { 2,3 }).Result;
 
                         if (testResult11)
                         {
