@@ -345,6 +345,7 @@ namespace BoxKite.Twitter
                 return session.MapParameterError<User>(
                         "Either screen_name or user_id required"); ;
             }
+
             return await session.PostAsync(Api.Resolve("/1.1/blocks/destroy.json"), parameters)
                          .ContinueWith(c => c.MapToSingle<User>());
         }
@@ -362,6 +363,12 @@ namespace BoxKite.Twitter
             var parameters = new TwitterParametersCollection();
             parameters.Create(include_entities: true);
             parameters.CreateCollection(screen_names:screen_names,user_ids:user_ids);
+
+            if (parameters.EnsureEitherOr("screen_name", "user_id").IsFalse())
+            {
+                return session.MapParameterError<TwitterResponseCollection<User>>(
+                        "Either screen_names or user_ids required"); ;
+            }
 
             return await session.PostAsync(Api.Resolve("/1.1/users/lookup.json"), parameters).ContinueWith(c => c.MapToMany<User>());
         }

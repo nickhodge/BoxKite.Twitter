@@ -153,9 +153,6 @@ namespace BoxKite.Twitter.Console
                         }
                     }
                 }
-
-
-
             }
             catch (Exception e)
             {

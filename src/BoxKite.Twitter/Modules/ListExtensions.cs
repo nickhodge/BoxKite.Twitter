@@ -220,6 +220,12 @@ namespace BoxKite.Twitter
             parameters.Create(list_id: list_id, slug: slug, owner_id: owner_id, owner_screen_name: owner_screen_name);
             parameters.CreateCollection(screen_names:screen_names,user_ids:user_ids);
 
+            if (parameters.EnsureEitherOr("screen_name", "user_id").IsFalse())
+            {
+                return session.MapParameterError<TwitterSuccess>(
+                        "Either screen_names or user_ids required"); ;
+            }
+
             return await session.PostAsync(Api.Resolve("/1.1/lists/members/create_all.json"), parameters)
                           .ContinueWith(c => c.MapToTwitterSuccess());
         }
@@ -419,6 +425,12 @@ namespace BoxKite.Twitter
             var parameters = new TwitterParametersCollection();
             parameters.Create(list_id: list_id, slug: slug, owner_id: owner_id, owner_screen_name: owner_screen_name);
             parameters.CreateCollection(screen_names:screen_names, user_ids:user_ids);
+
+            if (parameters.EnsureEitherOr("screen_name", "user_id").IsFalse())
+            {
+                return session.MapParameterError<TwitterSuccess>(
+                        "Either screen_names or user_ids required"); ;
+            }
 
             return await session.PostAsync(Api.Resolve("/1.1/lists/members/destroy_all.json"), parameters)
                           .ContinueWith(c => c.MapToTwitterSuccess());

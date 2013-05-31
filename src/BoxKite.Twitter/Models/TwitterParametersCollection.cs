@@ -1,6 +1,7 @@
 ﻿// (c) 2012-2013 Nick Hodge mailto:hodgenick@gmail.com & Brendan Forster
 // License: MS-PL
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,21 +23,27 @@ namespace BoxKite.Twitter.Models
             var screenNameList = new StringBuilder();
             if (screen_names != null)
             {
-                foreach (var screenName in screen_names)
+                if (screen_names.Count() > 0)
                 {
-                    screenNameList.Append(screenName + ",");
+                    foreach (var screenName in screen_names)
+                    {
+                        screenNameList.Append(screenName + ",");
+                    }
+                    parameters.Add("screen_name", screenNameList.ToString().TrimLastChar());
                 }
-                parameters.Add("screen_name", screenNameList.ToString().TrimLastChar());
             }
 
             var userIDList = new StringBuilder();
             if (user_ids != null)
             {
-                foreach (var userID in user_ids)
+                if (user_ids.Count() > 0)
                 {
-                    userIDList.Append(userID + ",");
+                    foreach (var userID in user_ids)
+                    {
+                        userIDList.Append(userID + ",");
+                    }
+                    parameters.Add("user_id", userIDList.ToString().TrimLastChar());
                 }
-                parameters.Add("user_id", userIDList.ToString().TrimLastChar());
             }
         }
 
@@ -170,16 +177,20 @@ namespace BoxKite.Twitter.Models
             }
         }
 
-        internal static void CreateCommaDelimitedList(this TwitterParametersCollection parameters, string elementName, IEnumerable elements)
+        internal static void CreateCommaDelimitedList(this TwitterParametersCollection parameters, string elementName,
+            IEnumerable elements)
         {
             var elementstr = new StringBuilder();
             if (elements != null)
             {
+                var elementcount = 0;
                 foreach (var tr in elements)
                 {
                     elementstr.Append(tr.ToString() + ",");
+                    elementcount++;
                 }
-                parameters.Add(elementName, elementstr.ToString().TrimLastChar());
+                if (elementcount > 0)
+                    parameters.Add(elementName, elementstr.ToString().TrimLastChar());
             }
         }
 
