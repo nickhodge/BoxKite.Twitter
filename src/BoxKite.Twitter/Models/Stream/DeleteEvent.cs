@@ -7,10 +7,10 @@ namespace BoxKite.Twitter.Models
     public class DeleteEvent
     {
         [JsonProperty("status")]
-        public Status Status { get; set; }
+        public DeleteEventStatus DeleteEventStatus { get; set; }
     }
 
-    public class Status
+    public class DeleteEventStatus
     {
         [JsonProperty("id")]
         public long Id { get; set; }

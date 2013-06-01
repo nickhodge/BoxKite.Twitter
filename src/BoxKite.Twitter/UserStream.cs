@@ -1,5 +1,6 @@
 // (c) 2012-2013 Nick Hodge mailto:hodgenick@gmail.com & Brendan Forster
 // License: MS-PL
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,7 +8,6 @@ using System.Net.Http;
 using System.Reactive.Subjects;
 using System.Threading;
 using System.Threading.Tasks;
-using BoxKite.Twitter.Extensions;
 using BoxKite.Twitter.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;

@@ -127,9 +127,9 @@ namespace BoxKite.Twitter.Tests
             userstreamtest5.DeleteEvents.Subscribe(de =>
             {
                 Assert.IsNotNull(de);
-                Assert.IsNotNull(de.Status);
-                de.Status.Id.ShouldBeEquivalentTo(1234);
-                de.Status.UserId.ShouldBeEquivalentTo(3);
+                Assert.IsNotNull(de.DeleteEventStatus);
+                de.DeleteEventStatus.Id.ShouldBeEquivalentTo(1234);
+                de.DeleteEventStatus.UserId.ShouldBeEquivalentTo(3);
             }
             );
 

@@ -26,6 +26,12 @@ namespace BoxKite.Twitter
         readonly Subject<DirectMessage> _directmessages = new Subject<DirectMessage>();
         public IObservable<DirectMessage> DirectMessages { get { return _directmessages; } }
 
+        readonly Subject<User> _usersseen = new Subject<User>();
+        public IObservable<User> UsersSeen { get { return _usersseen; } }
+
+        readonly Subject<DeleteEventStatus> _streamdeleteevent = new Subject<DeleteEventStatus>();
+        public IObservable<DeleteEventStatus> StreamDeleteEvent { get { return _streamdeleteevent; } }
+
         private List<long> _tweetsSeen = new List<long>();
         private CancellationTokenSource TwitterCommunication;
 
@@ -35,6 +41,7 @@ namespace BoxKite.Twitter
             if (_tweetsSeen.Contains(t.Id)) return;
             _tweetsSeen.Add(t.Id);
             _timeline.OnNext(t);
+            _usersseen.OnNext(t.User);
         }
 
         public void Start()
@@ -59,6 +66,8 @@ namespace BoxKite.Twitter
             UserStream.DirectMessages.Subscribe(_directmessages.OnNext);
 
             UserStream.Tweets.Where(t => t.User.UserId == accountDetails.UserId).Subscribe(_mytweets.OnNext);
+
+            UserStream.DeleteEvents.Subscribe(de => _streamdeleteevent.OnNext(de.DeleteEventStatus));
 
             // MORE MAGIC HAPPENS HERE
             // The Userstreams only get tweets/direct messages from the point the connection is opened.
@@ -88,6 +97,8 @@ namespace BoxKite.Twitter
             GetMyTweets_Backfill();
         }
 
+
+        //TODO: DRY these methods with <Func> goodness
         private async void GetHomeTimeLine_Backfill()
         {
             int backofftimer = 30;
