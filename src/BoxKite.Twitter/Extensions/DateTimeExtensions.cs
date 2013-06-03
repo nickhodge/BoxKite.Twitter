@@ -61,6 +61,10 @@ namespace BoxKite.Twitter.Extensions
             {
                 return "an hour ago";
             }
+            if (delta < 7200) // 120 * 60
+            {
+                return "1 hour ago";
+            } 
             if (delta < 86400)
             { // 24 * 60 * 60
                 return ts.Hours + " hours ago";

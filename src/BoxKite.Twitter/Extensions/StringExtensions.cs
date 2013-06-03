@@ -20,11 +20,6 @@ namespace BoxKite.Twitter.Extensions
                     .Replace("&gt;", ">");
         }
 
-/*        public static string UrlEncode(this string sourceString)
-        {
-            return Uri.EscapeUriString(sourceString);
-        }
-*/
         public static string UrlEncode(this string inputString)
         {
             var encoded = "";
@@ -111,28 +106,5 @@ namespace BoxKite.Twitter.Extensions
             return inputString.Length <= targetLength ? inputString : inputString.Trim().Substring(0, targetLength);
         }
 
-        /*public static string UrlEncode(this string inputString)
-        {
-            var encoded = "";
-
-            foreach (var str in inputString)
-            {
-                if ((str >= 'A' && str <= 'Z') ||
-                    (str >= 'a' && str <= 'z') ||
-                    (str >= '0' && str <= '9'))
-                {
-                    encoded += str;
-                }
-                else if (str == '-' || str == '_' || str == '.' || str == '~')
-                {
-                    encoded += str;
-                }
-                else
-                {
-                    encoded += "%" + string.Format("{0:X}", (int)str);
-                }
-            }
-            return encoded;
-        } */
     }
 }

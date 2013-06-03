@@ -32,14 +32,23 @@ namespace BoxKite.Twitter
         readonly Subject<DeleteEventStatus> _streamdeleteevent = new Subject<DeleteEventStatus>();
         public IObservable<DeleteEventStatus> StreamDeleteEvent { get { return _streamdeleteevent; } }
 
-        private List<long> _tweetsSeen = new List<long>();
+        private List<long> _tweetIdsRegister = new List<long>();
+        readonly Subject<long> _tweetsseen = new Subject<long>();
+        public IObservable<long> TweetsSeen { get { return _tweetsseen; } }
+
+        /*
+         * NOTE: scrubgeo, statuswithheld, limitnotices, userwithheld and friends stream currently
+         * not .Subscribed to from the UserStream
+         */
+
         private CancellationTokenSource TwitterCommunication;
 
         private void AddToHomeTimeLine(Tweet t)
         {
             // only Publish if unique
-            if (_tweetsSeen.Contains(t.Id)) return;
-            _tweetsSeen.Add(t.Id);
+            if (_tweetIdsRegister.Contains(t.Id)) return;
+            _tweetIdsRegister.Add(t.Id);
+            _tweetsseen.OnNext(t.Id);
             _timeline.OnNext(t);
             _usersseen.OnNext(t.User);
         }

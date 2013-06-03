@@ -48,7 +48,7 @@ namespace BoxKite.Twitter.Console
                     // series 10=> 7 (Lists)
                     // series 11=> 3 (Combos)
                     // =============
-                    // TOTAL      49
+                    // TOTAL      50
 
                     // Test Series 1
                     if (testSeriesToRun.Contains(1))

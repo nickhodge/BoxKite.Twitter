@@ -37,7 +37,7 @@ Install-Package BoxKite.Twitter -Pre
 
 * More indepth [developer details are documented here](wiki/devdetails)
 * There are a few, [small missing pieces documented here](wiki/todos)
-* 49 ["Live Fire" tests are explained here](wiki/livefire)
+* 50 ["Live Fire" tests are explained here](wiki/livefire)
 * [Sample, Simple WPF 4.5 Client App](wiki/samplewpf)
 
 ##To Build:
@@ -68,7 +68,7 @@ Install-Package BoxKite.Twitter -Pre
 ##Tests:
 * 113 test methods with average of 4 assertion tests each
 * Both Twitter API 1.1 and Userstream Unit Tests
-* 49 "Live Fire Tests". Included as a separate project, it is engaged via the Console; uses a real Twitter Account to exercise the API. Configurable Test series, individual tests that can be run.
+* 50 "Live Fire Tests". Included as a separate project, it is engaged via the Console; uses a real Twitter Account to exercise the API. Configurable Test series, individual tests that can be run.
 * Test source is JSON from [dev.twitter.com](https://dev.twitter.com/) and where innaccurate on the site, taken from live data or corrected to match live data.
 * Error response type testing (eg: 429 rate_limits) & generic decode tests included
 
