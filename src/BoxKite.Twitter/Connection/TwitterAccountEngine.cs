@@ -17,6 +17,9 @@ namespace BoxKite.Twitter
         readonly Subject<Tweet> _timeline = new Subject<Tweet>();
         public IObservable<Tweet> TimeLine { get { return _timeline; } }
 
+        readonly Subject<Tweet> _retweetsOnTimeline = new Subject<Tweet>();
+        public IObservable<Tweet> RetweetsOnTimeLine { get { return _retweetsOnTimeline; } }
+
         readonly Subject<Tweet> _mentions = new Subject<Tweet>();
         public IObservable<Tweet> Mentions { get { return _mentions; } }
 
@@ -32,7 +35,7 @@ namespace BoxKite.Twitter
         readonly Subject<DeleteEventStatus> _streamdeleteevent = new Subject<DeleteEventStatus>();
         public IObservable<DeleteEventStatus> StreamDeleteEvent { get { return _streamdeleteevent; } }
 
-        private List<long> _tweetIdsRegister = new List<long>();
+        private readonly List<long> _tweetIdsRegister = new List<long>();
         readonly Subject<long> _tweetsseen = new Subject<long>();
         public IObservable<long> TweetsSeen { get { return _tweetsseen; } }
 
@@ -62,21 +65,29 @@ namespace BoxKite.Twitter
             // Separate stream events start 
             StartStreamEvents();
 
+            // All tweets to the HomeTimeLine
             UserStream.Tweets.Subscribe(AddToHomeTimeLine);
 
             // MAGIC HAPPENS HERE
             // there is no specific "catch" for mentions in the Userstream, but here we can fake it!
             // Using LINQ, we can ask RX to show us incoming tweets that contain the screen name of the current user
             // then push this into the "Mentions" Observable
-            
             UserStream.Tweets.Where(t => t.Text.ToLower().Contains(accountDetails.ScreenName.ToLower())).Subscribe(_mentions.OnNext);
-            UserStream.Start();
 
+            // specifically grab the Retweets in the timeline and show them
+            // obviously this can be added at a higher level, too.
+            UserStream.Tweets.Where(t => t.RetweetedStatus != null).Subscribe(_retweetsOnTimeline.OnNext);
+
+            // Treat Direct Messages separately
             UserStream.DirectMessages.Subscribe(_directmessages.OnNext);
 
+            // Pull out my tweets, and publish separately
             UserStream.Tweets.Where(t => t.User.UserId == accountDetails.UserId).Subscribe(_mytweets.OnNext);
 
+            // also grab the delete events and publish
             UserStream.DeleteEvents.Subscribe(de => _streamdeleteevent.OnNext(de.DeleteEventStatus));
+
+            UserStream.Start();
 
             // MORE MAGIC HAPPENS HERE
             // The Userstreams only get tweets/direct messages from the point the connection is opened.
