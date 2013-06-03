@@ -14,6 +14,20 @@ namespace BoxKite.Twitter.Tests
     [TestClass]
     public class DecodeTests
     {
+
+        [TestMethod]
+        public void Decode_Deep_ReTweet()
+        {
+            // arrange
+            var fileName = @".\data\retweet.txt";
+            var json = File.ReadAllText(fileName);
+            var tweet = JsonConvert.DeserializeObject<Tweet>(json);
+
+            Assert.IsNotNull(tweet);
+            Assert.IsNotNull(tweet.RetweetedStatus);
+            Assert.IsNotNull(tweet.RetweetedStatus.User);
+        }
+
         [TestMethod]
         public void Decode_Entity_HashTag_Separate_Tests()
         {
@@ -145,6 +159,7 @@ namespace BoxKite.Twitter.Tests
             Assert.IsNull(tweet.InReplyToUserId);
             Assert.IsNull(tweet.Location);
             Assert.IsNull(tweet.Place);
+            Assert.IsNull(tweet.RetweetedStatus);
             tweet.Favourited.ShouldBeEquivalentTo(false);
             tweet.Source.ShouldBeEquivalentTo(
                 "<a href=\"http://jason-costa.blogspot.com\" rel=\"nofollow\">My Shiny App</a>");
