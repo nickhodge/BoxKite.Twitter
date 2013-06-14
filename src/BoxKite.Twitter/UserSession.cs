@@ -1,4 +1,5 @@
 // (c) 2012-2013 Nick Hodge mailto:hodgenick@gmail.com & Brendan Forster
+// License: MS-PL
 
 using System;
 using System.Collections.Generic;
@@ -34,6 +35,12 @@ namespace BoxKite.Twitter
         {
             this.credentials = credentials;
             _platformAdaptor = new DesktopPlatformAdaptor();
+        }
+#elif (WIN8RT)
+        public UserSession(TwitterCredentials credentials)
+        {
+            this.credentials = credentials;
+            _platformAdaptor = new Win8RTPlatformAdaptor();
         }
 #endif
         public Task<HttpResponseMessage> GetAsync(string url, SortedDictionary<string, string> parameters)

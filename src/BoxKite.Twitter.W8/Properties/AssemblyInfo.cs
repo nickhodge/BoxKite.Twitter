@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
-using System.Resources;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
@@ -12,7 +13,6 @@ using System.Resources;
 [assembly: AssemblyCopyright("Copyright © 2012-2013 Nick Hodge and Brendan Forster")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-[assembly: NeutralResourcesLanguage("en")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -26,3 +26,4 @@ using System.Resources;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("0.9.2.0")]
 [assembly: AssemblyFileVersion("0.9.2.0")]
+[assembly: ComVisible(false)]

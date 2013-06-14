@@ -39,6 +39,13 @@ namespace BoxKite.Twitter
             this.clientSecret = clientSecret;
             this._platformAdaptor = new DesktopPlatformAdaptor();
         }
+#elif (WIN8RT)
+        public TwitterAuthenticator(string clientID, string clientSecret)
+        {
+            this.clientID = clientID;
+            this.clientSecret = clientSecret;
+            this._platformAdaptor = new Win8RTPlatformAdaptor();
+        }
 #endif
         public async Task<bool> StartAuthentication()
         {

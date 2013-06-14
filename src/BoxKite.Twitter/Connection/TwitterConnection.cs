@@ -28,8 +28,8 @@ namespace BoxKite.Twitter
             _platformAdaptor = platformAdaptor;
             _twitterauth = new TwitterAuthenticator(_twitterConsumerKey, _twitterConsumerSecret, platformAdaptor);
         }
-#elif (WINDOWS)
-       public TwitterConnection(string twitterConsumerKey,string twitterConsumerSecret)
+#elif (WINDOWS || WIN8RT)
+        public TwitterConnection(string twitterConsumerKey,string twitterConsumerSecret)
         {
             _twitterConsumerKey = twitterConsumerKey;
             CheckClientKey(twitterConsumerKey);
@@ -48,6 +48,11 @@ namespace BoxKite.Twitter
        public TwitterConnection()
        {
            _platformAdaptor = new DesktopPlatformAdaptor();
+       }
+#elif (WIN8RT)
+       public TwitterConnection()
+       {
+           _platformAdaptor = new Win8RTPlatformAdaptor();
        }
 #endif
 
@@ -81,10 +86,10 @@ namespace BoxKite.Twitter
 
 #if (PORTABLE)
             var newaccount = new TwitterAccount(twitterCredentials,_platformAdaptor);
-#elif (WINDOWS)
+#elif (WINDOWS || WIN8RT)
             var newaccount = new TwitterAccount(twitterCredentials);
 #endif
-             var checkedcreds = await newaccount.VerifyCredentials();
+            var checkedcreds = await newaccount.VerifyCredentials();
             if (!checkedcreds) return null;
 
             // all ok, add to valid Twitter Accounts

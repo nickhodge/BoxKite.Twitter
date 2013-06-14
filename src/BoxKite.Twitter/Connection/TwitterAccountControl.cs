@@ -27,7 +27,7 @@ namespace BoxKite.Twitter
             _platformAdaptor = platformAdaptor;
             Session = new UserSession(_TwitterCredentials,_platformAdaptor);
         }
-#elif (WINDOWS)        
+#elif (WINDOWS || WIN8RT)        
         public TwitterAccount(TwitterCredentials twitterCredentials)
         {
             _TwitterCredentials = twitterCredentials;
