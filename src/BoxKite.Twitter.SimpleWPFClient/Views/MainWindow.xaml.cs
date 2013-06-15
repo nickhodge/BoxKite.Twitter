@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using BoxKite.Twitter.Helpers;
 using BoxKite.Twitter.Models;
+using BoxKite.ViewModels;
 
 namespace BoxKite.WPFSimpleClient
 {

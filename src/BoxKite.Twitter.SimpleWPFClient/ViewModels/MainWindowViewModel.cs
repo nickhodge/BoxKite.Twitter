@@ -11,8 +11,13 @@ using System.Windows.Input;
 using BoxKite.Twitter.Helpers;
 using BoxKite.Twitter.Models;
 using BoxKite.Twitter;
+#if (WINDOWS)
+using BoxKite.WPFSimpleClient;
+#elif (WINDOWSSTORE)
+using BoxKite.W8SimpleClient;
+#endif
 
-namespace BoxKite.WPFSimpleClient
+namespace BoxKite.ViewModels
 {
     public class MainWindowViewModel : BindableBase
     {

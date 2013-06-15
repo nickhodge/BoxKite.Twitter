@@ -121,9 +121,9 @@ namespace BoxKite.Twitter.Models
         }
 
 
-        private RetweetedStatus _retweetedStatus;
+        private Tweet _retweetedStatus;
         [JsonProperty("retweeted_status")]
-        public RetweetedStatus RetweetedStatus
+        public Tweet RetweetedStatus
         {
             get { return _retweetedStatus; }
             set { SetProperty(ref _retweetedStatus, value); }
@@ -257,7 +257,7 @@ namespace BoxKite.Twitter.Models
         public int w { get; set; }
     }
 
-    public class RetweetedStatus : BindableBase
+    /*public class RetweetedStatus : BindableBase
     {
         private bool _truncated;
         [JsonProperty("truncated")]
@@ -394,6 +394,6 @@ namespace BoxKite.Twitter.Models
         {
             get { return _rawtext.HTMLDecode(); }
         }
-    }
+    } */
 
 }

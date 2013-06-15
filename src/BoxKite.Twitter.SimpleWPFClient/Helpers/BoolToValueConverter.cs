@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows;
-using System.Windows.Data;
-using System.Windows.Media;
 #if (WINDOWS_PHONE)
 using System.Globalization;
 using System.Windows.Data;
@@ -13,8 +11,11 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
 #elif(WINDOWS)
-
+using System.Windows.Data;
+using System.Windows.Media;
 #endif
+
+
 
 namespace BoxKite.Twitter.Helpers
 {
