@@ -33,7 +33,7 @@ namespace BoxKite.Twitter.Console
                     // NOTE: some tests require a previous test to work successfully
                     // NOTE: some tests post/delete items. This *is* a live fire test!
 
-                    var testSeriesToRun = new List<int> {11};
+                    var testSeriesToRun = new List<int> {4};
 
                     // Calls tested by Test Series
                     // series 1 => 9 (UserAccounts)

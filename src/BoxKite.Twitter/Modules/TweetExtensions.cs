@@ -157,7 +157,7 @@ namespace BoxKite.Twitter
                 parameters.Add("long", longitude.ToString());
             }
 
-            return await session.PostFileAsync(Api.Upload("/1/statuses/update_with_media.json"), parameters, fileName, "media[]", imageData)
+            return await session.PostFileAsync(Api.Upload("/1.1/statuses/update_with_media.json"), parameters, fileName, "media[]", imageData)
                           .ContinueWith(c => c.MapToSingle<Tweet>());
         }
 
@@ -184,7 +184,7 @@ namespace BoxKite.Twitter
                 parameters.Add("long", longitude.ToString());
             }
 
-            return await session.PostFileAsync(Api.Upload("/1/statuses/update_with_media.json"), parameters, fileName, "media[]", srImage:imageDataStream)
+            return await session.PostFileAsync(Api.Upload("/1.1/statuses/update_with_media.json"), parameters, fileName, "media[]", srImage:imageDataStream)
                           .ContinueWith(c => c.MapToSingle<Tweet>());
         }
 
@@ -216,7 +216,7 @@ namespace BoxKite.Twitter
                 parameters.Add("long", longitude.ToString());
             }
 
-            return await session.PostFileAsync(Api.Upload("/1/statuses/update_with_media.json"), parameters, fileName, "media[]", imageData)
+            return await session.PostFileAsync(Api.Upload("/1.1/statuses/update_with_media.json"), parameters, fileName, "media[]", imageData)
                           .ContinueWith(c => c.MapToSingle<Tweet>());
         }
 
@@ -248,7 +248,7 @@ namespace BoxKite.Twitter
                 parameters.Add("long", longitude.ToString());
             }
 
-            return await session.PostFileAsync(Api.Upload("/1/statuses/update_with_media.json"), parameters, fileName, "media[]", srImage: imageDataStream)
+            return await session.PostFileAsync(Api.Upload("/1.1/statuses/update_with_media.json"), parameters, fileName, "media[]", srImage: imageDataStream)
                           .ContinueWith(c => c.MapToSingle<Tweet>());
         }
     }

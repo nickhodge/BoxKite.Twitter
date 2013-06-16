@@ -147,7 +147,7 @@ namespace BoxKite.Twitter.Tests
         {
             // arrange
             session.Returns(await Json.FromFile("data\\tweets\\singletweetreply.txt"));
-            session.ExpectPost("http://upload.twitter.com/1/statuses/update_with_media.json");
+            session.ExpectPost("https://api.twitter.com/1.1/statuses/update_with_media.json");
 
             var singletweet = await session.SendTweetWithImage("Maybe he'll finally find his keys. #peterfalk","test.jpg", new Byte[]{});
 

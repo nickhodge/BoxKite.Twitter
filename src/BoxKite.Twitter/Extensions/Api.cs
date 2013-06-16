@@ -18,7 +18,7 @@ namespace BoxKite.Twitter.Extensions
             if (format.StartsWith("/"))
                 format = format.Substring(1);
 
-            return string.Concat("http://upload.twitter.com/", string.Format(format, args));
+            return string.Concat("https://api.twitter.com/", string.Format(format, args));
         }
 
         public static string UserStreaming(string format, params object[] args)
