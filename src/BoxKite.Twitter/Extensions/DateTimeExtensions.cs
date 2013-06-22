@@ -8,6 +8,12 @@ namespace BoxKite.Twitter.Extensions
 {
     public static class DateTimeExtensions
     {
+        private const int SECOND = 1;
+        private const int MINUTE = 60 * SECOND;
+        private const int HOUR = 60 * MINUTE;
+        private const int DAY = 24 * HOUR;
+        private const int MONTH = 30 * DAY;
+
         public static DateTime FromUnixEpochSeconds(this double unixEpochSeconds)
         {
             var dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0);
@@ -29,61 +35,56 @@ namespace BoxKite.Twitter.Extensions
             return ToFriendlyText(pastTime, DateTimeOffset.UtcNow);
         }
 
-        public static string ToFriendlyText(this DateTimeOffset pastTime, DateTimeOffset currentTime)
+        public static string ToFriendlyText(this DateTimeOffset dateTime, DateTimeOffset currentTime)
         {
-            // this is LITERALLY from stackoverflow
-            // ref: http://stackoverflow.com/questions/11/how-do-i-calculate-relative-time
-            // no, really
+            if (DateTime.UtcNow.Ticks == dateTime.Ticks)
+            {
+                return "Right now!";
+            }
 
-            var ts = new TimeSpan(currentTime.Ticks - pastTime.Ticks);
-            double delta = Math.Abs(ts.TotalSeconds);
+            bool isFuture = (DateTime.UtcNow.Ticks < dateTime.Ticks);
+            var ts = DateTime.UtcNow.Ticks < dateTime.Ticks ? new TimeSpan(dateTime.Ticks - DateTime.UtcNow.Ticks) : new TimeSpan(DateTime.UtcNow.Ticks - dateTime.Ticks);
 
-            if (delta < 30)
+            double delta = ts.TotalSeconds;
+
+            if (delta < 1 * MINUTE)
             {
-//                return ts.Seconds == 1 ? "one second ago" : ts.Seconds
-//                        + " seconds ago";
-                return "Just now";
-            } if (delta < 60)
-            {
-                return "Less than a minute ago";
-            } if (delta < 90)
-            {
-                return "About a minute ago";
-            } if (delta < 120)
-            {
-                return "a minute ago";
+                return isFuture ? "in " + (ts.Seconds == 1 ? "one second" : ts.Seconds + " seconds") : ts.Seconds == 1 ? "one second ago" : ts.Seconds + " seconds ago";
             }
-            if (delta < 2700) // 45 * 60
+            if (delta < 2 * MINUTE)
             {
-                return ts.Minutes + " minutes ago";
+                return isFuture ? "in a minute" : "a minute ago";
             }
-            if (delta < 5400) // 90 * 60
+            if (delta < 45 * MINUTE)
             {
-                return "an hour ago";
+                return isFuture ? "in " + ts.Minutes + " minutes" : ts.Minutes + " minutes ago";
             }
-            if (delta < 7200) // 120 * 60
+            if (delta < 90 * MINUTE)
             {
-                return "1 hour ago";
-            } 
-            if (delta < 86400)
-            { // 24 * 60 * 60
-                return ts.Hours + " hours ago";
+                return isFuture ? "in an hour" : "an hour ago";
             }
-            if (delta < 172800)
-            { // 48 * 60 * 60
-                return "yesterday";
+            if (delta < 24 * HOUR)
+            {
+                return isFuture ? "in " + ts.Hours + " hours" : ts.Hours + " hours ago";
             }
-            if (delta < 2592000)
-            { // 30 * 24 * 60 * 60
-                return ts.Days + " days ago";
+            if (delta < 48 * HOUR)
+            {
+                return isFuture ? "tomorrow" : "yesterday";
             }
-            if (delta < 31104000)
-            { // 12 * 30 * 24 * 60 * 60
+            if (delta < 30 * DAY)
+            {
+                return isFuture ? "in " + ts.Days + " days" : ts.Days + " days ago";
+            }
+            if (delta < 12 * MONTH)
+            {
                 int months = Convert.ToInt32(Math.Floor((double)ts.Days / 30));
-                return months <= 1 ? "one month ago" : months + " months ago";
+                return isFuture ? "in " + (months <= 1 ? "one month" : months + " months") : months <= 1 ? "one month ago" : months + " months ago";
             }
-            int years = Convert.ToInt32(Math.Floor((double)ts.Days / 365));
-            return years <= 1 ? "one year ago" : years + " years ago";
+            else
+            {
+                int years = Convert.ToInt32(Math.Floor((double)ts.Days / 365));
+                return isFuture ? "in " + (years <= 1 ? "one year" : years + " years") : years <= 1 ? "one year ago" : years + " years ago";
+            }
         }
 
         public static string FormatDayOfMonth(this DateTimeOffset dateTime)
