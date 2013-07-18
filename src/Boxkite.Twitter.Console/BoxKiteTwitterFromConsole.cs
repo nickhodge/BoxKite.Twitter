@@ -4,7 +4,9 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 using BoxKite.Twitter.Models;
+using Microsoft.SqlServer.Server;
 
 namespace BoxKite.Twitter.Console
 {
@@ -12,36 +14,42 @@ namespace BoxKite.Twitter.Console
     {
         public static IUserStream userstream;
         public static ISearchStream searchstream;
+        public static TwitterConnection twitterConnection;
+        public static TwitterAccount mainTwitterAccount;
 
         private static void Main(string[] args)
         {
             ConsoleOutput.PrintMessage("Welcome to BoxKite.Twitter Console");
             ConsoleOutput.PrintMessage("(control-c ends)");
+            System.Console.CancelKeyPress += new ConsoleCancelEventHandler(cancelStreamHandler);
 
-            var twittercredentials = ManageTwitterCredentials.MakeConnection();
+            //var twittercredentials = ManageTwitterCredentials.MakeConnection();
 
-            if (twittercredentials.Valid)
+            twitterConnection = new TwitterConnection("3izxqWiej34yTlofisw","uncicYQtDx5SoWth1I9xcn5vrpczUct1Oz9ydwTY4");
+
+            DoPINDisplay(twitterConnection);
+            ConsoleOutput.PrintMessage("Pin: ");
+            var pin = System.Console.ReadLine();
+            var mainTwitterAccount = AuthPIN(pin, twitterConnection).Result;
+
+            if (mainTwitterAccount != null)
             {
-                System.Console.CancelKeyPress += new ConsoleCancelEventHandler(cancelStreamHandler);
-                var session = new UserSession(twittercredentials);
-                var checkUser = session.GetVerifyCredentials().Result;
-                if (checkUser.OK)
-                {
-                    ConsoleOutput.PrintMessage(twittercredentials.ScreenName + " is authorised to use BoxKite.Twitter.");
+                mainTwitterAccount.Start();
 
-                    var accountSettings = session.GetAccountSettings().Result;
-                    if (accountSettings.OK)
-                    {
+                var session = mainTwitterAccount.Session;
 
-                        var x = session.SendTweet("d realnickhodge testing & ampersands");
+                ConsoleOutput.PrintMessage(mainTwitterAccount._TwitterCredentials.ScreenName + " is authorised to use BoxKite.Twitter.");
+
+                /*var x = session.SendTweet("d realnickhodge testing & ampersands");
 
                         if (x.IsFaulted)
                         {
                             ConsoleOutput.PrintMessage("bugger");
                         }
 
+                        */
 
-                        /*
+                /*
                         
                         //var locations = new List<string> { "150.700493", "-34.081953", "151.284828", "-33.593316" };
                         //var locations = new List<string> { "-180", "-90", "180", "90" };
@@ -72,7 +80,7 @@ namespace BoxKite.Twitter.Console
 
                         */
 
-                        /*
+                /*
                         //var fileName = @"C:\Users\Nick\Pictures\My Online Avatars\666.jpg";
                         //if (File.Exists(fileName))
                         //{
@@ -102,19 +110,16 @@ namespace BoxKite.Twitter.Console
 
                         */
 
-                        /*userstream = session.GetUserStream();
-                        userstream.Tweets.Subscribe(
-                            t =>
-                                System.Console.WriteLine(String.Format("ScreenName: {0}, Tweet: {1}", t.User.ScreenName,
-                                    t.Text)));
-                        userstream.Start();
+                mainTwitterAccount.TimeLine.Subscribe(t => ConsoleOutput.PrintTweet(t));
 
-                        while (userstream.IsActive)
-                        {
-                            Thread.Sleep(TimeSpan.FromSeconds(0.5));
-                        }
+                while (true)
+                {
+                    Thread.Sleep(TimeSpan.FromSeconds(0.5));
+                }
 
+                Console.ConsoleOutput.PrintMessage("Event stream has stoppped.");
 
+                /*
                        userstream = session.GetUserStream();
                          userstream.Tweets.Subscribe(t => ConsoleOutput.PrintTweet(t, ConsoleColor.Green));
                          userstream.Events.Subscribe(e => ConsoleOutput.PrintEvent(e, ConsoleColor.Yellow));
@@ -129,7 +134,7 @@ namespace BoxKite.Twitter.Console
 
 
 
-                        /*
+                /*
                          * 
                          * //var locations = new List<string> { "-34.081953", "150.700493", "-33.593316", "151.284828" };
                             //searchstream = session.StartSearchStream(locations: locations);
@@ -148,7 +153,7 @@ namespace BoxKite.Twitter.Console
                          */
 
 
-                        /*
+                /*
                         var x = session.GetMentions(count:100).Result;
 
                         foreach (var tweet in x)
@@ -161,22 +166,36 @@ namespace BoxKite.Twitter.Console
                             .Subscribe(t => ConsoleOutputPrintTweet(t, ConsoleColor.White, ConsoleColor.Black));
                         */
 
-                    }
-                }
-                else
-                {
-                    ConsoleOutput.PrintMessage(String.Format("Credentials could not be verified: {0}", checkUser.twitterControlMessage.twitter_error_message), ConsoleColor.Red);
-                }
             }
-
             else
             {
-                ConsoleOutput.PrintMessage("Authenticator could not start. Do you have the correct Client/Consumer IDs and secrets?", ConsoleColor.Red);
+                ConsoleOutput.PrintMessage("Credentials could not be verified.", ConsoleColor.Red);
             }
+
+            ConsoleOutput.PrintMessage("All Finished");
             System.Console.ReadLine();
 
         }
-        
+
+        public static async void DoPINDisplay(TwitterConnection twitterConnection)
+        {
+            await twitterConnection.BeginAuthentication();
+        }
+
+        public static async Task<TwitterAccount> AuthPIN(string authPIN, TwitterConnection twitterConnection)
+        {
+            // after entering the PIN, and clicking OK, this method is run
+            if (!string.IsNullOrWhiteSpace(authPIN))
+            {
+                var twitteraccount = await twitterConnection.CompleteAuthentication(authPIN);
+                if (twitteraccount == null) // oops, not a good auth
+                {
+                    return null;
+                }
+                return twitteraccount;
+            }
+            return null;
+        }
 
 
 

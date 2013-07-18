@@ -63,127 +63,135 @@ namespace BoxKite.Twitter
 
         private async void ProcessMessages()
         {
-            var responseStream = await GetStream();
-            while (!CancelUserStream.IsCancellationRequested)
+            try
             {
-                // reconnect if the stream was closed previously
-                if (responseStream == null)
+                var responseStream = await GetStream();
+                while (!CancelUserStream.IsCancellationRequested)
                 {
-                    await Task.Delay(delay);
-                    responseStream = await GetStream();
+                    // reconnect if the stream was closed previously
+                    if (responseStream == null)
+                    {
+                        await Task.Delay(delay);
+                        responseStream = await GetStream();
+                    }
+
+                    //get the line of JSON from the stream
+                    string line;
+                    try
+                    {
+                        line = responseStream.ReadLine();
+                    }
+                    catch (IOException)
+                    {
+                        delay += initialDelay;
+                        responseStream.Dispose();
+                        responseStream = null;
+                        line = "";
+                    }
+
+                    // special, non JSON and therefore highly unlikely to be sent from the live service
+                    // this is the token string used by the testing harness.
+                    if (line == "ENDBOXKITEUSERSTREAMTEST")
+                    {
+                        Dispose();
+                        continue;
+                    }
+
+                    // we have a valid connection - clear delay
+                    delay = TimeSpan.Zero;
+
+                    // fall through
+                    if (string.IsNullOrWhiteSpace(line.Trim())) continue;
+
+                    var obj = JsonConvert.DeserializeObject<JObject>(line);
+
+                    //https://dev.twitter.com/docs/streaming-apis/messages
+
+                    if (obj["direct_message"] != null)
+                    {
+                        directmessages.OnNext(MapFromStreamTo<DirectMessage>(obj["direct_message"].ToString()));
+                        continue;
+                    }
+
+                    if (obj["in_reply_to_user_id"] != null)
+                    {
+                        tweets.OnNext(MapFromStreamTo<Tweet>(obj.ToString()));
+                        continue;
+                    }
+
+                    if (obj["friends"] != null)
+                    {
+                        SendFriendsMessage(obj["friends"].Values<long>());
+                        continue;
+                    }
+
+                    // source: https://dev.twitter.com/docs/streaming-apis/messages#Events_event
+                    if (obj["event"] != null)
+                    {
+                        events.OnNext(MapFromEventInStream(obj));
+                        continue;
+                    }
+
+                    if (obj["scrub_geo"] != null)
+                    {
+                        scrubgeorequests.OnNext(MapFromStreamTo<StreamScrubGeo>(obj["scrub_geo"].ToString()));
+                        continue;
+                    }
+
+                    if (obj["limit"] != null)
+                    {
+                        limitnotices.OnNext(MapFromStreamTo<StreamLimitNotice>(obj["limit"].ToString()));
+                        continue;
+                    }
+
+                    if (obj["delete"] != null)
+                    {
+                        deleteevents.OnNext(MapFromStreamTo<DeleteEvent>(obj["delete"].ToString()));
+                        continue;
+                    }
+
+                    if (obj["status_withheld"] != null)
+                    {
+                        statuswithheld.OnNext(
+                            MapFromStreamTo<StreamStatusWithheld>(obj["status_withheld"].ToString()));
+                        continue;
+                    }
+
+                    if (obj["user_withheld"] != null)
+                    {
+                        userwithheld.OnNext(MapFromStreamTo<StreamUserWithheld>(obj["user_withheld"].ToString()));
+                        continue;
+                    }
+
+                    if (obj["disconnect"] != null)
+                    {
+                        var disconnect = MapFromStreamTo<StreamDisconnect>(obj["disconnect"].ToString());
+                        // check for non-hard disconnects & attempt reconnect
+                        continue;
+                    }
+
+                    if (obj["warning"] == null) continue; // no warnings, so start loop from beginning again
+
+                    if (obj["warning"]["percent_full"] != null)
+                    {
+                        var stallwarning = MapFromStreamTo<StreamStallWarning>(obj["warning"].ToString());
+                        // do something something stall warning.
+                    }
+                    if (obj["warning"]["user_id"] != null)
+                    {
+                        var userfollowswarning =
+                            MapFromStreamTo<StreamToManyFollowsWarning>(obj["warning"].ToString());
+                        // do something something user follows warning this is pretty final, actually.
+                        Dispose();
+                    }
                 }
-
-                //get the line of JSON from the stream
-                string line;
-                try
-                {
-                    line = responseStream.ReadLine();
-                }
-                catch (IOException)
-                {
-                    delay += initialDelay;
-                    responseStream.Dispose();
-                    responseStream = null;
-                    line = "";
-                }
-
-                // special, non JSON and therefore highly unlikely to be sent from the live service
-                // this is the token string used by the testing harness.
-                if (line == "ENDBOXKITEUSERSTREAMTEST")
-                {
-                    Dispose();
-                    continue;
-                }
-
-                // we have a valid connection - clear delay
-                delay = TimeSpan.Zero;
-
-                // fall through
-                if (string.IsNullOrWhiteSpace(line.Trim())) continue;
-
-                var obj = JsonConvert.DeserializeObject<JObject>(line);
-
-                //https://dev.twitter.com/docs/streaming-apis/messages
-
-                if (obj["direct_message"] != null)
-                {
-                    directmessages.OnNext(MapFromStreamTo<DirectMessage>(obj["direct_message"].ToString()));
-                    continue;
-                }
-
-                if (obj["in_reply_to_user_id"] != null)
-                {
-                    tweets.OnNext(MapFromStreamTo<Tweet>(obj.ToString()));
-                    continue;
-                }
-
-                if (obj["friends"] != null)
-                {
-                    SendFriendsMessage(obj["friends"].Values<long>());
-                    continue;
-                }
-
-                // source: https://dev.twitter.com/docs/streaming-apis/messages#Events_event
-                if (obj["event"] != null)
-                {
-                    events.OnNext(MapFromEventInStream(obj));
-                    continue;
-                }
-
-                if (obj["scrub_geo"] != null)
-                {
-                    scrubgeorequests.OnNext(MapFromStreamTo<StreamScrubGeo>(obj["scrub_geo"].ToString()));
-                    continue;
-                }
-
-                if (obj["limit"] != null)
-                {
-                    limitnotices.OnNext(MapFromStreamTo<StreamLimitNotice>(obj["limit"].ToString()));
-                    continue;
-                }
-
-                if (obj["delete"] != null)
-                {
-                    deleteevents.OnNext(MapFromStreamTo<DeleteEvent>(obj["delete"].ToString()));
-                    continue;
-                }
-
-                if (obj["status_withheld"] != null)
-                {
-                    statuswithheld.OnNext(
-                        MapFromStreamTo<StreamStatusWithheld>(obj["status_withheld"].ToString()));
-                    continue;
-                }
-
-                if (obj["user_withheld"] != null)
-                {
-                    userwithheld.OnNext(MapFromStreamTo<StreamUserWithheld>(obj["user_withheld"].ToString()));
-                    continue;
-                }
-
-                if (obj["disconnect"] != null)
-                {
-                    var disconnect = MapFromStreamTo<StreamDisconnect>(obj["disconnect"].ToString());
-                    // check for non-hard disconnects & attempt reconnect
-                    continue;
-                }
-
-                if (obj["warning"] == null) continue; // no warnings, so start loop from beginning again
-
-                if (obj["warning"]["percent_full"] != null)
-                {
-                    var stallwarning = MapFromStreamTo<StreamStallWarning>(obj["warning"].ToString());
-                    // do something something stall warning.
-                }
-                if (obj["warning"]["user_id"] != null)
-                {
-                    var userfollowswarning =
-                        MapFromStreamTo<StreamToManyFollowsWarning>(obj["warning"].ToString());
-                    // do something something user follows warning this is pretty final, actually.
-                    Dispose();
-                }
+                Dispose();
             }
-            Dispose();
+            catch (Exception ex)
+            {
+                Dispose();
+                CancelUserStream.Cancel();
+            }
         }
 
         private async Task<StreamReader> GetStream()
