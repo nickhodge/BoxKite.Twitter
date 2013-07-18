@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using BoxKite.Twitter.Helpers;
 using BoxKite.Twitter.Models;
+using Reactive.EventAggregator;
 
 namespace BoxKite.Twitter
 {
@@ -61,6 +62,8 @@ namespace BoxKite.Twitter
             TwitterCommunication = new CancellationTokenSource();
             //
             UserStream = Session.GetUserStream();
+
+            
 
             // Separate stream events start 
             StartStreamEvents();

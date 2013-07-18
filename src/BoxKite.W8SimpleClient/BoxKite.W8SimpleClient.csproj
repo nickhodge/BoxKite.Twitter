@@ -151,6 +151,9 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\netcore45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Reactive.EventAggregator">
+      <HintPath>..\packages\Reactive.EventAggregator.1.1.0\lib\windows8\Reactive.EventAggregator.dll</HintPath>
+    </Reference>
     <Reference Include="System.Net.Http.Extensions, Version=2.2.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.Net.Http.2.2.10-rc\lib\win8\System.Net.Http.Extensions.dll</HintPath>

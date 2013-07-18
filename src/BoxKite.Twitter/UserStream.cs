@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using BoxKite.Twitter.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Reactive.EventAggregator;
 
 namespace BoxKite.Twitter
 {
@@ -43,10 +44,20 @@ namespace BoxKite.Twitter
         public CancellationTokenSource CancelUserStream { get; set; }
         public TimeSpan delay = TimeSpan.FromSeconds(5);
 
+        private IEventAggregator _eventAggregator;
+
         public UserStream(Func<Task<HttpResponseMessage>> createOpenConnection)
         {
             this.createOpenConnection = createOpenConnection;
             CancelUserStream = new CancellationTokenSource();
+            IsActive = true;
+        }
+
+        public UserStream(Func<Task<HttpResponseMessage>> createOpenConnection, IEventAggregator eventAggregator)
+        {
+            this.createOpenConnection = createOpenConnection;
+            CancelUserStream = new CancellationTokenSource();
+            _eventAggregator = eventAggregator;
             IsActive = true;
         }
 
@@ -58,7 +69,9 @@ namespace BoxKite.Twitter
 
         public void Stop()
         {
-            IsActive = false;            
+            IsActive = false;
+            if (_eventAggregator != null)
+                _eventAggregator.Publish(new TwitterUserStreamDisconnectEvent());
         }
 
         private async void ProcessMessages()

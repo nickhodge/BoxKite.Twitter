@@ -5,6 +5,7 @@ using System;
 using System.Threading.Tasks;
 using BoxKite.Twitter.Helpers;
 using BoxKite.Twitter.Models;
+using Reactive.EventAggregator;
 
 namespace BoxKite.Twitter
 {
@@ -17,20 +18,23 @@ namespace BoxKite.Twitter
         public IUserSession Session;
         public IUserStream UserStream;
         public ISearchStream SearchStream;
+        private IEventAggregator _eventAggregator;
 
         private readonly TimeSpan _multiFetchBackoffTimer = new TimeSpan(1200);
 
 #if (PORTABLE)
-        public TwitterAccount(TwitterCredentials twitterCredentials, IPlatformAdaptor platformAdaptor)
+        public TwitterAccount(TwitterCredentials twitterCredentials, IEventAggregator eventAggregator, IPlatformAdaptor platformAdaptor)
         {
             _TwitterCredentials = twitterCredentials;
             _platformAdaptor = platformAdaptor;
+            _eventAggregator = eventAggregator;
             Session = new UserSession(_TwitterCredentials,_platformAdaptor);
         }
 #elif (WINDOWS || WIN8RT)        
-        public TwitterAccount(TwitterCredentials twitterCredentials)
+        public TwitterAccount(TwitterCredentials twitterCredentials, IEventAggregator eventAggregator)
         {
             _TwitterCredentials = twitterCredentials;
+            _eventAggregator = eventAggregator;
             Session = new UserSession(_TwitterCredentials);
         }
 #endif
