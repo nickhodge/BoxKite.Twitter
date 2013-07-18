@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using BoxKite.Twitter.Models;
 using Microsoft.SqlServer.Server;
+using Reactive.EventAggregator;
 
 namespace BoxKite.Twitter.Console
 {

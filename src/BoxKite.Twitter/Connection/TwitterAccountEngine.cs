@@ -63,7 +63,8 @@ namespace BoxKite.Twitter
             //
             UserStream = Session.GetUserStream();
 
-            
+            // this watches the userstream, if there is a disconnect event, do something about it
+            _eventAggregator.GetEvent<TwitterUserStreamDisconnectEvent>().Subscribe(ManageUserStreamDisconnect);
 
             // Separate stream events start 
             StartStreamEvents();
@@ -99,6 +100,11 @@ namespace BoxKite.Twitter
             // but the higher level client doesnt want to worry about all that complexity.
             // in the BackfillPump, we gather these tweets/direct messages and pump them into the correct Observable
             Task.Factory.StartNew(ProcessBackfillPump);
+        }
+
+        public void ManageUserStreamDisconnect(TwitterUserStreamDisconnectEvent disconnectEvent)
+        {
+            // do something something here
         }
 
         public void Stop()
