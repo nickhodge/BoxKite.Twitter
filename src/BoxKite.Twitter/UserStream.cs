@@ -67,9 +67,23 @@ namespace BoxKite.Twitter
             Task.Factory.StartNew(ProcessMessages, CancelUserStream.Token);
         }
 
+        public void Dispose()
+        {
+            Stop();
+        }
+
         public void Stop()
         {
+            friends.Dispose();
+            tweets.Dispose();
+            directmessages.Dispose();
+            events.Dispose();
+            directmessages.Dispose();
+            scrubgeorequests.Dispose();
+
+            CancelUserStream.Cancel();
             IsActive = false;
+
             if (_eventAggregator != null)
                 _eventAggregator.Publish(new TwitterUserStreamDisconnectEvent());
         }
@@ -106,7 +120,7 @@ namespace BoxKite.Twitter
                     // this is the token string used by the testing harness.
                     if (line == "ENDBOXKITEUSERSTREAMTEST")
                     {
-                        Dispose();
+                        Stop();
                         continue;
                     }
 
@@ -195,15 +209,14 @@ namespace BoxKite.Twitter
                         var userfollowswarning =
                             MapFromStreamTo<StreamToManyFollowsWarning>(obj["warning"].ToString());
                         // do something something user follows warning this is pretty final, actually.
-                        Dispose();
+                        Stop();
                     }
                 }
-                Dispose();
+                Stop();
             }
             catch (Exception ex)
             {
-                Dispose();
-                CancelUserStream.Cancel();
+                Stop();
             }
         }
 
@@ -218,17 +231,6 @@ namespace BoxKite.Twitter
         private void SendFriendsMessage(IEnumerable<long> obj)
         {
             friends.OnNext(obj);
-        }
-
-        public void Dispose()
-        {
-            IsActive = false;
-            friends.Dispose();
-            tweets.Dispose();
-            directmessages.Dispose();
-            events.Dispose();
-            directmessages.Dispose();
-            scrubgeorequests.Dispose();
         }
 
         private static StreamEvent MapFromEventInStream(dynamic e)

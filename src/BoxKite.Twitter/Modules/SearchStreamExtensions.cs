@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using BoxKite.Twitter.Extensions;
@@ -23,7 +24,12 @@ namespace BoxKite.Twitter
                     return null;
                 var request = session.CreatePost(Api.SearchStreaming("/1.1/statuses/filter.json"),
                     searchStream.SearchParameters);
-                var c = new HttpClient { Timeout = TimeSpan.FromDays(1) };
+                var handler = new HttpClientHandler();
+                if (handler.SupportsAutomaticDecompression)
+                {
+                    handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+                }
+                var c = new HttpClient(handler) { Timeout = TimeSpan.FromDays(1) };
                 return c.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, searchStream.CancelSearchStream.Token);
 
             };
@@ -41,7 +47,12 @@ namespace BoxKite.Twitter
                     return null;
                 var request = session.CreatePost(Api.SearchStreaming("/1.1/statuses/filter.json"),
                     searchStream.SearchParameters);
-                var c = new HttpClient { Timeout = TimeSpan.FromDays(1) };
+                var handler = new HttpClientHandler();
+                if (handler.SupportsAutomaticDecompression)
+                {
+                    handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+                }
+                var c = new HttpClient(handler) { Timeout = TimeSpan.FromDays(1) };
                 return c.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, searchStream.CancelSearchStream.Token);
 
             };

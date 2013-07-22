@@ -2,6 +2,7 @@
 // License: MS-PL
 
 using System;
+using System.Net;
 using BoxKite.Twitter.Extensions;
 using BoxKite.Twitter.Models;
 using System.Diagnostics;
@@ -216,7 +217,12 @@ namespace BoxKite.Twitter
         {
             try
             {
-                var client = new HttpClient();
+                var handler = new HttpClientHandler();
+                if (handler.SupportsAutomaticDecompression)
+                {
+                    handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+                }
+                var client = new HttpClient(handler);
                 var request = new HttpRequestMessage(HttpMethod.Post, new Uri(url));
                 request.Headers.Add("Accept-Encoding", "identity");
                 request.Headers.Add("User-Agent", "BoxKite.Twitter/1.0");

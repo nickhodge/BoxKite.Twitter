@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -50,7 +51,12 @@ namespace BoxKite.Twitter
             var oauth = BuildAuthenticatedResult(url, parameters, "GET");
             var fullUrl = url;
 
-            var client = new HttpClient();
+            var handler = new HttpClientHandler();
+            if (handler.SupportsAutomaticDecompression)
+            {
+                handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+            }
+            var client = new HttpClient(handler);
             client.DefaultRequestHeaders.Add("Authorization", oauth.Header);
             client.DefaultRequestHeaders.Add("User-Agent", "BoxKite.Twitter/1.0");
 
@@ -63,7 +69,12 @@ namespace BoxKite.Twitter
         public Task<HttpResponseMessage> PostAsync(string url, SortedDictionary<string, string> parameters)
         {
             var oauth = BuildAuthenticatedResult(url, parameters, "POST");
-            var client = new HttpClient();
+            var handler = new HttpClientHandler();
+            if (handler.SupportsAutomaticDecompression)
+            {
+                handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+            }
+            var client = new HttpClient(handler);
 
             client.DefaultRequestHeaders.Add("Authorization", oauth.Header);
             client.DefaultRequestHeaders.Add("User-Agent", "BoxKite.Twitter/1.0");
@@ -85,7 +96,12 @@ namespace BoxKite.Twitter
             else
             {
                 var oauth = BuildAuthenticatedResult(url, parameters, "POST", multipartform: true);
-                var client = new HttpClient();
+                var handler = new HttpClientHandler();
+                if (handler.SupportsAutomaticDecompression)
+                {
+                    handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+                }
+                var client = new HttpClient(handler);
                 client.DefaultRequestHeaders.ExpectContinue = false;
                 client.DefaultRequestHeaders.Add("Authorization", oauth.Header);
                 client.DefaultRequestHeaders.Add("User-Agent", "BoxKite.Twitter/1.0");

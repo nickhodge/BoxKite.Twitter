@@ -9,12 +9,32 @@ using System.Threading;
 using System.Threading.Tasks;
 using BoxKite.Twitter.Helpers;
 using BoxKite.Twitter.Models;
-using Reactive.EventAggregator;
 
 namespace BoxKite.Twitter
 {
     public partial class TwitterAccount : BindableBase
     {
+        // controls
+        private const int maxbackoff = 450;
+        private const int pagingSize = 50;
+        private const int sinceIdPagingSize = 200;
+        //
+
+        // status bits
+        private readonly Subject<bool> backFillCompleted = new Subject<bool>();
+        private readonly Subject<bool> userStreamConnected = new Subject<bool>();
+        //
+
+        // largestSeenIds
+        // TBD: these should/could be properties on Account so they can be persisted across launches
+        private long homeTimeLineLargestSeenId;
+        private long directMessagesReceivedLargestSeenId;
+        private long directMessagesSentLargestSeenId;
+        private long retweetsOfMeLargestSeenId;
+        private long mentionsOfMeLargestSeenId;
+        private long myTweetsLargestSeenId;
+        //
+
         readonly Subject<Tweet> _timeline = new Subject<Tweet>();
         public IObservable<Tweet> TimeLine { get { return _timeline; } }
 
@@ -61,7 +81,7 @@ namespace BoxKite.Twitter
         {
             TwitterCommunication = new CancellationTokenSource();
             //
-            UserStream = Session.GetUserStream();
+            UserStream = Session.GetUserStream(_eventAggregator);
 
             // this watches the userstream, if there is a disconnect event, do something about it
             _eventAggregator.GetEvent<TwitterUserStreamDisconnectEvent>().Subscribe(ManageUserStreamDisconnect);
@@ -69,6 +89,28 @@ namespace BoxKite.Twitter
             // Separate stream events start 
             StartStreamEvents();
 
+            StartUserStreams();
+           
+            // MORE MAGIC HAPPENS HERE
+            // The Userstreams only get tweets/direct messages from the point the connection is opened. 
+            // Historical tweets/direct messages have to be gathered using the traditional paging/cursoring APIs
+            // (Request/Response REST).
+            // but the higher level client doesnt want to worry about all that complexity.
+            // in the BackfillPump, we gather these tweets/direct messages and pump them into the correct Observable
+            Task.Factory.StartNew(ProcessBackfillPump);
+
+            userStreamConnected.Where(status => status.IsFalse()).Subscribe(StartPollingUpdates);
+        }
+
+        public void Stop()
+        {
+            TwitterCommunication.Cancel();
+            UserStream.Stop();
+            userStreamConnected.OnNext(false);
+        }
+
+        private void StartUserStreams()
+        {
             // All tweets to the HomeTimeLine
             UserStream.Tweets.Subscribe(AddToHomeTimeLine);
 
@@ -92,50 +134,143 @@ namespace BoxKite.Twitter
             UserStream.DeleteEvents.Subscribe(de => _streamdeleteevent.OnNext(de.DeleteEventStatus));
 
             UserStream.Start();
-
-            // MORE MAGIC HAPPENS HERE
-            // The Userstreams only get tweets/direct messages from the point the connection is opened.
-            // Historical tweets/direct messages have to be gathered using the traditional paging/cursoring APIs
-            // (Request/Response REST).
-            // but the higher level client doesnt want to worry about all that complexity.
-            // in the BackfillPump, we gather these tweets/direct messages and pump them into the correct Observable
-            Task.Factory.StartNew(ProcessBackfillPump);
+            userStreamConnected.OnNext(true);
         }
 
-        public void ManageUserStreamDisconnect(TwitterUserStreamDisconnectEvent disconnectEvent)
+        private void ManageUserStreamDisconnect(TwitterUserStreamDisconnectEvent disconnectEvent)
         {
-            // do something something here
+            userStreamConnected.OnNext(false); // push message saying userStream is no longer connected
         }
 
-        public void Stop()
+        private void StartPollingUpdates(bool status)
         {
-            TwitterCommunication.Cancel();
-            UserStream.Stop();
-         }
-
-        private void ProcessBackfillPump()
-        {
-            GetHomeTimeLine_Backfill();
-
-            GetDirectMessages_Received_Backfill();
-            GetDirectMessages_Sent_Backfill();
-
-            GetRTOfMe_Backfill();
-            GetMentions_Backfill();
-
-            GetMyTweets_Backfill();
+            backFillCompleted.Where(st => st == true).Subscribe(s =>
+            {
+                var observable = Observable.Timer(TimeSpan.FromMinutes(1));
+                observable.Subscribe(async t =>
+                {
+                    homeTimeLineLargestSeenId = await GetHomeTimeLine_Failover(homeTimeLineLargestSeenId);
+                    directMessagesReceivedLargestSeenId = await GetDirectMessages_Received_Failover(directMessagesReceivedLargestSeenId);
+                    directMessagesSentLargestSeenId = await GetDirectMessages_Sent_Failover(directMessagesSentLargestSeenId);
+                    retweetsOfMeLargestSeenId = await GetRTOfMe_Failover(retweetsOfMeLargestSeenId);
+                    mentionsOfMeLargestSeenId = await GetMentions_Failover(mentionsOfMeLargestSeenId);
+                    myTweetsLargestSeenId = await GetMyTweets_Failover(myTweetsLargestSeenId);
+                });
+            });
         }
 
 
+        // FAIL-OVER TO PULL REQUESTS
         //TODO: DRY these methods with <Func> goodness
-        private async void GetHomeTimeLine_Backfill()
+
+        private async Task<long> GetHomeTimeLine_Failover(long sinceid)
         {
-            int backofftimer = 30;
-            int maxbackoff = 450;
+            long largestseenid = 0;
+
+            var hometl = await Session.GetHomeTimeline(count: sinceIdPagingSize, since_id: sinceid);
+            if (!hometl.OK) return largestseenid;
+            foreach (var tweet in hometl)
+            {
+                AddToHomeTimeLine(tweet);
+                if (tweet.Id > sinceid) largestseenid = tweet.Id;
+            }
+            return largestseenid;
+        }
+
+        private async Task<long> GetMentions_Failover(long sinceid)
+        {
+            long largestseenid = 0;
+
+            var mentionsofme = await Session.GetMentions(count: sinceIdPagingSize, since_id: sinceid);
+            if (!mentionsofme.OK) return largestseenid;
+            foreach (var tweet in mentionsofme)
+            {
+                _mentions.OnNext(tweet);
+                if (tweet.Id > sinceid) largestseenid = tweet.Id;
+            }
+            return largestseenid;
+        }
+
+        private async Task<long> GetRTOfMe_Failover(long sinceid)
+        {
+            long largestseenid = 0;
+
+            var rtofme = await Session.GetRetweetsOfMe(count: pagingSize, since_id: sinceid);
+            if (!rtofme.OK) return largestseenid;
+            foreach (var tweet in rtofme)
+            {
+                _mentions.OnNext(tweet);
+                if (tweet.Id > sinceid) largestseenid = tweet.Id;
+            }
+            return largestseenid;
+        }
+
+        private async Task<long> GetDirectMessages_Received_Failover(long sinceid)
+        {
+            long largestseenid = 0;
+
+            var dmrecd = await Session.GetDirectMessages(count: pagingSize, since_id: sinceid);
+            if (!dmrecd.OK) return largestseenid;
+            foreach (var dm in dmrecd)
+            {
+                _directmessages.OnNext(dm);
+                if (dm.Id > sinceid) largestseenid = dm.Id;
+            }
+            return largestseenid;
+        }
+
+        private async Task<long> GetDirectMessages_Sent_Failover(long sinceid)
+        {
+            long largestseenid = 0;
+            
+            var mysentdms = await Session.GetDirectMessagesSent(count: pagingSize, since_id: sinceid);
+            if (!mysentdms.OK) return largestseenid;
+
+            foreach (var dm in mysentdms)
+            {
+                _directmessages.OnNext(dm);
+                if (dm.Id > sinceid) largestseenid = dm.Id;
+            }
+            return largestseenid;
+        }
+
+        private async Task<long> GetMyTweets_Failover(long sinceid)
+        {
+           long largestseenid = 0;
+            
+            var hometl = await Session.GetUserTimeline(user_id: accountDetails.UserId, count: pagingSize, since_id: sinceid);
+            if (!hometl.OK) return largestseenid;
+
+            foreach (var tweet in hometl)
+            {
+                _mytweets.OnNext(tweet);
+                if (tweet.Id > largestseenid) largestseenid = tweet.Id;
+            }
+            return largestseenid;
+        }
+
+
+
+        // BACKFILLS
+        private async void ProcessBackfillPump()
+        {
+            homeTimeLineLargestSeenId = await GetHomeTimeLine_Backfill();
+            directMessagesReceivedLargestSeenId = await GetDirectMessages_Received_Backfill();
+            directMessagesSentLargestSeenId = await GetDirectMessages_Sent_Backfill();
+            retweetsOfMeLargestSeenId = await GetRTOfMe_Backfill();
+            mentionsOfMeLargestSeenId = await GetMentions_Backfill();
+            myTweetsLargestSeenId = await GetMyTweets_Backfill();
+            backFillCompleted.OnNext(true);
+        }
+
+        // these grab tweets/dms from history rather from the current stream
+        //TODO: DRY these methods with <Func> goodness
+        private async Task<long> GetHomeTimeLine_Backfill()
+        {
             long smallestid = 0;
             long largestid = 0;
             int backfillQuota = 50;
-            int pagingSize = 50;
+            int backofftimer = 30;
 
             do
             {
@@ -163,16 +298,15 @@ namespace BoxKite.Twitter
                     backofftimer = backofftimer * 2;
                 }
             } while (backfillQuota > 0);
+            return largestid;
         }
 
-        private async void GetMentions_Backfill()
+        private async Task<long> GetMentions_Backfill()
         {
-            int backofftimer = 30;
-            int maxbackoff = 450;
             long smallestid = 0;
             long largestid = 0;
             int backfillQuota = 50;
-            int pagingSize = 50;
+            int backofftimer = 30;
 
             do
             {
@@ -200,16 +334,15 @@ namespace BoxKite.Twitter
                     backofftimer = backofftimer * 2;
                 }
             } while (backfillQuota > 0);
+            return largestid;
         }
 
-        private async void GetRTOfMe_Backfill()
+        private async Task<long> GetRTOfMe_Backfill()
         {
-            int backofftimer = 30;
-            int maxbackoff = 450;
             long smallestid = 0;
             long largestid = 0;
-            int backfillQuota = 20;
-            int pagingSize = 20;
+            int backfillQuota = 50;
+            int backofftimer = 30;
 
             do
             {
@@ -237,16 +370,15 @@ namespace BoxKite.Twitter
                     backofftimer = backofftimer * 2;
                 }
             } while (backfillQuota > 0);
+            return largestid;
         }
 
-        private async void GetDirectMessages_Received_Backfill()
+        private async Task<long> GetDirectMessages_Received_Backfill()
         {
-            int backofftimer = 30;
-            int maxbackoff = 450;
             long smallestid = 0;
             long largestid = 0;
-            int backfillQuota = 20;
-            int pagingSize = 20;
+            int backfillQuota = 50;
+            int backofftimer = 30;
 
             do
             {
@@ -274,16 +406,15 @@ namespace BoxKite.Twitter
                     backofftimer = backofftimer * 2;
                 }
             } while (backfillQuota > 0);
+            return largestid;
         }
 
-        private async void GetDirectMessages_Sent_Backfill()
+        private async Task<long> GetDirectMessages_Sent_Backfill()
         {
-            int backofftimer = 30;
-            int maxbackoff = 450;
             long smallestid = 0;
             long largestid = 0;
-            int backfillQuota = 20;
-            int pagingSize = 20;
+            int backfillQuota = 50;
+            int backofftimer = 30;
 
             do
             {
@@ -311,16 +442,15 @@ namespace BoxKite.Twitter
                     backofftimer = backofftimer * 2;
                 }
             } while (backfillQuota > 0);
+            return largestid;
         }
 
-        private async void GetMyTweets_Backfill()
+        private async Task<long> GetMyTweets_Backfill()
         {
-            int backofftimer = 30;
-            int maxbackoff = 450;
             long smallestid = 0;
             long largestid = 0;
             int backfillQuota = 50;
-            int pagingSize = 50;
+            int backofftimer = 30;
 
             do
             {
@@ -348,6 +478,7 @@ namespace BoxKite.Twitter
                     backofftimer = backofftimer * 2;
                 }
             } while (backfillQuota > 0);
+            return largestid;
         }
 
     }
