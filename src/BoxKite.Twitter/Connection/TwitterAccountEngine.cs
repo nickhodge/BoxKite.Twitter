@@ -99,6 +99,9 @@ namespace BoxKite.Twitter
             // in the BackfillPump, we gather these tweets/direct messages and pump them into the correct Observable
             Task.Factory.StartNew(ProcessBackfillPump);
 
+            // If the UserStream doesn't or cannot connect, the userStreamConnected will fire
+            // There is something weird (at least on my various machines) where Windows 8.1 Preview
+            // cannot make a TLS3/SSL connection to userstream.twitter.com. I created this as a fallback
             userStreamConnected.Where(status => status.IsFalse()).Subscribe(StartPollingUpdates);
         }
 
@@ -137,6 +140,7 @@ namespace BoxKite.Twitter
             userStreamConnected.OnNext(true);
         }
 
+        // subscriber to the userstream disconnecting
         private void ManageUserStreamDisconnect(TwitterUserStreamDisconnectEvent disconnectEvent)
         {
             userStreamConnected.OnNext(false); // push message saying userStream is no longer connected
@@ -144,9 +148,11 @@ namespace BoxKite.Twitter
 
         private void StartPollingUpdates(bool status)
         {
+            // firstly wait on the backfills to complete before firing off these
             backFillCompleted.Where(st => st == true).Subscribe(s =>
             {
-                var observable = Observable.Timer(TimeSpan.FromMinutes(1));
+                // this will fire once per minute for 24 hours from init
+                var observable = Observable.Interval(TimeSpan.FromMinutes(1));
                 observable.Subscribe(async t =>
                 {
                     homeTimeLineLargestSeenId = await GetHomeTimeLine_Failover(homeTimeLineLargestSeenId);
