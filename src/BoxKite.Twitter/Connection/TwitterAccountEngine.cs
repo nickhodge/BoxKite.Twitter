@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Threading;
@@ -67,14 +68,22 @@ namespace BoxKite.Twitter
 
         private CancellationTokenSource TwitterCommunication;
 
+        private bool IsUnique(Tweet t)
+        {
+            if (_tweetIdsRegister.Contains(t.Id)) return false;
+            _tweetIdsRegister.Add(t.Id);
+            return true;
+        }
+
         private void AddToHomeTimeLine(Tweet t)
         {
             // only Publish if unique
-            if (_tweetIdsRegister.Contains(t.Id)) return;
-            _tweetIdsRegister.Add(t.Id);
-            _tweetsseen.OnNext(t.Id);
-            _timeline.OnNext(t);
-            _usersseen.OnNext(t.User);
+            if (IsUnique(t))
+            {
+                _tweetsseen.OnNext(t.Id);
+                _timeline.OnNext(t);
+                _usersseen.OnNext(t.User);
+            }
         }
 
         public void Start()
@@ -171,13 +180,13 @@ namespace BoxKite.Twitter
 
         private async Task<long> GetHomeTimeLine_Failover(long sinceid)
         {
-            long largestseenid = 0;
+            var largestseenid = sinceid;
 
             var hometl = await Session.GetHomeTimeline(count: sinceIdPagingSize, since_id: sinceid);
             if (!hometl.OK) return largestseenid;
             foreach (var tweet in hometl)
             {
-                AddToHomeTimeLine(tweet);
+                AddToHomeTimeLine(tweet); // use this guard
                 if (tweet.Id > sinceid) largestseenid = tweet.Id;
             }
             return largestseenid;
@@ -185,76 +194,75 @@ namespace BoxKite.Twitter
 
         private async Task<long> GetMentions_Failover(long sinceid)
         {
-            long largestseenid = 0;
+            var largestseenid = sinceid;
 
             var mentionsofme = await Session.GetMentions(count: sinceIdPagingSize, since_id: sinceid);
             if (!mentionsofme.OK) return largestseenid;
-            foreach (var tweet in mentionsofme)
+            foreach (var tweet in mentionsofme.Where(tweet => tweet.Id > sinceid))
             {
+                largestseenid = tweet.Id;
                 _mentions.OnNext(tweet);
-                if (tweet.Id > sinceid) largestseenid = tweet.Id;
             }
             return largestseenid;
         }
 
         private async Task<long> GetRTOfMe_Failover(long sinceid)
         {
-            long largestseenid = 0;
+            var largestseenid = sinceid;
 
             var rtofme = await Session.GetRetweetsOfMe(count: pagingSize, since_id: sinceid);
             if (!rtofme.OK) return largestseenid;
-            foreach (var tweet in rtofme)
+            foreach (var tweet in rtofme.Where(tweet => tweet.Id > sinceid))
             {
+                largestseenid = tweet.Id;
                 _mentions.OnNext(tweet);
-                if (tweet.Id > sinceid) largestseenid = tweet.Id;
             }
             return largestseenid;
         }
 
         private async Task<long> GetDirectMessages_Received_Failover(long sinceid)
         {
-            long largestseenid = 0;
+            var largestseenid = sinceid;
 
             var dmrecd = await Session.GetDirectMessages(count: pagingSize, since_id: sinceid);
             if (!dmrecd.OK) return largestseenid;
-            foreach (var dm in dmrecd)
+            foreach (var dm in dmrecd.Where(dm => dm.Id > sinceid))
             {
                 _directmessages.OnNext(dm);
-                if (dm.Id > sinceid) largestseenid = dm.Id;
+                largestseenid = dm.Id;
             }
             return largestseenid;
         }
 
         private async Task<long> GetDirectMessages_Sent_Failover(long sinceid)
         {
-            long largestseenid = 0;
+            var largestseenid = sinceid;
             
             var mysentdms = await Session.GetDirectMessagesSent(count: pagingSize, since_id: sinceid);
             if (!mysentdms.OK) return largestseenid;
 
-            foreach (var dm in mysentdms)
+            foreach (var dm in mysentdms.Where(dm => dm.Id > sinceid))
             {
                 _directmessages.OnNext(dm);
-                if (dm.Id > sinceid) largestseenid = dm.Id;
+                largestseenid = dm.Id;
             }
             return largestseenid;
         }
 
         private async Task<long> GetMyTweets_Failover(long sinceid)
         {
-           long largestseenid = 0;
+           var largestseenid = sinceid;
             
             var hometl = await Session.GetUserTimeline(user_id: accountDetails.UserId, count: pagingSize, since_id: sinceid);
             if (!hometl.OK) return largestseenid;
 
-            foreach (var tweet in hometl)
+            foreach (var tweet in hometl.Where(tweet => tweet.Id > sinceid))
             {
                 _mytweets.OnNext(tweet);
-                if (tweet.Id > largestseenid) largestseenid = tweet.Id;
+                largestseenid = tweet.Id;
             }
             return largestseenid;
         }
-
 
 
         // BACKFILLS
@@ -286,9 +294,9 @@ namespace BoxKite.Twitter
                     smallestid = long.MaxValue;
                     foreach (var tweet in hometl)
                     {
-                        AddToHomeTimeLine(tweet);
                         if (tweet.Id < smallestid) smallestid = tweet.Id;
                         if (tweet.Id > largestid) largestid = tweet.Id;
+                        AddToHomeTimeLine(tweet);
                         backfillQuota--;
                     }
                     await Task.Delay(_multiFetchBackoffTimer);

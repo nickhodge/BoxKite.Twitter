@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Security.Policy;
 using System.Threading;
 using System.Threading.Tasks;
 using BoxKite.Twitter.Models;
@@ -112,6 +113,8 @@ namespace BoxKite.Twitter.Console
                         */
 
                 mainTwitterAccount.TimeLine.Subscribe(t => ConsoleOutput.PrintTweet(t));
+                mainTwitterAccount.Mentions.Subscribe(
+                    t => ConsoleOutput.PrintTweet(t, ConsoleColor.White, ConsoleColor.DarkGray));
 
                 while (true)
                 {
