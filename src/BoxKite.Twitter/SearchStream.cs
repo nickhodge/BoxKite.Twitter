@@ -13,6 +13,7 @@ using BoxKite.Twitter.Extensions;
 using BoxKite.Twitter.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Reactive.EventAggregator;
 
 namespace BoxKite.Twitter
 {
@@ -34,6 +35,8 @@ namespace BoxKite.Twitter
         public Func<Task<HttpResponseMessage>> CreateOpenConnection { get; set; }
         public IUserSession parentSession { get; set; }
 
+        private IEventAggregator _eventAggregator;
+
         public SearchStream(IUserSession session)
         {
             parentSession = session;
@@ -41,6 +44,13 @@ namespace BoxKite.Twitter
             SearchRequests.Subscribe(ChangeSearchRequest);
         }
 
+        public SearchStream(IUserSession session, IEventAggregator eventAggregator)
+        {
+            parentSession = session;
+            CancelSearchStream = new CancellationTokenSource();
+            _eventAggregator = eventAggregator;
+            SearchRequests.Subscribe(ChangeSearchRequest);
+        }
 
         public void Start()
         {
@@ -121,61 +131,70 @@ namespace BoxKite.Twitter
 
         private async void ProcessMessages()
         {
-            var responseStream = await GetStream();
-            while (!CancelSearchStream.IsCancellationRequested)
+            try
             {
-                string line = "";
-                try
+                var responseStream = await GetStream();
+                while (!CancelSearchStream.IsCancellationRequested)
                 {
-                    line = responseStream.ReadLine();
-                    if (string.IsNullOrWhiteSpace(line.Trim())) continue;
-
-                    if (line == "ENDBOXKITESEARCHSTREAMTEST")
+                    string line = "";
+                    try
                     {
-                        responseStream.Dispose();
-                        Dispose();
-                        break;
-                    }
+                        line = responseStream.ReadLine();
+                        if (string.IsNullOrWhiteSpace(line.Trim())) continue;
 
-                    if (line == "<html>") // needs embellishment
-                    {
-                        var restofline = responseStream.ReadToEnd();
+                        if (line == "ENDBOXKITESEARCHSTREAMTEST")
+                        {
+                            responseStream.Dispose();
+                            Dispose();
+                            break;
+                        }
+
+                        if (line == "<html>") // needs embellishment
+                        {
+                            var restofline = responseStream.ReadToEnd();
 //TODO: manage the upward handling of the error message encapsulated in the <html>...
 #if (DEBUG)
                         Debug.WriteLine(restofline);
 #endif
+                            responseStream.Dispose();
+                            Dispose();
+                            if (_eventAggregator != null)
+                                _eventAggregator.Publish(new TwitterUserStreamDisconnectEvent());
+                            break;
+                        }
+
+                        var obj = JsonConvert.DeserializeObject<JObject>(line);
+                        if (obj["in_reply_to_user_id"] != null)
+                        {
+                            foundtweets.OnNext(MapFromStreamTo<Tweet>(obj.ToString()));
+                        }
+                    }
+                    catch (JsonReaderException)
+                    {
+                        break;
+                    }
+                    catch (IOException)
+                    {
                         responseStream.Dispose();
                         Dispose();
                         break;
                     }
-
-                    var obj = JsonConvert.DeserializeObject<JObject>(line);
-                    if (obj["in_reply_to_user_id"] != null)
+                    catch (Exception)
                     {
-                        foundtweets.OnNext(MapFromStreamTo<Tweet>(obj.ToString()));
-                        continue;
+                        responseStream.Dispose();
+                        Dispose();
+                        break;
                     }
                 }
-                catch (JsonReaderException)
-                {
-                    continue;
-                }
-                catch (IOException)
-                {
-                    responseStream.Dispose();
-                    Dispose();
-                    break;
-                }
-                catch (Exception)
-                {
-                    responseStream.Dispose();
-                    Dispose(); 
-                    break;
-                }
+                responseStream.Dispose();
+                Dispose();
             }
-            responseStream.Dispose();
-            Dispose();
-            return;
+            catch (Exception)
+            {
+                if (_eventAggregator != null)
+                    _eventAggregator.Publish(new TwitterSearchStreamDisconnectEvent());
+                Dispose();              
+            }
         }
 
         private async Task<StreamReader> GetStream()

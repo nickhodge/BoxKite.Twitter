@@ -115,4 +115,9 @@ namespace BoxKite.Twitter
 
     }
 
+    public class TwitterSearchStreamDisconnectEvent
+    {
+        
+    }
+
 }

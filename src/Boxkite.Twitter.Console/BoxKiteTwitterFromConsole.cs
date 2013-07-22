@@ -51,36 +51,29 @@ namespace BoxKite.Twitter.Console
 
                         */
 
-                /*
+                
                         
                         //var locations = new List<string> { "150.700493", "-34.081953", "151.284828", "-33.593316" };
                         //var locations = new List<string> { "-180", "-90", "180", "90" };
-                        var track = new List<string> { "qanda" };
+                        // var track = new List<string> { "qanda" };
 
-                        searchstream = session.StartSearchStream(track:track);
+ 
 
                         //searchstream = session.StartSearchStream(track: track);
 
-                        var tweetcount = 0;
-                        double minutes = 10;
-                        searchstream.FoundTweets.Subscribe(t =>
+                        mainTwitterAccount.SearchTimeLine.Subscribe(t =>
                                                            {
                                                                ConsoleOutput.PrintTweet(t, ConsoleColor.Green);
-                                                               tweetcount++;
                                                            });
-                        searchstream.Start();
 
-                        while (searchstream.IsActive)
+                        mainTwitterAccount.StartSearch("qanda");
+
+                        while (true)
                         {
-                            Thread.Sleep(TimeSpan.FromMinutes(minutes));
-                            searchstream.Stop();
-                            double twpm = tweetcount / minutes;
-                            double twps = twpm / 60;
-                            ConsoleOutput.PrintMessage(String.Format("Tweets per minute: {0}", twpm.ToString("0,0.00")), ConsoleColor.Cyan);
-                            ConsoleOutput.PrintMessage(String.Format("Tweets per second: {0}", twps.ToString("0,0.00")), ConsoleColor.Cyan);
+                            Thread.Sleep(TimeSpan.FromSeconds(0.5));
                         }
 
-                        */
+                        
 
                 /*
                         //var fileName = @"C:\Users\Nick\Pictures\My Online Avatars\666.jpg";
@@ -112,6 +105,7 @@ namespace BoxKite.Twitter.Console
 
                         */
 
+                /*
                 mainTwitterAccount.TimeLine.Subscribe(t => ConsoleOutput.PrintTweet(t));
                 mainTwitterAccount.Mentions.Subscribe(
                     t => ConsoleOutput.PrintTweet(t, ConsoleColor.White, ConsoleColor.DarkGray));
@@ -123,6 +117,8 @@ namespace BoxKite.Twitter.Console
 
                 Console.ConsoleOutput.PrintMessage("Event stream has stoppped.");
 
+                 */
+                 
                 /*
                        userstream = session.GetUserStream();
                          userstream.Tweets.Subscribe(t => ConsoleOutput.PrintTweet(t, ConsoleColor.Green));

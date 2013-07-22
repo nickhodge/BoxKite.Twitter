@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using BoxKite.Twitter;
 using BoxKite.Twitter.Models;
+using Reactive.EventAggregator;
 
 namespace BoxKite.Twitter.Console
 {
@@ -41,7 +42,7 @@ namespace BoxKite.Twitter.Console
                         throw new Exception("cannot trends");
                     }
 
-                    var searchstream = session.StartSearchStream(track: trendToFollow);
+                    var searchstream = session.StartSearchStream(new EventAggregator(), track: trendToFollow);
                     searchstream.FoundTweets.Subscribe(t => ConsoleOutput.PrintTweet(t));
                     searchstream.Start();
 
