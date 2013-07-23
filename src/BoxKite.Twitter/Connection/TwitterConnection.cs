@@ -18,6 +18,7 @@ namespace BoxKite.Twitter
 
         private readonly string _twitterConsumerKey;
         private readonly string _twitterConsumerSecret;
+        private readonly string _callbackURI;
         private readonly TwitterAuthenticator _twitterauth;
         private readonly IPlatformAdaptor _platformAdaptor;
 
@@ -34,7 +35,7 @@ namespace BoxKite.Twitter
             _platformAdaptor = platformAdaptor;
             _twitterauth = new TwitterAuthenticator(_twitterConsumerKey, _twitterConsumerSecret, platformAdaptor);
         }
-#elif (WINDOWS || WIN8RT)
+#elif (WINDOWS)
         public TwitterConnection(string twitterConsumerKey,string twitterConsumerSecret)
         {
             _twitterConsumerKey = twitterConsumerKey;
@@ -43,8 +44,17 @@ namespace BoxKite.Twitter
              _eventAggregator = new EventAggregator();
             _twitterauth = new TwitterAuthenticator(_twitterConsumerKey, _twitterConsumerSecret);
         }
+#elif(WIN8RT)
+        public TwitterConnection(string twitterConsumerKey,string twitterConsumerSecret, string callbackuri)
+        {
+            _twitterConsumerKey = twitterConsumerKey;
+            CheckClientKey(twitterConsumerKey);
+            _twitterConsumerSecret = twitterConsumerSecret;
+            _callbackURI = callbackuri;
+             _eventAggregator = new EventAggregator();
+            _twitterauth = new TwitterAuthenticator(_twitterConsumerKey, _twitterConsumerSecret, _callbackURI);
+        }
 #endif
-
 
 #if (PORTABLE)
         public TwitterConnection(IPlatformAdaptor platformAdaptor)
@@ -74,6 +84,7 @@ namespace BoxKite.Twitter
             }
         }
 
+#if (PORTABLE || WINDOWS)
         // auth happens when no creds are present
         public async Task<bool> BeginAuthentication()
         {
@@ -88,6 +99,14 @@ namespace BoxKite.Twitter
             if (!twittercredentials.Valid) return null;
             return await AddTwitterAccount(twittercredentials);
         }
+#elif(WIN8RT)
+        public async Task<TwitterAccount> Authenticate()
+        {
+            var twittercredentials =  await _twitterauth.Authentication();
+            if (!twittercredentials.Valid) return null;
+            return await AddTwitterAccount(twittercredentials);
+        }
+#endif
 
         // or just bypass and add an account from a re-hydrated credentials
         public async Task<TwitterAccount> AddTwitterAccount(TwitterCredentials twitterCredentials)

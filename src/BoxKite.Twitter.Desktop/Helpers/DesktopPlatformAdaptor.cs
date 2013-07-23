@@ -3,6 +3,7 @@
 
 using System.Diagnostics;
 using System.Security.Cryptography;
+using System.Threading.Tasks;
 
 namespace BoxKite.Twitter
 {
@@ -11,6 +12,11 @@ namespace BoxKite.Twitter
         public void DisplayAuthInBrowser(string u)
         {
             Process.Start(u);
+        }
+
+        public Task<string> AuthWithBroker(string authuri, string callbackuri)
+        {
+            throw new System.NotImplementedException();
         }
 
         private HMACSHA1 _hmacsha1;

@@ -4,7 +4,10 @@
 // This code is from @VikingCode aka Paul Jenkins!
 // http://pastebin.com/Y2PbrbRy
 
+using System;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
+using Windows.Security.Authentication.Web;
 using Windows.Security.Cryptography;
 using Windows.Security.Cryptography.Core;
 
@@ -14,12 +17,28 @@ namespace BoxKite.Twitter
     {
         private byte[] hmackey;
 
-        public void DisplayAuthInBrowser(string u)
+
+        public void DisplayAuthInBrowser(string oauthPINunlockURL)
         {
-            //   Process.Start(u);
+            throw new NotImplementedException();
         }
 
-        public void AssignKey(byte[] key)
+        public async Task<string> AuthWithBroker(string oauthuri, string callbackuri)
+        {
+            var StartUri = new Uri(oauthuri);
+            var EndUri = new Uri(callbackuri);
+            var WebAuthenticationResult = await WebAuthenticationBroker.AuthenticateAsync(
+                                                        WebAuthenticationOptions.None,
+                                                        StartUri,
+                                                        EndUri);
+            if (WebAuthenticationResult.ResponseStatus == WebAuthenticationStatus.Success)
+            {
+                return WebAuthenticationResult.ResponseData.ToString();
+            }
+            else return null;
+        }
+
+    public void AssignKey(byte[] key)
         {
             hmackey = key;
         }

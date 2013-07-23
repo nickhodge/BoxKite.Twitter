@@ -78,8 +78,10 @@
     <Reference Include="System.Security" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\BoxKite.Twitter.Desktop\Helpers\DesktopPlatformAdaptor.cs">
+      <Link>Helpers\DesktopPlatformAdaptor.cs</Link>
+    </Compile>
     <Compile Include="Helpers\ConsoleOutput.cs" />
-    <Compile Include="Helpers\DesktopPlatformAdaptor.cs" />
     <Compile Include="Helpers\FilesHelper.cs" />
     <Compile Include="Helpers\ManageTwitterCredentials.cs" />
     <Compile Include="Helpers\SecureIt.cs" />

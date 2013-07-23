@@ -234,17 +234,17 @@ namespace BoxKite.ViewModels
             // this will ask the connection to display a browser window, going to twitter
             // asking the user to authenticate themselves, then authorise BoxKite to access their
             // twitter account
-            await App.twitterConnection.BeginAuthentication();
+            //await App.twitterConnection.BeginAuthentication();
         }
 
         public async void AuthPIN()
         {
-            // after entering the PIN, and clicking OK, this method is run
+            /* after entering the PIN, and clicking OK, this method is run
             if (!string.IsNullOrWhiteSpace(authPIN))
             {
                 stage2 = false;
                 LoggingOn = true;
-                var twitteraccount = await App.twitterConnection.CompleteAuthentication(authPIN);
+               var twitteraccount = await App.twitterConnection.CompleteAuthentication(authPIN);
                 if (twitteraccount == null) // oops, not a good auth
                 {
                     authPIN = "";
@@ -256,7 +256,7 @@ namespace BoxKite.ViewModels
                 LoggingOn = false;
                 LoggedOn = true;
                 ManageTwitterCredentials.SaveCredentialsToFile(mainTwitterAccount._TwitterCredentials);
-            }
+            }*/
         }
 
       }

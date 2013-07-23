@@ -22,7 +22,7 @@ namespace BoxKite.W8SimpleClient
         public App()
         {
             this.InitializeComponent();
-            twitterConnection = new TwitterConnection("3izxqWiej34yTlofisw", "uncicYQtDx5SoWth1I9xcn5vrpczUct1Oz9ydwTY4");
+            twitterConnection = new TwitterConnection("3izxqWiej34yTlofisw", "uncicYQtDx5SoWth1I9xcn5vrpczUct1Oz9ydwTY4","someurigoeshere");
             this.Suspending += OnSuspending;
         }
 
