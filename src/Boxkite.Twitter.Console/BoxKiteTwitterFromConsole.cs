@@ -66,7 +66,7 @@ namespace BoxKite.Twitter.Console
                                                                ConsoleOutput.PrintTweet(t, ConsoleColor.Green);
                                                            });
 
-                        mainTwitterAccount.StartSearch("qanda");
+                        mainTwitterAccount.StartSearch("twitter");
 
                         while (true)
                         {
