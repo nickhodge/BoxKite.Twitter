@@ -8,6 +8,8 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Reactive.Linq;
+using System.Reactive.Threading.Tasks;
 using System.Text;
 using System.Threading.Tasks;
 using BoxKite.Twitter.Extensions;
@@ -44,7 +46,7 @@ namespace BoxKite.Twitter
             _platformAdaptor = new Win8RTPlatformAdaptor();
         }
 #endif
-        public Task<HttpResponseMessage> GetAsync(string url, SortedDictionary<string, string> parameters)
+        public async Task<HttpResponseMessage> GetAsync(string url, SortedDictionary<string, string> parameters)
         {
             var querystring = parameters.Aggregate("", (current, entry) => current + (entry.Key + "=" + entry.Value + "&"));
 
@@ -63,10 +65,13 @@ namespace BoxKite.Twitter
             if (!string.IsNullOrWhiteSpace(querystring))
                 fullUrl += "?" + querystring.Substring(0, querystring.Length - 1);
 
-            return client.GetAsync(fullUrl);
+            var download = client.GetAsync(fullUrl).ToObservable().Timeout(TimeSpan.FromSeconds(30));
+            var clientdownload = await download;
+
+            return clientdownload;
         }
 
-        public Task<HttpResponseMessage> PostAsync(string url, SortedDictionary<string, string> parameters)
+        public async Task<HttpResponseMessage> PostAsync(string url, SortedDictionary<string, string> parameters)
         {
             var oauth = BuildAuthenticatedResult(url, parameters, "POST");
             var handler = new HttpClientHandler();
@@ -82,10 +87,13 @@ namespace BoxKite.Twitter
             var content = parameters.Aggregate(string.Empty, (current, e) => current + string.Format("{0}={1}&", e.Key, Uri.EscapeDataString(e.Value)));
             var data = new StringContent(content, Encoding.UTF8, "application/x-www-form-urlencoded");
 
-            return client.PostAsync(url, data);
+            var download = client.PostAsync(url, data).ToObservable().Timeout(TimeSpan.FromSeconds(30));
+            var clientdownload = await download;
+
+            return clientdownload;
         }
 
-        public Task<HttpResponseMessage> PostFileAsync(string url, SortedDictionary<string, string> parameters,
+        public async Task<HttpResponseMessage> PostFileAsync(string url, SortedDictionary<string, string> parameters,
             string fileName, string fileContentsKey, byte[] fileContents = null, Stream srImageStream = null)
         {
             if (fileContents == null && srImageStream == null)
@@ -129,7 +137,10 @@ namespace BoxKite.Twitter
                                                       };
                 data.Add(filedata);
 
-                return client.PostAsync(url, data);
+                var download = client.PostAsync(url, data).ToObservable().Timeout(TimeSpan.FromSeconds(30));
+                var clientdownload = await download;
+
+                return clientdownload;
             }
         }
 
@@ -137,12 +148,9 @@ namespace BoxKite.Twitter
         {
             if (fileData!=null)
                 return new ByteArrayContent(fileData);
-            else if (srReader != null)
-            {
-                var fd = srReader.ReadFully();
-                return new ByteArrayContent(fd);
-            }
-            return null;
+            if (srReader == null) return null;
+            var fd = srReader.ReadFully();
+            return new ByteArrayContent(fd);
         }
 
         public HttpRequestMessage CreateGet(string url, SortedDictionary<string, string> parameters)
@@ -208,10 +216,7 @@ namespace BoxKite.Twitter
             {
                 if (method.Equals("GET", StringComparison.OrdinalIgnoreCase))
                 {
-                    foreach (var entry in parameters)
-                    {
-                        querystring += entry.Key + "=" + entry.Value + "&";
-                    }
+                    querystring = parameters.Aggregate(querystring, (current, entry) => current + (entry.Key + "=" + entry.Value + "&"));
                 }
 
                 foreach (var entry in parameters)

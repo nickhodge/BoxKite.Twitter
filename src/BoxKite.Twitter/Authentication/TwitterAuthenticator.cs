@@ -3,6 +3,8 @@
 
 using System;
 using System.Net;
+using System.Reactive.Linq;
+using System.Reactive.Threading.Tasks;
 using BoxKite.Twitter.Extensions;
 using BoxKite.Twitter.Models;
 using System.Diagnostics;
@@ -17,47 +19,47 @@ namespace BoxKite.Twitter
 {
     public class TwitterAuthenticator
     {
-        private readonly string clientID = ""; // twitter API calls these Consumers, or from their perspective consumers of their API
-        private readonly string clientSecret = ""; // twitter API calls these Consumers, or from their perspective consumers of their API
-        private readonly string callbackuri = ""; // twitter API uses this in the case of xauth (I think)
-        private string oAuthToken = "";
-        private string accessToken = "";
-        private string accessTokenSecret = "";
-        private string userID = "";
-        private string screenName = "";
+        private readonly string _clientId = ""; // twitter API calls these Consumers, or from their perspective consumers of their API
+        private readonly string _clientSecret = ""; // twitter API calls these Consumers, or from their perspective consumers of their API
+        private readonly string _callbackuri = ""; // twitter API uses this in the case of xauth (I think)
+        private string _oAuthToken = "";
+        private string _accessToken = "";
+        private string _accessTokenSecret = "";
+        private string _userId = "";
+        private string _screenName = "";
         private readonly IPlatformAdaptor _platformAdaptor; // platform specific HMACSHA1
 
 #if (PORTABLE)
         public TwitterAuthenticator(string clientID, string clientSecret, IPlatformAdaptor platformAdaptor)
         {
-            this.clientID = clientID;
-            this.clientSecret = clientSecret;
-            this._platformAdaptor = platformAdaptor;
+            _clientId = clientID;
+            _clientSecret = clientSecret;
+            _platformAdaptor = platformAdaptor;
         }
 #elif (WINDOWS)
         public TwitterAuthenticator(string clientID, string clientSecret)
         {
-            this.clientID = clientID;
-            this.clientSecret = clientSecret;
-            this._platformAdaptor = new DesktopPlatformAdaptor();
+            _clientId = clientID;
+            _clientSecret = clientSecret;
+            _platformAdaptor = new DesktopPlatformAdaptor();
         }
 #elif (WIN8RT)
         public TwitterAuthenticator(string clientID, string clientSecret, string callbackuri)
         {
-            this.clientID = clientID;
-            this.clientSecret = clientSecret;
-            this.callbackuri = callbackuri;
-            this._platformAdaptor = new Win8RTPlatformAdaptor();
+            _clientId = clientID;
+            _clientSecret = clientSecret;
+            _callbackuri = callbackuri;
+            _platformAdaptor = new Win8RTPlatformAdaptor();
         }
 #endif
 #if (PORTABLE || WINDOWS)
         public async Task<bool> StartAuthentication()
         {
-            if (string.IsNullOrWhiteSpace(clientID))
-                throw new ArgumentException("ClientID must be specified", clientID);
+            if (string.IsNullOrWhiteSpace(_clientId))
+                throw new ArgumentException("ClientID must be specified", _clientId);
 
-            if (string.IsNullOrWhiteSpace(clientSecret))
-                throw new ArgumentException("ClientSecret must be specified", clientSecret);
+            if (string.IsNullOrWhiteSpace(_clientSecret))
+                throw new ArgumentException("ClientSecret must be specified", _clientSecret);
 
             var sinceEpoch = GenerateTimeStamp();
             var nonce = GenerateNonce();
@@ -65,17 +67,17 @@ namespace BoxKite.Twitter
             var sigBaseStringParams =
                 string.Format(
                     "oauth_consumer_key={0}&oauth_nonce={1}&oauth_signature_method=HMAC-SHA1&oauth_timestamp={2}&oauth_version=1.0",
-                    clientID,
+                    _clientId,
                     nonce,
                     sinceEpoch);
 
             var sigBaseString = string.Format("POST&{0}&{1}", RequestTokenUrl.UrlEncode(), sigBaseStringParams.UrlEncode());
-            var signature = GenerateSignature(clientSecret, sigBaseString, null);
+            var signature = GenerateSignature(_clientSecret, sigBaseString, null);
             var dataToPost = string.Format(
                     "OAuth realm=\"\", oauth_nonce=\"{0}\", oauth_timestamp=\"{1}\", oauth_consumer_key=\"{2}\", oauth_signature_method=\"HMAC-SHA1\", oauth_version=\"1.0\", oauth_signature=\"{3}\"",
                     nonce,
                     sinceEpoch,
-                    clientID,
+                    _clientId,
                     signature.UrlEncode());
 
             var response = await PostData(RequestTokenUrl, dataToPost);
@@ -90,7 +92,7 @@ namespace BoxKite.Twitter
                 switch (splits[0])
                 {
                     case "oauth_token": //these tokens are request tokens, first step before getting access tokens
-                        oAuthToken = splits[1];
+                        _oAuthToken = splits[1];
                         break;
                     case "oauth_token_secret":
                         var OAuthTokenSecret = splits[1];
@@ -102,7 +104,7 @@ namespace BoxKite.Twitter
             }
 
             if (oauthCallbackConfirmed)
-                _platformAdaptor.DisplayAuthInBrowser(AuthenticateUrl + oAuthToken);
+                _platformAdaptor.DisplayAuthInBrowser(AuthenticateUrl + _oAuthToken);
 
             return oauthCallbackConfirmed;
         }
@@ -119,9 +121,9 @@ namespace BoxKite.Twitter
                     "OAuth realm=\"\", oauth_nonce=\"{0}\", oauth_timestamp=\"{1}\", oauth_consumer_key=\"{2}\", oauth_signature_method=\"HMAC-SHA1\", oauth_version=\"1.0\", oauth_verifier=\"{3}\", oauth_token=\"{4}\"",
                     nonce,
                     sinceEpoch,
-                    clientID,
+                    _clientId,
                     pinAuthorizationCode,
-                    oAuthToken);
+                    _oAuthToken);
 
             var response = await PostData(AuthorizeTokenUrl, dataToPost);
 
@@ -135,17 +137,17 @@ namespace BoxKite.Twitter
                 switch (splits[0])
                 {
                     case "oauth_token": //these tokens are request tokens, first step before getting access tokens
-                        accessToken = splits[1];
+                        _accessToken = splits[1];
                         break;
                     case "oauth_token_secret":
-                        accessTokenSecret = splits[1];
+                        _accessTokenSecret = splits[1];
                         break;
                     case "user_id":
-                        userID = splits[1];
+                        _userId = splits[1];
                         useraccessConfirmed = true;
                         break;
                     case "screen_name":
-                        screenName = splits[1];
+                        _screenName = splits[1];
                         break;
                 }
             }
@@ -155,11 +157,11 @@ namespace BoxKite.Twitter
 #elif (WIN8RT)
         public async Task<TwitterCredentials> Authentication()
         {
-            if (string.IsNullOrWhiteSpace(clientID))
-                throw new ArgumentException("ClientID must be specified", clientID);
+            if (string.IsNullOrWhiteSpace(_clientId))
+                throw new ArgumentException("ClientID must be specified", _clientId);
 
-            if (string.IsNullOrWhiteSpace(clientSecret))
-                throw new ArgumentException("ClientSecret must be specified", clientSecret);
+            if (string.IsNullOrWhiteSpace(_clientSecret))
+                throw new ArgumentException("ClientSecret must be specified", _clientSecret);
 
             var sinceEpoch = GenerateTimeStamp();
             var nonce = GenerateNonce();
@@ -167,17 +169,17 @@ namespace BoxKite.Twitter
             var sigBaseStringParams =
                 string.Format(
                     "oauth_consumer_key={0}&oauth_nonce={1}&oauth_signature_method=HMAC-SHA1&oauth_timestamp={2}&oauth_version=1.0",
-                    clientID,
+                    _clientId,
                     nonce,
                     sinceEpoch);
 
             var sigBaseString = string.Format("POST&{0}&{1}", RequestTokenUrl.UrlEncode(), sigBaseStringParams.UrlEncode());
-            var signature = GenerateSignature(clientSecret, sigBaseString, null);
+            var signature = GenerateSignature(_clientSecret, sigBaseString, null);
             var dataToPost = string.Format(
                     "OAuth realm=\"\", oauth_nonce=\"{0}\", oauth_timestamp=\"{1}\", oauth_consumer_key=\"{2}\", oauth_signature_method=\"HMAC-SHA1\", oauth_version=\"1.0\", oauth_signature=\"{3}\"",
                     nonce,
                     sinceEpoch,
-                    clientID,
+                    _clientId,
                     signature.UrlEncode());
 
             var response = await PostData(RequestTokenUrl, dataToPost);
@@ -192,7 +194,7 @@ namespace BoxKite.Twitter
                 switch (splits[0])
                 {
                     case "oauth_token": //these tokens are request tokens, first step before getting access tokens
-                        oAuthToken = splits[1];
+                        _oAuthToken = splits[1];
                         break;
                     case "oauth_token_secret":
                         var OAuthTokenSecret = splits[1];
@@ -205,7 +207,7 @@ namespace BoxKite.Twitter
 
             if (oauthCallbackConfirmed)
             {
-                var authresponse = await _platformAdaptor.AuthWithBroker(AuthenticateUrl + oAuthToken, callbackuri);
+                var authresponse = await _platformAdaptor.AuthWithBroker(AuthenticateUrl + _oAuthToken, _callbackuri);
                 if (!string.IsNullOrWhiteSpace(authresponse))
                 {
                     var responseData = authresponse.Substring(authresponse.IndexOf("oauth_token"));
@@ -232,13 +234,13 @@ namespace BoxKite.Twitter
 
                     sigBaseStringParams = string.Format(
                         "oauth_consumer_key={0}&oauth_nonce={1}&oauth_signature_method=HMAC-SHA1&oauth_timestamp={2}&oauth_token={3}&oauth_version=1.0",
-                        clientID,
+                        _clientId,
                         nonce,
                         sinceEpoch,
                         request_token);
 
                     sigBaseString = string.Format("POST&{0}&{1}", AuthorizeTokenUrl.UrlEncode(), sigBaseStringParams.UrlEncode());
-                    signature = GenerateSignature(clientSecret, sigBaseString, null);
+                    signature = GenerateSignature(_clientSecret, sigBaseString, null);
 
                     var httpContent = String.Format("oauth_verifier={0}", oauth_verifier);
 
@@ -246,7 +248,7 @@ namespace BoxKite.Twitter
                             "OAuth realm=\"\", oauth_nonce=\"{0}\", oauth_timestamp=\"{1}\", oauth_consumer_key=\"{2}\", oauth_signature_method=\"HMAC-SHA1\", oauth_version=\"1.0\", oauth_token=\"{3}\", oauth_signature=\"{4}\"",
                             nonce,
                             sinceEpoch,
-                            clientID,
+                            _clientId,
                             request_token,
                             signature.UrlEncode());
 
@@ -263,17 +265,17 @@ namespace BoxKite.Twitter
                         switch (splits[0])
                         {
                             case "oauth_token": //these tokens are request tokens, first step before getting access tokens
-                                accessToken = splits[1];
+                                _accessToken = splits[1];
                                 break;
                             case "oauth_token_secret":
-                                accessTokenSecret = splits[1];
+                                _accessTokenSecret = splits[1];
                                 break;
                             case "user_id":
-                                userID = splits[1];
+                                _userId = splits[1];
                                 useraccessConfirmed = true;
                                 break;
                             case "screen_name":
-                                screenName = splits[1];
+                                _screenName = splits[1];
                                 break;
                         }
                     }
@@ -287,12 +289,12 @@ namespace BoxKite.Twitter
         {
             var credentials = new TwitterCredentials
             {
-                ConsumerKey = clientID,
-                ConsumerSecret = clientSecret,
-                Token = accessToken,
-                TokenSecret = accessTokenSecret,
-                ScreenName = screenName,
-                UserID = Int32.Parse(userID),
+                ConsumerKey = _clientId,
+                ConsumerSecret = _clientSecret,
+                Token = _accessToken,
+                TokenSecret = _accessTokenSecret,
+                ScreenName = _screenName,
+                UserID = Int32.Parse(_userId),
                 Valid = true
             };
             return credentials;
@@ -366,7 +368,9 @@ namespace BoxKite.Twitter
                     request.Content = new StringContent(content, Encoding.UTF8, "application/x-www-form-urlencoded");
                 }
                 var response = await client.SendAsync(request);
-                return await response.Content.ReadAsStringAsync();
+                var clientresponse =
+                    response.Content.ReadAsStringAsync().ToObservable().Timeout(TimeSpan.FromSeconds(30));
+                return await clientresponse;
             }
             catch (Exception)
             {
