@@ -112,7 +112,7 @@ namespace BoxKite.Twitter
         public async Task<TwitterCredentials> ConfirmPin(string pinAuthorizationCode)
         {
             if (string.IsNullOrWhiteSpace(pinAuthorizationCode))
-                throw new ArgumentException("pinAuthorizationCode must be specified", pinAuthorizationCode);
+                throw new ArgumentException("pin AuthorizationCode must be specified", pinAuthorizationCode);
 
             var sinceEpoch = GenerateTimeStamp();
             var nonce = GenerateNonce();
@@ -294,7 +294,7 @@ namespace BoxKite.Twitter
                 Token = _accessToken,
                 TokenSecret = _accessTokenSecret,
                 ScreenName = _screenName,
-                UserID = Int32.Parse(_userId),
+                UserID = long.Parse(_userId),
                 Valid = true
             };
             return credentials;

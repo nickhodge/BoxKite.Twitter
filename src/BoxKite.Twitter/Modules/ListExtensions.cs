@@ -18,7 +18,7 @@ namespace BoxKite.Twitter
         /// <param name="reverse">Set this to true if you would like owned lists to be returned first.</param>
         /// <returns>(awaitable) IEnumerable Lists the authenticated user or screen_name subscribes to</returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/lists/list </remarks>
-        public static async Task<TwitterResponseCollection<TwitterList>> GetLists(this IUserSession session, int user_id = 0, string screen_name = "", bool reverse = false)
+        public static async Task<TwitterResponseCollection<TwitterList>> GetLists(this IUserSession session, long user_id = 0, string screen_name = "", bool reverse = false)
         {
             var parameters = new TwitterParametersCollection {{"reverse", reverse.ToString()}};
             parameters.Create(screen_name: screen_name, user_id: user_id);
@@ -46,7 +46,7 @@ namespace BoxKite.Twitter
         /// <param name="include_rts">the list timeline will contain native retweets (if they exist) in addition to the standard stream of tweets.</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/lists/statuses </remarks>
-        public static async Task<TwitterResponseCollection<Tweet>> GetListTimeline(this IUserSession session, int list_id, string slug, int owner_id = 0, string owner_screen_name = "", long since_id = 0, int count = 20, long max_id = 0, bool include_rts = true)
+        public static async Task<TwitterResponseCollection<Tweet>> GetListTimeline(this IUserSession session, int list_id, string slug, long owner_id = 0, string owner_screen_name = "", long since_id = 0, int count = 20, long max_id = 0, bool include_rts = true)
         {
             var parameters = new TwitterParametersCollection
                                  {
@@ -70,7 +70,7 @@ namespace BoxKite.Twitter
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/lists/members/destroy </remarks>
         public static async Task<TwitterSuccess> DeleteUserFromList(this IUserSession session, int list_id = 0, string slug = "",
-            int user_id = 0, string screen_name = "", string owner_screen_name = "", int owner_id = 0)
+            long user_id = 0, string screen_name = "", string owner_screen_name = "", long owner_id = 0)
         {
             var parameters = new TwitterParametersCollection();
             parameters.Create(list_id: list_id, slug: slug, owner_id: owner_id, owner_screen_name: owner_screen_name, user_id: user_id, screen_name: screen_name);
@@ -87,7 +87,7 @@ namespace BoxKite.Twitter
         /// <param name="cursor">Breaks the results into pages. Provide a value of -1 to begin paging.</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/lists/memberships </remarks>
-        public static async Task<UserInListCursored> GetListMembershipForUser(this IUserSession session, int user_id = 0,
+        public static async Task<UserInListCursored> GetListMembershipForUser(this IUserSession session, long user_id = 0,
             string screen_name = "", long cursor = -1)
         {
             var parameters = new TwitterParametersCollection
@@ -108,7 +108,7 @@ namespace BoxKite.Twitter
         /// <param name="cursor">Breaks the results into pages. Provide a value of -1 to begin paging.</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/lists/memberships </remarks>
-        public static async Task<UserInListCursored> GetMyListsUserIsMemberOf(this IUserSession session, int user_id = 0,
+        public static async Task<UserInListCursored> GetMyListsUserIsMemberOf(this IUserSession session, long user_id = 0,
             string screen_name = "", long cursor = -1)
         {
             var parameters = new TwitterParametersCollection
@@ -132,7 +132,7 @@ namespace BoxKite.Twitter
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/lists/subscribers </remarks>
         public static async Task<UserListDetailedCursored> GetListSubscribers(this IUserSession session, int list_id,
-            string slug="", int owner_id = 0,
+            string slug="", long owner_id = 0,
             string owner_screen_name = "", long cursor = -1)
         {
             var parameters = new TwitterParametersCollection();
@@ -152,7 +152,7 @@ namespace BoxKite.Twitter
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/lists/subscribers/create </remarks>
         public static async Task<TwitterList> SubscribeToUsersList(this IUserSession session, int list_id,
-            string slug, int owner_id = 0, string owner_screen_name = "")
+            string slug, long owner_id = 0, string owner_screen_name = "")
         {
             var parameters = new TwitterParametersCollection();
             parameters.Create(list_id: list_id, slug: slug, owner_id: owner_id, owner_screen_name: owner_screen_name);
@@ -173,7 +173,7 @@ namespace BoxKite.Twitter
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/lists/subscribers/show </remarks>
         public static async Task<User> IsSubscribedToList(this IUserSession session, int list_id, string slug,
-    int user_id = 0, string screen_name = "", string owner_screen_name = "", int owner_id = 0)
+    long user_id = 0, string screen_name = "", string owner_screen_name = "", long owner_id = 0)
         {
             var parameters = new TwitterParametersCollection();
             parameters.Create(list_id: list_id, slug: slug, owner_id: owner_id, owner_screen_name: owner_screen_name, user_id: user_id, screen_name: screen_name);
@@ -192,7 +192,7 @@ namespace BoxKite.Twitter
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/lists/subscribers/destroy </remarks>
         public static async Task<TwitterSuccess> DeleteFromUsersList(this IUserSession session, int list_id, string slug,
-            string owner_screen_name = "", int owner_id = 0)
+            string owner_screen_name = "", long owner_id = 0)
         {
             var parameters = new TwitterParametersCollection();
             parameters.Create(list_id: list_id, slug: slug, owner_id: owner_id, owner_screen_name: owner_screen_name);
@@ -213,8 +213,8 @@ namespace BoxKite.Twitter
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/lists/members/create_all </remarks>
         public static async Task<TwitterSuccess> AddUsersToList(this IUserSession session, int list_id, string slug,
-            IEnumerable<string> screen_names, IEnumerable<int> user_ids,
-            string owner_screen_name = "", int owner_id = 0)
+            IEnumerable<string> screen_names, IEnumerable<long> user_ids,
+            string owner_screen_name = "", long owner_id = 0)
         {
             var parameters = new TwitterParametersCollection();
             parameters.Create(list_id: list_id, slug: slug, owner_id: owner_id, owner_screen_name: owner_screen_name);
@@ -242,7 +242,7 @@ namespace BoxKite.Twitter
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/lists/members/show </remarks>
         public static async Task<User> IsUserOnList(this IUserSession session, int list_id, string slug="",
-            int user_id = 0, string screen_name = "", string owner_screen_name = "", int owner_id = 0)
+            long user_id = 0, string screen_name = "", string owner_screen_name = "", long owner_id = 0)
         {
             var parameters = new TwitterParametersCollection();
             parameters.Create(user_id:user_id,screen_name:screen_name, list_id: list_id, slug: slug, owner_id: owner_id, owner_screen_name: owner_screen_name, skip_status:true,include_entities:true);
@@ -262,7 +262,7 @@ namespace BoxKite.Twitter
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/lists/members </remarks>
         public static async Task<UserListDetailedCursored> GetMembersOnList(this IUserSession session, int list_id, string slug,
-            string owner_screen_name = "", int owner_id = 0, long cursor = -1)
+            string owner_screen_name = "", long owner_id = 0, long cursor = -1)
         {
             var parameters = new TwitterParametersCollection();
             parameters.Create(list_id: list_id, slug: slug, owner_id: owner_id, owner_screen_name: owner_screen_name, skip_status: true, include_entities: true, cursor:cursor);
@@ -283,7 +283,7 @@ namespace BoxKite.Twitter
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/lists/members/create </remarks>
         public static async Task<TwitterSuccess> AddUserToMyList(this IUserSession session, int list_id,
-    string screen_name_to_add="", int user_id_to_add=0, string slug ="", string owner_screen_name = "", int owner_id = 0)
+    string screen_name_to_add="", long user_id_to_add=0, string slug ="", string owner_screen_name = "", long owner_id = 0)
         {
             var parameters = new TwitterParametersCollection();
             parameters.Create(list_id: list_id, slug: slug, owner_id: owner_id, owner_screen_name: owner_screen_name, user_id: user_id_to_add, screen_name: screen_name_to_add);
@@ -302,7 +302,7 @@ namespace BoxKite.Twitter
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/lists/destroy </remarks>
         public static async Task<TwitterList> DeleteList(this IUserSession session, int list_id,
-             string slug, int owner_id = 0, string owner_screen_name = "")
+             string slug, long owner_id = 0, string owner_screen_name = "")
         {
             var parameters = new TwitterParametersCollection();
             parameters.Create(list_id: list_id, slug: slug, owner_id: owner_id, owner_screen_name: owner_screen_name);
@@ -324,7 +324,7 @@ namespace BoxKite.Twitter
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/lists/update </remarks>
         public static async Task<TwitterSuccess> ChangeList(this IUserSession session, int list_id,
-            string slug, string name = "", string mode = "", string description = "", int owner_id = 0,
+            string slug, string name = "", string mode = "", string description = "", long owner_id = 0,
             string owner_screen_name = "")
         {
             var parameters = new TwitterParametersCollection();
@@ -351,7 +351,7 @@ namespace BoxKite.Twitter
         /// <param name="description">The description to give the list.</param>
          /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/lists/update </remarks>
-        public static async Task<TwitterList> CreateList(this IUserSession session, string name, string mode, string description = "", int owner_id = 0,
+        public static async Task<TwitterList> CreateList(this IUserSession session, string name, string mode, string description = "", long owner_id = 0,
             string owner_screen_name = "")
         {
             var parameters = new TwitterParametersCollection
@@ -379,7 +379,7 @@ namespace BoxKite.Twitter
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/lists/show </remarks>
         public static async Task<TwitterList> GetList(this IUserSession session, int list_id, string slug,
-            string owner_screen_name = "", int owner_id = 0)
+            string owner_screen_name = "", long owner_id = 0)
         {
             var parameters = new TwitterParametersCollection();
             parameters.Create(list_id: list_id, slug: slug, owner_id: owner_id, owner_screen_name: owner_screen_name);
@@ -398,7 +398,7 @@ namespace BoxKite.Twitter
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/lists/subscriptions </remarks>
         public static async Task<TwitterListCursored> GetMySubscriptions(this IUserSession session, 
-            string screen_name = "", int user_id = 0, int count=20, long cursor= -1)
+            string screen_name = "", long user_id = 0, int count=20, long cursor= -1)
         {
             var parameters = new TwitterParametersCollection();
             parameters.Create(user_id:user_id,screen_name:screen_name,count:count,cursor:cursor);
@@ -419,8 +419,8 @@ namespace BoxKite.Twitter
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/lists/members/destroy_all </remarks>
         public static async Task<TwitterSuccess> DeleteUsersFromList(this IUserSession session, int list_id=0, string slug="",
-            IEnumerable<string> screen_names=null, IEnumerable<int> user_ids=null,
-            string owner_screen_name = "", int owner_id = 0)
+            IEnumerable<string> screen_names=null, IEnumerable<long> user_ids=null,
+            string owner_screen_name = "", long owner_id = 0)
         {
             var parameters = new TwitterParametersCollection();
             parameters.Create(list_id: list_id, slug: slug, owner_id: owner_id, owner_screen_name: owner_screen_name);
@@ -446,7 +446,7 @@ namespace BoxKite.Twitter
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/lists/ownerships </remarks>
         public static async Task<TwitterListCursored> GetListOwned(this IUserSession session,
-            string screen_name = "", int user_id = 0, int count = 20, long cursor = -1)
+            string screen_name = "", long user_id = 0, int count = 20, long cursor = -1)
         {
             var parameters = new TwitterParametersCollection();
             parameters.Create(user_id: user_id, screen_name: screen_name, count: count, cursor: cursor);

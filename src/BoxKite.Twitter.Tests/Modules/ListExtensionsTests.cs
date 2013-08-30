@@ -83,7 +83,7 @@ namespace BoxKite.Twitter.Tests.Modules
             session.Returns(await Json.FromFile("data\\lists\\listtimeline.txt"));
             session.ExpectPost("https://api.twitter.com/1.1/lists/members/create_all.json");
 
-            var adds = await session.AddUsersToList(23, "slug here", new List<string> {"fred"}, new List<int> {66});
+            var adds = await session.AddUsersToList(23, "slug here", new List<string> { "fred" }, new List<long> { 66, 4503597479886593});
 
             Assert.IsTrue(adds.Status);
         }
@@ -96,7 +96,7 @@ namespace BoxKite.Twitter.Tests.Modules
             session.Returns(await Json.FromFile("data\\lists\\listtimeline.txt"));
             session.ExpectPost("https://api.twitter.com/1.1/lists/members/destroy_all.json");
 
-            var adds = await session.DeleteUsersFromList(23, "slug here", new List<string> { "fred" }, new List<int> { 66 });
+            var adds = await session.DeleteUsersFromList(23, "slug here", new List<string> { "fred" }, new List<long> { 66, 4503597479886593 });
 
             Assert.IsTrue(adds.Status);
         }

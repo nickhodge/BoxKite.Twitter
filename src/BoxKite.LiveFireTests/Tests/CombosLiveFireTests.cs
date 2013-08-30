@@ -62,7 +62,7 @@ namespace BoxKite.Twitter.Console
 
                     long nextcursor = -1;
                     var ff5ListCount = 0;
-                    var userids2 = new List<int>(); 
+                    var userids2 = new List<long>(); 
 
                     do
                     {
@@ -112,7 +112,7 @@ namespace BoxKite.Twitter.Console
 
                     long nextcursor = -1;
                     var ff5ListCount = 0;
-                    var userids3 = new List<int>();
+                    var userids3 = new List<long>();
 
                     do
                     {

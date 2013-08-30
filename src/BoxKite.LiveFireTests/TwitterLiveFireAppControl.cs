@@ -22,7 +22,7 @@ namespace BoxKite.Twitter.Console
             if (twittercredentials.Valid)
             {
                 System.Console.CancelKeyPress += new ConsoleCancelEventHandler(cancelStreamHandler);
-                var session = new UserSession(twittercredentials, new DesktopPlatformAdaptor());
+                var session = new UserSession(twittercredentials);
                 var checkUser = session.GetVerifyCredentials().Result;
                 if (checkUser.OK)
                 {
@@ -33,7 +33,7 @@ namespace BoxKite.Twitter.Console
                     // NOTE: some tests require a previous test to work successfully
                     // NOTE: some tests post/delete items. This *is* a live fire test!
 
-                    var testSeriesToRun = new List<int> {4};
+                    var testSeriesToRun = new List<int> {1};
 
                     // Calls tested by Test Series
                     // series 1 => 9 (UserAccounts)
@@ -54,7 +54,7 @@ namespace BoxKite.Twitter.Console
                     if (testSeriesToRun.Contains(1))
                     {
                         var ualft = new UserAccountLiveFireTests();
-                        var testResult1 = ualft.DoUserAccountTest(session, new List<int> {7}).Result;
+                        var testResult1 = ualft.DoUserAccountTest(session, new List<int> {8}).Result;
 
                         if (testResult1)
                         {

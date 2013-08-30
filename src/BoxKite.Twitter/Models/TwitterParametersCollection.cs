@@ -1,7 +1,6 @@
 ﻿// (c) 2012-2013 Nick Hodge mailto:hodgenick@gmail.com & Brendan Forster
 // License: MS-PL
 
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +17,7 @@ namespace BoxKite.Twitter.Models
     internal static class ApiParameters
     {
         internal static void CreateCollection(this TwitterParametersCollection parameters,
-            IEnumerable<string> screen_names = null, IEnumerable<int> user_ids = null)
+            IEnumerable<string> screen_names = null, IEnumerable<long> user_ids = null)
         {
             var screenNameList = new StringBuilder();
             if (screen_names != null)
@@ -36,7 +35,7 @@ namespace BoxKite.Twitter.Models
             var userIDList = new StringBuilder();
             if (user_ids != null)
             {
-                if (user_ids.Count() > 0)
+                if (user_ids.Any())
                 {
                     foreach (var userID in user_ids)
                     {
@@ -49,10 +48,10 @@ namespace BoxKite.Twitter.Models
 
         internal static void Create(this TwitterParametersCollection parameters,
             bool? include_entities = null, long? since_id = null, long? max_id = null, int? count = null,
-            int? user_id = null, string screen_name = null, long? id = null, long? cursor = null,
+            long? user_id = null, string screen_name = null, long? id = null, long? cursor = null,
             string text = null, bool? follow = null, bool? device = null, bool? retweets = null,
             bool? skip_status = null, string slug = null, int? list_id = null,string owner_screen_name = null,
-            int? owner_id = null, string name = null, bool? include_rts = null, string place_id = null, bool? stall_warnings = null, bool? delimited = null
+            long? owner_id = null, string name = null, bool? include_rts = null, string place_id = null, bool? stall_warnings = null, bool? delimited = null
             )
         {
             if (stall_warnings != null)
@@ -181,17 +180,15 @@ namespace BoxKite.Twitter.Models
             IEnumerable elements)
         {
             var elementstr = new StringBuilder();
-            if (elements != null)
+            if (elements == null) return;
+            var elementcount = 0;
+            foreach (var tr in elements)
             {
-                var elementcount = 0;
-                foreach (var tr in elements)
-                {
-                    elementstr.Append(tr.ToString() + ",");
-                    elementcount++;
-                }
-                if (elementcount > 0)
-                    parameters.Add(elementName, elementstr.ToString().TrimLastChar());
+                elementstr.Append(tr + ",");
+                elementcount++;
             }
+            if (elementcount > 0)
+                parameters.Add(elementName, elementstr.ToString().TrimLastChar());
         }
 
         internal static bool EnsureOneOf(this TwitterParametersCollection parameters, IEnumerable<string> requiredParams)

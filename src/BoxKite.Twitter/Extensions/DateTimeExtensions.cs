@@ -37,12 +37,20 @@ namespace BoxKite.Twitter.Extensions
 
         public static string ToFriendlyText(this DateTimeOffset dateTime, DateTimeOffset currentTime)
         {
-            if (DateTime.UtcNow.Ticks == dateTime.Ticks)
-            {
-                return "Right now!";
-            }
-
             bool isFuture = (DateTime.UtcNow.Ticks < dateTime.Ticks);
+
+            // Nick Hodge Note; 30th August 2013
+            // slighly modified from the original because if the clock of the local machine 
+            // has drifted forward (ie "isFuture"), then show "Just Now" rather than a 
+            // 'in 13 seconds' ... which is weird for users and tweets.
+            // to return to normal operation, take out the || isFuture
+            // I've left the 'inFuture' in the other if statements.
+
+            if (DateTime.UtcNow.Ticks == dateTime.Ticks || isFuture)
+            {
+                return "Just now";
+            } 
+
             var ts = DateTime.UtcNow.Ticks < dateTime.Ticks ? new TimeSpan(dateTime.Ticks - DateTime.UtcNow.Ticks) : new TimeSpan(DateTime.UtcNow.Ticks - dateTime.Ticks);
 
             double delta = ts.TotalSeconds;

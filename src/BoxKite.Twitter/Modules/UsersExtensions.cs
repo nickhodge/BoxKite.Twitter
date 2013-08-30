@@ -29,7 +29,7 @@ namespace BoxKite.Twitter
         /// <param name="screen_name">The screen name of the user for whom to return results for. Either a id or screen_name is required for this method.</param>
         /// <param name="user_id">The ID of the user for whom to return results for. Either an id or screen_name is required for this method.</param>
         /// <returns></returns>
-        public static async Task<User> GetUserProfile(this IUserSession session, string screen_name="", int user_id=0)
+        public static async Task<User> GetUserProfile(this IUserSession session, string screen_name="", long user_id=0)
         {
             var parameters = new TwitterParametersCollection();
             parameters.Create(screen_name:screen_name,include_entities:true,user_id:user_id);
@@ -313,7 +313,7 @@ namespace BoxKite.Twitter
         /// <param name="user_id">The ID of the potentially blocked user.</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/blocks/create </remarks>
-        public static async Task<User> CreateUserBlock(this IUserSession session, string screen_name = "", int user_id = 0)
+        public static async Task<User> CreateUserBlock(this IUserSession session, string screen_name = "", long user_id = 0)
         {
             var parameters = new TwitterParametersCollection();
             parameters.Create(include_entities:true,skip_status:true,screen_name:screen_name,user_id:user_id);
@@ -335,7 +335,7 @@ namespace BoxKite.Twitter
         /// <param name="user_id">The ID of the potentially blocked user.</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/blocks/destroy </remarks>
-        public static async Task<User> DeleteUserBlock(this IUserSession session, string screen_name = "", int user_id = 0)
+        public static async Task<User> DeleteUserBlock(this IUserSession session, string screen_name = "", long user_id = 0)
         {
             var parameters = new TwitterParametersCollection();
             parameters.Create(include_entities: true, skip_status: true, screen_name: screen_name, user_id: user_id);
@@ -358,7 +358,7 @@ namespace BoxKite.Twitter
         /// <returns>Observable List of full user details</returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/users/lookup </remarks>
         public static async Task<TwitterResponseCollection<User>> GetUsersDetailsFull(this IUserSession session, List<string> screen_names = null,
-            List<int> user_ids = null)
+            List<long> user_ids = null)
         {
             var parameters = new TwitterParametersCollection();
             parameters.Create(include_entities: true);

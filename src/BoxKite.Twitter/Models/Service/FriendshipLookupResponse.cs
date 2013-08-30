@@ -14,7 +14,7 @@ namespace BoxKite.Twitter.Models
         public string ScreenName { get; set; }
 
         [JsonProperty("id")]
-        public int UserId { get; set; }
+        public long UserId { get; set; }
 
         [JsonProperty("connections")]
         public IEnumerable<string> Connections { get; set; }

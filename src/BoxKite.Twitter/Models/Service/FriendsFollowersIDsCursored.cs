@@ -9,7 +9,7 @@ namespace BoxKite.Twitter.Models
     public class FriendsFollowersIDsCursored : TwitterControlBase
     {
         [JsonProperty(PropertyName = "ids")]
-        public IEnumerable<int> IDs { get; set; }
+        public IEnumerable<long> IDs { get; set; }
         public long previous_cursor { get; set; }
         public long next_cursor { get; set; }
     }

@@ -88,9 +88,9 @@ namespace BoxKite.Twitter.Models
             set { SetProperty(ref _inreplytoid, value); }
         }
 
-        private int? _inreplytouserid;
+        private long? _inreplytouserid;
         [JsonProperty("in_reply_to_user_id")]
-        public int? InReplyToUserId
+        public long? InReplyToUserId
         {
             get { return _inreplytouserid; }
             set { SetProperty(ref _inreplytouserid, value); }

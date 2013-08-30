@@ -64,7 +64,7 @@ namespace BoxKite.Twitter
         /// <param name="user_ids">list of user_ids to check against</param>
         /// <returns></returns>
         /// <remarks> ref : https://dev.twitter.com/docs/api/1.1/get/friendships/lookup </remarks>
-        public async static Task<TwitterResponseCollection<FriendshipLookupResponse>> GetFriendships(this IUserSession session, IEnumerable<string> screen_names = null, IEnumerable<int> user_ids = null)
+        public async static Task<TwitterResponseCollection<FriendshipLookupResponse>> GetFriendships(this IUserSession session, IEnumerable<string> screen_names = null, IEnumerable<long> user_ids = null)
         {
             var parameters = new TwitterParametersCollection();
             parameters.CreateCollection(screen_names: screen_names, user_ids:user_ids);

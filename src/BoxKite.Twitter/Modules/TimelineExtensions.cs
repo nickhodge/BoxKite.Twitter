@@ -38,7 +38,7 @@ namespace BoxKite.Twitter
         /// <param name="include_rts">When set to false, the timeline will strip any native retweets</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/statuses/user_timeline </remarks>
-        public async static Task<TwitterResponseCollection<Tweet>> GetUserTimeline(this IUserSession session, string screen_name = "", int user_id = 0, long since_id = 0, long max_id = 0, int count = 200, bool excludereplies = true, bool include_rts = true)
+        public async static Task<TwitterResponseCollection<Tweet>> GetUserTimeline(this IUserSession session, string screen_name = "", long user_id = 0, long since_id = 0, long max_id = 0, int count = 200, bool excludereplies = true, bool include_rts = true)
         {
             var parameters = new TwitterParametersCollection();
             parameters.Create(include_entities: true, include_rts: true, count: count, since_id: since_id, max_id: max_id);

@@ -138,7 +138,7 @@ namespace BoxKite.Twitter.Console
                 if (testSeq.Contains(8))
                 {
                     ConsoleOutput.PrintMessage("1.8 UsersExtensions\\GetUsersDetailsFull From IDs", ConsoleColor.Gray);
-                    var usersids = new List<int> {21447363, 14671135};
+                    var usersids = new List<long> { 21447363, 14671135, 4503599627370241};
                     var getUserDetailsFullFromIDs = await session.GetUsersDetailsFull(user_ids: usersids);
                     if (getUserDetailsFullFromIDs.OK)
                     {

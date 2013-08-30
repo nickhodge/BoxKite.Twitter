@@ -71,9 +71,9 @@ namespace BoxKite.Twitter.Models
             set { SetProperty(ref _screenname, value); }
         }
 
-        private int _userid;
+        private long _userid;
         [JsonProperty("id")]
-        public int UserId
+        public long UserId
         {
             get { return _userid; }
             set { SetProperty(ref _userid, value); }

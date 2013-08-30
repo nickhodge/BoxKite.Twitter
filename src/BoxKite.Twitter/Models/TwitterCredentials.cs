@@ -20,7 +20,7 @@ namespace BoxKite.Twitter.Models
         [DataMember]
         public string ScreenName { get; set; }
         [DataMember]
-        public int UserID { get; set; }
+        public long UserID { get; set; }
 
         [IgnoreDataMember]
         static TwitterCredentials _null = new TwitterCredentials { Valid = false };
