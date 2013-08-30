@@ -12,8 +12,9 @@ Questions? You can find me on Twitter, of course! [@NickHodgeMSFT](https://twitt
 
 1.0.4 Fixes/Implements:
 * As per Twitter: [User IDs moving to 64 bits later in 2013](https://dev.twitter.com/blog/test-accounts-user-ids-greater-32-bits) 
-** Using .NET long to hold user_id
-** Note this impacts any downstream client expecting plain old 32 bit ints
+* Note: Using .NET long to hold user_id
+* Note: this impacts any downstream client expecting plain old 32 bit ints
+
 * FriendlyDateTimeString now says "Just Now" rather than "in 13 seconds" when user's device clock has drifted forward from correct internet time.
 
 ## Twitter API Coverage
@@ -47,7 +48,7 @@ Install-Package BoxKite.Twitter
 * There are a few, [small missing pieces documented here](wiki/todos)
 * 50 ["Live Fire" tests are explained here](wiki/livefire)
 * [Sample, Simple WPF/XAML 4.5 Client App](wiki/samplewpf)
-** Note: Sample Windows 8.1 app under development, will be in a separate repo
+* Note: Sample Windows 8.1 app under development, will be in a separate repo
 
 ##To Build:
 * VS2012 with latest NuGet supporting PCLs (Portable Class Libraries)
