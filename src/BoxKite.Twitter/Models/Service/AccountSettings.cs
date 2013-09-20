@@ -54,7 +54,7 @@ namespace BoxKite.Twitter.Models
     {
         public string name { get; set; }
         public string tzinfo_name { get; set; }
-        public int utc_offset { get; set; }
+        public int? utc_offset { get; set; }
     }
 
     public class TrendLocation

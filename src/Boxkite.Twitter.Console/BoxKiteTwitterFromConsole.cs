@@ -39,6 +39,7 @@ namespace BoxKite.Twitter.Console
                 mainTwitterAccount.Start();
 
                 var session = mainTwitterAccount.Session;
+                var userstream = mainTwitterAccount.UserStream;
 
                 ConsoleOutput.PrintMessage(mainTwitterAccount._TwitterCredentials.ScreenName + " is authorised to use BoxKite.Twitter.");
 
@@ -60,7 +61,7 @@ namespace BoxKite.Twitter.Console
  
 
                         //searchstream = session.StartSearchStream(track: track);
-
+                /*
                         mainTwitterAccount.SearchTimeLine.Subscribe(t =>
                                                            {
                                                                ConsoleOutput.PrintTweet(t, ConsoleColor.Green);
@@ -72,7 +73,7 @@ namespace BoxKite.Twitter.Console
                         {
                             Thread.Sleep(TimeSpan.FromSeconds(0.5));
                         }
-
+                */
                         
 
                 /*
@@ -119,18 +120,17 @@ namespace BoxKite.Twitter.Console
 
                  */
                  
-                /*
-                       userstream = session.GetUserStream();
-                         userstream.Tweets.Subscribe(t => ConsoleOutput.PrintTweet(t, ConsoleColor.Green));
-                         userstream.Events.Subscribe(e => ConsoleOutput.PrintEvent(e, ConsoleColor.Yellow));
-                         userstream.DirectMessages.Subscribe(
-                             d => ConsoleOutput.PrintDirect(d, ConsoleColor.Magenta, ConsoleColor.Black));
-                         userstream.Start();
+                
+                    userstream.Tweets.Subscribe(t => ConsoleOutput.PrintTweet(t, ConsoleColor.Green));
+                    //userstream.Events.Subscribe(e => ConsoleOutput.PrintEvent(e, ConsoleColor.Yellow));
+                    //userstream.DirectMessages.Subscribe(
+                    //    d => ConsoleOutput.PrintDirect(d, ConsoleColor.Magenta, ConsoleColor.Black));
+                    //userstream.Start();
 
-                         while (userstream.IsActive)
-                         {
-                             Thread.Sleep(TimeSpan.FromSeconds(0.5));
-                         } */
+                    while (userstream.IsActive)
+                    {
+                        Thread.Sleep(TimeSpan.FromSeconds(0.5));
+                    } 
 
 
 

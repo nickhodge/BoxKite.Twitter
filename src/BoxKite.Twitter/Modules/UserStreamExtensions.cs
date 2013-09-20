@@ -19,13 +19,9 @@ namespace BoxKite.Twitter
                 () =>
                 {
                     var parameters = new SortedDictionary<string, string>();
+                    parameters.Add("delimited","length");
                     var request = session.CreateGet(Api.UserStreaming("/1.1/user.json"), parameters);
-                    var handler = new HttpClientHandler();
-                    if (handler.SupportsAutomaticDecompression)
-                    {
-                        handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
-                    }
-                    var c = new HttpClient(handler) { Timeout = TimeSpan.FromDays(1) };
+                    var c = new HttpClient();
                     return c.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
                 };
 

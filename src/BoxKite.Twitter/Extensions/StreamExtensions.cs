@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace BoxKite.Twitter.Extensions
 {
@@ -12,5 +13,6 @@ namespace BoxKite.Twitter.Extensions
                 return ms.ToArray();
             }
         }
+
     }
 }

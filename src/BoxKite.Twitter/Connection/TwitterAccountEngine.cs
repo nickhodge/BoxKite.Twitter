@@ -268,13 +268,33 @@ namespace BoxKite.Twitter
         // BACKFILLS
         private async void ProcessBackfillPump()
         {
-            homeTimeLineLargestSeenId = await GetHomeTimeLine_Backfill();
-            directMessagesReceivedLargestSeenId = await GetDirectMessages_Received_Backfill();
-            directMessagesSentLargestSeenId = await GetDirectMessages_Sent_Backfill();
-            retweetsOfMeLargestSeenId = await GetRTOfMe_Backfill();
-            mentionsOfMeLargestSeenId = await GetMentions_Backfill();
-            myTweetsLargestSeenId = await GetMyTweets_Backfill();
-            backFillCompleted.OnNext(true);
+            var o = Observable.CombineLatest(
+                Observable.Start( async () =>
+                    {
+                        homeTimeLineLargestSeenId = await GetHomeTimeLine_Backfill();
+                    }),
+                Observable.Start( async () =>
+                    {
+                       directMessagesReceivedLargestSeenId = await GetDirectMessages_Received_Backfill();
+                    }),
+                Observable.Start( async () =>
+                    {
+                        directMessagesSentLargestSeenId = await GetDirectMessages_Sent_Backfill();
+                    }),
+                Observable.Start( async () =>
+                    {
+                        retweetsOfMeLargestSeenId = await GetRTOfMe_Backfill();
+                    }),
+                Observable.Start( async () =>
+                    {
+                        mentionsOfMeLargestSeenId = await GetMentions_Backfill();
+                    }),
+                Observable.Start( async () =>
+                    {
+                        myTweetsLargestSeenId = await GetMyTweets_Backfill();
+                    })
+                ).Finally(() => backFillCompleted.OnNext(true));
+            await o;
         }
 
         // these grab tweets/dms from history rather from the current stream
@@ -292,6 +312,7 @@ namespace BoxKite.Twitter
                 if (hometl.OK)
                 {
                     smallestid = long.MaxValue;
+                    if (hometl.Count < backfillQuota) backfillQuota = hometl.Count;
                     foreach (var tweet in hometl)
                     {
                         if (tweet.Id < smallestid) smallestid = tweet.Id;
@@ -306,7 +327,7 @@ namespace BoxKite.Twitter
                     // The Backoff will trigger 7 times before just giving up
                     // once at 30s, 60s, 1m, 2m, 4m, 8m and then 16m
                     // note that the last call into this will be 1m above the 15 "rate limit reset" window 
-                    Task.Delay(TimeSpan.FromSeconds(backofftimer));
+                    await Task.Delay(TimeSpan.FromSeconds(backofftimer));
                     if (backofftimer > maxbackoff)
                         break;
                     backofftimer = backofftimer * 2;
@@ -328,6 +349,7 @@ namespace BoxKite.Twitter
                 if (mentionsofme.OK)
                 {
                     smallestid = long.MaxValue;
+                    if (mentionsofme.Count < backfillQuota) backfillQuota = mentionsofme.Count;
                     foreach (var tweet in mentionsofme)
                     {
                         _mentions.OnNext(tweet);
@@ -342,7 +364,7 @@ namespace BoxKite.Twitter
                     // The Backoff will trigger 7 times before just giving up
                     // once at 30s, 60s, 1m, 2m, 4m, 8m and then 16m
                     // note that the last call into this will be 1m above the 15 "rate limit reset" window 
-                    Task.Delay(TimeSpan.FromSeconds(backofftimer));
+                    await Task.Delay(TimeSpan.FromSeconds(backofftimer));
                     if (backofftimer > maxbackoff)
                         break;
                     backofftimer = backofftimer * 2;
@@ -364,6 +386,7 @@ namespace BoxKite.Twitter
                 if (rtofme.OK)
                 {
                     smallestid = long.MaxValue;
+                    if (rtofme.Count < backfillQuota) backfillQuota = rtofme.Count;
                     foreach (var tweet in rtofme)
                     {
                         _mentions.OnNext(tweet);
@@ -378,7 +401,7 @@ namespace BoxKite.Twitter
                     // The Backoff will trigger 7 times before just giving up
                     // once at 30s, 60s, 1m, 2m, 4m, 8m and then 16m
                     // note that the last call into this will be 1m above the 15 "rate limit reset" window 
-                    Task.Delay(TimeSpan.FromSeconds(backofftimer));
+                    await Task.Delay(TimeSpan.FromSeconds(backofftimer));
                     if (backofftimer > maxbackoff)
                         break;
                     backofftimer = backofftimer * 2;
@@ -400,6 +423,9 @@ namespace BoxKite.Twitter
                 if (dmrecd.OK)
                 {
                     smallestid = long.MaxValue;
+                    // if the Count of items returned is less than the backfill quota, we have run out of messages.
+                    // this will decrement the backfill quota to zero, falling out of the loop
+                    if (dmrecd.Count < backfillQuota) backfillQuota = dmrecd.Count;
                     foreach (var dm in dmrecd)
                     {
                         _directmessages.OnNext(dm);
@@ -414,7 +440,7 @@ namespace BoxKite.Twitter
                     // The Backoff will trigger 7 times before just giving up
                     // once at 30s, 60s, 1m, 2m, 4m, 8m and then 16m
                     // note that the last call into this will be 1m above the 15 "rate limit reset" window 
-                    Task.Delay(TimeSpan.FromSeconds(backofftimer));
+                    await Task.Delay(TimeSpan.FromSeconds(backofftimer));
                     if (backofftimer > maxbackoff)
                         break;
                     backofftimer = backofftimer * 2;
@@ -436,6 +462,7 @@ namespace BoxKite.Twitter
                 if (mysentdms.OK)
                 {
                     smallestid = long.MaxValue;
+                    if (mysentdms.Count < backfillQuota) backfillQuota = mysentdms.Count;
                     foreach (var dm in mysentdms)
                     {
                         _directmessages.OnNext(dm);
@@ -450,7 +477,7 @@ namespace BoxKite.Twitter
                     // The Backoff will trigger 7 times before just giving up
                     // once at 30s, 60s, 1m, 2m, 4m, 8m and then 16m
                     // note that the last call into this will be 1m above the 15 "rate limit reset" window 
-                    Task.Delay(TimeSpan.FromSeconds(backofftimer));
+                    await Task.Delay(TimeSpan.FromSeconds(backofftimer));
                     if (backofftimer > maxbackoff)
                         break;
                     backofftimer = backofftimer * 2;
@@ -472,6 +499,7 @@ namespace BoxKite.Twitter
                 if (hometl.OK)
                 {
                     smallestid = long.MaxValue;
+                    if (hometl.Count < backfillQuota) backfillQuota = hometl.Count;
                     foreach (var tweet in hometl)
                     {
                         _mytweets.OnNext(tweet);
@@ -486,7 +514,7 @@ namespace BoxKite.Twitter
                     // The Backoff will trigger 7 times before just giving up
                     // once at 30s, 60s, 1m, 2m, 4m, 8m and then 16m
                     // note that the last call into this will be 1m above the 15 "rate limit reset" window 
-                    Task.Delay(TimeSpan.FromSeconds(backofftimer));
+                    await Task.Delay(TimeSpan.FromSeconds(backofftimer));
                     if (backofftimer > maxbackoff)
                         break;
                     backofftimer = backofftimer * 2;
