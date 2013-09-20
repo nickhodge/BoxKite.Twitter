@@ -79,6 +79,7 @@ namespace BoxKite.Twitter
                 if (searchtl.OK)
                 {
                     smallestid = long.MaxValue;
+                    if (searchtl.Tweets.Count() < backfillQuota) backfillQuota = searchtl.Tweets.Count();
                     foreach (var tweet in searchtl.Tweets)
                     {
                         if (tweet.Id < smallestid) smallestid = tweet.Id;

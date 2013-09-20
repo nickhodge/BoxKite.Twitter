@@ -10,6 +10,12 @@ Questions? You can find me on Twitter, of course! [@NickHodgeMSFT](https://twitt
 
 ## Version News
 
+1.0.6 (and 1.0.5) Fixes/Implements:
+* Adding support for latest Portable HTTPClient
+* Adding more Rx in many places to make life easier
+* Fixed bug where gzip compression on the HTTP Stream (for userstreams) didn't flush tweets from the server-side.
+* various small bugs found in tweet backfills, found when testing with a fresh account
+
 1.0.4 Fixes/Implements:
 * As per Twitter: [User IDs moving to 64 bits later in 2013](https://dev.twitter.com/blog/test-accounts-user-ids-greater-32-bits) 
 * Note: Using .NET long to hold user_id
@@ -88,7 +94,7 @@ Install-Package BoxKite.Twitter
 * Without [Newtonsoft Json.NET](http://json.net) this library would not exist (MIT License)
 * Microsoft's Open sourced .NET [Reactive Extensions](https://rx.codeplex.com/) (Apache License 2.0)
 * Brendan Forster's [Reactive.EventAggregator](https://github.com/shiftkey/Reactive.EventAggregator) (sourced from NuGet)
-* [Portable version of the HTTP Client Libraries, 2.2](http://blogs.msdn.com/b/bclteam/p/httpclient.aspx) from the Microsoft ASP.NET WebAPI team [HTTP Client Libraries](http://nuget.org/packages/Microsoft.Net.Http/)  (sourced from NuGet, currently Licensed under [DotNetBetaUnsupported](http://go.microsoft.com/fwlink/?LinkID=279007) license)
+* [Portable version of the HTTP Client Libraries, 2.2.x](http://blogs.msdn.com/b/bclteam/p/httpclient.aspx) from the Microsoft ASP.NET WebAPI team [HTTP Client Libraries](http://nuget.org/packages/Microsoft.Net.Http/)  (sourced from NuGet, currently Licensed under [DotNetBetaUnsupported](http://go.microsoft.com/fwlink/?LinkID=279007) license)
 
 ### (Dependency when running BoxKite.Twitter.Tests only)
 

@@ -2,20 +2,16 @@
 // License: MS-PL
 
 using System;
-using System.CodeDom;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using BoxKite.Twitter.Models;
-using BoxKite.Twitter.Extensions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Reactive.EventAggregator;
@@ -34,7 +30,6 @@ namespace BoxKite.Twitter
         readonly Subject<StreamUserWithheld> userwithheld = new Subject<StreamUserWithheld>();
         readonly Subject<IEnumerable<long>> friends = new Subject<IEnumerable<long>>();
 
-        readonly TimeSpan initialDelay = TimeSpan.FromSeconds(20);
         readonly Func<Task<HttpResponseMessage>> createOpenConnection;
 
         public IObservable<Tweet> Tweets { get { return tweets; } }
