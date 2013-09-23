@@ -33,7 +33,7 @@ namespace BoxKite.Twitter
             this.credentials = credentials;
             _platformAdaptor = platformAdaptor;
         }
-#elif (WINDOWS)
+#elif (WINDOWSDESKTOP)
         public UserSession(TwitterCredentials credentials)
         {
             this.credentials = credentials;
@@ -45,7 +45,13 @@ namespace BoxKite.Twitter
             this.credentials = credentials;
             _platformAdaptor = new Win8RTPlatformAdaptor();
         }
+#elif (WINPHONE8)
+        public UserSession(TwitterCredentials credentials)
+        {
+            this.credentials = credentials;
+        }
 #endif
+
         public async Task<HttpResponseMessage> GetAsync(string url, SortedDictionary<string, string> parameters)
         {
             var querystring = parameters.Aggregate("", (current, entry) => current + (entry.Key + "=" + entry.Value + "&"));

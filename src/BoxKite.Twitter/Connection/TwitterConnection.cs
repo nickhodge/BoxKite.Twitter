@@ -35,7 +35,7 @@ namespace BoxKite.Twitter
             _platformAdaptor = platformAdaptor;
             _twitterauth = new TwitterAuthenticator(_twitterConsumerKey, _twitterConsumerSecret, platformAdaptor);
         }
-#elif (WINDOWS)
+#elif (WINDOWSDESKTOP)
         public TwitterConnection(string twitterConsumerKey,string twitterConsumerSecret)
         {
             _twitterConsumerKey = twitterConsumerKey;
@@ -54,6 +54,15 @@ namespace BoxKite.Twitter
              _eventAggregator = new EventAggregator();
             _twitterauth = new TwitterAuthenticator(_twitterConsumerKey, _twitterConsumerSecret, _callbackURI);
         }
+#elif(WINPHONE8)
+        public TwitterConnection(string twitterConsumerKey, string twitterConsumerSecret, string callbackuri, string xauthusername, string xauthpassword)
+        {
+            _twitterConsumerKey = twitterConsumerKey;
+            CheckClientKey(twitterConsumerKey);
+            _twitterConsumerSecret = twitterConsumerSecret;
+             _eventAggregator = new EventAggregator();
+            _twitterauth = new TwitterAuthenticator(_twitterConsumerKey, _twitterConsumerSecret);
+        }
 #endif
 
 #if (PORTABLE)
@@ -62,8 +71,8 @@ namespace BoxKite.Twitter
             _eventAggregator = new EventAggregator();
             _platformAdaptor = platformAdaptor;
         }
-#elif (WINDOWS)
-       public TwitterConnection()
+#elif (WINDOWSDESKTOP)
+        public TwitterConnection()
        {
             _eventAggregator = new EventAggregator();           
            _platformAdaptor = new DesktopPlatformAdaptor();
@@ -84,7 +93,7 @@ namespace BoxKite.Twitter
             }
         }
 
-#if (PORTABLE || WINDOWS)
+#if (PORTABLE || WINDOWSDESKTOP)
         // auth happens when no creds are present
         public async Task<bool> BeginAuthentication()
         {
@@ -115,7 +124,7 @@ namespace BoxKite.Twitter
 
 #if (PORTABLE)
             var newaccount = new TwitterAccount(twitterCredentials, twitterConnectionEvents, _platformAdaptor);
-#elif (WINDOWS || WIN8RT)
+#elif (WINDOWSDESKTOP || WIN8RT || WINPHONE8)
             var newaccount = new TwitterAccount(twitterCredentials, twitterConnectionEvents);
 #endif
             var checkedcreds = await newaccount.VerifyCredentials();

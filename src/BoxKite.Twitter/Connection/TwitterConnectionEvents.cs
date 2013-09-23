@@ -30,7 +30,6 @@ namespace BoxKite.Twitter
         private async void GetFriendshipRequestsIncoming_Backfill()
         {
             long nextcursor = -1;
-            var ff2ListCount = 0;
 
             do
             {

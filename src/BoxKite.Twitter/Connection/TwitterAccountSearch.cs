@@ -93,7 +93,7 @@ namespace BoxKite.Twitter
                     // The Backoff will trigger 7 times before just giving up
                     // once at 30s, 60s, 1m, 2m, 4m, 8m and then 16m
                     // note that the last call into this will be 1m above the 15 "rate limit reset" window 
-                    Task.Delay(TimeSpan.FromSeconds(backofftimer));
+                    await Task.Delay(TimeSpan.FromSeconds(backofftimer));
                     if (backofftimer > maxbackoff)
                     backofftimer = backofftimer * 2;
                 }

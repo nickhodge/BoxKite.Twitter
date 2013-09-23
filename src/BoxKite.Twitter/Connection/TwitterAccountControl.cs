@@ -30,7 +30,7 @@ namespace BoxKite.Twitter
             _eventAggregator = eventAggregator;
             Session = new UserSession(_TwitterCredentials,_platformAdaptor);
         }
-#elif (WINDOWS || WIN8RT)        
+#elif (WINDOWSDESKTOP || WIN8RT || WINPHONE8)
         public TwitterAccount(TwitterCredentials twitterCredentials, IEventAggregator eventAggregator)
         {
             _TwitterCredentials = twitterCredentials;

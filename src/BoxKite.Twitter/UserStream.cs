@@ -188,13 +188,13 @@ namespace BoxKite.Twitter
                             Stop();
                         }
                     }
-                    catch (InvalidCastException badBatman)
+                    catch (InvalidCastException)
                     {
                         //ignore it fanboy
                     }
                 });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Stop();
             }

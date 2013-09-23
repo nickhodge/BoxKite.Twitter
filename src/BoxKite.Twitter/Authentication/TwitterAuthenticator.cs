@@ -36,7 +36,7 @@ namespace BoxKite.Twitter
             _clientSecret = clientSecret;
             _platformAdaptor = platformAdaptor;
         }
-#elif (WINDOWS)
+#elif (WINDOWSDESKTOP)
         public TwitterAuthenticator(string clientID, string clientSecret)
         {
             _clientId = clientID;
@@ -51,8 +51,14 @@ namespace BoxKite.Twitter
             _callbackuri = callbackuri;
             _platformAdaptor = new Win8RTPlatformAdaptor();
         }
+#elif (WINPHONE8)
+        public TwitterAuthenticator(string clientID, string clientSecret)
+        {
+            _clientId = clientID;
+            _clientSecret = clientSecret;
+        }
 #endif
-#if (PORTABLE || WINDOWS)
+#if (PORTABLE || WINDOWSDESKTOP)
         public async Task<bool> StartAuthentication()
         {
             if (string.IsNullOrWhiteSpace(_clientId))
@@ -284,7 +290,67 @@ namespace BoxKite.Twitter
             }
             return TwitterCredentials.Null;
         }
+#elif (WINPHONE8)
+        public async Task<TwitterCredentials> XAuthentication(string xauthusername, string xauthpassword)
+        {
+            if (string.IsNullOrWhiteSpace(_clientId))
+                throw new ArgumentException("ClientID must be specified", _clientId);
+
+            if (string.IsNullOrWhiteSpace(_clientSecret))
+                throw new ArgumentException("ClientSecret must be specified", _clientSecret);
+
+            var sinceEpoch = GenerateTimeStamp();
+            var nonce = GenerateNonce();
+
+            var sigBaseStringParams =
+                string.Format(
+                    "oauth_consumer_key={0}&oauth_nonce={1}&oauth_signature_method=HMAC-SHA1&oauth_timestamp={2}&oauth_version=1.0",
+                    _clientId,
+                    nonce,
+                    sinceEpoch);
+
+            var sigBaseString = string.Format("POST&{0}&{1}", RequestTokenUrl.UrlEncode(), sigBaseStringParams.UrlEncode());
+            var signature = GenerateSignature(_clientSecret, sigBaseString, null);
+            var dataToPost = string.Format(
+                    "OAuth realm=\"\", oauth_nonce=\"{0}\", oauth_timestamp=\"{1}\", oauth_consumer_key=\"{2}\", oauth_signature_method=\"HMAC-SHA1\", oauth_version=\"1.0\", oauth_signature=\"{3}\"",
+                    nonce,
+                    sinceEpoch,
+                    _clientId,
+                    signature.UrlEncode());
+
+            var contentToPost = string.Format(
+                "x_auth_username=\"{0}\"&x_auth_password=\"{1}\"&x_auth_mode=client_auth",
+                xauthusername,
+                xauthpassword);
+
+            var authresponse = await PostData(AuthorizeTokenUrl, dataToPost, contentToPost);
+
+            var useraccessConfirmed = false;
+
+            foreach (var splits in authresponse.Split('&').Select(t => t.Split('=')))
+            {
+                switch (splits[0])
+                {
+                    case "oauth_token": //these tokens are request tokens, first step before getting access tokens
+                        _accessToken = splits[1];
+                        break;
+                    case "oauth_token_secret":
+                        _accessTokenSecret = splits[1];
+                        break;
+                    case "user_id":
+                        _userId = splits[1];
+                        useraccessConfirmed = true;
+                        break;
+                    case "screen_name":
+                        _screenName = splits[1];
+                        break;
+                }
+                return useraccessConfirmed ? GetUserCredentials() : TwitterCredentials.Null;
+            }
+            return TwitterCredentials.Null;
+        }
 #endif
+
         private TwitterCredentials GetUserCredentials()
         {
             var credentials = new TwitterCredentials
