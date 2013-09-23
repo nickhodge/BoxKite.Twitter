@@ -23,16 +23,28 @@ namespace BoxKite.Twitter.Console
         {
             ConsoleOutput.PrintMessage("Welcome to BoxKite.Twitter Console");
             ConsoleOutput.PrintMessage("(control-c ends)");
-            System.Console.CancelKeyPress += new ConsoleCancelEventHandler(cancelStreamHandler);
+            System.Console.CancelKeyPress += cancelStreamHandler;
 
             //var twittercredentials = ManageTwitterCredentials.MakeConnection();
 
-            twitterConnection = new TwitterConnection("3izxqWiej34yTlofisw","uncicYQtDx5SoWth1I9xcn5vrpczUct1Oz9ydwTY4");
+            twitterConnection = new TwitterConnection("3izxqWiej34yTlofisw","uncicYQtDx5SoWth1I9xcn5vrpczUct1Oz9ydwTY4", new DesktopPlatformAdaptor());
 
-            DoPINDisplay(twitterConnection);
-            ConsoleOutput.PrintMessage("Pin: ");
-            var pin = System.Console.ReadLine();
-            var mainTwitterAccount = AuthPIN(pin, twitterConnection).Result;
+            // PIN based authentication
+            //DoPINDisplay(twitterConnection);
+            //ConsoleOutput.PrintMessage("Pin: ");
+            //var pin = System.Console.ReadLine();
+            //var mainTwitterAccount = AuthPIN(pin, twitterConnection).Result;
+
+            // xauth username, password authentication
+
+            /*ConsoleOutput.PrintMessage("Twitter username: ");
+            var xauthusername = System.Console.ReadLine();
+            ConsoleOutput.PrintMessage("Twitter password: ");
+            var xauthpassword = System.Console.ReadLine(); 
+
+            mainTwitterAccount = XAuth(xauthusername, xauthpassword, twitterConnection).Result; */
+
+            // mainTwitterAccount = XAuth("","", twitterConnection).Result;
 
             if (mainTwitterAccount != null)
             {
@@ -197,6 +209,16 @@ namespace BoxKite.Twitter.Console
             return null;
         }
 
+        public static async Task<TwitterAccount> XAuth(string xauthusername, string xauthpassword, TwitterConnection twitterConnection)
+        {
+            // let's go for xauth!
+            var twitteraccount = await twitterConnection.XAuthentication(xauthusername, xauthpassword);
+            if (twitteraccount == null) // oops, not a good auth 
+            {
+                return null;
+            }
+            return twitteraccount;
+        }
 
 
 

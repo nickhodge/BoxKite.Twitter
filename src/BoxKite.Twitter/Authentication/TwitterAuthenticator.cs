@@ -29,14 +29,14 @@ namespace BoxKite.Twitter
         private string _screenName = "";
         private readonly IPlatformAdaptor _platformAdaptor; // platform specific HMACSHA1
 
-#if (PORTABLE)
+
         public TwitterAuthenticator(string clientID, string clientSecret, IPlatformAdaptor platformAdaptor)
         {
             _clientId = clientID;
             _clientSecret = clientSecret;
             _platformAdaptor = platformAdaptor;
         }
-#elif (WINDOWSDESKTOP)
+#if (WINDOWSDESKTOP)
         public TwitterAuthenticator(string clientID, string clientSecret)
         {
             _clientId = clientID;
@@ -51,14 +51,13 @@ namespace BoxKite.Twitter
             _callbackuri = callbackuri;
             _platformAdaptor = new Win8RTPlatformAdaptor();
         }
-#elif (WINPHONE8)
+#endif
         public TwitterAuthenticator(string clientID, string clientSecret)
         {
             _clientId = clientID;
             _clientSecret = clientSecret;
         }
-#endif
-#if (PORTABLE || WINDOWSDESKTOP)
+
         public async Task<bool> StartAuthentication()
         {
             if (string.IsNullOrWhiteSpace(_clientId))
@@ -160,7 +159,7 @@ namespace BoxKite.Twitter
             return useraccessConfirmed ? GetUserCredentials() : TwitterCredentials.Null;
         }
 
-#elif (WIN8RT)
+#if (WIN8RT)
         public async Task<TwitterCredentials> Authentication()
         {
             if (string.IsNullOrWhiteSpace(_clientId))
@@ -290,7 +289,7 @@ namespace BoxKite.Twitter
             }
             return TwitterCredentials.Null;
         }
-#elif (WINPHONE8)
+#endif
         public async Task<TwitterCredentials> XAuthentication(string xauthusername, string xauthpassword)
         {
             if (string.IsNullOrWhiteSpace(_clientId))
@@ -309,21 +308,21 @@ namespace BoxKite.Twitter
                     nonce,
                     sinceEpoch);
 
-            var sigBaseString = string.Format("POST&{0}&{1}", RequestTokenUrl.UrlEncode(), sigBaseStringParams.UrlEncode());
+            var sigBaseString = string.Format("POST&{0}&{1}", XAuthorizeTokenUrl.UrlEncode(), sigBaseStringParams.UrlEncode());
             var signature = GenerateSignature(_clientSecret, sigBaseString, null);
             var dataToPost = string.Format(
-                    "OAuth realm=\"\", oauth_nonce=\"{0}\", oauth_timestamp=\"{1}\", oauth_consumer_key=\"{2}\", oauth_signature_method=\"HMAC-SHA1\", oauth_version=\"1.0\", oauth_signature=\"{3}\"",
+                    "OAuth oauth_consumer_key=\"{2}\",oauth_nonce=\"{0}\",oauth_signature=\"{3}\",oauth_signature_method=\"HMAC-SHA1\",oauth_timestamp=\"{1}\",oauth_version=\"1.0\"",
                     nonce,
                     sinceEpoch,
                     _clientId,
                     signature.UrlEncode());
 
             var contentToPost = string.Format(
-                "x_auth_username=\"{0}\"&x_auth_password=\"{1}\"&x_auth_mode=client_auth",
-                xauthusername,
-                xauthpassword);
+                "x_auth_username={0}&x_auth_password={1}&x_auth_mode=client_auth",
+                xauthusername.UrlEncode(),
+                xauthpassword.UrlEncode());
 
-            var authresponse = await PostData(AuthorizeTokenUrl, dataToPost, contentToPost);
+            var authresponse = await PostData(XAuthorizeTokenUrl, dataToPost, contentToPost);
 
             var useraccessConfirmed = false;
 
@@ -349,7 +348,6 @@ namespace BoxKite.Twitter
             }
             return TwitterCredentials.Null;
         }
-#endif
 
         private TwitterCredentials GetUserCredentials()
         {
@@ -367,10 +365,11 @@ namespace BoxKite.Twitter
         }
 
         /* Utilities */
-        const string SafeURLEncodeChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_.~";
-        const string RequestTokenUrl = "http://api.twitter.com/oauth/request_token";
-        const string AuthenticateUrl = "https://api.twitter.com/oauth/authorize?oauth_token=";
-        const string AuthorizeTokenUrl = "https://api.twitter.com/oauth/access_token";
+        private const string SafeURLEncodeChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_.~";
+        private const string RequestTokenUrl = "http://api.twitter.com/oauth/request_token";
+        private const string AuthenticateUrl = "https://api.twitter.com/oauth/authorize?oauth_token=";
+        private const string AuthorizeTokenUrl = "https://api.twitter.com/oauth/access_token";
+        private const string XAuthorizeTokenUrl = "https://api.twitter.com/oauth/access_token?send_error_codes=true";
 
         private string GenerateSignature(string signingKey, string baseString, string tokenSecret)
         {

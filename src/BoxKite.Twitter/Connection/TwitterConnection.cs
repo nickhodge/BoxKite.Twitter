@@ -25,7 +25,6 @@ namespace BoxKite.Twitter
         private IEventAggregator _eventAggregator;
         public IEventAggregator twitterConnectionEvents { get { return _eventAggregator; } set { _eventAggregator = value;} }
 
-#if (PORTABLE)
         public TwitterConnection(string twitterConsumerKey,string twitterConsumerSecret, IPlatformAdaptor platformAdaptor)
         {
             _twitterConsumerKey = twitterConsumerKey;
@@ -35,7 +34,7 @@ namespace BoxKite.Twitter
             _platformAdaptor = platformAdaptor;
             _twitterauth = new TwitterAuthenticator(_twitterConsumerKey, _twitterConsumerSecret, platformAdaptor);
         }
-#elif (WINDOWSDESKTOP)
+
         public TwitterConnection(string twitterConsumerKey,string twitterConsumerSecret)
         {
             _twitterConsumerKey = twitterConsumerKey;
@@ -44,7 +43,7 @@ namespace BoxKite.Twitter
              _eventAggregator = new EventAggregator();
             _twitterauth = new TwitterAuthenticator(_twitterConsumerKey, _twitterConsumerSecret);
         }
-#elif(WIN8RT)
+#if(WIN8RT)
         public TwitterConnection(string twitterConsumerKey,string twitterConsumerSecret, string callbackuri)
         {
             _twitterConsumerKey = twitterConsumerKey;
@@ -54,7 +53,8 @@ namespace BoxKite.Twitter
              _eventAggregator = new EventAggregator();
             _twitterauth = new TwitterAuthenticator(_twitterConsumerKey, _twitterConsumerSecret, _callbackURI);
         }
-#elif(WINPHONE8)
+#endif
+
         public TwitterConnection(string twitterConsumerKey, string twitterConsumerSecret, string callbackuri, string xauthusername, string xauthpassword)
         {
             _twitterConsumerKey = twitterConsumerKey;
@@ -63,7 +63,6 @@ namespace BoxKite.Twitter
              _eventAggregator = new EventAggregator();
             _twitterauth = new TwitterAuthenticator(_twitterConsumerKey, _twitterConsumerSecret);
         }
-#endif
 
 #if (PORTABLE)
         public TwitterConnection(IPlatformAdaptor platformAdaptor)
@@ -93,7 +92,6 @@ namespace BoxKite.Twitter
             }
         }
 
-#if (PORTABLE || WINDOWSDESKTOP)
         // auth happens when no creds are present
         public async Task<bool> BeginAuthentication()
         {
@@ -108,7 +106,16 @@ namespace BoxKite.Twitter
             if (!twittercredentials.Valid) return null;
             return await AddTwitterAccount(twittercredentials);
         }
-#elif(WIN8RT)
+
+        // another method using xauth as the authentication flow
+        public async Task<TwitterAccount> XAuthentication(string xauthusername, string xauthpassword)
+        {
+            var twittercredentials = await _twitterauth.XAuthentication(xauthusername, xauthpassword);
+            if (!twittercredentials.Valid) return null;
+            return await AddTwitterAccount(twittercredentials);
+        }
+
+#if(WIN8RT)
         public async Task<TwitterAccount> Authenticate()
         {
             var twittercredentials =  await _twitterauth.Authentication();
@@ -124,7 +131,7 @@ namespace BoxKite.Twitter
 
 #if (PORTABLE)
             var newaccount = new TwitterAccount(twitterCredentials, twitterConnectionEvents, _platformAdaptor);
-#elif (WINDOWSDESKTOP || WIN8RT || WINPHONE8)
+#else
             var newaccount = new TwitterAccount(twitterCredentials, twitterConnectionEvents);
 #endif
             var checkedcreds = await newaccount.VerifyCredentials();

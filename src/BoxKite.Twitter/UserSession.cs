@@ -45,7 +45,7 @@ namespace BoxKite.Twitter
             this.credentials = credentials;
             _platformAdaptor = new Win8RTPlatformAdaptor();
         }
-#elif (WINPHONE8)
+#else
         public UserSession(TwitterCredentials credentials)
         {
             this.credentials = credentials;
