@@ -25,6 +25,7 @@ namespace BoxKite.Twitter
         private IEventAggregator _eventAggregator;
         public IEventAggregator twitterConnectionEvents { get { return _eventAggregator; } set { _eventAggregator = value;} }
 
+#if (PORTABLE)
         public TwitterConnection(string twitterConsumerKey,string twitterConsumerSecret, IPlatformAdaptor platformAdaptor)
         {
             _twitterConsumerKey = twitterConsumerKey;
@@ -35,14 +36,13 @@ namespace BoxKite.Twitter
             _twitterauth = new TwitterAuthenticator(_twitterConsumerKey, _twitterConsumerSecret, platformAdaptor);
         }
 
-        public TwitterConnection(string twitterConsumerKey,string twitterConsumerSecret)
+        public TwitterConnection(IPlatformAdaptor platformAdaptor)
         {
-            _twitterConsumerKey = twitterConsumerKey;
-            CheckClientKey(twitterConsumerKey);
-            _twitterConsumerSecret = twitterConsumerSecret;
-             _eventAggregator = new EventAggregator();
-            _twitterauth = new TwitterAuthenticator(_twitterConsumerKey, _twitterConsumerSecret);
+            _eventAggregator = new EventAggregator();
+            _platformAdaptor = platformAdaptor;
         }
+#endif
+
 #if(WIN8RT)
         public TwitterConnection(string twitterConsumerKey,string twitterConsumerSecret, string callbackuri)
         {
@@ -53,34 +53,50 @@ namespace BoxKite.Twitter
              _eventAggregator = new EventAggregator();
             _twitterauth = new TwitterAuthenticator(_twitterConsumerKey, _twitterConsumerSecret, _callbackURI);
         }
+
+       public TwitterConnection()
+       {
+            _eventAggregator = new EventAggregator();
+           _platformAdaptor = new Win8RTPlatformAdaptor();
+       }
 #endif
 
-        public TwitterConnection(string twitterConsumerKey, string twitterConsumerSecret, string callbackuri, string xauthusername, string xauthpassword)
+        public TwitterConnection(string twitterConsumerKey, string twitterConsumerSecret, string callbackuri, string xauthusername, string xauthpassword, IPlatformAdaptor platformAdaptor)
         {
             _twitterConsumerKey = twitterConsumerKey;
             CheckClientKey(twitterConsumerKey);
             _twitterConsumerSecret = twitterConsumerSecret;
              _eventAggregator = new EventAggregator();
-            _twitterauth = new TwitterAuthenticator(_twitterConsumerKey, _twitterConsumerSecret);
+            _platformAdaptor = platformAdaptor;
+             _twitterauth = new TwitterAuthenticator(_twitterConsumerKey, _twitterConsumerSecret, platformAdaptor);
         }
 
-#if (PORTABLE)
-        public TwitterConnection(IPlatformAdaptor platformAdaptor)
+#if (WINDOWSDESKTOP)
+        public TwitterConnection(string twitterConsumerKey, string twitterConsumerSecret, IPlatformAdaptor platformAdaptor)
         {
+            _twitterConsumerKey = twitterConsumerKey;
+            CheckClientKey(twitterConsumerKey);
+            _twitterConsumerSecret = twitterConsumerSecret;
             _eventAggregator = new EventAggregator();
             _platformAdaptor = platformAdaptor;
+            _twitterauth = new TwitterAuthenticator(_twitterConsumerKey, _twitterConsumerSecret, platformAdaptor);
         }
-#elif (WINDOWSDESKTOP)
-        public TwitterConnection()
+
+        public TwitterConnection(string twitterConsumerKey, string twitterConsumerSecret)
+        {
+            _twitterConsumerKey = twitterConsumerKey;
+            CheckClientKey(twitterConsumerKey);
+            _twitterConsumerSecret = twitterConsumerSecret;
+            _eventAggregator = new EventAggregator();
+            _platformAdaptor = new DesktopPlatformAdaptor();
+            _twitterauth = new TwitterAuthenticator(_twitterConsumerKey, _twitterConsumerSecret, _platformAdaptor);
+        }
+
+
+       public TwitterConnection()
        {
             _eventAggregator = new EventAggregator();           
            _platformAdaptor = new DesktopPlatformAdaptor();
-       }
-#elif (WIN8RT)
-       public TwitterConnection()
-       {
-            _eventAggregator = new EventAggregator();
-           _platformAdaptor = new Win8RTPlatformAdaptor();
        }
 #endif
 
@@ -128,12 +144,7 @@ namespace BoxKite.Twitter
         public async Task<TwitterAccount> AddTwitterAccount(TwitterCredentials twitterCredentials)
         {
             if (!twitterCredentials.Valid) return null;
-
-#if (PORTABLE)
             var newaccount = new TwitterAccount(twitterCredentials, twitterConnectionEvents, _platformAdaptor);
-#else
-            var newaccount = new TwitterAccount(twitterCredentials, twitterConnectionEvents);
-#endif
             var checkedcreds = await newaccount.VerifyCredentials();
             if (!checkedcreds) return null;
 

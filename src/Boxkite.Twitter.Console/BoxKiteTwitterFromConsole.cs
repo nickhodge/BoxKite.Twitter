@@ -7,7 +7,6 @@ using System.Security.Policy;
 using System.Threading;
 using System.Threading.Tasks;
 using BoxKite.Twitter.Models;
-using Microsoft.SqlServer.Server;
 using Reactive.EventAggregator;
 
 namespace BoxKite.Twitter.Console
@@ -30,10 +29,10 @@ namespace BoxKite.Twitter.Console
             twitterConnection = new TwitterConnection("3izxqWiej34yTlofisw","uncicYQtDx5SoWth1I9xcn5vrpczUct1Oz9ydwTY4", new DesktopPlatformAdaptor());
 
             // PIN based authentication
-            //DoPINDisplay(twitterConnection);
-            //ConsoleOutput.PrintMessage("Pin: ");
-            //var pin = System.Console.ReadLine();
-            //var mainTwitterAccount = AuthPIN(pin, twitterConnection).Result;
+            DoPINDisplay(twitterConnection);
+            ConsoleOutput.PrintMessage("Pin: ");
+            var pin = System.Console.ReadLine();
+            var mainTwitterAccount = AuthPIN(pin, twitterConnection).Result;
 
             // xauth username, password authentication
 
@@ -197,16 +196,9 @@ namespace BoxKite.Twitter.Console
         public static async Task<TwitterAccount> AuthPIN(string authPIN, TwitterConnection twitterConnection)
         {
             // after entering the PIN, and clicking OK, this method is run
-            if (!string.IsNullOrWhiteSpace(authPIN))
-            {
-                var twitteraccount = await twitterConnection.CompleteAuthentication(authPIN);
-                if (twitteraccount == null) // oops, not a good auth
-                {
-                    return null;
-                }
-                return twitteraccount;
-            }
-            return null;
+            if (string.IsNullOrWhiteSpace(authPIN)) return null;
+            var twitteraccount = await twitterConnection.CompleteAuthentication(authPIN);
+            return twitteraccount ?? null;
         }
 
         public static async Task<TwitterAccount> XAuth(string xauthusername, string xauthpassword, TwitterConnection twitterConnection)
@@ -219,8 +211,6 @@ namespace BoxKite.Twitter.Console
             }
             return twitteraccount;
         }
-
-
 
         public static void PrintTwitterErrors(TwitterControlMessage tcm)
         {

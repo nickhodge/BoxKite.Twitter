@@ -22,7 +22,6 @@ namespace BoxKite.Twitter
 
         private readonly TimeSpan _multiFetchBackoffTimer = new TimeSpan(1200);
 
-#if (PORTABLE)
         public TwitterAccount(TwitterCredentials twitterCredentials, IEventAggregator eventAggregator, IPlatformAdaptor platformAdaptor)
         {
             _TwitterCredentials = twitterCredentials;
@@ -30,14 +29,6 @@ namespace BoxKite.Twitter
             _eventAggregator = eventAggregator;
             Session = new UserSession(_TwitterCredentials,_platformAdaptor);
         }
-#else
-        public TwitterAccount(TwitterCredentials twitterCredentials, IEventAggregator eventAggregator)
-        {
-            _TwitterCredentials = twitterCredentials;
-            _eventAggregator = eventAggregator;
-            Session = new UserSession(_TwitterCredentials);
-        }
-#endif
 
         public async Task<bool> VerifyCredentials()
         {

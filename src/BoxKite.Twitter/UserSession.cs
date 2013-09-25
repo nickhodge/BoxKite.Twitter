@@ -27,30 +27,12 @@ namespace BoxKite.Twitter
         const string OauthVersion = "1.0";
         private IPlatformAdaptor _platformAdaptor;
 
-#if (PORTABLE)
+
         public UserSession(TwitterCredentials credentials, IPlatformAdaptor platformAdaptor)
         {
             this.credentials = credentials;
-            _platformAdaptor = platformAdaptor;
+            this._platformAdaptor = platformAdaptor;
         }
-#elif (WINDOWSDESKTOP)
-        public UserSession(TwitterCredentials credentials)
-        {
-            this.credentials = credentials;
-            _platformAdaptor = new DesktopPlatformAdaptor();
-        }
-#elif (WIN8RT)
-        public UserSession(TwitterCredentials credentials)
-        {
-            this.credentials = credentials;
-            _platformAdaptor = new Win8RTPlatformAdaptor();
-        }
-#else
-        public UserSession(TwitterCredentials credentials)
-        {
-            this.credentials = credentials;
-        }
-#endif
 
         public async Task<HttpResponseMessage> GetAsync(string url, SortedDictionary<string, string> parameters)
         {

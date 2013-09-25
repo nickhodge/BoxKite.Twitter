@@ -21,7 +21,7 @@ namespace BoxKite.Twitter
     {
         private readonly string _clientId = ""; // twitter API calls these Consumers, or from their perspective consumers of their API
         private readonly string _clientSecret = ""; // twitter API calls these Consumers, or from their perspective consumers of their API
-        private readonly string _callbackuri = ""; // twitter API uses this in the case of xauth (I think)
+        private readonly string _callbackuri = ""; 
         private string _oAuthToken = "";
         private string _accessToken = "";
         private string _accessTokenSecret = "";
@@ -43,7 +43,8 @@ namespace BoxKite.Twitter
             _clientSecret = clientSecret;
             _platformAdaptor = new DesktopPlatformAdaptor();
         }
-#elif (WIN8RT)
+#endif
+#if (WIN8RT)
         public TwitterAuthenticator(string clientID, string clientSecret, string callbackuri)
         {
             _clientId = clientID;
@@ -51,12 +52,29 @@ namespace BoxKite.Twitter
             _callbackuri = callbackuri;
             _platformAdaptor = new Win8RTPlatformAdaptor();
         }
-#endif
+
         public TwitterAuthenticator(string clientID, string clientSecret)
         {
             _clientId = clientID;
             _clientSecret = clientSecret;
         }
+#endif
+#if (WINDOWS_PHONE)
+        public TwitterAuthenticator(string clientID, string clientSecret, string callbackuri)
+        {
+            _clientId = clientID;
+            _clientSecret = clientSecret;
+            _callbackuri = callbackuri;
+            _platformAdaptor = null; // TO BE DONE
+        }
+
+        public TwitterAuthenticator(string clientID, string clientSecret)
+        {
+            _clientId = clientID;
+            _clientSecret = clientSecret;
+        }
+#endif
+
 
         public async Task<bool> StartAuthentication()
         {
@@ -65,6 +83,9 @@ namespace BoxKite.Twitter
 
             if (string.IsNullOrWhiteSpace(_clientSecret))
                 throw new ArgumentException("ClientSecret must be specified", _clientSecret);
+
+            if (_platformAdaptor == null)
+                throw new ArgumentException("Need a Platform Adaptor");
 
             var sinceEpoch = GenerateTimeStamp();
             var nonce = GenerateNonce();
@@ -149,13 +170,16 @@ namespace BoxKite.Twitter
                         break;
                     case "user_id":
                         _userId = splits[1];
-                        useraccessConfirmed = true;
                         break;
                     case "screen_name":
                         _screenName = splits[1];
                         break;
                 }
             }
+
+            if (_accessToken != null && _accessTokenSecret != null && _userId != null && _screenName != null)
+                useraccessConfirmed = true;
+
             return useraccessConfirmed ? GetUserCredentials() : TwitterCredentials.Null;
         }
 
@@ -277,13 +301,17 @@ namespace BoxKite.Twitter
                                 break;
                             case "user_id":
                                 _userId = splits[1];
-                                useraccessConfirmed = true;
                                 break;
                             case "screen_name":
                                 _screenName = splits[1];
                                 break;
                         }
                     }
+
+                    if (_accessToken != null && _accessTokenSecret != null && _userId != null && _screenName != null)
+                        useraccessConfirmed = true;
+
+
                     return useraccessConfirmed ? GetUserCredentials() : TwitterCredentials.Null;
                 }
             }
@@ -338,12 +366,15 @@ namespace BoxKite.Twitter
                         break;
                     case "user_id":
                         _userId = splits[1];
-                        useraccessConfirmed = true;
                         break;
                     case "screen_name":
                         _screenName = splits[1];
                         break;
                 }
+
+                if (_accessToken != null && _accessTokenSecret != null && _userId != null && _screenName != null)
+                    useraccessConfirmed = true;
+
                 return useraccessConfirmed ? GetUserCredentials() : TwitterCredentials.Null;
             }
             return TwitterCredentials.Null;

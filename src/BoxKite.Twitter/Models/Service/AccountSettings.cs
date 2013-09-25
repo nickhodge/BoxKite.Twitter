@@ -62,10 +62,10 @@ namespace BoxKite.Twitter.Models
         public string country { get; set; }
         public string countryCode { get; set; }
         public string name { get; set; }
-        public int parentid { get; set; }
+        public int? parentid { get; set; }
         public PlaceType placeType { get; set; }
         public string url { get; set; }
-        public int woeid { get; set; }
+        public int? woeid { get; set; }
     }
 
 
