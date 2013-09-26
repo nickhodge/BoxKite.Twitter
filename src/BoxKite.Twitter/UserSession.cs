@@ -21,17 +21,42 @@ namespace BoxKite.Twitter
     {
         // used http://garyshortblog.wordpress.com/2011/02/11/a-twitter-oauth-example-in-c/
 
-        readonly TwitterCredentials credentials;
+        private readonly TwitterCredentials _credentials;
 
-        const string OauthSignatureMethod = "HMAC-SHA1";
-        const string OauthVersion = "1.0";
-        private IPlatformAdaptor _platformAdaptor;
+        private const string OauthSignatureMethod = "HMAC-SHA1";
+        private const string OauthVersion = "1.0";
+        private const string UserAgent = "BoxKite.Twitter/1.0";
+        public IPlatformAdaptor PlatformAdaptor { get; set; }
+        public string clientID { get; set; }
+        public string clientSecret { get; set; }
 
+
+        public UserSession(string clientID, string clientSecret, IPlatformAdaptor platformAdaptor)
+        {
+            this.clientID = clientID;
+            this.clientSecret = clientSecret;
+            PlatformAdaptor = platformAdaptor;
+        }
 
         public UserSession(TwitterCredentials credentials, IPlatformAdaptor platformAdaptor)
         {
-            this.credentials = credentials;
-            this._platformAdaptor = platformAdaptor;
+            _credentials = credentials;
+            PlatformAdaptor = platformAdaptor;
+        }
+
+        public TwitterCredentials GetUserCredentials()
+        {
+            var credentials = new TwitterCredentials
+            {
+                ConsumerKey = clientID,
+                ConsumerSecret = clientSecret,
+                Token = _credentials.Token,
+                TokenSecret = _credentials.ConsumerSecret,
+                ScreenName = _credentials.ScreenName,
+                UserID = _credentials.UserID,
+                Valid = true
+            };
+            return credentials;
         }
 
         public async Task<HttpResponseMessage> GetAsync(string url, SortedDictionary<string, string> parameters)
@@ -48,7 +73,7 @@ namespace BoxKite.Twitter
             }
             var client = new HttpClient(handler);
             client.DefaultRequestHeaders.Add("Authorization", oauth.Header);
-            client.DefaultRequestHeaders.Add("User-Agent", "BoxKite.Twitter/1.0");
+            client.DefaultRequestHeaders.Add("User-Agent", UserAgent);
 
             if (!string.IsNullOrWhiteSpace(querystring))
                 fullUrl += "?" + querystring.Substring(0, querystring.Length - 1);
@@ -70,7 +95,7 @@ namespace BoxKite.Twitter
             var client = new HttpClient(handler);
 
             client.DefaultRequestHeaders.Add("Authorization", oauth.Header);
-            client.DefaultRequestHeaders.Add("User-Agent", "BoxKite.Twitter/1.0");
+            client.DefaultRequestHeaders.Add("User-Agent", UserAgent);
 
             var content = parameters.Aggregate(string.Empty, (current, e) => current + string.Format("{0}={1}&", e.Key, Uri.EscapeDataString(e.Value)));
             var data = new StringContent(content, Encoding.UTF8, "application/x-www-form-urlencoded");
@@ -100,7 +125,7 @@ namespace BoxKite.Twitter
                 var client = new HttpClient(handler);
                 client.DefaultRequestHeaders.ExpectContinue = false;
                 client.DefaultRequestHeaders.Add("Authorization", oauth.Header);
-                client.DefaultRequestHeaders.Add("User-Agent", "BoxKite.Twitter/1.0");
+                client.DefaultRequestHeaders.Add("User-Agent", UserAgent);
 
                 var data = new MultipartFormDataContent();
                 if (parameters.Count > 0)
@@ -132,13 +157,25 @@ namespace BoxKite.Twitter
             }
         }
 
-        private ByteArrayContent FileDataContent(byte[] fileData=null, Stream srReader=null)
+        private static ByteArrayContent FileDataContent(byte[] fileData=null, Stream srReader=null)
         {
             if (fileData!=null)
                 return new ByteArrayContent(fileData);
             if (srReader == null) return null;
             var fd = srReader.ReadFully();
             return new ByteArrayContent(fd);
+        }
+
+        public string GenerateNoonce()
+        {
+            var rand = new Random();
+            return rand.Next(1000000000).ToString();
+        }
+
+        public string GenerateTimestamp()
+        {
+            var ts = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            return Convert.ToInt64(ts.TotalSeconds).ToString();
         }
 
         public HttpRequestMessage CreateGet(string url, SortedDictionary<string, string> parameters)
@@ -152,7 +189,7 @@ namespace BoxKite.Twitter
 
             var request = new HttpRequestMessage(HttpMethod.Get, fullUrl);
             request.Headers.Add("Authorization", oauth.Header);
-            request.Headers.Add("User-Agent", "BoxKite.Twitter/1.0");
+            request.Headers.Add("User-Agent", UserAgent);
             return request;
         }
 
@@ -163,7 +200,7 @@ namespace BoxKite.Twitter
 
             var request = new HttpRequestMessage(HttpMethod.Post, fullUrl);
             request.Headers.Add("Authorization", oauth.Header);
-            request.Headers.Add("User-Agent", "BoxKite.Twitter/1.0");
+            request.Headers.Add("User-Agent", UserAgent);
 
             var content = parameters.Aggregate(string.Empty, (current, e) => current + string.Format("{0}={1}&", e.Key, Uri.EscapeDataString(e.Value)));
             request.Content = new StringContent(content, Encoding.UTF8, "application/x-www-form-urlencoded");
@@ -175,13 +212,11 @@ namespace BoxKite.Twitter
         {
             var url = fullUrl;
 
-            var oauthToken = credentials.Token;
-            var oauthConsumerKey = credentials.ConsumerKey;
-            var rand = new Random();
-            var oauthNonce = rand.Next(1000000000).ToString();
+            var oauthToken = _credentials.Token;
+            var oauthConsumerKey = _credentials.ConsumerKey;
+            var oauthNonce = GenerateNoonce();
 
-            var ts = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0);
-            var oauthTimestamp = Convert.ToInt64(ts.TotalSeconds).ToString();
+            var oauthTimestamp = GenerateTimestamp();
 
             //GS - When building the signature string the params
             //must be in alphabetical order. I can't be bothered
@@ -228,12 +263,12 @@ namespace BoxKite.Twitter
 
             baseString = baseString.Substring(0, baseString.Length - 3);
 
-            var signingKey = Uri.EscapeDataString(credentials.ConsumerSecret) + "&" + Uri.EscapeDataString(credentials.TokenSecret);
+            var signingKey = Uri.EscapeDataString(_credentials.ConsumerSecret) + "&" + Uri.EscapeDataString(_credentials.TokenSecret);
 
             var encoding = Encoding.UTF8;
-            _platformAdaptor.AssignKey(encoding.GetBytes(signingKey));
+            PlatformAdaptor.AssignKey(encoding.GetBytes(signingKey));
             var data = Encoding.UTF8.GetBytes(baseString);
-            var hash = _platformAdaptor.ComputeHash(data);
+            var hash = PlatformAdaptor.ComputeHash(data);
             var signatureString = Convert.ToBase64String(hash);
             return new OAuth
                        {

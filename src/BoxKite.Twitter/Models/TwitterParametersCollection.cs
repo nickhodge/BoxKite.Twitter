@@ -22,7 +22,7 @@ namespace BoxKite.Twitter.Models
             var screenNameList = new StringBuilder();
             if (screen_names != null)
             {
-                if (screen_names.Count() > 0)
+                if (screen_names.Any())
                 {
                     foreach (var screenName in screen_names)
                     {
@@ -33,17 +33,13 @@ namespace BoxKite.Twitter.Models
             }
 
             var userIDList = new StringBuilder();
-            if (user_ids != null)
+            if (user_ids == null) return;
+            if (!user_ids.Any()) return;
+            foreach (var userID in user_ids)
             {
-                if (user_ids.Any())
-                {
-                    foreach (var userID in user_ids)
-                    {
-                        userIDList.Append(userID + ",");
-                    }
-                    parameters.Add("user_id", userIDList.ToString().TrimLastChar());
-                }
+                userIDList.Append(userID + ",");
             }
+            parameters.Add("user_id", userIDList.ToString().TrimLastChar());
         }
 
         internal static void Create(this TwitterParametersCollection parameters,

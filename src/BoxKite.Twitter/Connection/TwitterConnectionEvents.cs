@@ -3,14 +3,24 @@
 
 using System;
 using System.Reactive.Subjects;
-using System.Threading;
 using System.Threading.Tasks;
 using BoxKite.Twitter.Helpers;
 using BoxKite.Twitter.Models;
 
 namespace BoxKite.Twitter
 {
-    public partial class TwitterAccount : BindableBase
+    public class TwitterUserStreamDisconnectEvent
+    {
+
+    }
+
+    public class TwitterSearchStreamDisconnectEvent
+    {
+
+    }
+
+
+    public partial class TwitterConnection
     {
         readonly Subject<StreamEvent> _streamevents = new Subject<StreamEvent>();
         public IObservable<StreamEvent> StreamEvents { get { return _streamevents; } }

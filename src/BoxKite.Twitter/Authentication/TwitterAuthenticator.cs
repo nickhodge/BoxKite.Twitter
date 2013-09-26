@@ -2,89 +2,29 @@
 // License: MS-PL
 
 using System;
-using System.Net;
-using System.Reactive.Linq;
-using System.Reactive.Threading.Tasks;
 using BoxKite.Twitter.Extensions;
 using BoxKite.Twitter.Models;
-using System.Diagnostics;
-using System.Globalization;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
-
-namespace BoxKite.Twitter
+namespace BoxKite.Twitter.Authentication
 {
-    public class TwitterAuthenticator
+    public static class TwitterAuthenticator
     {
-        private readonly string _clientId = ""; // twitter API calls these Consumers, or from their perspective consumers of their API
-        private readonly string _clientSecret = ""; // twitter API calls these Consumers, or from their perspective consumers of their API
-        private readonly string _callbackuri = ""; 
-        private string _oAuthToken = "";
-        private string _accessToken = "";
-        private string _accessTokenSecret = "";
-        private string _userId = "";
-        private string _screenName = "";
-        private readonly IPlatformAdaptor _platformAdaptor; // platform specific HMACSHA1
+        /* Utilities */
+        private const string RequestTokenUrl = "http://api.twitter.com/oauth/request_token";
+        private const string AuthenticateUrl = "https://api.twitter.com/oauth/authorize?oauth_token=";
+        private const string AuthorizeTokenUrl = "https://api.twitter.com/oauth/access_token";
+        private const string XAuthorizeTokenUrl = "https://api.twitter.com/oauth/access_token?send_error_codes=true";
 
-
-        public TwitterAuthenticator(string clientID, string clientSecret, IPlatformAdaptor platformAdaptor)
+        public static async Task<bool> StartAuthentication(this IUserSession session)
         {
-            _clientId = clientID;
-            _clientSecret = clientSecret;
-            _platformAdaptor = platformAdaptor;
-        }
-#if (WINDOWSDESKTOP)
-        public TwitterAuthenticator(string clientID, string clientSecret)
-        {
-            _clientId = clientID;
-            _clientSecret = clientSecret;
-            _platformAdaptor = new DesktopPlatformAdaptor();
-        }
-#endif
-#if (WIN8RT)
-        public TwitterAuthenticator(string clientID, string clientSecret, string callbackuri)
-        {
-            _clientId = clientID;
-            _clientSecret = clientSecret;
-            _callbackuri = callbackuri;
-            _platformAdaptor = new Win8RTPlatformAdaptor();
-        }
+            if (string.IsNullOrWhiteSpace(session.clientID))
+                throw new ArgumentException("ClientID must be specified", session.clientID);
 
-        public TwitterAuthenticator(string clientID, string clientSecret)
-        {
-            _clientId = clientID;
-            _clientSecret = clientSecret;
-        }
-#endif
-#if (WINDOWS_PHONE)
-        public TwitterAuthenticator(string clientID, string clientSecret, string callbackuri)
-        {
-            _clientId = clientID;
-            _clientSecret = clientSecret;
-            _callbackuri = callbackuri;
-            _platformAdaptor = null; // TO BE DONE
-        }
+            if (string.IsNullOrWhiteSpace(session.clientSecret))
+                throw new ArgumentException("ClientSecret must be specified", session.clientSecret);
 
-        public TwitterAuthenticator(string clientID, string clientSecret)
-        {
-            _clientId = clientID;
-            _clientSecret = clientSecret;
-        }
-#endif
-
-
-        public async Task<bool> StartAuthentication()
-        {
-            if (string.IsNullOrWhiteSpace(_clientId))
-                throw new ArgumentException("ClientID must be specified", _clientId);
-
-            if (string.IsNullOrWhiteSpace(_clientSecret))
-                throw new ArgumentException("ClientSecret must be specified", _clientSecret);
-
-            if (_platformAdaptor == null)
+            if (session.PlatformAdaptor == null)
                 throw new ArgumentException("Need a Platform Adaptor");
 
             var sinceEpoch = GenerateTimeStamp();
@@ -93,17 +33,17 @@ namespace BoxKite.Twitter
             var sigBaseStringParams =
                 string.Format(
                     "oauth_consumer_key={0}&oauth_nonce={1}&oauth_signature_method=HMAC-SHA1&oauth_timestamp={2}&oauth_version=1.0",
-                    _clientId,
+                    session.clientID,
                     nonce,
                     sinceEpoch);
 
             var sigBaseString = string.Format("POST&{0}&{1}", RequestTokenUrl.UrlEncode(), sigBaseStringParams.UrlEncode());
-            var signature = GenerateSignature(_clientSecret, sigBaseString, null);
+            var signature = GenerateSignature(session.clientSecret, sigBaseString, null);
             var dataToPost = string.Format(
                     "OAuth realm=\"\", oauth_nonce=\"{0}\", oauth_timestamp=\"{1}\", oauth_consumer_key=\"{2}\", oauth_signature_method=\"HMAC-SHA1\", oauth_version=\"1.0\", oauth_signature=\"{3}\"",
                     nonce,
                     sinceEpoch,
-                    _clientId,
+                    session.clientID,
                     signature.UrlEncode());
 
             var response = await PostData(RequestTokenUrl, dataToPost);
@@ -112,13 +52,14 @@ namespace BoxKite.Twitter
                 return false;
 
             var oauthCallbackConfirmed = false;
+            var oAuthToken = "";
 
             foreach (var splits in response.Split('&').Select(t => t.Split('=')))
             {
                 switch (splits[0])
                 {
                     case "oauth_token": //these tokens are request tokens, first step before getting access tokens
-                        _oAuthToken = splits[1];
+                        oAuthToken = splits[1];
                         break;
                     case "oauth_token_secret":
                         var OAuthTokenSecret = splits[1];
@@ -130,12 +71,12 @@ namespace BoxKite.Twitter
             }
 
             if (oauthCallbackConfirmed)
-                _platformAdaptor.DisplayAuthInBrowser(AuthenticateUrl + _oAuthToken);
+                session.PlatformAdaptor.DisplayAuthInBrowser(AuthenticateUrl + oAuthToken);
 
             return oauthCallbackConfirmed;
         }
 
-        public async Task<TwitterCredentials> ConfirmPin(string pinAuthorizationCode)
+        public static async Task<TwitterCredentials> ConfirmPin(this IUserSession session, string pinAuthorizationCode)
         {
             if (string.IsNullOrWhiteSpace(pinAuthorizationCode))
                 throw new ArgumentException("pin AuthorizationCode must be specified", pinAuthorizationCode);
@@ -184,7 +125,7 @@ namespace BoxKite.Twitter
         }
 
 #if (WIN8RT)
-        public async Task<TwitterCredentials> Authentication()
+        public static async Task<TwitterCredentials> Authentication()
         {
             if (string.IsNullOrWhiteSpace(_clientId))
                 throw new ArgumentException("ClientID must be specified", _clientId);
@@ -318,21 +259,21 @@ namespace BoxKite.Twitter
             return TwitterCredentials.Null;
         }
 #endif
-        public async Task<TwitterCredentials> XAuthentication(string xauthusername, string xauthpassword)
+        public static async Task<TwitterCredentials> XAuthentication(this IUserSession session, string xauthusername, string xauthpassword)
         {
-            if (string.IsNullOrWhiteSpace(_clientId))
-                throw new ArgumentException("ClientID must be specified", _clientId);
+            if (string.IsNullOrWhiteSpace(session.clientID))
+                throw new ArgumentException("ClientID must be specified", session.clientID);
 
-            if (string.IsNullOrWhiteSpace(_clientSecret))
-                throw new ArgumentException("ClientSecret must be specified", _clientSecret);
+            if (string.IsNullOrWhiteSpace(session.clientSecret))
+                throw new ArgumentException("ClientSecret must be specified", session.clientSecret);
 
-            var sinceEpoch = GenerateTimeStamp();
-            var nonce = GenerateNonce();
+            var sinceEpoch = session.GenerateTimestamp();
+            var nonce = session.GenerateNoonce();
 
             var sigBaseStringParams =
                 string.Format(
                     "oauth_consumer_key={0}&oauth_nonce={1}&oauth_signature_method=HMAC-SHA1&oauth_timestamp={2}&oauth_version=1.0",
-                    _clientId,
+                    session.clientID,
                     nonce,
                     sinceEpoch);
 
@@ -380,99 +321,77 @@ namespace BoxKite.Twitter
             return TwitterCredentials.Null;
         }
 
-        private TwitterCredentials GetUserCredentials()
-        {
-            var credentials = new TwitterCredentials
-            {
-                ConsumerKey = _clientId,
-                ConsumerSecret = _clientSecret,
-                Token = _accessToken,
-                TokenSecret = _accessTokenSecret,
-                ScreenName = _screenName,
-                UserID = long.Parse(_userId),
-                Valid = true
-            };
-            return credentials;
-        }
-
-        /* Utilities */
-        private const string SafeURLEncodeChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_.~";
-        private const string RequestTokenUrl = "http://api.twitter.com/oauth/request_token";
-        private const string AuthenticateUrl = "https://api.twitter.com/oauth/authorize?oauth_token=";
-        private const string AuthorizeTokenUrl = "https://api.twitter.com/oauth/access_token";
-        private const string XAuthorizeTokenUrl = "https://api.twitter.com/oauth/access_token?send_error_codes=true";
-
-        private string GenerateSignature(string signingKey, string baseString, string tokenSecret)
-        {
-            _platformAdaptor.AssignKey(Encoding.UTF8.GetBytes(string.Format("{0}&{1}", OAuthUrlEncode(signingKey),
-                string.IsNullOrEmpty(tokenSecret)
-                    ? ""
-                    : OAuthUrlEncode(tokenSecret))));
-            var dataBuffer = Encoding.UTF8.GetBytes(baseString);
-            var hashBytes = _platformAdaptor.ComputeHash(dataBuffer);
-            var signatureString = Convert.ToBase64String(hashBytes);
-            return signatureString;
-        }
-
-        private static string OAuthUrlEncode(string value)
-        {
-            var result = new StringBuilder();
-
-            foreach (var symbol in value)
-            {
-                if (SafeURLEncodeChars.IndexOf((char) symbol) != -1)
+        /*        private static string GenerateSignature(this IUserSession session, string signingKey, string baseString, string tokenSecret)
                 {
-                    result.Append(symbol);
+                    session.PlatformAdaptor.AssignKey(Encoding.UTF8.GetBytes(string.Format("{0}&{1}", OAuthUrlEncode(signingKey),
+                        string.IsNullOrEmpty(tokenSecret)
+                            ? ""
+                            : OAuthUrlEncode(tokenSecret))));
+                    var dataBuffer = Encoding.UTF8.GetBytes(baseString);
+                    var hashBytes = session.PlatformAdaptor.ComputeHash(dataBuffer);
+                    var signatureString = Convert.ToBase64String(hashBytes);
+                    return signatureString;
                 }
-                else
+
+                private static string OAuthUrlEncode(string value)
                 {
-                    result.Append('%' + String.Format("{0:X2}", (int)symbol));
+                    var result = new StringBuilder();
+
+                    foreach (var symbol in value)
+                    {
+                        if (SafeURLEncodeChars.IndexOf((char) symbol) != -1)
+                        {
+                            result.Append(symbol);
+                        }
+                        else
+                        {
+                            result.Append('%' + String.Format("{0:X2}", (int)symbol));
+                        }
+                    }
+
+                    return result.ToString();
                 }
-            }
 
-            return result.ToString();
-        }
-
-        private static string GenerateNonce()
-        {
-            var random = new Random();
-            return random.Next(1234000, 99999999).ToString(CultureInfo.InvariantCulture);
-        }
-
-        private static string GenerateTimeStamp()
-        {
-            var ts = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0);
-            return Convert.ToInt64(ts.TotalSeconds).ToString(CultureInfo.InvariantCulture);
-        }
-
-        private static async Task<string> PostData(string url, string data, string content = null)
-        {
-            try
-            {
-                var handler = new HttpClientHandler();
-                if (handler.SupportsAutomaticDecompression)
+                private static string GenerateNonce()
                 {
-                    handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+                    var random = new Random();
+                    return random.Next(1234000, 99999999).ToString(CultureInfo.InvariantCulture);
                 }
-                var client = new HttpClient(handler);
-                var request = new HttpRequestMessage(HttpMethod.Post, new Uri(url));
-                request.Headers.Add("Accept-Encoding", "identity");
-                request.Headers.Add("User-Agent", "BoxKite.Twitter/1.0");
-                request.Headers.Add("Authorization", data);
-                if (content != null)
-                {
-                    request.Content = new StringContent(content, Encoding.UTF8, "application/x-www-form-urlencoded");
-                }
-                var response = await client.SendAsync(request);
-                var clientresponse =
-                    response.Content.ReadAsStringAsync().ToObservable().Timeout(TimeSpan.FromSeconds(30));
-                return await clientresponse;
-            }
-            catch (Exception)
-            {
-                return "";
-            }
-        }
 
+                private static string GenerateTimeStamp()
+                {
+                    var ts = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0);
+                    return Convert.ToInt64(ts.TotalSeconds).ToString(CultureInfo.InvariantCulture);
+                }
+
+                private static async Task<string> PostData(string url, string data, string content = null)
+                {
+                    try
+                    {
+                        var handler = new HttpClientHandler();
+                        if (handler.SupportsAutomaticDecompression)
+                        {
+                            handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+                        }
+                        var client = new HttpClient(handler);
+                        var request = new HttpRequestMessage(HttpMethod.Post, new Uri(url));
+                        request.Headers.Add("Accept-Encoding", "identity");
+                        request.Headers.Add("User-Agent", "BoxKite.Twitter/1.0");
+                        request.Headers.Add("Authorization", data);
+                        if (content != null)
+                        {
+                            request.Content = new StringContent(content, Encoding.UTF8, "application/x-www-form-urlencoded");
+                        }
+                        var response = await client.SendAsync(request);
+                        var clientresponse =
+                            response.Content.ReadAsStringAsync().ToObservable().Timeout(TimeSpan.FromSeconds(30));
+                        return await clientresponse;
+                    }
+                    catch (Exception)
+                    {
+                        return "";
+                    }
+                }
+        */
     }
 }

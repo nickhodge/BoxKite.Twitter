@@ -5,7 +5,6 @@ using System;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
 using System.Threading.Tasks;
 using BoxKite.Twitter.Helpers;
@@ -13,19 +12,19 @@ using BoxKite.Twitter.Models;
 
 namespace BoxKite.Twitter
 {
-    public partial class TwitterAccount : BindableBase
+    public partial class TwitterConnection
     {
         // largestSeenIds
         // TBD: these should/could be properties on Account so they can be persisted across launches
-        private long searchLargestSeenId;
+        private long _searchLargestSeenId;
         //
 
         // status bits
-        private readonly Subject<bool> searchBackFillCompleted = new Subject<bool>();
-        private readonly Subject<bool> searchStreamConnected = new Subject<bool>();
+        private readonly Subject<bool> _searchBackFillCompleted = new Subject<bool>();
+        private readonly Subject<bool> _searchStreamConnected = new Subject<bool>();
         //
 
-        readonly Subject<Tweet> _searchtimeline = new Subject<Tweet>();
+        private readonly Subject<Tweet> _searchtimeline = new Subject<Tweet>();
         public IObservable<Tweet> SearchTimeLine { get { return _searchtimeline; } }
         private string _currentSearchText = "";
 
@@ -42,27 +41,27 @@ namespace BoxKite.Twitter
             SearchStream.Start();
             //
             Task.Factory.StartNew(ProcessSearchBackFill_Pump);
-            searchStreamConnected.Where(status => status.IsFalse()).Subscribe(StartPollingSearch);
-            searchStreamConnected.OnNext(true);
+            _searchStreamConnected.Where(status => status.IsFalse()).Subscribe(StartPollingSearch);
+            _searchStreamConnected.OnNext(true);
         }
 
         // subscriber to the userstream disconnecting
         private void ManageSearchStreamDisconnect(TwitterSearchStreamDisconnectEvent disconnectEvent)
         {
-            searchStreamConnected.OnNext(false); // push message saying userStream is no longer connected
+            _searchStreamConnected.OnNext(false); // push message saying userStream is no longer connected
         }
 
         public void StopSearch()
         {
             TwitterSearchCommunication.Cancel();
-            searchStreamConnected.OnNext(false);
+            _searchStreamConnected.OnNext(false);
             SearchStream.Stop();
         }
 
         private async void ProcessSearchBackFill_Pump()
         {   
-            searchLargestSeenId = await GetSearchTimeLine_Backfill();
-            searchBackFillCompleted.OnNext(true);
+            _searchLargestSeenId = await GetSearchTimeLine_Backfill();
+            _searchBackFillCompleted.OnNext(true);
         }
 
         private async Task<long> GetSearchTimeLine_Backfill()
@@ -104,13 +103,13 @@ namespace BoxKite.Twitter
         private void StartPollingSearch(bool status)
         {
             // firstly wait on the backfills to complete before firing off these
-            searchBackFillCompleted.Where(st => st == true).Subscribe(s =>
+            _searchBackFillCompleted.Where(st => st == true).Subscribe(s =>
             {
                 // this will fire once per minute for 24 hours from init
                 var observable = Observable.Interval(TimeSpan.FromSeconds(20));
                 observable.Subscribe(async t =>
                 {
-                    searchLargestSeenId = await GetSearchTimeLine_Failover(searchLargestSeenId);
+                    _searchLargestSeenId = await GetSearchTimeLine_Failover(_searchLargestSeenId);
                 });
             });
         }

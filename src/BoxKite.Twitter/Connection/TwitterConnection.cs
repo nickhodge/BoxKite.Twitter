@@ -4,44 +4,50 @@
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using BoxKite.Twitter.Helpers;
+using BoxKite.Twitter.Authentication;
 using BoxKite.Twitter.Models;
-using Newtonsoft.Json.Schema;
 using Reactive.EventAggregator;
 
 namespace BoxKite.Twitter
 {
-    public class TwitterConnection : BindableBase
+    public partial class TwitterConnection
     {
-        private TwitterAccountsDictionary _twitterAccounts = new TwitterAccountsDictionary();
-        public TwitterAccountsDictionary TwitterAccounts { get { return _twitterAccounts; } set { _twitterAccounts = value; } }
-
-        private readonly string _twitterConsumerKey;
-        private readonly string _twitterConsumerSecret;
-        private readonly string _callbackURI;
-        private readonly TwitterAuthenticator _twitterauth;
-        private readonly IPlatformAdaptor _platformAdaptor;
-
         private IEventAggregator _eventAggregator;
-        public IEventAggregator twitterConnectionEvents { get { return _eventAggregator; } set { _eventAggregator = value;} }
+        public IEventAggregator TwitterConnectionEvents { get { return _eventAggregator; } set { _eventAggregator = value;} }
+        
+        public IPlatformAdaptor _platformAdaptor { get; set;}
+        public IPlatformAdaptor PlatformAdaptor { get { return _platformAdaptor; } set { _platformAdaptor = value; } }
 
-#if (PORTABLE)
-        public TwitterConnection(string twitterConsumerKey,string twitterConsumerSecret, IPlatformAdaptor platformAdaptor)
+        public User accountDetails { get; set; }
+        public TwitterCredentials TwitterCredentials { get; set; }
+        public AccountSettings accountSettings { get; set; }
+
+        public IUserSession Session;
+        public IUserStream UserStream;
+        public ISearchStream SearchStream;
+
+        private readonly TimeSpan _multiFetchBackoffTimer = new TimeSpan(1200);
+
+        public TwitterConnection(TwitterCredentials twitterCredentials, IEventAggregator eventAggregator, IPlatformAdaptor platformAdaptor)
         {
-            _twitterConsumerKey = twitterConsumerKey;
-            CheckClientKey(twitterConsumerKey);
-            _twitterConsumerSecret = twitterConsumerSecret;
-            _eventAggregator = new EventAggregator();
+            TwitterCredentials = twitterCredentials;
             _platformAdaptor = platformAdaptor;
-            _twitterauth = new TwitterAuthenticator(_twitterConsumerKey, _twitterConsumerSecret, platformAdaptor);
+            _eventAggregator = eventAggregator;
+            Session = new UserSession(TwitterCredentials, _platformAdaptor);
         }
 
-        public TwitterConnection(IPlatformAdaptor platformAdaptor)
+        public async Task<bool> VerifyCredentials()
         {
-            _eventAggregator = new EventAggregator();
-            _platformAdaptor = platformAdaptor;
+            var checkedUser = await Session.GetVerifyCredentials();
+            if (checkedUser.OK) // go deeper
+            {
+                accountSettings = await Session.GetAccountSettings();
+                accountDetails = await Session.GetUserProfile(user_id: checkedUser.UserId);
+                return accountDetails.OK;
+            }
+            else
+                return false; // return false here will abandon all hope
         }
-#endif
 
 #if(WIN8RT)
         public TwitterConnection(string twitterConsumerKey,string twitterConsumerSecret, string callbackuri)
@@ -51,7 +57,6 @@ namespace BoxKite.Twitter
             _twitterConsumerSecret = twitterConsumerSecret;
             _callbackURI = callbackuri;
              _eventAggregator = new EventAggregator();
-            _twitterauth = new TwitterAuthenticator(_twitterConsumerKey, _twitterConsumerSecret, _callbackURI);
         }
 
        public TwitterConnection()
@@ -68,7 +73,6 @@ namespace BoxKite.Twitter
             _twitterConsumerSecret = twitterConsumerSecret;
              _eventAggregator = new EventAggregator();
             _platformAdaptor = platformAdaptor;
-             _twitterauth = new TwitterAuthenticator(_twitterConsumerKey, _twitterConsumerSecret, platformAdaptor);
         }
 
 #if (WINDOWSDESKTOP)
@@ -79,7 +83,6 @@ namespace BoxKite.Twitter
             _twitterConsumerSecret = twitterConsumerSecret;
             _eventAggregator = new EventAggregator();
             _platformAdaptor = platformAdaptor;
-            _twitterauth = new TwitterAuthenticator(_twitterConsumerKey, _twitterConsumerSecret, platformAdaptor);
         }
 
         public TwitterConnection(string twitterConsumerKey, string twitterConsumerSecret)
@@ -89,8 +92,7 @@ namespace BoxKite.Twitter
             _twitterConsumerSecret = twitterConsumerSecret;
             _eventAggregator = new EventAggregator();
             _platformAdaptor = new DesktopPlatformAdaptor();
-            _twitterauth = new TwitterAuthenticator(_twitterConsumerKey, _twitterConsumerSecret, _platformAdaptor);
-        }
+         }
 
 
        public TwitterConnection()
@@ -111,32 +113,32 @@ namespace BoxKite.Twitter
         // auth happens when no creds are present
         public async Task<bool> BeginAuthentication()
         {
-            var authstartok = await _twitterauth.StartAuthentication();
+            var authstartok = await Session.StartAuthentication();
             return authstartok;
         }
 
         // second stage of auth confirms the pin is OK
-        public async Task<TwitterAccount> CompleteAuthentication(string pin)
+        public async Task<TwitterCredentials> CompleteAuthentication(string pin)
         {
-            var twittercredentials = await _twitterauth.ConfirmPin(pin);
+            var twittercredentials = await Session.ConfirmPin(pin);
             if (!twittercredentials.Valid) return null;
-            return await AddTwitterAccount(twittercredentials);
+            return twittercredentials;
         }
 
         // another method using xauth as the authentication flow
-        public async Task<TwitterAccount> XAuthentication(string xauthusername, string xauthpassword)
+        public async Task<TwitterCredentials> XAuthentication(string xauthusername, string xauthpassword)
         {
-            var twittercredentials = await _twitterauth.XAuthentication(xauthusername, xauthpassword);
+            var twittercredentials = await Session.XAuthentication(xauthusername, xauthpassword);
             if (!twittercredentials.Valid) return null;
-            return await AddTwitterAccount(twittercredentials);
+            return twittercredentials;
         }
 
 #if(WIN8RT)
-        public async Task<TwitterAccount> Authenticate()
+        public async Task<TwitterCredentials> Authenticate()
         {
-            var twittercredentials =  await _twitterauth.Authentication();
+            var twittercredentials =  await Session.Authentication();
             if (!twittercredentials.Valid) return null;
-            return await AddTwitterAccount(twittercredentials);
+            return twittercredentials;
         }
 #endif
 
@@ -145,7 +147,7 @@ namespace BoxKite.Twitter
         {
             if (!twitterCredentials.Valid) return null;
             var newaccount = new TwitterAccount(twitterCredentials, twitterConnectionEvents, _platformAdaptor);
-            var checkedcreds = await newaccount.VerifyCredentials();
+            var checkedcreds = await Session.VerifyCredentials();
             if (!checkedcreds) return null;
 
             // all ok, add to valid Twitter Accounts
@@ -155,15 +157,4 @@ namespace BoxKite.Twitter
         }
 
     }
-
-    public class TwitterUserStreamDisconnectEvent
-    {
-
-    }
-
-    public class TwitterSearchStreamDisconnectEvent
-    {
-        
-    }
-
 }

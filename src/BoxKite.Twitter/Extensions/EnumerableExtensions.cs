@@ -10,10 +10,7 @@ namespace BoxKite.Twitter.Extensions
     {
         public static bool HasAny<T>(this IEnumerable<T> source)
         {
-            if (source == null)
-                return false;
-
-            return source.Any();
+            return source != null && source.Any();
         }
     }
 }

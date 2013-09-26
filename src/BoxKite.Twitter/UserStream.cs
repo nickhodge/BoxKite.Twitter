@@ -223,7 +223,7 @@ namespace BoxKite.Twitter
             }
         }
 
-        private IObservable<string> ObserveLines(Stream stream)
+        private static IObservable<string> ObserveLines(Stream stream)
         {
             return ReadLines(stream).ToObservable(Scheduler.CurrentThread);
         }
