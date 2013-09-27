@@ -18,9 +18,9 @@ namespace BoxKite.Twitter
         public IPlatformAdaptor _platformAdaptor { get; set;}
         public IPlatformAdaptor PlatformAdaptor { get { return _platformAdaptor; } set { _platformAdaptor = value; } }
 
-        public User accountDetails { get; set; }
+        public User AccountDetails { get; set; }
         public TwitterCredentials TwitterCredentials { get; set; }
-        public AccountSettings accountSettings { get; set; }
+        public AccountSettings AccountSettings { get; set; }
 
         public IUserSession Session;
         public IUserStream UserStream;
@@ -41,9 +41,9 @@ namespace BoxKite.Twitter
             var checkedUser = await Session.GetVerifyCredentials();
             if (checkedUser.OK) // go deeper
             {
-                accountSettings = await Session.GetAccountSettings();
-                accountDetails = await Session.GetUserProfile(user_id: checkedUser.UserId);
-                return accountDetails.OK;
+                AccountSettings = await Session.GetAccountSettings();
+                AccountDetails = await Session.GetUserProfile(user_id: checkedUser.UserId);
+                return AccountDetails.OK;
             }
             else
                 return false; // return false here will abandon all hope

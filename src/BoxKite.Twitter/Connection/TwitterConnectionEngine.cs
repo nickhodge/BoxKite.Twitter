@@ -130,7 +130,7 @@ namespace BoxKite.Twitter
             // there is no specific "catch" for mentions in the Userstream, but here we can fake it!
             // Using LINQ, we can ask RX to show us incoming tweets that contain the screen name of the current user
             // then push this into the "Mentions" Observable
-            UserStream.Tweets.Where(t => t.Text.ToLower().Contains(accountDetails.ScreenName.ToLower())).Subscribe(_mentions.OnNext);
+            UserStream.Tweets.Where(t => t.Text.ToLower().Contains(AccountDetails.ScreenName.ToLower())).Subscribe(_mentions.OnNext);
 
             // specifically grab the Retweets in the timeline and show them
             // obviously this can be added at a higher level, too.
@@ -140,7 +140,7 @@ namespace BoxKite.Twitter
             UserStream.DirectMessages.Subscribe(_directmessages.OnNext);
 
             // Pull out my tweets, and publish separately
-            UserStream.Tweets.Where(t => t.User.UserId == accountDetails.UserId).Subscribe(_mytweets.OnNext);
+            UserStream.Tweets.Where(t => t.User.UserId == AccountDetails.UserId).Subscribe(_mytweets.OnNext);
 
             // also grab the delete events and publish
             UserStream.DeleteEvents.Subscribe(de => _streamdeleteevent.OnNext(de.DeleteEventStatus));
@@ -253,7 +253,7 @@ namespace BoxKite.Twitter
         {
            var largestseenid = sinceid;
             
-            var hometl = await Session.GetUserTimeline(user_id: accountDetails.UserId, count: pagingSize, since_id: sinceid);
+            var hometl = await Session.GetUserTimeline(user_id: AccountDetails.UserId, count: pagingSize, since_id: sinceid);
             if (!hometl.OK) return largestseenid;
 
             foreach (var tweet in hometl.Where(tweet => tweet.Id > sinceid))
@@ -495,7 +495,7 @@ namespace BoxKite.Twitter
 
             do
             {
-                var hometl = await Session.GetUserTimeline(user_id:accountDetails.UserId, count: pagingSize, max_id: smallestid);
+                var hometl = await Session.GetUserTimeline(user_id:AccountDetails.UserId, count: pagingSize, max_id: smallestid);
                 if (hometl.OK)
                 {
                     smallestid = long.MaxValue;
