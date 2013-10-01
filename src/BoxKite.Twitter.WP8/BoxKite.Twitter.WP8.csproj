@@ -145,9 +145,6 @@
     <Compile Include="..\BoxKite.Twitter\Models\BoundingBox.cs">
       <Link>Models\BoundingBox.cs</Link>
     </Compile>
-    <Compile Include="..\BoxKite.Twitter\Models\Connection\TwitterAccountsDictionary.cs">
-      <Link>Models\Connection\TwitterAccountsDictionary.cs</Link>
-    </Compile>
     <Compile Include="..\BoxKite.Twitter\Models\Coordinates.cs">
       <Link>Models\Coordinates.cs</Link>
     </Compile>
@@ -368,7 +365,9 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Models\Connection\" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />
   <ProjectExtensions />

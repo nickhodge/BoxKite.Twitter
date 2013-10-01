@@ -4,7 +4,6 @@
 using System;
 using System.Reactive.Subjects;
 using System.Threading.Tasks;
-using BoxKite.Twitter.Helpers;
 using BoxKite.Twitter.Models;
 
 namespace BoxKite.Twitter

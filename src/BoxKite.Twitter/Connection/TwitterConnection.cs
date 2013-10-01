@@ -12,102 +12,94 @@ namespace BoxKite.Twitter
 {
     public partial class TwitterConnection
     {
-        private IEventAggregator _eventAggregator;
-        public IEventAggregator TwitterConnectionEvents { get { return _eventAggregator; } set { _eventAggregator = value;} }
-        
-        public IPlatformAdaptor _platformAdaptor { get; set;}
-        public IPlatformAdaptor PlatformAdaptor { get { return _platformAdaptor; } set { _platformAdaptor = value; } }
+        public IEventAggregator TwitterConnectionEvents { get; set; }
+        public IPlatformAdaptor PlatformAdaptor { get; set; }
 
         public User AccountDetails { get; set; }
         public TwitterCredentials TwitterCredentials { get; set; }
         public AccountSettings AccountSettings { get; set; }
 
-        public IUserSession Session;
-        public IUserStream UserStream;
-        public ISearchStream SearchStream;
+        public IUserSession Session { get; set; }
+        public IUserStream UserStream { get; set; }
+        public ISearchStream SearchStream { get; set; }
 
-        private readonly TimeSpan _multiFetchBackoffTimer = new TimeSpan(1200);
+        public TwitterConnection(string twitterConsumerKey, string twitterConsumerSecret, IEventAggregator eventAggregator, IPlatformAdaptor platformAdaptor)
+        {
+            TwitterConnectionEvents = eventAggregator;
+            PlatformAdaptor = platformAdaptor;
+            Session = SessionBuilder(twitterConsumerKey, twitterConsumerSecret);
+        }
 
         public TwitterConnection(TwitterCredentials twitterCredentials, IEventAggregator eventAggregator, IPlatformAdaptor platformAdaptor)
         {
             TwitterCredentials = twitterCredentials;
-            _platformAdaptor = platformAdaptor;
-            _eventAggregator = eventAggregator;
-            Session = new UserSession(TwitterCredentials, _platformAdaptor);
+            PlatformAdaptor = platformAdaptor;
+            TwitterConnectionEvents = eventAggregator;
+            Session = SessionBuilder();
         }
 
-        public async Task<bool> VerifyCredentials()
+        public TwitterConnection(string twitterConsumerKey, string twitterConsumerSecret, string xauthusername, string xauthpassword, IEventAggregator eventAggregator, IPlatformAdaptor platformAdaptor)
         {
-            var checkedUser = await Session.GetVerifyCredentials();
-            if (checkedUser.OK) // go deeper
-            {
-                AccountSettings = await Session.GetAccountSettings();
-                AccountDetails = await Session.GetUserProfile(user_id: checkedUser.UserId);
-                return AccountDetails.OK;
-            }
-            else
-                return false; // return false here will abandon all hope
-        }
-
-#if(WIN8RT)
-        public TwitterConnection(string twitterConsumerKey,string twitterConsumerSecret, string callbackuri)
-        {
-            _twitterConsumerKey = twitterConsumerKey;
-            CheckClientKey(twitterConsumerKey);
-            _twitterConsumerSecret = twitterConsumerSecret;
-            _callbackURI = callbackuri;
-             _eventAggregator = new EventAggregator();
-        }
-
-       public TwitterConnection()
-       {
-            _eventAggregator = new EventAggregator();
-           _platformAdaptor = new Win8RTPlatformAdaptor();
-       }
-#endif
-
-        public TwitterConnection(string twitterConsumerKey, string twitterConsumerSecret, string callbackuri, string xauthusername, string xauthpassword, IPlatformAdaptor platformAdaptor)
-        {
-            _twitterConsumerKey = twitterConsumerKey;
-            CheckClientKey(twitterConsumerKey);
-            _twitterConsumerSecret = twitterConsumerSecret;
-             _eventAggregator = new EventAggregator();
-            _platformAdaptor = platformAdaptor;
+            TwitterConnectionEvents = eventAggregator;
+            PlatformAdaptor = platformAdaptor;
+            Session = SessionBuilder(twitterConsumerKey, twitterConsumerSecret);
         }
 
 #if (WINDOWSDESKTOP)
-        public TwitterConnection(string twitterConsumerKey, string twitterConsumerSecret, IPlatformAdaptor platformAdaptor)
+        public TwitterConnection(string twitterConsumerKey, string twitterConsumerSecret, IEventAggregator eventAggregator)
         {
-            _twitterConsumerKey = twitterConsumerKey;
-            CheckClientKey(twitterConsumerKey);
-            _twitterConsumerSecret = twitterConsumerSecret;
-            _eventAggregator = new EventAggregator();
-            _platformAdaptor = platformAdaptor;
+            TwitterConnectionEvents = eventAggregator;
+            PlatformAdaptor = new DesktopPlatformAdaptor();
+            Session = SessionBuilder(twitterConsumerKey, twitterConsumerSecret);
         }
 
-        public TwitterConnection(string twitterConsumerKey, string twitterConsumerSecret)
+        public TwitterConnection(TwitterCredentials twitterCredentials, IEventAggregator eventAggregator)
         {
-            _twitterConsumerKey = twitterConsumerKey;
-            CheckClientKey(twitterConsumerKey);
-            _twitterConsumerSecret = twitterConsumerSecret;
-            _eventAggregator = new EventAggregator();
-            _platformAdaptor = new DesktopPlatformAdaptor();
-         }
+            TwitterCredentials = twitterCredentials;
+            PlatformAdaptor = new DesktopPlatformAdaptor();
+            TwitterConnectionEvents = eventAggregator;
+            Session = SessionBuilder();
+        }
 
+        public TwitterConnection(string twitterConsumerKey, string twitterConsumerSecret, string xauthusername, string xauthpassword, IEventAggregator eventAggregator)
+        {
+            TwitterConnectionEvents = eventAggregator;
+            PlatformAdaptor = new DesktopPlatformAdaptor();
+            Session = SessionBuilder(twitterConsumerKey, twitterConsumerSecret);
+        }
+#endif
+#if(WIN8RT)
+        public TwitterConnection(string twitterConsumerKey, string twitterConsumerSecret, IEventAggregator eventAggregator)
+        {
+            TwitterConnectionEvents = eventAggregator;
+            PlatformAdaptor = new Win8RTPlatformAdaptor();
+            Session = SessionBuilder(twitterConsumerKey, twitterConsumerSecret);
+        }
 
-       public TwitterConnection()
-       {
-            _eventAggregator = new EventAggregator();           
-           _platformAdaptor = new DesktopPlatformAdaptor();
-       }
+        public TwitterConnection(TwitterCredentials twitterCredentials, IEventAggregator eventAggregator)
+        {
+            TwitterCredentials = twitterCredentials;
+            PlatformAdaptor = new Win8RTPlatformAdaptor();
+            TwitterConnectionEvents = eventAggregator;
+            Session = SessionBuilder();
+        }
+
+        public TwitterConnection(string twitterConsumerKey, string twitterConsumerSecret, string xauthusername, string xauthpassword, IEventAggregator eventAggregator)
+        {
+            TwitterConnectionEvents = eventAggregator;
+            PlatformAdaptor = new Win8RTPlatformAdaptor();
+            Session = SessionBuilder(twitterConsumerKey, twitterConsumerSecret);
+        } 
 #endif
 
-        private void CheckClientKey(string ck)
+        private IUserSession SessionBuilder()
         {
-            if (ck.ToLower().Contains("dev.twitter.com"))
-            {
-                Debug.WriteLine("You need to obtain a valid Client Secret & Client Key from dev.windows.com, and put it into the source code somewhere, dude.");;
-            }
+            return Session ?? new UserSession(TwitterCredentials, PlatformAdaptor);
+        }
+
+        private IUserSession SessionBuilder(string twitterConsumerKey, string twitterConsumerSecret)
+        {
+            return Session ?? new UserSession(twitterConsumerKey, twitterConsumerSecret, PlatformAdaptor);
         }
 
         // auth happens when no creds are present
@@ -133,6 +125,19 @@ namespace BoxKite.Twitter
             return twittercredentials;
         }
 
+        public async Task<bool> VerifyCredentials()
+        {
+            AccountDetails = await Session.GetVerifyCredentials();
+            if (AccountDetails.OK) // go deeper
+            {
+                AccountSettings = await Session.GetAccountSettings();
+                AccountDetails = await Session.GetUserProfile(user_id: AccountDetails.UserId);
+                return AccountDetails.OK;
+            }
+            else
+                return false; // return false here will abandon all hope
+        }
+
 #if(WIN8RT)
         public async Task<TwitterCredentials> Authenticate()
         {
@@ -141,20 +146,6 @@ namespace BoxKite.Twitter
             return twittercredentials;
         }
 #endif
-
-        // or just bypass and add an account from a re-hydrated credentials
-        public async Task<TwitterAccount> AddTwitterAccount(TwitterCredentials twitterCredentials)
-        {
-            if (!twitterCredentials.Valid) return null;
-            var newaccount = new TwitterAccount(twitterCredentials, twitterConnectionEvents, _platformAdaptor);
-            var checkedcreds = await Session.VerifyCredentials();
-            if (!checkedcreds) return null;
-
-            // all ok, add to valid Twitter Accounts
-
-            TwitterAccounts.Add(twitterCredentials.UserID, newaccount);
-            return newaccount;
-        }
 
     }
 }

@@ -158,9 +158,6 @@
     <Compile Include="..\BoxKite.Twitter\Models\BoundingBox.cs">
       <Link>Models\BoundingBox.cs</Link>
     </Compile>
-    <Compile Include="..\BoxKite.Twitter\Models\Connection\TwitterAccountsDictionary.cs">
-      <Link>Models\Connection\TwitterAccountsDictionary.cs</Link>
-    </Compile>
     <Compile Include="..\BoxKite.Twitter\Models\Coordinates.cs">
       <Link>Models\Coordinates.cs</Link>
     </Compile>
@@ -377,6 +374,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\Connection\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">
     <VisualStudioVersion>11.0</VisualStudioVersion>

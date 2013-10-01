@@ -7,7 +7,6 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Threading;
 using System.Threading.Tasks;
-using BoxKite.Twitter.Helpers;
 using BoxKite.Twitter.Models;
 
 namespace BoxKite.Twitter
@@ -33,10 +32,10 @@ namespace BoxKite.Twitter
         public void StartSearch(string textToSearch)
         {
             TwitterSearchCommunication = new CancellationTokenSource();
-            _eventAggregator.GetEvent<TwitterSearchStreamDisconnectEvent>().Subscribe(ManageSearchStreamDisconnect);
+            TwitterConnectionEvents.GetEvent<TwitterSearchStreamDisconnectEvent>().Subscribe(ManageSearchStreamDisconnect);
             //
             _currentSearchText = textToSearch;
-            SearchStream = Session.StartSearchStream(_eventAggregator, track: textToSearch);
+            SearchStream = Session.StartSearchStream(TwitterConnectionEvents, track: textToSearch);
             SearchStream.FoundTweets.Subscribe(_searchtimeline.OnNext);
             SearchStream.Start();
             //

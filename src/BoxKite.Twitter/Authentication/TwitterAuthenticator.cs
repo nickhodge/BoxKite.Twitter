@@ -2,6 +2,13 @@
 // License: MS-PL
 
 using System;
+using System.Globalization;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Reactive.Linq;
+using System.Reactive.Threading.Tasks;
+using System.Text;
 using BoxKite.Twitter.Extensions;
 using BoxKite.Twitter.Models;
 using System.Threading.Tasks;
@@ -15,6 +22,7 @@ namespace BoxKite.Twitter.Authentication
         private const string AuthenticateUrl = "https://api.twitter.com/oauth/authorize?oauth_token=";
         private const string AuthorizeTokenUrl = "https://api.twitter.com/oauth/access_token";
         private const string XAuthorizeTokenUrl = "https://api.twitter.com/oauth/access_token?send_error_codes=true";
+        private const string SafeURLEncodeChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_.~";
 
         public static async Task<bool> StartAuthentication(this IUserSession session)
         {
@@ -27,8 +35,8 @@ namespace BoxKite.Twitter.Authentication
             if (session.PlatformAdaptor == null)
                 throw new ArgumentException("Need a Platform Adaptor");
 
-            var sinceEpoch = GenerateTimeStamp();
-            var nonce = GenerateNonce();
+            var sinceEpoch = session.GenerateTimestamp();
+            var nonce = session.GenerateNoonce();
 
             var sigBaseStringParams =
                 string.Format(
@@ -38,7 +46,7 @@ namespace BoxKite.Twitter.Authentication
                     sinceEpoch);
 
             var sigBaseString = string.Format("POST&{0}&{1}", RequestTokenUrl.UrlEncode(), sigBaseStringParams.UrlEncode());
-            var signature = GenerateSignature(session.clientSecret, sigBaseString, null);
+            var signature = session.GenerateSignature(session.clientSecret, sigBaseString, null);
             var dataToPost = string.Format(
                     "OAuth realm=\"\", oauth_nonce=\"{0}\", oauth_timestamp=\"{1}\", oauth_consumer_key=\"{2}\", oauth_signature_method=\"HMAC-SHA1\", oauth_version=\"1.0\", oauth_signature=\"{3}\"",
                     nonce,
@@ -81,14 +89,14 @@ namespace BoxKite.Twitter.Authentication
             if (string.IsNullOrWhiteSpace(pinAuthorizationCode))
                 throw new ArgumentException("pin AuthorizationCode must be specified", pinAuthorizationCode);
 
-            var sinceEpoch = GenerateTimeStamp();
-            var nonce = GenerateNonce();
+            var sinceEpoch = session.GenerateTimestamp();
+            var nonce = session.GenerateNoonce();
 
             var dataToPost = string.Format(
                     "OAuth realm=\"\", oauth_nonce=\"{0}\", oauth_timestamp=\"{1}\", oauth_consumer_key=\"{2}\", oauth_signature_method=\"HMAC-SHA1\", oauth_version=\"1.0\", oauth_verifier=\"{3}\", oauth_token=\"{4}\"",
                     nonce,
                     sinceEpoch,
-                    _clientId,
+                    session.clientID,
                     pinAuthorizationCode,
                     _oAuthToken);
 
@@ -321,7 +329,7 @@ namespace BoxKite.Twitter.Authentication
             return TwitterCredentials.Null;
         }
 
-        /*        private static string GenerateSignature(this IUserSession session, string signingKey, string baseString, string tokenSecret)
+        private static string GenerateSignature(this IUserSession session, string signingKey, string baseString, string tokenSecret)
                 {
                     session.PlatformAdaptor.AssignKey(Encoding.UTF8.GetBytes(string.Format("{0}&{1}", OAuthUrlEncode(signingKey),
                         string.IsNullOrEmpty(tokenSecret)
@@ -352,18 +360,6 @@ namespace BoxKite.Twitter.Authentication
                     return result.ToString();
                 }
 
-                private static string GenerateNonce()
-                {
-                    var random = new Random();
-                    return random.Next(1234000, 99999999).ToString(CultureInfo.InvariantCulture);
-                }
-
-                private static string GenerateTimeStamp()
-                {
-                    var ts = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0);
-                    return Convert.ToInt64(ts.TotalSeconds).ToString(CultureInfo.InvariantCulture);
-                }
-
                 private static async Task<string> PostData(string url, string data, string content = null)
                 {
                     try
@@ -392,6 +388,5 @@ namespace BoxKite.Twitter.Authentication
                         return "";
                     }
                 }
-        */
     }
 }

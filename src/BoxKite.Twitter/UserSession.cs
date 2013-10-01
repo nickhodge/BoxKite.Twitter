@@ -14,6 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BoxKite.Twitter.Extensions;
 using BoxKite.Twitter.Models;
+using Reactive.EventAggregator;
 
 namespace BoxKite.Twitter
 {
@@ -26,10 +27,13 @@ namespace BoxKite.Twitter
         private const string OauthSignatureMethod = "HMAC-SHA1";
         private const string OauthVersion = "1.0";
         private const string UserAgent = "BoxKite.Twitter/1.0";
+
+        public IEventAggregator TwitterConnectionEvents { get; set; }
         public IPlatformAdaptor PlatformAdaptor { get; set; }
         public string clientID { get; set; }
         public string clientSecret { get; set; }
-
+        public IUserStream UserStream { get; set; }
+        public ISearchStream SearchStream { get; set; }
 
         public UserSession(string clientID, string clientSecret, IPlatformAdaptor platformAdaptor)
         {
@@ -54,9 +58,14 @@ namespace BoxKite.Twitter
                 TokenSecret = _credentials.ConsumerSecret,
                 ScreenName = _credentials.ScreenName,
                 UserID = _credentials.UserID,
-                Valid = true
+                Valid = false // set to false initially, until they are Verified later
             };
             return credentials;
+        }
+
+        public IUserStream UserStreamBuilder()
+        {
+            return UserStream ?? this.GetUserStream(TwitterConnectionEvents);
         }
 
         public async Task<HttpResponseMessage> GetAsync(string url, SortedDictionary<string, string> parameters)

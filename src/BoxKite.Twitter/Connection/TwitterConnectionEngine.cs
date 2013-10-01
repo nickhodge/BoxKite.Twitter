@@ -8,7 +8,6 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Threading;
 using System.Threading.Tasks;
-using BoxKite.Twitter.Helpers;
 using BoxKite.Twitter.Models;
 
 namespace BoxKite.Twitter
@@ -28,12 +27,12 @@ namespace BoxKite.Twitter
 
         // largestSeenIds
         // TBD: these should/could be properties on Account so they can be persisted across launches
-        private long homeTimeLineLargestSeenId;
-        private long directMessagesReceivedLargestSeenId;
-        private long directMessagesSentLargestSeenId;
-        private long retweetsOfMeLargestSeenId;
-        private long mentionsOfMeLargestSeenId;
-        private long myTweetsLargestSeenId;
+        private long _homeTimeLineLargestSeenId;
+        private long _directMessagesReceivedLargestSeenId;
+        private long _directMessagesSentLargestSeenId;
+        private long _retweetsOfMeLargestSeenId;
+        private long _mentionsOfMeLargestSeenId;
+        private long _myTweetsLargestSeenId;
         //
 
         readonly Subject<Tweet> _timeline = new Subject<Tweet>();
@@ -68,6 +67,8 @@ namespace BoxKite.Twitter
 
         private CancellationTokenSource TwitterCommunication;
 
+        private readonly TimeSpan _multiFetchBackoffTimer = new TimeSpan(1200);
+
         private bool IsUnique(Tweet t)
         {
             if (_tweetIdsRegister.Contains(t.Id)) return false;
@@ -90,10 +91,10 @@ namespace BoxKite.Twitter
         {
             TwitterCommunication = new CancellationTokenSource();
             //
-            UserStream = Session.GetUserStream(_eventAggregator);
+            UserStream = Session.UserStreamBuilder();
 
             // this watches the userstream, if there is a disconnect event, do something about it
-            _eventAggregator.GetEvent<TwitterUserStreamDisconnectEvent>().Subscribe(ManageUserStreamDisconnect);
+            TwitterConnectionEvents.GetEvent<TwitterUserStreamDisconnectEvent>().Subscribe(ManageUserStreamDisconnect);
 
             // Separate stream events start 
             StartStreamEvents();
@@ -164,12 +165,12 @@ namespace BoxKite.Twitter
                 var observable = Observable.Interval(TimeSpan.FromMinutes(1));
                 observable.Subscribe(async t =>
                 {
-                    homeTimeLineLargestSeenId = await GetHomeTimeLine_Failover(homeTimeLineLargestSeenId);
-                    directMessagesReceivedLargestSeenId = await GetDirectMessages_Received_Failover(directMessagesReceivedLargestSeenId);
-                    directMessagesSentLargestSeenId = await GetDirectMessages_Sent_Failover(directMessagesSentLargestSeenId);
-                    retweetsOfMeLargestSeenId = await GetRTOfMe_Failover(retweetsOfMeLargestSeenId);
-                    mentionsOfMeLargestSeenId = await GetMentions_Failover(mentionsOfMeLargestSeenId);
-                    myTweetsLargestSeenId = await GetMyTweets_Failover(myTweetsLargestSeenId);
+                    _homeTimeLineLargestSeenId = await GetHomeTimeLine_Failover(_homeTimeLineLargestSeenId);
+                    _directMessagesReceivedLargestSeenId = await GetDirectMessages_Received_Failover(_directMessagesReceivedLargestSeenId);
+                    _directMessagesSentLargestSeenId = await GetDirectMessages_Sent_Failover(_directMessagesSentLargestSeenId);
+                    _retweetsOfMeLargestSeenId = await GetRTOfMe_Failover(_retweetsOfMeLargestSeenId);
+                    _mentionsOfMeLargestSeenId = await GetMentions_Failover(_mentionsOfMeLargestSeenId);
+                    _myTweetsLargestSeenId = await GetMyTweets_Failover(_myTweetsLargestSeenId);
                 });
             });
         }
@@ -271,27 +272,27 @@ namespace BoxKite.Twitter
             var o = Observable.CombineLatest(
                 Observable.Start( async () =>
                     {
-                        homeTimeLineLargestSeenId = await GetHomeTimeLine_Backfill();
+                        _homeTimeLineLargestSeenId = await GetHomeTimeLine_Backfill();
                     }),
                 Observable.Start( async () =>
                     {
-                       directMessagesReceivedLargestSeenId = await GetDirectMessages_Received_Backfill();
+                       _directMessagesReceivedLargestSeenId = await GetDirectMessages_Received_Backfill();
                     }),
                 Observable.Start( async () =>
                     {
-                        directMessagesSentLargestSeenId = await GetDirectMessages_Sent_Backfill();
+                        _directMessagesSentLargestSeenId = await GetDirectMessages_Sent_Backfill();
                     }),
                 Observable.Start( async () =>
                     {
-                        retweetsOfMeLargestSeenId = await GetRTOfMe_Backfill();
+                        _retweetsOfMeLargestSeenId = await GetRTOfMe_Backfill();
                     }),
                 Observable.Start( async () =>
                     {
-                        mentionsOfMeLargestSeenId = await GetMentions_Backfill();
+                        _mentionsOfMeLargestSeenId = await GetMentions_Backfill();
                     }),
                 Observable.Start( async () =>
                     {
-                        myTweetsLargestSeenId = await GetMyTweets_Backfill();
+                        _myTweetsLargestSeenId = await GetMyTweets_Backfill();
                     })
                 ).Finally(() => backFillCompleted.OnNext(true));
             await o;
