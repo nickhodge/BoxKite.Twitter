@@ -24,7 +24,7 @@ namespace BoxKite.Twitter.Authentication
         private const string XAuthorizeTokenUrl = "https://api.twitter.com/oauth/access_token?send_error_codes=true";
         private const string SafeURLEncodeChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_.~";
 
-        public static async Task<bool> StartAuthentication(this IUserSession session)
+        public static async Task<string> StartAuthentication(this IUserSession session)
         {
             if (string.IsNullOrWhiteSpace(session.clientID))
                 throw new ArgumentException("ClientID must be specified", session.clientID);
@@ -57,9 +57,8 @@ namespace BoxKite.Twitter.Authentication
             var response = await PostData(RequestTokenUrl, dataToPost);
 
             if (string.IsNullOrWhiteSpace(response))
-                return false;
+                return null;
 
-            var oauthCallbackConfirmed = false;
             var oAuthToken = "";
 
             foreach (var splits in response.Split('&').Select(t => t.Split('=')))
@@ -73,18 +72,17 @@ namespace BoxKite.Twitter.Authentication
                         var OAuthTokenSecret = splits[1];
                         break;
                     case "oauth_callback_confirmed":
-                        if (splits[1].ToLower() == "true") oauthCallbackConfirmed = true;
                         break;
                 }
             }
 
-            if (oauthCallbackConfirmed)
+            if (!string.IsNullOrWhiteSpace(oAuthToken))
                 session.PlatformAdaptor.DisplayAuthInBrowser(AuthenticateUrl + oAuthToken);
 
-            return oauthCallbackConfirmed;
+            return oAuthToken;
         }
 
-        public static async Task<TwitterCredentials> ConfirmPin(this IUserSession session, string pinAuthorizationCode)
+        public static async Task<TwitterCredentials> ConfirmPin(this IUserSession session, string pinAuthorizationCode, string oAuthToken)
         {
             if (string.IsNullOrWhiteSpace(pinAuthorizationCode))
                 throw new ArgumentException("pin AuthorizationCode must be specified", pinAuthorizationCode);
@@ -98,7 +96,7 @@ namespace BoxKite.Twitter.Authentication
                     sinceEpoch,
                     session.clientID,
                     pinAuthorizationCode,
-                    _oAuthToken);
+                    oAuthToken);
 
             var response = await PostData(AuthorizeTokenUrl, dataToPost);
 

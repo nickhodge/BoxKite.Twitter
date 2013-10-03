@@ -22,7 +22,17 @@ namespace BoxKite.Twitter
     {
         // used http://garyshortblog.wordpress.com/2011/02/11/a-twitter-oauth-example-in-c/
 
-        private readonly TwitterCredentials _credentials;
+        private TwitterCredentials _credentials;
+        public TwitterCredentials TwitterCredentials {
+            get
+            {
+                return _credentials;
+            }
+            set
+            {
+                _credentials = value;
+            }
+        }
 
         private const string OauthSignatureMethod = "HMAC-SHA1";
         private const string OauthVersion = "1.0";
@@ -44,18 +54,18 @@ namespace BoxKite.Twitter
 
         public UserSession(TwitterCredentials credentials, IPlatformAdaptor platformAdaptor)
         {
-            _credentials = credentials;
+            TwitterCredentials = credentials;
             PlatformAdaptor = platformAdaptor;
         }
 
-        public TwitterCredentials GetUserCredentials()
+        public TwitterCredentials CreateUserCredentials()
         {
             var credentials = new TwitterCredentials
             {
-                ConsumerKey = clientID,
-                ConsumerSecret = clientSecret,
+                ConsumerKey = _credentials.ConsumerKey,
+                ConsumerSecret = _credentials.ConsumerSecret,
                 Token = _credentials.Token,
-                TokenSecret = _credentials.ConsumerSecret,
+                TokenSecret = _credentials.TokenSecret,
                 ScreenName = _credentials.ScreenName,
                 UserID = _credentials.UserID,
                 Valid = false // set to false initially, until they are Verified later

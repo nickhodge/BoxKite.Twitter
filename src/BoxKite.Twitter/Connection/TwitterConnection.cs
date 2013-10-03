@@ -103,18 +103,17 @@ namespace BoxKite.Twitter
         }
 
         // auth happens when no creds are present
-        public async Task<bool> BeginAuthentication()
+        public async Task<string> BeginAuthentication()
         {
-            var authstartok = await Session.StartAuthentication();
-            return authstartok;
+            var oAuthToken = await Session.StartAuthentication();
+            return oAuthToken;
         }
 
         // second stage of auth confirms the pin is OK
-        public async Task<TwitterCredentials> CompleteAuthentication(string pin)
+        public async Task<TwitterCredentials> CompleteAuthentication(string pin, string oAuthToken)
         {
-            var twittercredentials = await Session.ConfirmPin(pin);
-            if (!twittercredentials.Valid) return null;
-            return twittercredentials;
+            var twittercredentials = await Session.ConfirmPin(pin, oAuthToken);
+            return !twittercredentials.Valid ? null : twittercredentials;
         }
 
         // another method using xauth as the authentication flow

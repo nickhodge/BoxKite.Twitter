@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
+using BoxKite.Twitter.Models;
 
 namespace BoxKite.Twitter
 {
@@ -12,9 +13,13 @@ namespace BoxKite.Twitter
     {
         string clientID { get; set; }
         string clientSecret { get; set; }
+
+        TwitterCredentials TwitterCredentials {get; set; }
         IPlatformAdaptor PlatformAdaptor { get; set; }
+        
 
         IUserStream UserStreamBuilder();
+        TwitterCredentials CreateUserCredentials();
 
         Task<HttpResponseMessage> GetAsync(string relativeUrl, SortedDictionary<string, string> parameters);
         Task<HttpResponseMessage> PostAsync(string relativeUrl, SortedDictionary<string, string> parameters);
