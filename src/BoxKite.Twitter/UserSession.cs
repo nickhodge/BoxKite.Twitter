@@ -49,6 +49,7 @@ namespace BoxKite.Twitter
         {
             this.clientID = clientID;
             this.clientSecret = clientSecret;
+            TwitterCredentials = TwitterCredentials.Null;
             PlatformAdaptor = platformAdaptor;
         }
 
@@ -58,21 +59,6 @@ namespace BoxKite.Twitter
             PlatformAdaptor = platformAdaptor;
         }
 
-        public TwitterCredentials CreateUserCredentials()
-        {
-            var credentials = new TwitterCredentials
-            {
-                ConsumerKey = _credentials.ConsumerKey,
-                ConsumerSecret = _credentials.ConsumerSecret,
-                Token = _credentials.Token,
-                TokenSecret = _credentials.TokenSecret,
-                ScreenName = _credentials.ScreenName,
-                UserID = _credentials.UserID,
-                Valid = false // set to false initially, until they are Verified later
-            };
-            return credentials;
-        }
-
         public IUserStream UserStreamBuilder()
         {
             return UserStream ?? this.GetUserStream(TwitterConnectionEvents);
@@ -80,6 +66,9 @@ namespace BoxKite.Twitter
 
         public async Task<HttpResponseMessage> GetAsync(string url, SortedDictionary<string, string> parameters)
         {
+            if (TwitterCredentials == TwitterCredentials.Null || TwitterCredentials.Valid == false)
+                throw new ArgumentException("TwitterCredentials must be specified and validated");
+
             var querystring = parameters.Aggregate("", (current, entry) => current + (entry.Key + "=" + entry.Value + "&"));
 
             var oauth = BuildAuthenticatedResult(url, parameters, "GET");
@@ -105,6 +94,9 @@ namespace BoxKite.Twitter
 
         public async Task<HttpResponseMessage> PostAsync(string url, SortedDictionary<string, string> parameters)
         {
+            if (TwitterCredentials == TwitterCredentials.Null || TwitterCredentials.Valid == false)
+                throw new ArgumentException("TwitterCredentials must be specified and validated");
+
             var oauth = BuildAuthenticatedResult(url, parameters, "POST");
             var handler = new HttpClientHandler();
             if (handler.SupportsAutomaticDecompression)
@@ -128,10 +120,12 @@ namespace BoxKite.Twitter
         public async Task<HttpResponseMessage> PostFileAsync(string url, SortedDictionary<string, string> parameters,
             string fileName, string fileContentsKey, byte[] fileContents = null, Stream srImageStream = null)
         {
+            if (TwitterCredentials == TwitterCredentials.Null || TwitterCredentials.Valid == false)
+                throw new ArgumentException("TwitterCredentials must be specified and validated");
+
             if (fileContents == null && srImageStream == null)
             {
-                //TODO: fix with appropriate response needs testing
-                return null;
+                throw new ArgumentException("FileContents must have something actually in them.");
             }
             else
             {

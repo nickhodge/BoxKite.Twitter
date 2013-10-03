@@ -138,9 +138,9 @@ namespace BoxKite.Twitter
         }
 
 #if(WIN8RT)
-        public async Task<TwitterCredentials> Authenticate()
+        public async Task<TwitterCredentials> Authenticate(string _callbackuri)
         {
-            var twittercredentials =  await Session.Authentication();
+            var twittercredentials = await Session.Authentication(_callbackuri);
             if (!twittercredentials.Valid) return null;
             return twittercredentials;
         }

@@ -19,7 +19,6 @@ namespace BoxKite.Twitter
         
 
         IUserStream UserStreamBuilder();
-        TwitterCredentials CreateUserCredentials();
 
         Task<HttpResponseMessage> GetAsync(string relativeUrl, SortedDictionary<string, string> parameters);
         Task<HttpResponseMessage> PostAsync(string relativeUrl, SortedDictionary<string, string> parameters);

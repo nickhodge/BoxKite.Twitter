@@ -101,7 +101,6 @@
     <Compile Include="Helpers\FilesHelper.cs" />
     <Compile Include="Helpers\ManageTwitterCredentials.cs" />
     <Compile Include="Helpers\SecureIt.cs" />
-    <Compile Include="Helpers\TwitterConnection.cs" />
     <Compile Include="Tests\ApiManagementLiveFireTests.cs" />
     <Compile Include="Tests\CombosLiveFireTests.cs" />
     <Compile Include="Tests\ListsLiveFireTests.cs" />
