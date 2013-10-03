@@ -28,16 +28,26 @@ namespace BoxKite.Twitter.Models
         public string ConsumerSecret { get; set; }
 
         /// <summary>
-        /// 
+        /// Associated with these ConsumerKey/Secret and this user is a Token
         /// </summary>
         [DataMember]
         public string Token { get; set; }
+
+        /// <summary>
+        /// Associated with these ConsumerKey/Secret and this user is a TokenSecret
+        /// </summary>
         [DataMember]
         public string TokenSecret { get; set; }
 
-
+        /// <summary>
+        /// Twitter ScreenName associated with these Credentials
+        /// </summary>
         [DataMember]
         public string ScreenName { get; set; }
+
+        /// <summary>
+        /// Twitter UserID associated with these Credentials
+        /// </summary>
         [DataMember]
         public long UserID { get; set; }
 
