@@ -371,7 +371,6 @@ namespace BoxKite.Twitter.Authentication
             return TwitterCredentials.Null;
         }
 
-
         // TBD: replace with extensionmethod in IUserSession
         private static string GenerateSignature(this IUserSession session, string signingKey, string baseString, string tokenSecret)
                 {
