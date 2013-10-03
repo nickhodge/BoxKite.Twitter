@@ -1,11 +1,13 @@
 // (c) 2012-2013 Nick Hodge mailto:hodgenick@gmail.com & Brendan Forster
 // License: MS-PL
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using BoxKite.Twitter.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BoxKite.Twitter.Tests
@@ -18,6 +20,16 @@ namespace BoxKite.Twitter.Tests
         string expectedPostUrl;
         public bool simulatingError { get; set; }
         public HttpStatusCode httpStatusCode { get; set; }
+
+        public string clientID { get; set; }
+        public string clientSecret { get; set; }
+        public TwitterCredentials TwitterCredentials { get; set; }
+        public IPlatformAdaptor PlatformAdaptor { get; set; }
+
+        public IUserStream UserStreamBuilder()
+        {
+            throw new System.NotImplementedException();
+        }
 
         public Task<HttpResponseMessage> GetAsync(string relativeUrl, SortedDictionary<string, string> parameters)
         {
@@ -69,7 +81,6 @@ namespace BoxKite.Twitter.Tests
                 return Task.FromResult(response);
             }
         }
-
 
         public Task<HttpResponseMessage> PostFileAsync(string url, SortedDictionary<string, string> parameters, string fileName, string fileContentsKey, byte[] fileContents, Stream srReader)
         {
@@ -127,5 +138,18 @@ namespace BoxKite.Twitter.Tests
         {
             expectedPostUrl = url;
         }
+
+        public string GenerateNoonce()
+        {
+            var rand = new Random();
+            return rand.Next(1000000000).ToString();
+        }
+
+        public string GenerateTimestamp()
+        {
+            var ts = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            return Convert.ToInt64(ts.TotalSeconds).ToString();
+        }
+
     }
 }

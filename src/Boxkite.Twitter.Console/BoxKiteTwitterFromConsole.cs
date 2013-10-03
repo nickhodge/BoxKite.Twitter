@@ -16,8 +16,7 @@ namespace BoxKite.Twitter.Console
         public static IUserStream userstream;
         public static ISearchStream searchstream;
         public static TwitterConnection twitterConnection;
-        public static TwitterAccount mainTwitterAccount;
-
+ 
         private static void Main(string[] args)
         {
             ConsoleOutput.PrintMessage("Welcome to BoxKite.Twitter Console");
@@ -26,7 +25,7 @@ namespace BoxKite.Twitter.Console
 
             //var twittercredentials = ManageTwitterCredentials.MakeConnection();
 
-            twitterConnection = new TwitterConnection("3izxqWiej34yTlofisw","uncicYQtDx5SoWth1I9xcn5vrpczUct1Oz9ydwTY4", new DesktopPlatformAdaptor());
+            twitterConnection = new TwitterConnection("3izxqWiej34yTlofisw", "uncicYQtDx5SoWth1I9xcn5vrpczUct1Oz9ydwTY4");
 
             // PIN based authentication
             DoPINDisplay(twitterConnection);
@@ -193,15 +192,15 @@ namespace BoxKite.Twitter.Console
             await twitterConnection.BeginAuthentication();
         }
 
-        public static async Task<TwitterAccount> AuthPIN(string authPIN, TwitterConnection twitterConnection)
+        public static async Task<TwitterCredentials> AuthPIN(string authPIN, string oAuthToken, TwitterConnection twitterConnection)
         {
             // after entering the PIN, and clicking OK, this method is run
             if (string.IsNullOrWhiteSpace(authPIN)) return null;
-            var twitteraccount = await twitterConnection.CompleteAuthentication(authPIN);
+            var twitteraccount = await twitterConnection.CompleteAuthentication(authPIN, oAuthToken);
             return twitteraccount ?? null;
         }
 
-        public static async Task<TwitterAccount> XAuth(string xauthusername, string xauthpassword, TwitterConnection twitterConnection)
+        public static async Task<TwitterCredentials> XAuth(string xauthusername, string xauthpassword, TwitterConnection twitterConnection)
         {
             // let's go for xauth!
             var twitteraccount = await twitterConnection.XAuthentication(xauthusername, xauthpassword);

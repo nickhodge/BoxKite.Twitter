@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using BoxKite.Twitter;
 using BoxKite.Twitter.Helpers;
 using BoxKite.Twitter.Models;
 using BoxKite.ViewModels;
@@ -44,8 +45,7 @@ namespace BoxKite.WPFSimpleClient
             if (twittercreds.Valid)
             {
                 // add the account to the connection; is also validates the credentials with twitter
-                var twitteraccount = await App.twitterConnection.AddTwitterAccount(twittercreds);
-                mainWindowViewModel.mainTwitterAccount = twitteraccount;
+                mainWindowViewModel.twitterConnection = App.twitterConnection;
 
                 // now wire up all the data, and we are logged on!
                 mainWindowViewModel.Connect();

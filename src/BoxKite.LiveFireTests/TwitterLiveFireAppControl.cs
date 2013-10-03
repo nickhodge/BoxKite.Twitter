@@ -21,7 +21,7 @@ namespace BoxKite.Twitter.Console
 
             if (twittercredentials.Valid)
             {
-                System.Console.CancelKeyPress += new ConsoleCancelEventHandler(cancelStreamHandler);
+                System.Console.CancelKeyPress += cancelStreamHandler;
                 var session = new UserSession(twittercredentials, new DesktopPlatformAdaptor());
                 var checkUser = session.GetVerifyCredentials().Result;
                 if (checkUser.OK)

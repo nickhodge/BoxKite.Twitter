@@ -23,70 +23,70 @@ namespace BoxKite.Twitter
         public IUserStream UserStream { get; set; }
         public ISearchStream SearchStream { get; set; }
 
-        public TwitterConnection(string twitterConsumerKey, string twitterConsumerSecret, IEventAggregator eventAggregator, IPlatformAdaptor platformAdaptor)
+        public TwitterConnection(string twitterConsumerKey, string twitterConsumerSecret, IEventAggregator eventAggregator = null, IPlatformAdaptor platformAdaptor = null)
         {
-            TwitterConnectionEvents = eventAggregator;
+            TwitterConnectionEvents = eventAggregator ?? new EventAggregator();
             PlatformAdaptor = platformAdaptor;
             Session = SessionBuilder(twitterConsumerKey, twitterConsumerSecret);
         }
 
-        public TwitterConnection(TwitterCredentials twitterCredentials, IEventAggregator eventAggregator, IPlatformAdaptor platformAdaptor)
+        public TwitterConnection(TwitterCredentials twitterCredentials, IEventAggregator eventAggregator = null, IPlatformAdaptor platformAdaptor = null)
         {
             TwitterCredentials = twitterCredentials;
             PlatformAdaptor = platformAdaptor;
-            TwitterConnectionEvents = eventAggregator;
+            TwitterConnectionEvents = eventAggregator ?? new EventAggregator();
             Session = SessionBuilder();
         }
 
-        public TwitterConnection(string twitterConsumerKey, string twitterConsumerSecret, string xauthusername, string xauthpassword, IEventAggregator eventAggregator, IPlatformAdaptor platformAdaptor)
+        public TwitterConnection(string twitterConsumerKey, string twitterConsumerSecret, string xauthusername, string xauthpassword, IEventAggregator eventAggregator = null, IPlatformAdaptor platformAdaptor = null)
         {
-            TwitterConnectionEvents = eventAggregator;
+            TwitterConnectionEvents = eventAggregator ?? new EventAggregator();
             PlatformAdaptor = platformAdaptor;
             Session = SessionBuilder(twitterConsumerKey, twitterConsumerSecret);
         }
 
 #if (WINDOWSDESKTOP)
-        public TwitterConnection(string twitterConsumerKey, string twitterConsumerSecret, IEventAggregator eventAggregator)
+        public TwitterConnection(string twitterConsumerKey, string twitterConsumerSecret, IEventAggregator eventAggregator = null)
         {
-            TwitterConnectionEvents = eventAggregator;
+            TwitterConnectionEvents = eventAggregator ?? new EventAggregator();
             PlatformAdaptor = new DesktopPlatformAdaptor();
             Session = SessionBuilder(twitterConsumerKey, twitterConsumerSecret);
         }
 
-        public TwitterConnection(TwitterCredentials twitterCredentials, IEventAggregator eventAggregator)
+        public TwitterConnection(TwitterCredentials twitterCredentials, IEventAggregator eventAggregator = null)
         {
             TwitterCredentials = twitterCredentials;
             PlatformAdaptor = new DesktopPlatformAdaptor();
-            TwitterConnectionEvents = eventAggregator;
+            TwitterConnectionEvents = eventAggregator ?? new EventAggregator();
             Session = SessionBuilder();
         }
 
-        public TwitterConnection(string twitterConsumerKey, string twitterConsumerSecret, string xauthusername, string xauthpassword, IEventAggregator eventAggregator)
+        public TwitterConnection(string twitterConsumerKey, string twitterConsumerSecret, string xauthusername, string xauthpassword, IEventAggregator eventAggregator = null)
         {
-            TwitterConnectionEvents = eventAggregator;
+            TwitterConnectionEvents = eventAggregator ?? new EventAggregator();
             PlatformAdaptor = new DesktopPlatformAdaptor();
             Session = SessionBuilder(twitterConsumerKey, twitterConsumerSecret);
         }
 #endif
 #if(WIN8RT)
-        public TwitterConnection(string twitterConsumerKey, string twitterConsumerSecret, IEventAggregator eventAggregator)
+        public TwitterConnection(string twitterConsumerKey, string twitterConsumerSecret, IEventAggregator eventAggregator = null)
         {
-            TwitterConnectionEvents = eventAggregator;
+            TwitterConnectionEvents = eventAggregator ?? new EventAggregator();
             PlatformAdaptor = new Win8RTPlatformAdaptor();
             Session = SessionBuilder(twitterConsumerKey, twitterConsumerSecret);
         }
 
-        public TwitterConnection(TwitterCredentials twitterCredentials, IEventAggregator eventAggregator)
+        public TwitterConnection(TwitterCredentials twitterCredentials, IEventAggregator eventAggregator = null)
         {
             TwitterCredentials = twitterCredentials;
             PlatformAdaptor = new Win8RTPlatformAdaptor();
-            TwitterConnectionEvents = eventAggregator;
+            TwitterConnectionEvents = eventAggregator ?? new EventAggregator();
             Session = SessionBuilder();
         }
 
-        public TwitterConnection(string twitterConsumerKey, string twitterConsumerSecret, string xauthusername, string xauthpassword, IEventAggregator eventAggregator)
+        public TwitterConnection(string twitterConsumerKey, string twitterConsumerSecret, string xauthusername, string xauthpassword, IEventAggregator eventAggregator = null)
         {
-            TwitterConnectionEvents = eventAggregator;
+            TwitterConnectionEvents = eventAggregator ?? new EventAggregator();
             PlatformAdaptor = new Win8RTPlatformAdaptor();
             Session = SessionBuilder(twitterConsumerKey, twitterConsumerSecret);
         } 

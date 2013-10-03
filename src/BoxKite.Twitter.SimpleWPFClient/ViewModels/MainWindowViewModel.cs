@@ -28,12 +28,7 @@ namespace BoxKite.ViewModels
         public ObservableCollection<DirectMessage> dmTimeLineTweets { get; set; }
         public ObservableCollection<Tweet> searchTweets { get; set; }
 
-        private TwitterAccount _mainTwitterAccount;
-        public TwitterAccount mainTwitterAccount
-        {
-            get { return _mainTwitterAccount; }
-            set { SetProperty(ref _mainTwitterAccount, value); }
-        }
+        public TwitterConnection twitterConnection;
 
         // getting credentials commanding
         private bool _needsCredentialsCommands;
@@ -179,18 +174,18 @@ namespace BoxKite.ViewModels
         //       pop onto the correct thread where the Collections live. All works async under the covers, so that's nice
         public void Connect()
         {
-            mainTwitterAccount.TimeLine.ObserveOn(SynchronizationContext.Current).Subscribe(t => homeTimeLineTweets.Add(t));
-            mainTwitterAccount.Mentions.ObserveOn(SynchronizationContext.Current).Subscribe(m => mentionsTimeLineTweets.Add(m));
-            mainTwitterAccount.DirectMessages.ObserveOn(SynchronizationContext.Current).Subscribe(d => dmTimeLineTweets.Add(d));
-            mainTwitterAccount.SearchTimeLine.ObserveOn(SynchronizationContext.Current).Subscribe(s => searchTweets.Add(s));
-            mainTwitterAccount.Start();
+            twitterConnection.TimeLine.ObserveOn(SynchronizationContext.Current).Subscribe(t => homeTimeLineTweets.Add(t));
+            twitterConnection.Mentions.ObserveOn(SynchronizationContext.Current).Subscribe(m => mentionsTimeLineTweets.Add(m));
+            twitterConnection.DirectMessages.ObserveOn(SynchronizationContext.Current).Subscribe(d => dmTimeLineTweets.Add(d));
+            twitterConnection.SearchTimeLine.ObserveOn(SynchronizationContext.Current).Subscribe(s => searchTweets.Add(s));
+            twitterConnection.Start();
             canExecuteCommands = true;
             needsCredentialsCommands = false;
         }
 
         public async void SendTweet()
         {
-            var st = await mainTwitterAccount.Session.SendTweet(TweetText);
+            var st = await twitterConnection.Session.SendTweet(TweetText);
             if (st.OK)
                 TweetText = "";
         }
@@ -200,7 +195,7 @@ namespace BoxKite.ViewModels
             if (SearchingOn) // the app is getting responses from search, now turn it off & get performance
             {
                 var endSearchTime = DateTime.Now;
-                mainTwitterAccount.StopSearch();
+                twitterConnection.StopSearch();
                 // firstly, get the "oldest" tweet
                 var correctedStartSearchTime = searchTweets.Min(t => t.Time);
                 // calc the performance by getting the time difference & number of tweets collected
@@ -221,7 +216,7 @@ namespace BoxKite.ViewModels
             {
                 searchTweets.Clear();
                 SearchPerformance = "";
-                mainTwitterAccount.StartSearch(_searchText);
+                twitterConnection.StartSearch(_searchText);
                 SearchingOn = true;
             }
         }
