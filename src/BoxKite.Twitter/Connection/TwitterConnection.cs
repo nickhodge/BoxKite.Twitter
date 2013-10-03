@@ -22,7 +22,7 @@ namespace BoxKite.Twitter
         public IUserSession Session { get; set; }
         public IUserStream UserStream { get; set; }
         public ISearchStream SearchStream { get; set; }
-
+#if(PORTABLE)
         public TwitterConnection(string twitterConsumerKey, string twitterConsumerSecret, IEventAggregator eventAggregator = null, IPlatformAdaptor platformAdaptor = null)
         {
             TwitterConnectionEvents = eventAggregator ?? new EventAggregator();
@@ -44,7 +44,7 @@ namespace BoxKite.Twitter
             PlatformAdaptor = platformAdaptor;
             Session = SessionBuilder(twitterConsumerKey, twitterConsumerSecret);
         }
-
+#endif
 #if (WINDOWSDESKTOP)
         public TwitterConnection(string twitterConsumerKey, string twitterConsumerSecret, IEventAggregator eventAggregator = null)
         {

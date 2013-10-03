@@ -94,13 +94,24 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Boxkite.Twitter.Console\Helpers\ClientKeyManager.cs">
+      <Link>Helpers\ClientKeyManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Boxkite.Twitter.Console\Helpers\ConsoleOutput.cs">
+      <Link>Helpers\ConsoleOutput.cs</Link>
+    </Compile>
+    <Compile Include="..\Boxkite.Twitter.Console\Helpers\FilesHelper.cs">
+      <Link>Helpers\FilesHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\Boxkite.Twitter.Console\Helpers\ManageTwitterCredentials.cs">
+      <Link>Helpers\ManageTwitterCredentials.cs</Link>
+    </Compile>
+    <Compile Include="..\Boxkite.Twitter.Console\Helpers\SecureIt.cs">
+      <Link>Helpers\SecureIt.cs</Link>
+    </Compile>
     <Compile Include="..\BoxKite.Twitter.Desktop\Helpers\DesktopPlatformAdaptor.cs">
       <Link>Helpers\DesktopPlatformAdaptor.cs</Link>
     </Compile>
-    <Compile Include="Helpers\ConsoleOutput.cs" />
-    <Compile Include="Helpers\FilesHelper.cs" />
-    <Compile Include="Helpers\ManageTwitterCredentials.cs" />
-    <Compile Include="Helpers\SecureIt.cs" />
     <Compile Include="Tests\ApiManagementLiveFireTests.cs" />
     <Compile Include="Tests\CombosLiveFireTests.cs" />
     <Compile Include="Tests\ListsLiveFireTests.cs" />

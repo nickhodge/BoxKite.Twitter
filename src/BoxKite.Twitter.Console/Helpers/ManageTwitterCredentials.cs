@@ -11,7 +11,7 @@ namespace BoxKite.Twitter.Console
     {
         private const string BoxKiteTwitterCredentialsStore = "BoxKiteTwitterCredentials.bk";
 
-        public static TwitterCredentials MakeConnection()
+        public static TwitterCredentials GetTwitterCredentialsFromFile()
         {
             var twitterCreds = new TwitterCredentials();
             var fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),BoxKiteTwitterCredentialsStore);
@@ -19,22 +19,28 @@ namespace BoxKite.Twitter.Console
             {
                 twitterCreds = GetCredentialsFromFile(fileName);
             }
-            if (twitterCreds.Valid) return twitterCreds;
-
-            twitterCreds = TwitterBogusTestzOnlyConnection.GetTwitterCredentials();
-            SaveCredentialsToFile(fileName, twitterCreds);
-
-            return twitterCreds;
+            return twitterCreds.Valid ? twitterCreds : null;
         }
 
-        public static TwitterCredentials GetCredentialsFromFile(string fileName)
+        public static void SaveTwitterCredentialsToFile(TwitterCredentials twitterCreds)
+        {
+            var fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), BoxKiteTwitterCredentialsStore);
+            if (File.Exists(fileName))
+            {
+                File.Delete(fileName);
+            }
+            SaveCredentialsToFile(fileName, twitterCreds);
+        }
+
+
+        private static TwitterCredentials GetCredentialsFromFile(string fileName)
         {
             var json = File.ReadAllText(fileName);
             var clearText = json.DecryptString().ToInsecureString();
             return JsonConvert.DeserializeObject<TwitterCredentials>(clearText);
         }
 
-        public static void SaveCredentialsToFile(string fileName, TwitterCredentials tc)
+        private static void SaveCredentialsToFile(string fileName, TwitterCredentials tc)
         {
             var json = JsonConvert.SerializeObject(tc, Formatting.Indented);
             var cypherText = json.ToSecureString().EncryptString();

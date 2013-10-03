@@ -2,12 +2,8 @@
 // License: MS-PL
 
 using System;
-using System.Collections.Generic;
-using System.Security.Policy;
 using System.Threading;
-using System.Threading.Tasks;
 using BoxKite.Twitter.Models;
-using Reactive.EventAggregator;
 
 namespace BoxKite.Twitter.Console
 {
@@ -23,35 +19,38 @@ namespace BoxKite.Twitter.Console
             ConsoleOutput.PrintMessage("(control-c ends)");
             System.Console.CancelKeyPress += cancelStreamHandler;
 
-            //var twittercredentials = ManageTwitterCredentials.MakeConnection();
+            var twittercredentials = ManageTwitterCredentials.GetTwitterCredentialsFromFile();
 
-            twitterConnection = new TwitterConnection("3izxqWiej34yTlofisw", "uncicYQtDx5SoWth1I9xcn5vrpczUct1Oz9ydwTY4");
-
-            // PIN based authentication
-            DoPINDisplay(twitterConnection);
-            ConsoleOutput.PrintMessage("Pin: ");
-            var pin = System.Console.ReadLine();
-            var mainTwitterAccount = AuthPIN(pin, twitterConnection).Result;
-
-            // xauth username, password authentication
-
-            /*ConsoleOutput.PrintMessage("Twitter username: ");
-            var xauthusername = System.Console.ReadLine();
-            ConsoleOutput.PrintMessage("Twitter password: ");
-            var xauthpassword = System.Console.ReadLine(); 
-
-            mainTwitterAccount = XAuth(xauthusername, xauthpassword, twitterConnection).Result; */
-
-            // mainTwitterAccount = XAuth("","", twitterConnection).Result;
-
-            if (mainTwitterAccount != null)
+            if (twittercredentials == null)
             {
-                mainTwitterAccount.Start();
+                // there are no Credentials on file, so create a new set
+                // first, get the Twitter Client (also known as Consumer) Key and Secret from my service
+                var twitterClientKeys = ClientKeyManager.GetTwitterClientKeys().Result;
 
-                var session = mainTwitterAccount.Session;
-                var userstream = mainTwitterAccount.UserStream;
+                // make a new connection
+                twitterConnection = new TwitterConnection(twitterClientKeys.Item1, twitterClientKeys.Item2);
 
-                ConsoleOutput.PrintMessage(mainTwitterAccount._TwitterCredentials.ScreenName + " is authorised to use BoxKite.Twitter.");
+                // PIN based authentication
+                var oauth = twitterConnection.BeginAuthentication().Result;
+                ConsoleOutput.PrintMessage("Pin: ");
+                var pin = System.Console.ReadLine();
+                twittercredentials = twitterConnection.CompleteAuthentication(pin, oauth).Result;
+
+                ManageTwitterCredentials.SaveTwitterCredentialsToFile(twittercredentials);
+            }
+            else
+            {
+                twitterConnection = new TwitterConnection(twittercredentials);
+            }
+
+            if (twittercredentials != null)
+            {
+                twitterConnection.Start();
+
+                var session = twitterConnection.Session;
+                var userstream = twitterConnection.UserStream;
+
+                ConsoleOutput.PrintMessage(twitterConnection.AccountDetails.ScreenName + " is authorised to use BoxKite.Twitter.");
 
                 /*var x = session.SendTweet("d realnickhodge testing & ampersands");
 
@@ -187,29 +186,6 @@ namespace BoxKite.Twitter.Console
 
         }
 
-        public static async void DoPINDisplay(TwitterConnection twitterConnection)
-        {
-            await twitterConnection.BeginAuthentication();
-        }
-
-        public static async Task<TwitterCredentials> AuthPIN(string authPIN, string oAuthToken, TwitterConnection twitterConnection)
-        {
-            // after entering the PIN, and clicking OK, this method is run
-            if (string.IsNullOrWhiteSpace(authPIN)) return null;
-            var twitteraccount = await twitterConnection.CompleteAuthentication(authPIN, oAuthToken);
-            return twitteraccount ?? null;
-        }
-
-        public static async Task<TwitterCredentials> XAuth(string xauthusername, string xauthpassword, TwitterConnection twitterConnection)
-        {
-            // let's go for xauth!
-            var twitteraccount = await twitterConnection.XAuthentication(xauthusername, xauthpassword);
-            if (twitteraccount == null) // oops, not a good auth 
-            {
-                return null;
-            }
-            return twitteraccount;
-        }
 
         public static void PrintTwitterErrors(TwitterControlMessage tcm)
         {
