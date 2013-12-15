@@ -72,7 +72,7 @@ namespace BoxKite.Twitter.Models
         }
 
         private long _userid;
-        [JsonProperty("id")]
+        [JsonProperty("id_str")]
         public long UserId
         {
             get { return _userid; }

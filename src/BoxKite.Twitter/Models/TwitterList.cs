@@ -66,9 +66,10 @@ namespace BoxKite.Twitter.Models
             set { SetProperty(ref _mode, value); }
         }
 
-        private int _id;
-        [JsonProperty("id")]
-        public int Id
+        // changed from int to long as per https://dev.twitter.com/blog/list-ids-become-64-bit-integers-early-2014
+        private long _id;
+        [JsonProperty("id_str")]
+        public long Id
         {
             get { return _id; }
             set { SetProperty(ref _id, value); }

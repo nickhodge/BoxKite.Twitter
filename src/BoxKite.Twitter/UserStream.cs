@@ -65,7 +65,7 @@ namespace BoxKite.Twitter
 
         public void Start()
         {
-            if (IsActive) return;
+            //if (IsActive) return;
             CancelUserStream = new CancellationTokenSource();
             Task.Factory.StartNew(ProcessMessages, CancelUserStream.Token);
             IsActive = true;                 
@@ -203,23 +203,10 @@ namespace BoxKite.Twitter
         private static IEnumerable<string> ReadLines(Stream stream)
         {
             var reader = new StreamReader(stream);
-            
-            var lengthMessage = new StringBuilder();
-            var length = 0;
             while (!reader.EndOfStream)
             {
-                var r = (char) reader.Read();
-                lengthMessage.Append(r);
-                if (reader.Peek() == '\n')
-                {
-                    var parseLengthOK = Int32.TryParse(lengthMessage.ToString(), out length);
-                    if (!parseLengthOK) continue;
-                    var buffer = new char[length];
-                    var readCount = reader.Read(buffer, 0, length);
-                    var bufferAsString = new string(buffer).Trim();
-                    yield return bufferAsString;
-                    lengthMessage.Length = 0;
-                }
+                var rc = reader.ReadLine();
+                yield return rc;
             }
         }
 

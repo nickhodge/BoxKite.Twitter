@@ -46,7 +46,7 @@ namespace BoxKite.Twitter.Models
             bool? include_entities = null, long? since_id = null, long? max_id = null, int? count = null,
             long? user_id = null, string screen_name = null, long? id = null, long? cursor = null,
             string text = null, bool? follow = null, bool? device = null, bool? retweets = null,
-            bool? skip_status = null, string slug = null, int? list_id = null,string owner_screen_name = null,
+            bool? skip_status = null, string slug = null, long? list_id = null,string owner_screen_name = null,
             long? owner_id = null, string name = null, bool? include_rts = null, string place_id = null, bool? stall_warnings = null, bool? delimited = null
             )
         {

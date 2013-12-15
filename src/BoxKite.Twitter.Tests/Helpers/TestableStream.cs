@@ -17,7 +17,7 @@ namespace BoxKite.Twitter.Tests
                     return resp;
                 };
 
-            return new BoxKite.Twitter.UserStream(startConnection);
+            return new UserStream(startConnection);
         }
     }
 }

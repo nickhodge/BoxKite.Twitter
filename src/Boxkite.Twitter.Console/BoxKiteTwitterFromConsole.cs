@@ -50,7 +50,7 @@ namespace BoxKite.Twitter.Console
                 var session = twitterConnection.Session;
                 var userstream = twitterConnection.UserStream;
 
-                ConsoleOutput.PrintMessage(twitterConnection.AccountDetails.ScreenName + " is authorised to use BoxKite.Twitter.");
+                ConsoleOutput.PrintMessage(twitterConnection.TwitterCredentials.ScreenName + " is authorised to use BoxKite.Twitter.");
 
                 /*var x = session.SendTweet("d realnickhodge testing & ampersands");
 

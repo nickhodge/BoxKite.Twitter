@@ -16,8 +16,8 @@ namespace BoxKite.Twitter.Tests
     public class UserStreamTests : ReactiveTest
     {
         private readonly TestableSession session = new TestableSession();
-  
-        [TestMethod]
+
+        [TestMethod]        
         public async Task UserStream1_initialFriends_And_Tweets()
         {
             session.Returns(await Json.FromFile("data\\userstream\\userstream1initwithfriends.txt"));
