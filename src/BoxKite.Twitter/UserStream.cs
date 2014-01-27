@@ -22,7 +22,7 @@ namespace BoxKite.Twitter
     {
         readonly Subject<Tweet> tweets = new Subject<Tweet>();
         readonly Subject<DirectMessage> directmessages = new Subject<DirectMessage>();
-        readonly Subject<StreamEvent> events = new Subject<StreamEvent>();
+        readonly Subject<IStreamEvent> events = new Subject<IStreamEvent>();
         readonly Subject<DeleteEvent> deleteevents = new Subject<DeleteEvent>();
         readonly Subject<StreamScrubGeo> scrubgeorequests = new Subject<StreamScrubGeo>();
         readonly Subject<StreamLimitNotice> limitnotices = new Subject<StreamLimitNotice>();
@@ -34,7 +34,7 @@ namespace BoxKite.Twitter
 
         public IObservable<Tweet> Tweets { get { return tweets; } }
         public IObservable<DirectMessage> DirectMessages { get { return directmessages; } }
-        public IObservable<StreamEvent> Events { get { return events; } }
+        public IObservable<IStreamEvent> Events { get { return events; } }
         public IObservable<DeleteEvent> DeleteEvents { get { return deleteevents; } }
         public IObservable<StreamScrubGeo> ScrubGeoRequests { get { return scrubgeorequests; } }
         public IObservable<StreamLimitNotice> LimitNotices { get { return limitnotices; } }
@@ -227,7 +227,7 @@ namespace BoxKite.Twitter
             friends.OnNext(obj);
         }
 
-        private static StreamEvent MapFromEventInStream(dynamic e)
+        private static IStreamEvent MapFromEventInStream(dynamic e)
         {
             string eventName = e["event"].Value.ToString();
             if (eventName.Substring(0, 5) == "list_") // as list_*

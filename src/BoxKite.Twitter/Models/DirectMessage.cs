@@ -2,7 +2,6 @@
 // License: MS-PL
 
 using System;
-using System.Threading;
 using BoxKite.Twitter.Extensions;
 using BoxKite.Twitter.Helpers;
 using Newtonsoft.Json;

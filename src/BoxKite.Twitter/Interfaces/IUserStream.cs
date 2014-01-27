@@ -12,7 +12,7 @@ namespace BoxKite.Twitter
         IObservable<Tweet> Tweets { get; }
         IObservable<IEnumerable<long>> Friends { get; }
         IObservable<DirectMessage> DirectMessages { get; }
-        IObservable<StreamEvent> Events { get; }
+        IObservable<IStreamEvent> Events { get; }
         IObservable<DeleteEvent> DeleteEvents { get; }
         IObservable<StreamScrubGeo> ScrubGeoRequests { get; }
         IObservable<StreamLimitNotice> LimitNotices { get; }

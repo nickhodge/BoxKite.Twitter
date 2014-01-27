@@ -21,8 +21,8 @@ namespace BoxKite.Twitter
 
     public partial class TwitterConnection
     {
-        readonly Subject<StreamEvent> _streamevents = new Subject<StreamEvent>();
-        public IObservable<StreamEvent> StreamEvents { get { return _streamevents; } }
+        readonly Subject<IStreamEvent> _streamevents = new Subject<IStreamEvent>();
+        public IObservable<IStreamEvent> StreamEvents { get { return _streamevents; } }
 
         private void StartStreamEvents()
         {

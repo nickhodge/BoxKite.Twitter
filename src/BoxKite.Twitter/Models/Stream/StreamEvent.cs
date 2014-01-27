@@ -18,7 +18,7 @@ namespace BoxKite.Twitter.Models
         public TwitterList list { get; set; }
     }
 
-    public class StreamEvent
+    public class StreamEvent : IStreamEvent
     {
         [JsonProperty("event")]
         public string EventName { get; set; }

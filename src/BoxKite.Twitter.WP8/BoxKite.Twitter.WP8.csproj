@@ -214,6 +214,9 @@
     <Compile Include="..\BoxKite.Twitter\Models\Stream\DeleteEvent.cs">
       <Link>Models\Stream\DeleteEvent.cs</Link>
     </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Stream\IStreamEvent.cs">
+      <Link>Models\Stream\IStreamEvent.cs</Link>
+    </Compile>
     <Compile Include="..\BoxKite.Twitter\Models\Stream\StreamDisconnect.cs">
       <Link>Models\Stream\StreamDisconnect.cs</Link>
     </Compile>

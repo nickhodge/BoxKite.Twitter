@@ -43,6 +43,7 @@
     <Compile Include="Connection\TwitterConnection.cs" />
     <Compile Include="Extensions\StreamExtensions.cs" />
     <Compile Include="Interfaces\ISearchStream.cs" />
+    <Compile Include="Models\Stream\IStreamEvent.cs" />
     <Compile Include="Models\Stream\StreamSearchRequest.cs" />
     <Compile Include="Modules\SearchStreamExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
