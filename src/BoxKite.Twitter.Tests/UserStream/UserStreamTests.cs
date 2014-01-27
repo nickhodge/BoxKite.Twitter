@@ -344,5 +344,64 @@ namespace BoxKite.Twitter.Tests
                 Thread.Sleep(TimeSpan.FromSeconds(0.5));
             }
         }
+
+
+
+        [TestMethod]
+        public async Task UserStream18_favorite()
+        {
+            session.Returns(await Json.FromFile("data\\userstream\\userstream18favorite.txt"));
+            var userstreamtest18 = session.GetUserStream();
+
+            userstreamtest18.Events.Subscribe(ev =>
+            {
+                Assert.IsNotNull(ev);
+                ev.EventName.ShouldBeEquivalentTo("favorite");
+                Assert.IsNotNull(ev.SourceUser);
+                Assert.IsNotNull(ev.TargetUser);
+                var twev = (TweetStreamEvent) ev;
+                Assert.IsNotNull(twev);
+                Assert.IsNotNull(twev.tweet);
+                twev.tweet.Id.ShouldBeEquivalentTo(427615500516880384);
+            }
+                );
+
+            userstreamtest18.Start();
+
+            while (userstreamtest18.IsActive)
+            {
+                Thread.Sleep(TimeSpan.FromSeconds(0.5));
+            }
+        }
+
+
+        [TestMethod]
+        public async Task UserStream19_unfavorite()
+        {
+            session.Returns(await Json.FromFile("data\\userstream\\userstream19unfavorite.txt"));
+            var userstreamtest19 = session.GetUserStream();
+
+            userstreamtest19.Events.Subscribe(ev =>
+            {
+                Assert.IsNotNull(ev);
+                ev.EventName.ShouldBeEquivalentTo("unfavorite");
+                Assert.IsNotNull(ev.SourceUser);
+                Assert.IsNotNull(ev.TargetUser);
+                var twev = (TweetStreamEvent)ev;
+                Assert.IsNotNull(twev);
+                Assert.IsNotNull(twev.tweet);
+                twev.tweet.Id.ShouldBeEquivalentTo(427615500516880384);
+            }
+                );
+
+            userstreamtest19.Start();
+
+            while (userstreamtest19.IsActive)
+            {
+                Thread.Sleep(TimeSpan.FromSeconds(0.5));
+            }
+        }
+
+
     }
 }

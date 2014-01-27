@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Reactive.Concurrency;
@@ -100,6 +101,9 @@ namespace BoxKite.Twitter
                 var x = ObserveLines(responseStream);
                 x.Subscribe(line =>
                 {
+#if (DEBUG)
+                    Debug.WriteLine(line);
+#endif
                     try
                     {
                         if (line == "ENDBOXKITEUSERSTREAMTEST")

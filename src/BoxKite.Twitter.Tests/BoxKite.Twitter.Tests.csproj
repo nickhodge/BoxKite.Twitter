@@ -311,6 +311,12 @@
     <Content Include="data\userstream\userstream17limit.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="data\userstream\userstream18favorite.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\userstream\userstream19unfavorite.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="data\userstream\userstream5deleteevent.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
