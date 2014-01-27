@@ -130,7 +130,12 @@ namespace BoxKite.Twitter.Console
                  */
                  
                 
-                    userstream.Events.Subscribe(t => ConsoleOutput.PrintMessage(t.EventName));
+                    userstream.Events.Subscribe(
+                        t =>
+                        {
+                            ConsoleOutput.PrintMessage(t.EventName);
+                        }
+                        );
                     //userstream.Events.Subscribe(e => ConsoleOutput.PrintEvent(e, ConsoleColor.Yellow));
                     //userstream.DirectMessages.Subscribe(
                     //    d => ConsoleOutput.PrintDirect(d, ConsoleColor.Magenta, ConsoleColor.Black));
