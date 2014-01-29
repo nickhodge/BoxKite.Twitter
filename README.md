@@ -10,6 +10,14 @@ Questions? You can find me on Twitter, of course! [@NickHodgeMSFT](https://twitt
 
 ## Version News
 
+
+Version 1.2.x Fixes/Implements:
+* As per Twitter [List IDs moving to 64 bits in early 2014](https://blog.twitter.com/2013/list-ids-become-64-bit-integers-early-2014)
+* TwitterConnection is the central "entry point" to BoxKite.Twitter
+* VS2013 build
+* IStreamEvent work to abstract messages from the UserStream
+* various other fixes
+
 1.0.6 (and 1.0.5) Fixes/Implements:
 * Adding support for latest Portable HTTPClient
 * Adding more Rx in many places to make life easier
