@@ -19,7 +19,7 @@ namespace BoxKite.Twitter.Authentication
     public static class TwitterAuthenticator
     {
         /* Utilities */
-        private const string RequestTokenUrl = "http://api.twitter.com/oauth/request_token";
+        private const string RequestTokenUrl = "https://api.twitter.com/oauth/request_token";
         private const string AuthenticateUrl = "https://api.twitter.com/oauth/authorize?oauth_token=";
         private const string AuthorizeTokenUrl = "https://api.twitter.com/oauth/access_token";
         private const string XAuthorizeTokenUrl = "https://api.twitter.com/oauth/access_token?send_error_codes=true";

@@ -9,8 +9,6 @@ namespace BoxKite.Twitter.Console
 {
     public class BoxKiteTwitterFromConsole
     {
-        public static IUserStream userstream;
-        public static ISearchStream searchstream;
         public static TwitterConnection twitterConnection;
  
         private static void Main(string[] args)
@@ -32,25 +30,51 @@ namespace BoxKite.Twitter.Console
 
                 // PIN based authentication
                 var oauth = twitterConnection.BeginAuthentication().Result;
-                ConsoleOutput.PrintMessage("Pin: ");
-                var pin = System.Console.ReadLine();
-                twittercredentials = twitterConnection.CompleteAuthentication(pin, oauth).Result;
 
-                ManageTwitterCredentials.SaveTwitterCredentialsToFile(twittercredentials);
+                // if the response is null, something is wrong with the initial request to OAuth
+                if (!string.IsNullOrWhiteSpace(oauth))
+                {
+                    ConsoleOutput.PrintMessage("Pin: ");
+                    var pin = System.Console.ReadLine();
+                    twittercredentials = twitterConnection.CompleteAuthentication(pin, oauth).Result;
+
+                    ManageTwitterCredentials.SaveTwitterCredentialsToFile(twittercredentials);
+                }
+                else
+                {
+                    ConsoleOutput.PrintError("Cannot OAuth with Twitter");
+                }
             }
-            else
-            {
-                twitterConnection = new TwitterConnection(twittercredentials);
-            }
+
 
             if (twittercredentials != null)
             {
+                twitterConnection = new TwitterConnection(twittercredentials);
+
                 twitterConnection.Start();
+
+                ConsoleOutput.PrintMessage(twitterConnection.TwitterCredentials.ScreenName +
+                                           " is authorised to use BoxKite.Twitter.");
 
                 var session = twitterConnection.Session;
                 var userstream = twitterConnection.UserStream;
 
-                ConsoleOutput.PrintMessage(twitterConnection.TwitterCredentials.ScreenName + " is authorised to use BoxKite.Twitter.");
+                userstream.Events.Subscribe(
+                    t => ConsoleOutput.PrintMessage(t.EventName));
+
+                //userstream.Events.Subscribe(e => ConsoleOutput.PrintEvent(e, ConsoleColor.Yellow));
+                //userstream.DirectMessages.Subscribe(
+                //    d => ConsoleOutput.PrintDirect(d, ConsoleColor.Magenta, ConsoleColor.Black));
+                //userstream.Start();
+
+                while (userstream.IsActive)
+                {
+                    Thread.Sleep(TimeSpan.FromSeconds(0.5));
+                }
+
+
+
+
 
                 /*var x = session.SendTweet("d realnickhodge testing & ampersands");
 
@@ -61,15 +85,15 @@ namespace BoxKite.Twitter.Console
 
                         */
 
-                
-                        
-                        //var locations = new List<string> { "150.700493", "-34.081953", "151.284828", "-33.593316" };
-                        //var locations = new List<string> { "-180", "-90", "180", "90" };
-                        // var track = new List<string> { "qanda" };
 
- 
 
-                        //searchstream = session.StartSearchStream(track: track);
+                //var locations = new List<string> { "150.700493", "-34.081953", "151.284828", "-33.593316" };
+                //var locations = new List<string> { "-180", "-90", "180", "90" };
+                // var track = new List<string> { "qanda" };
+
+
+
+                //searchstream = session.StartSearchStream(track: track);
                 /*
                         mainTwitterAccount.SearchTimeLine.Subscribe(t =>
                                                            {
@@ -83,7 +107,7 @@ namespace BoxKite.Twitter.Console
                             Thread.Sleep(TimeSpan.FromSeconds(0.5));
                         }
                 */
-                        
+
 
                 /*
                         //var fileName = @"C:\Users\Nick\Pictures\My Online Avatars\666.jpg";
@@ -127,31 +151,8 @@ namespace BoxKite.Twitter.Console
 
                 Console.ConsoleOutput.PrintMessage("Event stream has stoppped.");
 
-                 */
-                 
-                
-                    userstream.Events.Subscribe(
-                        t =>
-                        {
-                            ConsoleOutput.PrintMessage(t.EventName);
-                        }
-                        );
-                    //userstream.Events.Subscribe(e => ConsoleOutput.PrintEvent(e, ConsoleColor.Yellow));
-                    //userstream.DirectMessages.Subscribe(
-                    //    d => ConsoleOutput.PrintDirect(d, ConsoleColor.Magenta, ConsoleColor.Black));
-                    //userstream.Start();
-
-                    while (userstream.IsActive)
-                    {
-                        Thread.Sleep(TimeSpan.FromSeconds(0.5));
-                    } 
-
-
-
-                /*
-                         * 
-                         * //var locations = new List<string> { "-34.081953", "150.700493", "-33.593316", "151.284828" };
-                            //searchstream = session.StartSearchStream(locations: locations);
+                         var locations = new List<string> { "-34.081953", "150.700493", "-33.593316", "151.284828" };
+                            searchstream = session.StartSearchStream(locations: locations);
                             searchstream = session.StartSearchStream(track: "hazel");
                             searchstream.FoundTweets.Subscribe(t => ConsoleOutput.PrintTweet(t, ConsoleColor.Green));
                             searchstream.Start();
@@ -181,10 +182,6 @@ namespace BoxKite.Twitter.Console
                         */
 
             }
-            else
-            {
-                ConsoleOutput.PrintMessage("Credentials could not be verified.", ConsoleColor.Red);
-            }
 
             ConsoleOutput.PrintMessage("All Finished");
             System.Console.ReadLine();
@@ -207,8 +204,6 @@ namespace BoxKite.Twitter.Console
 
         private static void cancelStreamHandler(object sender, ConsoleCancelEventArgs e)
         {
-            if (userstream != null)
-                userstream.Stop();
             ConsoleOutput.PrintMessage("All finished.", ConsoleColor.Blue);
             Thread.Sleep(TimeSpan.FromSeconds(1.3));
         }
