@@ -10,6 +10,14 @@ Questions? You can find me on Twitter, of course! [@NickHodgeMSFT](https://twitt
 
 ## Version News
 
+
+Version 1.2.x Fixes/Implements:
+* As per Twitter [List IDs moving to 64 bits in early 2014](https://blog.twitter.com/2013/list-ids-become-64-bit-integers-early-2014)
+* TwitterConnection is the central "entry point" to BoxKite.Twitter
+* VS2013 build
+* IStreamEvent work to abstract messages from the UserStream
+* various other fixes
+
 1.0.6 (and 1.0.5) Fixes/Implements:
 * Adding support for latest Portable HTTPClient
 * Adding more Rx in many places to make life easier
@@ -57,7 +65,8 @@ Install-Package BoxKite.Twitter
 * Note: Sample Windows 8.1 app under development, will be in a separate repo
 
 ##To Build:
-* VS2012 with latest NuGet supporting PCLs (Portable Class Libraries)
+* VS2013 with latest NuGet supporting PCLs (Portable Class Libraries)
+* Project is VS2013, but code should work and build in VS2012
 
 ##API Coverage, With Tests & Intellisense Comments
 [From Twitter REST API v1.1](https://dev.twitter.com/docs/api/1.1)
@@ -82,9 +91,9 @@ Install-Package BoxKite.Twitter
 *  API rate limits
 
 ##Tests:
-* 114 test methods with average of 4 assertion tests each
+* 116 test methods with average of 4 assertion tests each
 * Both Twitter API 1.1 and Userstream Unit Tests
-* 50 "Live Fire Tests". Included as a separate project, it is engaged via the Console; uses a real Twitter Account to exercise the API. Configurable Test series, individual tests that can be run.
+* 50 "Live Fire Tests" (Live integration tests) Included as a separate project, it is engaged via the Console; uses a real Twitter Account to exercise the API. Configurable Test series, individual tests that can be run.
 * Test source is JSON from [dev.twitter.com](https://dev.twitter.com/) and where innaccurate on the site, taken from live data or corrected to match live data.
 * Error response type testing (eg: 429 rate_limits) & generic decode tests included
 
@@ -109,7 +118,7 @@ BoxKite.Twitter is Licensed under:
 [MS-PL] (http://opensource.org/licenses/MS-PL)
 
 Copyright: 
-[Nick Hodge](https://github.com/nickhodge/) and [Brendan Forster](https://github.com/shiftkey/) 2012-2013
+[Nick Hodge](https://github.com/nickhodge/) and [Brendan Forster](https://github.com/shiftkey/) 2012-2014
 
 BoxKite Logo is Copyright 2012 [Nick Hodge](https://github.com/nickhodge/)
 
