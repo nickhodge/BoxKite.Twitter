@@ -53,7 +53,12 @@ namespace BoxKite.Twitter.Extensions
 
             var ts = DateTime.UtcNow.Ticks < dateTime.Ticks ? new TimeSpan(dateTime.Ticks - DateTime.UtcNow.Ticks) : new TimeSpan(DateTime.UtcNow.Ticks - dateTime.Ticks);
 
-            double delta = ts.TotalSeconds;
+            double delta = Math.Round(ts.TotalSeconds);
+
+            if (delta < 1)
+            {
+                return "Just now";
+            }
 
             if (delta < 1 * MINUTE)
             {
