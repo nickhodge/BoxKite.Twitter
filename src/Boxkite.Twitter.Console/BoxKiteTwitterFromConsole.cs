@@ -2,6 +2,7 @@
 // License: MS-PL
 
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using BoxKite.Twitter.Models;
 
@@ -58,19 +59,19 @@ namespace BoxKite.Twitter.Console
 
                 var session = twitterConnection.Session;
                 var userstream = twitterConnection.UserStream;
-
-                userstream.Events.Subscribe(
-                    t => ConsoleOutput.PrintMessage(t.EventName));
+                var searchstream = twitterConnection;
+ 
+                // userstream.Tweets.Subscribe( t => ConsoleOutput.PrintTweet(t));
 
                 //userstream.Events.Subscribe(e => ConsoleOutput.PrintEvent(e, ConsoleColor.Yellow));
                 //userstream.DirectMessages.Subscribe(
                 //    d => ConsoleOutput.PrintDirect(d, ConsoleColor.Magenta, ConsoleColor.Black));
                 //userstream.Start();
 
-                while (userstream.IsActive)
-                {
-                    Thread.Sleep(TimeSpan.FromSeconds(0.5));
-                }
+                //while (userstream.IsActive)
+                //{
+                //    Thread.Sleep(TimeSpan.FromSeconds(0.5));
+                //}
 
 
 
@@ -88,25 +89,22 @@ namespace BoxKite.Twitter.Console
 
 
                 //var locations = new List<string> { "150.700493", "-34.081953", "151.284828", "-33.593316" };
-                //var locations = new List<string> { "-180", "-90", "180", "90" };
-                // var track = new List<string> { "qanda" };
+               // var locations = new List<string> { "-180", "-90", "180", "90" };
+                // var track = new List<string> { "mh370" };
 
-
-
-                //searchstream = session.StartSearchStream(track: track);
-                /*
-                        mainTwitterAccount.SearchTimeLine.Subscribe(t =>
+               
+                        userstream.Tweets.Subscribe(t =>
                                                            {
                                                                ConsoleOutput.PrintTweet(t, ConsoleColor.Green);
                                                            });
 
-                        mainTwitterAccount.StartSearch("twitter");
+                        twitterConnection.StartSearch("mh370");
 
                         while (true)
                         {
                             Thread.Sleep(TimeSpan.FromSeconds(0.5));
                         }
-                */
+                
 
 
                 /*

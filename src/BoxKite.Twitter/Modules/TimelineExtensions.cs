@@ -41,7 +41,7 @@ namespace BoxKite.Twitter
         public async static Task<TwitterResponseCollection<Tweet>> GetUserTimeline(this IUserSession session, string screen_name = "", long user_id = 0, long since_id = 0, long max_id = 0, int count = 200, bool excludereplies = true, bool include_rts = true)
         {
             var parameters = new TwitterParametersCollection();
-            parameters.Create(include_entities: true, include_rts: true, count: count, since_id: since_id, max_id: max_id);
+            parameters.Create(include_entities: true, include_rts: true, count: count, since_id: since_id, max_id: max_id, screen_name:screen_name);
 
             return await session.GetAsync(Api.Resolve("/1.1/statuses/user_timeline.json"), parameters)
                           .ContinueWith(c => c.MapToMany<Tweet>());

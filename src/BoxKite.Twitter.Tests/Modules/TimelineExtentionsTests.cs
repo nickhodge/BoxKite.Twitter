@@ -46,6 +46,22 @@ namespace BoxKite.Twitter.Tests
         }
 
         [TestMethod]
+        public async Task Get_User_Timeline_with_name()
+        {
+            // arrange
+            session.Returns(await Json.FromFile("data\\timeline\\usertimeline.txt"));
+            session.ExpectGet("https://api.twitter.com/1.1/statuses/user_timeline.json");
+
+            var usertimeline = await session.GetUserTimeline(screen_name:"NickHodgeMSFT");
+
+            Assert.IsNotNull(usertimeline);
+            usertimeline.ToList()[1].Entities.Urls.Should().HaveCount(1);
+            usertimeline.ToList()[1].Entities.Urls.ToList()[0].ExpandedUrl.ShouldBeEquivalentTo("https://dev.twitter.com/issues/485");
+            Assert.IsTrue(usertimeline.ToList().Count > 0);
+            Assert.IsTrue(usertimeline.ToList().Count == 2);
+        }
+
+        [TestMethod]
         public async Task Get_User_Homeline()
         {
             // arrange
