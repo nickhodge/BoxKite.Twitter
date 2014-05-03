@@ -4,12 +4,15 @@
 
 BoxKite.Twitter is a .NET Library that provides an interface to Twitter API 1.1, licensed [MS-PL](http://opensource.org/licenses/MS-PL).
 
-Supporting Windows 8, Windows Phone 8 and .NET 4.5 Portable Class Libaries; it uses modern .NET development mechanisms `async/await` and `Reactive Extensions`.
+Supporting Windows 8, Windows Phone 8, Universal Apps and .NET 4.5 Portable Class Libaries; it uses modern .NET development mechanisms `async/await` and `Reactive Extensions`.
 
 Questions? You can find me on Twitter, of course! [@NickHodgeMSFT](https://twitter.com/NickHodgeMSFT)
 
 ## Version News
 
+Version 1.3.x Fixes/Implements:
+* Universal App support
+* Roll in Reactive.EventAggregator into BoxKite.Twitter itself because @shiftkey
 
 Version 1.2.x Fixes/Implements:
 * As per Twitter [List IDs moving to 64 bits in early 2014](https://blog.twitter.com/2013/list-ids-become-64-bit-integers-early-2014)
@@ -102,7 +105,7 @@ Install-Package BoxKite.Twitter
 
 * Without [Newtonsoft Json.NET](http://json.net) this library would not exist (MIT License)
 * Microsoft's Open sourced .NET [Reactive Extensions](https://rx.codeplex.com/) (Apache License 2.0)
-* Brendan Forster's [Reactive.EventAggregator](https://github.com/shiftkey/Reactive.EventAggregator) (sourced from NuGet)
+* Brendan Forster's [Reactive.EventAggregator](https://github.com/shiftkey/Reactive.EventAggregator) (source code from GitHub, manually added to BoxKite.Twitter)
 * [Portable version of the HTTP Client Libraries, 2.2.x](http://blogs.msdn.com/b/bclteam/p/httpclient.aspx) from the Microsoft ASP.NET WebAPI team [HTTP Client Libraries](http://nuget.org/packages/Microsoft.Net.Http/)  (sourced from NuGet, currently Licensed under [DotNetBetaUnsupported](http://go.microsoft.com/fwlink/?LinkID=279007) license)
 
 ### (Dependency when running BoxKite.Twitter.Tests only)
