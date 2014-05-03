@@ -1,0 +1,97 @@
+﻿{
+  "query": {
+    "params": {
+      "accuracy": null, 
+      "autocomplete": null, 
+      "contained_within": null, 
+      "coordinates": {
+        "coordinates": [
+          -122, 
+          37
+        ], 
+        "type": "Point"
+      }, 
+      "granularity": "", 
+      "name": "Twitter HQ", 
+      "query": null, 
+      "strict": false
+    }, 
+    "type": "similar_places", 
+    "url": "https://api.twitter.com/1.1/geo/similar_places.json?accuracy=&query=&granularity=&autocomplete=&strict=false&lat=37&contained_within=&long=-122&name=Twitter+HQ"
+  }, 
+  "result": {
+    "places": [
+      {
+        "attributes": {}, 
+        "bounding_box": {
+          "coordinates": [
+            [
+              [
+                -122.0, 
+                37.0
+              ], 
+              [
+                -122.0, 
+                37.0
+              ], 
+              [
+                -122.0, 
+                37.0
+              ], 
+              [
+                -122.0, 
+                37.0
+              ]
+            ]
+          ], 
+          "type": "Polygon"
+        }, 
+        "contained_within": [
+          {
+            "attributes": {
+              "street_address": "795 Folsom St"
+            }, 
+            "bounding_box": {
+              "coordinates": [
+                [
+                  [
+                    -122.400612831116, 
+                    37.7821120598956
+                  ], 
+                  [
+                    -122.400612831116, 
+                    37.7821120598956
+                  ], 
+                  [
+                    -122.400612831116, 
+                    37.7821120598956
+                  ], 
+                  [
+                    -122.400612831116, 
+                    37.7821120598956
+                  ]
+                ]
+              ], 
+              "type": "Polygon"
+            }, 
+            "country": "United States", 
+            "country_code": "US", 
+            "full_name": "Twitter HQ, San Francisco", 
+            "id": "247f43d441defc03", 
+            "name": "Twitter HQ", 
+            "place_type": "poi", 
+            "url": "https://api.twitter.com/1.1/geo/id/247f43d441defc03.json"
+          }
+        ], 
+        "country": "United States", 
+        "country_code": "US", 
+        "full_name": "Kyheo HQ, Twitter HQ", 
+        "id": "3bdf30ed8b201f31", 
+        "name": "Kyheo HQ", 
+        "place_type": "poi", 
+        "url": "https://api.twitter.com/1.1/geo/id/3bdf30ed8b201f31.json"
+      }
+    ], 
+    "token": "19153cc4df966b1787165f4620baa6a0"
+  }
+}

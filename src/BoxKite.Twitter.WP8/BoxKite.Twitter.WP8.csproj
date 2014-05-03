@@ -1,0 +1,397 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.20506</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{225E0C2C-4AC4-4C9C-9BC5-40FF5E4F0689}</ProjectGuid>
+    <ProjectTypeGuids>{C089C8C0-30E0-4E22-80C0-CE093F111A43};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BoxKite.Twitter</RootNamespace>
+    <AssemblyName>BoxKite.Twitter</AssemblyName>
+    <TargetFrameworkIdentifier>WindowsPhone</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v8.0</TargetFrameworkVersion>
+    <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
+    <SilverlightApplication>false</SilverlightApplication>
+    <ValidateXaml>true</ValidateXaml>
+    <MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
+    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Bin\Debug</OutputPath>
+    <DefineConstants>TRACE;DEBUG;WINPHONE8</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Bin\Release</OutputPath>
+    <DefineConstants>TRACE;WINPHONE8</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Bin\x86\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Bin\x86\Release</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|ARM' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Bin\ARM\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|ARM' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Bin\ARM\Release</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\BoxKite.Twitter\Authentication\TwitterAuthenticator.cs">
+      <Link>Authentication\TwitterAuthenticator.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Configuration\Configuration.cs">
+      <Link>Configuration\Configuration.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Connection\TwitterConnection.cs">
+      <Link>Connection\TwitterConnection.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Connection\TwitterConnectionEngine.cs">
+      <Link>Connection\TwitterConnectionEngine.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Connection\TwitterConnectionEvents.cs">
+      <Link>Connection\TwitterConnectionEvents.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Connection\TwitterConnectionSearch.cs">
+      <Link>Connection\TwitterConnectionSearch.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Extensions\Api.cs">
+      <Link>Extensions\Api.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Extensions\DateTimeExtensions.cs">
+      <Link>Extensions\DateTimeExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Extensions\EnumerableExtensions.cs">
+      <Link>Extensions\EnumerableExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Extensions\ResponseExtensions.cs">
+      <Link>Extensions\ResponseExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Extensions\StreamExtensions.cs">
+      <Link>Extensions\StreamExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Extensions\StringExtensions.cs">
+      <Link>Extensions\StringExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Extensions\TweetExtensions.cs">
+      <Link>Extensions\TweetExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Helpers\BindableBase.cs">
+      <Link>Helpers\BindableBase.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Helpers\EventAggregator\EventAggregator.cs">
+      <Link>Helpers\EventAggregator\EventAggregator.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Helpers\EventAggregator\IEventAggregator.cs">
+      <Link>Helpers\EventAggregator\IEventAggregator.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Helpers\JSONCustomConverters.cs">
+      <Link>Helpers\JSONCustomConverters.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Interfaces\IPlatformAdaptor.cs">
+      <Link>Interfaces\IPlatformAdaptor.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Interfaces\ISearchStream.cs">
+      <Link>Interfaces\ISearchStream.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Interfaces\IUserSession.cs">
+      <Link>Interfaces\IUserSession.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Interfaces\IUserStream.cs">
+      <Link>Interfaces\IUserStream.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\BoundingBox.cs">
+      <Link>Models\BoundingBox.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Coordinates.cs">
+      <Link>Models\Coordinates.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\DirectMessage.cs">
+      <Link>Models\DirectMessage.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Ids.cs">
+      <Link>Models\Ids.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Place.cs">
+      <Link>Models\Place.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\SavedSearch.cs">
+      <Link>Models\SavedSearch.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\SearchResponse.cs">
+      <Link>Models\SearchResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Service\AccountProfile.cs">
+      <Link>Models\Service\AccountProfile.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Service\AccountSettings.cs">
+      <Link>Models\Service\AccountSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Service\AddPlaceResponse.cs">
+      <Link>Models\Service\AddPlaceResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Service\ApiRateLimit.cs">
+      <Link>Models\Service\ApiRateLimit.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Service\FriendsFollowersIDsCursored.cs">
+      <Link>Models\Service\FriendsFollowersIDsCursored.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Service\FriendshipLookupResponse.cs">
+      <Link>Models\Service\FriendshipLookupResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Service\ReverseGeocodePlaces.cs">
+      <Link>Models\Service\ReverseGeocodePlaces.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Service\SuggestedUsers.cs">
+      <Link>Models\Service\SuggestedUsers.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Service\TrendsAvailableResponse.cs">
+      <Link>Models\Service\TrendsAvailableResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Service\TrendsForPlaceResponse.cs">
+      <Link>Models\Service\TrendsForPlaceResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Service\TwitterError.cs">
+      <Link>Models\Service\TwitterError.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Service\TwitterListCursored.cs">
+      <Link>Models\Service\TwitterListCursored.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Service\TwitterSuccess.cs">
+      <Link>Models\Service\TwitterSuccess.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Service\UserInListCursored.cs">
+      <Link>Models\Service\UserInListCursored.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Service\UserListDetailedCursored.cs">
+      <Link>Models\Service\UserListDetailedCursored.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Service\UserStatus.cs">
+      <Link>Models\Service\UserStatus.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Stream\DeleteEvent.cs">
+      <Link>Models\Stream\DeleteEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Stream\IStreamEvent.cs">
+      <Link>Models\Stream\IStreamEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Stream\StreamDisconnect.cs">
+      <Link>Models\Stream\StreamDisconnect.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Stream\StreamEvent.cs">
+      <Link>Models\Stream\StreamEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Stream\StreamLimitNotice.cs">
+      <Link>Models\Stream\StreamLimitNotice.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Stream\StreamScrubGeo.cs">
+      <Link>Models\Stream\StreamScrubGeo.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Stream\StreamSearchRequest.cs">
+      <Link>Models\Stream\StreamSearchRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Stream\StreamStallWarning.cs">
+      <Link>Models\Stream\StreamStallWarning.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Stream\StreamStatusWithheld.cs">
+      <Link>Models\Stream\StreamStatusWithheld.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Stream\StreamToManyFollowsWarning.cs">
+      <Link>Models\Stream\StreamToManyFollowsWarning.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Stream\StreamUserWithheld.cs">
+      <Link>Models\Stream\StreamUserWithheld.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Tweet.cs">
+      <Link>Models\Tweet.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\TwitterControlBase.cs">
+      <Link>Models\TwitterControlBase.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\TwitterCredentials.cs">
+      <Link>Models\TwitterCredentials.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\TwitterEnumerable.cs">
+      <Link>Models\TwitterEnumerable.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\TwitterList.cs">
+      <Link>Models\TwitterList.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\TwitterParametersCollection.cs">
+      <Link>Models\TwitterParametersCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\TwitterResponseCollection.cs">
+      <Link>Models\TwitterResponseCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\User.cs">
+      <Link>Models\User.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Modules\ApiManagementExtensions.cs">
+      <Link>Modules\ApiManagementExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Modules\DirectMessageExtensions.cs">
+      <Link>Modules\DirectMessageExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Modules\FavouritesExtensions.cs">
+      <Link>Modules\FavouritesExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Modules\FriendsFollowerExtensions.cs">
+      <Link>Modules\FriendsFollowerExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Modules\ListExtensions.cs">
+      <Link>Modules\ListExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Modules\PlacesGeoExtensions.cs">
+      <Link>Modules\PlacesGeoExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Modules\ReportExtensions.cs">
+      <Link>Modules\ReportExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Modules\SearchExtensions.cs">
+      <Link>Modules\SearchExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Modules\SearchStreamExtensions.cs">
+      <Link>Modules\SearchStreamExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Modules\SuggestedUsersExtension.cs">
+      <Link>Modules\SuggestedUsersExtension.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Modules\TimelineExtensions.cs">
+      <Link>Modules\TimelineExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Modules\TrendsExtenstions.cs">
+      <Link>Modules\TrendsExtenstions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Modules\TweetExtensions.cs">
+      <Link>Modules\TweetExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Modules\UsersExtensions.cs">
+      <Link>Modules\UsersExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Modules\UserStreamExtensions.cs">
+      <Link>Modules\UserStreamExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\SearchStream.cs">
+      <Link>SearchStream.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\UserSession.cs">
+      <Link>UserSession.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\UserStream.cs">
+      <Link>UserStream.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="FluentAssertions.Core">
+      <HintPath>..\packages\FluentAssertions.3.0.107\lib\windowsphone8\FluentAssertions.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentAssertions.WindowsPhone, Version=3.0.107.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\FluentAssertions.3.0.107\lib\windowsphone8\FluentAssertions.WindowsPhone.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http, Version=1.5.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.20\lib\sl4-windowsphone71\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Extensions, Version=1.5.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.20\lib\sl4-windowsphone71\System.Net.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives, Version=1.5.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.20\lib\sl4-windowsphone71\System.Net.Http.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Core, Version=2.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Rx-Core.2.2.4\lib\windowsphone8\System.Reactive.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Interfaces, Version=2.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Rx-Interfaces.2.2.4\lib\windowsphone8\System.Reactive.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Linq, Version=2.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Rx-Linq.2.2.4\lib\windowsphone8\System.Reactive.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.PlatformServices, Version=2.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Rx-PlatformServices.2.2.4\lib\windowsphone8\System.Reactive.PlatformServices.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\Connection\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />
+  <ProjectExtensions />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
+    <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

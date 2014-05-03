@@ -1,0 +1,23 @@
+{
+  "text": "@rno Et demi!",
+    "entities": {
+      "media": [
+      ],
+      "urls": [
+      ],
+      "user_mentions": [
+        {
+          "id": 22548447,
+          "id_str": "22548447",
+          "screen_name": "rno",
+          "name": "Arnaud Meunier",
+          "indices": [
+            0,
+            4
+          ]
+        }
+      ],
+      "hashtags": [
+      ]
+    }
+ }

@@ -1,0 +1,88 @@
+﻿{
+   "geo": { "type":"Point", "coordinates":[-122.400612831116, 37.7821120598956] },
+  "retweeted": false,
+  "text": "@migueldeicaza my issue is if an assembly is compiled against System.Json.dll http://t.co/CByp6ds6 it wont work on the iphone",
+  "possibly_sensitive_editable": true,
+  "truncated": false,
+  "created_at": "Sat Apr 21 06:00:30 +0000 2012",
+  "in_reply_to_status_id_str": "193577612956811264",
+  "coordinates": null,
+  "source": "<a href=\"http://www.metrotwit.com/\" rel=\"nofollow\">MetroTwit</a>",
+  "in_reply_to_user_id_str": "823083",
+  "favorited": false,
+  "contributors": null,
+  "entities": {
+    "urls": [
+      {
+        "expanded_url": "http://bit.ly/GIWGOP",
+        "indices": [
+          78,
+          98
+        ],
+        "url": "http://t.co/CByp6ds6",
+        "display_url": "bit.ly/GIWGOP"
+      }
+    ],
+    "user_mentions": [
+      {
+        "indices": [
+          0,
+          14
+        ],
+        "screen_name": "migueldeicaza",
+        "name": "Miguel de Icaza",
+        "id": 823083,
+        "id_str": "823083"
+      }
+    ],
+    "hashtags": []
+  },
+  "possibly_sensitive": false,
+  "place": null,
+  "in_reply_to_screen_name": "migueldeicaza",
+  "in_reply_to_user_id": 823083,
+  "user": {
+    "profile_background_image_url_https": "https://si0.twimg.com/images/themes/theme1/bg.png",
+    "profile_sidebar_fill_color": "DDEEF6",
+    "listed_count": 11,
+    "time_zone": "Hawaii",
+    "created_at": "Fri Feb 06 03:37:24 +0000 2009",
+    "profile_sidebar_border_color": "C0DEED",
+    "verified": false,
+    "url": "http://simoncropp.com",
+    "description": "",
+    "default_profile": true,
+    "profile_use_background_image": true,
+    "is_translator": false,
+    "contributors_enabled": false,
+    "geo_enabled": false,
+    "notifications": null,
+    "profile_text_color": "333333",
+    "profile_image_url_https": "https://si0.twimg.com/profile_images/382317370/Penguin_2_Icon_normal.jpg",
+    "profile_background_image_url": "http://a0.twimg.com/images/themes/theme1/bg.png",
+    "followers_count": 346,
+    "profile_image_url": "http://a0.twimg.com/profile_images/382317370/Penguin_2_Icon_normal.jpg",
+    "location": "Canberra",
+    "lang": "en",
+    "profile_link_color": "0084B4",
+    "protected": false,
+    "screen_name": "SimonCropp",
+    "default_profile_image": false,
+    "show_all_inline_media": true,
+    "friends_count": 290,
+    "name": "Simon Cropp",
+    "statuses_count": 5859,
+    "favourites_count": 10,
+    "profile_background_color": "C0DEED",
+    "id": 20214900,
+    "id_str": "20214900",
+    "follow_request_sent": null,
+    "following": null,
+    "profile_background_tile": false,
+    "utc_offset": -36000
+  },
+  "id": 193579947615453184,
+  "id_str": "193579947615453184",
+  "retweet_count": 0,
+  "in_reply_to_status_id": 193577612956811264
+}

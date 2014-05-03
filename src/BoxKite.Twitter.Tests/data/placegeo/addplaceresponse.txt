@@ -1,0 +1,82 @@
+﻿{
+  "name": "Twitter 3rd Floor Lunch Room",
+  "polylines": [
+ 
+  ],
+  "country": "The United States of America",
+  "country_code": "US",
+  "attributes": {
+ 
+  },
+  "url": "http://api.twitter.com/1/geo/id/6b9811c8d9de10b9.json",
+  "id": "6b9811c8d9de10b9",
+  "bounding_box": {
+    "coordinates": [
+      [
+        [
+          -122.400612831116,
+          37.7821120598956
+        ],
+        [
+          -122.400612831116,
+          37.7821120598956
+        ],
+        [
+          -122.400612831116,
+          37.7821120598956
+        ],
+        [
+          -122.400612831116,
+          37.7821120598956
+        ]
+      ]
+    ],
+    "type": "Polygon"
+  },
+  "contained_within": [
+    {
+      "name": "Twitter HQ",
+      "country": "The United States of America",
+      "country_code": "US",
+      "attributes": {
+        "street_address": "795 Folsom St"
+      },
+      "url": "http://api.twitter.com/1/geo/id/247f43d441defc03.json",
+      "id": "247f43d441defc03",
+      "bounding_box": {
+        "coordinates": [
+          [
+            [
+              -122.400612831116,
+              37.7821120598956
+            ],
+            [
+              -122.400612831116,
+              37.7821120598956
+            ],
+            [
+              -122.400612831116,
+              37.7821120598956
+            ],
+            [
+              -122.400612831116,
+              37.7821120598956
+            ]
+          ]
+        ],
+        "type": "Polygon"
+      },
+      "full_name": "Twitter HQ, San Francisco",
+      "place_type": "poi"
+    }
+  ],
+  "geometry": {
+    "coordinates": [
+      -122.400612831116,
+      37.7821120598956
+    ],
+    "type": "Point"
+  },
+  "full_name": "Twitter 3rd Floor Lunch Room, Twitter HQ",
+  "place_type": "poi"
+}
