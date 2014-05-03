@@ -85,6 +85,12 @@
     <Compile Include="..\BoxKite.Twitter\Helpers\BindableBase.cs">
       <Link>Helpers\BindableBase.cs</Link>
     </Compile>
+    <Compile Include="..\BoxKite.Twitter\Helpers\EventAggregator\EventAggregator.cs">
+      <Link>Helpers\EventAggregator\EventAggregator.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Helpers\EventAggregator\IEventAggregator.cs">
+      <Link>Helpers\EventAggregator\IEventAggregator.cs</Link>
+    </Compile>
     <Compile Include="..\BoxKite.Twitter\Helpers\JSONCustomConverters.cs">
       <Link>Helpers\JSONCustomConverters.cs</Link>
     </Compile>
@@ -304,12 +310,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\Connection\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="EventAggregator.Universal\EventAggregator.Universal.csproj">
-      <Project>{576822c5-7a72-4b99-af2a-0da6ad1eee5d}</Project>
-      <Name>EventAggregator.Universal</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

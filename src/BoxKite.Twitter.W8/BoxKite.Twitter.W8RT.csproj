@@ -143,6 +143,12 @@
     <Compile Include="..\BoxKite.Twitter\Helpers\BindableBase.cs">
       <Link>Helpers\BindableBase.cs</Link>
     </Compile>
+    <Compile Include="..\BoxKite.Twitter\Helpers\EventAggregator\EventAggregator.cs">
+      <Link>Helpers\EventAggregator\EventAggregator.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Helpers\EventAggregator\IEventAggregator.cs">
+      <Link>Helpers\EventAggregator\IEventAggregator.cs</Link>
+    </Compile>
     <Compile Include="..\BoxKite.Twitter\Helpers\JSONCustomConverters.cs">
       <Link>Helpers\JSONCustomConverters.cs</Link>
     </Compile>
@@ -352,10 +358,6 @@
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\netcore45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="Reactive.EventAggregator, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Reactive.EventAggregator.1.1.0\lib\windows8\Reactive.EventAggregator.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http.Extensions, Version=2.2.20.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
