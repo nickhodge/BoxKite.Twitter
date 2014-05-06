@@ -45,6 +45,7 @@
     <Compile Include="Helpers\EventAggregator\EventAggregator.cs" />
     <Compile Include="Helpers\EventAggregator\IEventAggregator.cs" />
     <Compile Include="Interfaces\ISearchStream.cs" />
+    <Compile Include="Models\Service\ProfileBanners.cs" />
     <Compile Include="Models\Stream\IStreamEvent.cs" />
     <Compile Include="Models\Stream\StreamSearchRequest.cs" />
     <Compile Include="Modules\SearchStreamExtensions.cs" />

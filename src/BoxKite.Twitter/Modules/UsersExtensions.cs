@@ -292,6 +292,62 @@ namespace BoxKite.Twitter
         }
 
         /// <summary>
+        /// Removes the uploaded profile banner for the authenticating user. Returns HTTP 20x upon success.
+        /// </summary>
+        /// <param name="banner_width">The width of the preferred section of the image being uploaded in pixels. Use with height, offset_left, and offset_top to select the desired region of the image to use.</param>
+        /// <param name="banner_height">The height of the preferred section of the image being uploaded in pixels. Use with width, offset_left, and offset_top to select the desired region of the image to use.</param>
+        /// <param name="offset_left">The number of pixels by which to offset the uploaded image from the left. Use with height, width, and offset_top to select the desired region of the image to use.</param>
+        /// <param name="offset_top">The number of pixels by which to offset the uploaded image from the top. Use with height, width, and offset_left to select the desired region of the image to use.</param>
+        /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/account/update_profile_banner </remarks>
+        public static async Task<TwitterSuccess> ChangeProfileBanner(this IUserSession session, string fileName, byte[] imageContent, int banner_width = 0, int banner_height = 0, int banner_left_offset = 0, int banner_top_offset = 0)
+        {
+            var parameters = new TwitterParametersCollection();
+
+            if (banner_width != 0)
+            {
+                parameters.Add("width", banner_width.ToString());
+            }
+
+            if (banner_height != 0)
+            {
+                parameters.Add("height", banner_width.ToString());
+            }
+
+            if (banner_left_offset != 0)
+            {
+                parameters.Add("offset_left", banner_width.ToString());
+            }
+
+            if (banner_top_offset != 0)
+            {
+                parameters.Add("offset_top", banner_width.ToString());
+            }
+
+            return await session.PostFileAsync(Api.Resolve("/1.1/account/update_profile_banner"), parameters, fileName, "image", imageContent)
+                           .ContinueWith(c => c.MapToTwitterSuccess());
+        }
+
+        /// <summary>
+        /// Returns a map of the available size variations of the specified user's profile banner. 
+        /// </summary>
+        /// <param name="screen_name">The screen name of the user for whom to return results for.</param>
+        /// <param name="user_id">The ID of the user for whom to return results for.</param>
+        /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/users/profile_banner </remarks>
+        public static async Task<ProfileBanners> GetProfileBanners(this IUserSession session, string screen_name = "", long user_id = 0)
+        {
+            var parameters = new TwitterParametersCollection();
+            parameters.Create(include_entities:true,skip_status:true,screen_name:screen_name,user_id:user_id);
+
+            if (parameters.EnsureEitherOr("screen_name", "user_id").IsFalse())
+            {
+                return session.MapParameterError<ProfileBanners>(
+                        "Either screen_name or user_id required"); ;
+            } 
+            return await session.GetAsync(Api.Resolve("/1.1/users/profile_banner.json"), parameters)
+                         .ContinueWith(c => c.MapToSingle<ProfileBanners>());
+        }
+
+        /// <summary>
         /// Returns a collection of user objects that the authenticating user is blocking.
         /// </summary>
         /// <param name="cursor">Causes the list of blocked users to be broken into pages of no more than 5000 IDs at a time.</param>
