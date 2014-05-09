@@ -376,6 +376,9 @@
     <Content Include="data\users\createblock.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="data\users\show.extended.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="data\users\show.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -84,6 +84,19 @@ namespace BoxKite.Twitter.Tests
         }
 
         [TestMethod]
+        public async Task Get_Profile_WhenUserSent_ShowExtendedResults()
+        {
+            // arrange
+            session.Returns(await Json.FromFile("data\\users\\show.extended.txt"));
+            session.ExpectGet("https://api.twitter.com/1.1/users/show.json");
+
+            var user = await session.GetUserProfile("nickhodgemsft");
+
+            Assert.IsNotNull(user);
+            Assert.IsNotNull(user.ProfileBannerImageUrlHTTPS);
+        }
+
+        [TestMethod]
         public async Task Get_Profile_WhenUserSent_ReceivesNameAsParameter()
         {
             var screenName = "shiftkey";

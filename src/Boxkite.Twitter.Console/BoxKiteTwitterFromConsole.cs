@@ -108,7 +108,7 @@ namespace BoxKite.Twitter.Console
                         }
                 */
 
-                var xx = session.GetProfileBanners(screen_name:"realnickhodge").Result;
+                var xx = session.GetUserProfile(screen_name:"nickhodgemsft").Result;
 
                 if (xx.twitterFaulted)
                 {

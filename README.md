@@ -16,6 +16,7 @@ Version 1.4.x Implements:
 await session.GetProfileBanners(screen_name:"realnickhodge");
 await session.ChangeProfileBanner("boxkite1500x500", fs);
 ```
+* User now contains Profile Banner URL, if turned on by the user (thanks Paul!)
 
 Version 1.3.x Fixes/Implements:
 * Universal App support

@@ -155,6 +155,15 @@ namespace BoxKite.Twitter.Models
         [JsonProperty("profile_background_image_url_https")]
         public string ProfilebackgroundImageUrlHTTPS { get; set; }
 
+        [JsonIgnore]
+        public string ProfilebackgroundImageUrl { get { return ProfileBannerImageUrlHTTPS; } }
+
+        [JsonProperty("profile_banner_url")]
+        public string ProfileBannerImageUrlHTTPS { get; set; }
+
+        [JsonIgnore]
+        public string ProfileBannerImageUrl { get { return ProfileBannerImageUrlHTTPS; } }
+
         [JsonProperty("profile_background_tile")]
         public bool ProfileBackgroundTile { get; set; }
 
