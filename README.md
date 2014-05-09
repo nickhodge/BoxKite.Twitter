@@ -12,8 +12,10 @@ Questions? You can find me on Twitter, of course! [@NickHodgeMSFT](https://twitt
 
 Version 1.4.x Implements:
 * Getting/Setting Profile Banners (added to twitter API 21st April 2014)
-** await session.GetProfileBanners(screen_name:"realnickhodge");
-** await session.ChangeProfileBanner("boxkite1500x500", fs)
+```
+await session.GetProfileBanners(screen_name:"realnickhodge");
+await session.ChangeProfileBanner("boxkite1500x500", fs);
+```
 
 Version 1.3.x Fixes/Implements:
 * Universal App support
