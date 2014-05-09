@@ -145,6 +145,9 @@
     <Compile Include="..\BoxKite.Twitter\Models\Service\FriendshipLookupResponse.cs">
       <Link>Models\Service\FriendshipLookupResponse.cs</Link>
     </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Service\ProfileBanners.cs">
+      <Link>Models\Service\ProfileBanners.cs</Link>
+    </Compile>
     <Compile Include="..\BoxKite.Twitter\Models\Service\ReverseGeocodePlaces.cs">
       <Link>Models\Service\ReverseGeocodePlaces.cs</Link>
     </Compile>

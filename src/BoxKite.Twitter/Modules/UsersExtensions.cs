@@ -193,7 +193,7 @@ namespace BoxKite.Twitter
         /// Updates the authenticating user's profile image.
         /// </summary>
         /// <param name="fileName">file name for upload</param>
-        /// <param name="imageContent">Stream pointing to the image data</param>
+        /// <param name="imageContentStream">Stream pointing to the image data</param>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/account/update_profile_image </remarks>
         public static async Task<AccountProfile> ChangeAccountProfileImage(this IUserSession session, string fileName, Stream imageContentStream)
         {
@@ -294,6 +294,8 @@ namespace BoxKite.Twitter
         /// <summary>
         /// Removes the uploaded profile banner for the authenticating user. Returns HTTP 20x upon success.
         /// </summary>
+        /// <param name="fileName">file name for upload</param>
+        /// <param name="imageContent">byte array of image content</param>
         /// <param name="banner_width">The width of the preferred section of the image being uploaded in pixels. Use with height, offset_left, and offset_top to select the desired region of the image to use.</param>
         /// <param name="banner_height">The height of the preferred section of the image being uploaded in pixels. Use with width, offset_left, and offset_top to select the desired region of the image to use.</param>
         /// <param name="offset_left">The number of pixels by which to offset the uploaded image from the left. Use with height, width, and offset_top to select the desired region of the image to use.</param>
@@ -323,9 +325,48 @@ namespace BoxKite.Twitter
                 parameters.Add("offset_top", banner_width.ToString());
             }
 
-            return await session.PostFileAsync(Api.Resolve("/1.1/account/update_profile_banner"), parameters, fileName, "image", imageContent)
+            return await session.PostFileAsync(Api.Resolve("/1.1/account/update_profile_banner.json"), parameters, fileName, "banner", imageContent)
                            .ContinueWith(c => c.MapToTwitterSuccess());
         }
+
+        /// <summary>
+        /// Removes the uploaded profile banner for the authenticating user. Returns HTTP 20x upon success.
+        /// </summary>
+        /// <param name="fileName">file name for upload</param>
+        /// <param name="imageDataStream">Stream of image content</param>
+        /// <param name="banner_width">The width of the preferred section of the image being uploaded in pixels. Use with height, offset_left, and offset_top to select the desired region of the image to use.</param>
+        /// <param name="banner_height">The height of the preferred section of the image being uploaded in pixels. Use with width, offset_left, and offset_top to select the desired region of the image to use.</param>
+        /// <param name="offset_left">The number of pixels by which to offset the uploaded image from the left. Use with height, width, and offset_top to select the desired region of the image to use.</param>
+        /// <param name="offset_top">The number of pixels by which to offset the uploaded image from the top. Use with height, width, and offset_left to select the desired region of the image to use.</param>
+        /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/account/update_profile_banner </remarks>
+        public static async Task<TwitterSuccess> ChangeProfileBanner(this IUserSession session, string fileName, Stream imageContentStream, int banner_width = 0, int banner_height = 0, int banner_left_offset = 0, int banner_top_offset = 0)
+        {
+            var parameters = new TwitterParametersCollection();
+
+            if (banner_width != 0)
+            {
+                parameters.Add("width", banner_width.ToString());
+            }
+
+            if (banner_height != 0)
+            {
+                parameters.Add("height", banner_width.ToString());
+            }
+
+            if (banner_left_offset != 0)
+            {
+                parameters.Add("offset_left", banner_width.ToString());
+            }
+
+            if (banner_top_offset != 0)
+            {
+                parameters.Add("offset_top", banner_width.ToString());
+            }
+
+            return await session.PostFileAsync(Api.Resolve("/1.1/account/update_profile_banner.json"), parameters, fileName, "banner", srImage: imageContentStream)
+                .ContinueWith(c => c.MapToTwitterSuccess());
+
+       }
 
         /// <summary>
         /// Returns a map of the available size variations of the specified user's profile banner. 

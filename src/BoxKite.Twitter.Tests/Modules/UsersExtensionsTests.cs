@@ -145,6 +145,22 @@ namespace BoxKite.Twitter.Tests
         }
 
         [TestMethod]
+        public async Task Get_Banner()
+        {
+            session.Returns(await Json.FromFile("data\\users\\bannerprofile.txt"));
+            session.ExpectPost("https://api.twitter.com/1.1/account/update_profile_banner.json");
+
+            var banner = await session.GetProfileBanners(screen_name:"boxkite");
+
+            Assert.IsNotNull(banner);
+            Assert.IsNotNull(banner.sizes);
+            Assert.IsNotNull(banner.sizes.Standard_1500x500);
+            Assert.IsNotNull(banner.sizes.Standard_1500x500.Url);
+            banner.sizes.Standard_1500x500.Width.ShouldBeEquivalentTo(1500);
+            banner.sizes.Standard_1500x500.Height.ShouldBeEquivalentTo(500);
+        }
+
+        [TestMethod]
         public async Task Change_Account_Colours()
         {
             session.Returns(await Json.FromFile("data\\users\\accountprofile.txt"));

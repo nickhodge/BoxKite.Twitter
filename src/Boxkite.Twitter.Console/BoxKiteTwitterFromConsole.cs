@@ -3,7 +3,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading;
+using BoxKite.Twitter.Console.Helpers;
 using BoxKite.Twitter.Models;
 
 namespace BoxKite.Twitter.Console
@@ -92,7 +94,7 @@ namespace BoxKite.Twitter.Console
                // var locations = new List<string> { "-180", "-90", "180", "90" };
                 // var track = new List<string> { "mh370" };
 
-               
+               /*
                         userstream.Tweets.Subscribe(t =>
                                                            {
                                                                ConsoleOutput.PrintTweet(t, ConsoleColor.Green);
@@ -104,39 +106,51 @@ namespace BoxKite.Twitter.Console
                         {
                             Thread.Sleep(TimeSpan.FromSeconds(0.5));
                         }
-                
+                */
 
+                var xx = session.GetProfileBanners(screen_name:"realnickhodge").Result;
+
+                if (xx.twitterFaulted)
+                {
+                    PrintTwitterErrors(xx.twitterControlMessage);
+                }
+                else
+                {
+                    ConsoleOutput.PrintMessage(xx.ToString());
+                }
 
                 /*
-                        //var fileName = @"C:\Users\Nick\Pictures\My Online Avatars\666.jpg";
-                        //if (File.Exists(fileName))
-                        //{
-                        //var newImage = File.ReadAllBytes(fileName);
 
-                        var sr = FilesHelper.FromFile("sampleimage\\MaggieThatcherRules.jpg");
+                var fileName = "sampleimage\\boxkite1500x500.png";
 
-                        // var x = session.SendTweetWithImage("Testing Image Upload. You can Ignore", Path.GetFileName(fileName),newImage).Result;
+                if (File.Exists(fileName))
+                {
+                    // var newImage = File.ReadAllBytes(fileName);
 
-                        using (var fs = new FileStream(sr, FileMode.Open, FileAccess.Read))
-                        {                               
-                            
-                            //var x = session.ChangeAccountProfileImage("MaggieThatcherRules.jpg", fs).Result;
+                    var sr = FilesHelper.FromFile(fileName);
 
-                            var x = session.SendTweetWithImage("Maggies Rules", "maggie.jpg", fs).Result;
+                    // var x = session.SendTweetWithImage("Testing Image Upload. You can Ignore", Path.GetFileName(fileName),newImage).Result;
 
-                            if (x.twitterFaulted)
-                            {
-                                PrintTwitterErrors(x.twitterControlMessage);
-                            }
-                            else
-                            {
-                                ConsoleOutput.PrintTweet(x, ConsoleColor.Green);
-                            }
+                    using (var fs = new FileStream(sr, FileMode.Open, FileAccess.Read))
+                    {
 
+                        var x = session.ChangeProfileBanner("sampleimage\\boxkite1500x500.png", fs).Result;
+
+                        // var x = session.SendTweetWithImage("Maggies Rules", "maggie.jpg", fs).Result;
+
+                        if (x.twitterFaulted)
+                        {
+                            PrintTwitterErrors(x.twitterControlMessage);
+                        }
+                        else
+                        {
+                            ConsoleOutput.PrintMessage("OK");
                         }
 
-                        */
+                    }
 
+                }
+                */
                 /*
                 mainTwitterAccount.TimeLine.Subscribe(t => ConsoleOutput.PrintTweet(t));
                 mainTwitterAccount.Mentions.Subscribe(
