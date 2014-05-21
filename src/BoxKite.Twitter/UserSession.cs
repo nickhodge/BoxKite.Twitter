@@ -12,6 +12,7 @@ using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Text;
 using System.Threading.Tasks;
+using BoxKite.Twitter.Authentication;
 using BoxKite.Twitter.Extensions;
 using BoxKite.Twitter.Models;
 using Reactive.EventAggregator;
@@ -40,28 +41,80 @@ namespace BoxKite.Twitter
 
         public IEventAggregator TwitterConnectionEvents { get; set; }
         public IPlatformAdaptor PlatformAdaptor { get; set; }
+         public IUserStream UserStream { get; set; }
+        public ISearchStream SearchStream { get; set; }
+        public int WaitTimeoutSeconds { get; set; }
+
+        // handle clientID/clientSecret if no supplied TwitterCredentials
         public string clientID { get; set; }
         public string clientSecret { get; set; }
-        public IUserStream UserStream { get; set; }
-        public ISearchStream SearchStream { get; set; }
+        public string bearerToken { get; set; }
 
-        public UserSession(string clientID, string clientSecret, IPlatformAdaptor platformAdaptor)
+        public UserSession(string clientID, string clientSecret, IPlatformAdaptor platformAdaptor, int waitTimeoutSeconds = 30)
         {
             this.clientID = clientID;
             this.clientSecret = clientSecret;
-            TwitterCredentials = TwitterCredentials.Null;
-            PlatformAdaptor = platformAdaptor;
+            this.TwitterCredentials = TwitterCredentials.Null;
+            this.PlatformAdaptor = platformAdaptor;
+            this.WaitTimeoutSeconds = waitTimeoutSeconds;
         }
 
-        public UserSession(TwitterCredentials credentials, IPlatformAdaptor platformAdaptor)
+        public UserSession(string clientID, string clientSecret, string bearerToken, IPlatformAdaptor platformAdaptor, int waitTimeoutSeconds = 30)
         {
-            TwitterCredentials = credentials;
-            PlatformAdaptor = platformAdaptor;
+            this.clientID = clientID;
+            this.clientSecret = clientSecret;
+            this.bearerToken = bearerToken;
+            this.TwitterCredentials = TwitterCredentials.Null;
+            this.PlatformAdaptor = platformAdaptor;
+            this.WaitTimeoutSeconds = waitTimeoutSeconds;
+        }
+
+
+        public UserSession(TwitterCredentials credentials, IPlatformAdaptor platformAdaptor, int waitTimeoutSeconds = 30)
+        {
+            this.TwitterCredentials = credentials;
+            this.clientID = credentials.ConsumerKey;
+            this.clientSecret = credentials.ConsumerSecret;
+            this.bearerToken = credentials.BearerToken;
+            this.PlatformAdaptor = platformAdaptor;
+            this.WaitTimeoutSeconds = waitTimeoutSeconds;
         }
 
         public IUserStream UserStreamBuilder()
         {
             return UserStream ?? this.GetUserStream(TwitterConnectionEvents);
+        }
+
+        public async Task<HttpResponseMessage> GetApplicationAuthAsync(string url, SortedDictionary<string, string> parameters)
+        {
+            if (clientID != null && clientSecret != null && bearerToken == null)
+            {
+                await this.StartApplicationOnlyAuth();
+            }
+            if (TwitterCredentials == TwitterCredentials.Null && String.IsNullOrEmpty(this.bearerToken))
+                throw new ArgumentException("Need to  must be specified and validated");
+
+            var querystring = parameters.Aggregate("", (current, entry) => current + (entry.Key + "=" + entry.Value + "&"));
+
+            var oauth2 = String.Format("Bearer {0}",this.bearerToken);
+            var fullUrl = url;
+
+            var handler = new HttpClientHandler();
+            if (handler.SupportsAutomaticDecompression)
+            {
+                handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+            }
+            var client = new HttpClient(handler);
+            client.DefaultRequestHeaders.Add("Authorization", oauth2);
+            client.DefaultRequestHeaders.Add("User-Agent", UserAgent);
+
+            if (!string.IsNullOrWhiteSpace(querystring))
+                fullUrl += "?" + querystring.Substring(0, querystring.Length - 1);
+
+            var download = client.GetAsync(fullUrl).ToObservable().Timeout(TimeSpan.FromSeconds(WaitTimeoutSeconds));
+            var clientdownload = await download;
+
+            return clientdownload;
         }
 
         public async Task<HttpResponseMessage> GetAsync(string url, SortedDictionary<string, string> parameters)
@@ -86,7 +139,7 @@ namespace BoxKite.Twitter
             if (!string.IsNullOrWhiteSpace(querystring))
                 fullUrl += "?" + querystring.Substring(0, querystring.Length - 1);
 
-            var download = client.GetAsync(fullUrl).ToObservable().Timeout(TimeSpan.FromSeconds(30));
+            var download = client.GetAsync(fullUrl).ToObservable().Timeout(TimeSpan.FromSeconds(WaitTimeoutSeconds));
             var clientdownload = await download;
 
             return clientdownload;
@@ -111,7 +164,7 @@ namespace BoxKite.Twitter
             var content = parameters.Aggregate(string.Empty, (current, e) => current + string.Format("{0}={1}&", e.Key, Uri.EscapeDataString(e.Value)));
             var data = new StringContent(content, Encoding.UTF8, "application/x-www-form-urlencoded");
 
-            var download = client.PostAsync(url, data).ToObservable().Timeout(TimeSpan.FromSeconds(30));
+            var download = client.PostAsync(url, data).ToObservable().Timeout(TimeSpan.FromSeconds(WaitTimeoutSeconds));
             var clientdownload = await download;
 
             return clientdownload;
@@ -127,47 +180,44 @@ namespace BoxKite.Twitter
             {
                 throw new ArgumentException("FileContents must have something actually in them.");
             }
-            else
+            var oauth = BuildAuthenticatedResult(url, parameters, "POST", multipartform: true);
+            var handler = new HttpClientHandler();
+            if (handler.SupportsAutomaticDecompression)
             {
-                var oauth = BuildAuthenticatedResult(url, parameters, "POST", multipartform: true);
-                var handler = new HttpClientHandler();
-                if (handler.SupportsAutomaticDecompression)
-                {
-                    handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
-                }
-                var client = new HttpClient(handler);
-                client.DefaultRequestHeaders.ExpectContinue = false;
-                client.DefaultRequestHeaders.Add("Authorization", oauth.Header);
-                client.DefaultRequestHeaders.Add("User-Agent", UserAgent);
-
-                var data = new MultipartFormDataContent();
-                if (parameters.Count > 0)
-                {
-                    foreach (var parameter in parameters)
-                    {
-                        var statusData = new StringContent(parameter.Value);
-                        statusData.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
-                                                                {
-                                                                    Name = "\"" + parameter.Key + "\""
-                                                                };
-                        data.Add(statusData);
-                    }
-                }
-
-                var filedata = FileDataContent(fileContents, srImageStream);
-                filedata.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
-                filedata.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
-                                                      {
-                                                          FileName = "\"" + fileName + "\"",
-                                                          Name = "\"" + fileContentsKey + "\"",
-                                                      };
-                data.Add(filedata);
-
-                var download = client.PostAsync(url, data).ToObservable().Timeout(TimeSpan.FromSeconds(30));
-                var clientdownload = await download;
-
-                return clientdownload;
+                handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
             }
+            var client = new HttpClient(handler);
+            client.DefaultRequestHeaders.ExpectContinue = false;
+            client.DefaultRequestHeaders.Add("Authorization", oauth.Header);
+            client.DefaultRequestHeaders.Add("User-Agent", UserAgent);
+
+            var data = new MultipartFormDataContent();
+            if (parameters.Count > 0)
+            {
+                foreach (var parameter in parameters)
+                {
+                    var statusData = new StringContent(parameter.Value);
+                    statusData.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
+                    {
+                        Name = "\"" + parameter.Key + "\""
+                    };
+                    data.Add(statusData);
+                }
+            }
+
+            var filedata = FileDataContent(fileContents, srImageStream);
+            filedata.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+            filedata.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
+            {
+                FileName = "\"" + fileName + "\"",
+                Name = "\"" + fileContentsKey + "\"",
+            };
+            data.Add(filedata);
+
+            var download = client.PostAsync(url, data).ToObservable().Timeout(TimeSpan.FromSeconds(WaitTimeoutSeconds));
+            var clientdownload = await download;
+
+            return clientdownload;
         }
 
         private static ByteArrayContent FileDataContent(byte[] fileData=null, Stream srReader=null)

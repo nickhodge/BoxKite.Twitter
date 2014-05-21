@@ -13,6 +13,8 @@ namespace BoxKite.Twitter
     {
         string clientID { get; set; }
         string clientSecret { get; set; }
+        string bearerToken { get; set; }
+        int WaitTimeoutSeconds { get; set; }
 
         TwitterCredentials TwitterCredentials {get; set; }
         IPlatformAdaptor PlatformAdaptor { get; set; }
@@ -20,6 +22,7 @@ namespace BoxKite.Twitter
 
         IUserStream UserStreamBuilder();
 
+        Task<HttpResponseMessage> GetApplicationAuthAsync(string relativeUrl, SortedDictionary<string, string> parameters);
         Task<HttpResponseMessage> GetAsync(string relativeUrl, SortedDictionary<string, string> parameters);
         Task<HttpResponseMessage> PostAsync(string relativeUrl, SortedDictionary<string, string> parameters);
         Task<HttpResponseMessage> PostFileAsync(string url, SortedDictionary<string, string> parameters, string fileName, string fileContentsKey, byte[] fileContents = null, Stream srImage = null);

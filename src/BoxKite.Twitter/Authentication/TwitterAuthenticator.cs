@@ -13,6 +13,8 @@ using System.Text;
 using BoxKite.Twitter.Extensions;
 using BoxKite.Twitter.Models;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace BoxKite.Twitter.Authentication
 {
@@ -23,6 +25,8 @@ namespace BoxKite.Twitter.Authentication
         private const string AuthenticateUrl = "https://api.twitter.com/oauth/authorize?oauth_token=";
         private const string AuthorizeTokenUrl = "https://api.twitter.com/oauth/access_token";
         private const string XAuthorizeTokenUrl = "https://api.twitter.com/oauth/access_token?send_error_codes=true";
+        private const string OAuth2TokenUrl = "https://api.twitter.com/oauth2/token";
+        private const string OAuth2TokenUrlPostRequestRFC6749 = "grant_type=client_credentials";
         private const string SafeURLEncodeChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_.~";
 
         public static async Task<string> StartAuthentication(this IUserSession session)
@@ -130,18 +134,22 @@ namespace BoxKite.Twitter.Authentication
 
             if (_accessToken != null && _accessTokenSecret != null && _userId != null && _screenName != null)
             {
-                return new TwitterCredentials()
+                if (await session.StartApplicationOnlyAuth()) 
                 {
-                    ConsumerKey = session.clientID,
-                    ConsumerSecret = session.clientSecret,
-                    ScreenName = _screenName,
-                    Token = _accessToken,
-                    TokenSecret = _accessTokenSecret,
-                    UserID = Int64.Parse(_userId),
-                    Valid = true
-                };
+                    var twitterCreds = new TwitterCredentials()
+                    {
+                        ConsumerKey = session.clientID,
+                        ConsumerSecret = session.clientSecret,
+                        BearerToken = session.bearerToken,
+                        ScreenName = _screenName,
+                        Token = _accessToken,
+                        TokenSecret = _accessTokenSecret,
+                        UserID = Int64.Parse(_userId),
+                        Valid = true
+                    };
+                return twitterCreds;
+                }
             }
-
             return TwitterCredentials.Null;
         }
 
@@ -295,6 +303,10 @@ namespace BoxKite.Twitter.Authentication
         }
 #endif
 
+        /// <summary>
+        /// XAuth for Twitter: Note: this hasn't been tested in production and is implemented from documentation only!
+        /// Please contact @NickHodgeMSFT if you need to debugged worked out!
+        /// </summary>
         public static async Task<TwitterCredentials> XAuthentication(this IUserSession session, string xauthusername,
             string xauthpassword)
         {
@@ -371,7 +383,28 @@ namespace BoxKite.Twitter.Authentication
             return TwitterCredentials.Null;
         }
 
-        // TBD: replace with extensionmethod in IUserSession
+        public static async Task<bool> StartApplicationOnlyAuth(this IUserSession session)
+        {
+            if (string.IsNullOrEmpty(session.clientID))
+                throw new ArgumentException("Twitter Consumer Key is required for Application only Auth");
+            if (string.IsNullOrEmpty(session.clientSecret))
+                throw new ArgumentException("Twitter Consumer Secret is required for Application only Auth");
+
+            // ref: https://dev.twitter.com/docs/auth/application-only-auth
+            // and ref: http://tools.ietf.org/html/rfc6749#section-4.4
+            var authToPost = String.Format("{0}:{1}", session.clientID.UrlEncode(), session.clientSecret.UrlEncode());
+            var basicAuth = string.Format("Basic {0}", authToPost.ToBase64String());
+            var response = await PostData(OAuth2TokenUrl, basicAuth, OAuth2TokenUrlPostRequestRFC6749);
+            var jresponse = JObject.Parse(response);
+            if (jresponse["errors"] != null)
+            {
+                return false;
+            }
+            session.bearerToken = (string) jresponse["access_token"];
+            return true;
+        }
+
+        // Todo: replace with extensionmethod in IUserSession
         private static string GenerateSignature(this IUserSession session, string signingKey, string baseString, string tokenSecret)
                 {
                     session.PlatformAdaptor.AssignKey(Encoding.UTF8.GetBytes(string.Format("{0}&{1}", OAuthUrlEncode(signingKey),
@@ -384,7 +417,7 @@ namespace BoxKite.Twitter.Authentication
                     return signatureString;
                 }
         
-        // TBD: replace with extensionmethod in IUserSession
+        // Todo: replace with extensionmethod in IUserSession
         private static string OAuthUrlEncode(string value)
         {
             var result = new StringBuilder();
@@ -404,8 +437,8 @@ namespace BoxKite.Twitter.Authentication
             return result.ToString();
         }
 
-        // TBD: replace with extensionmethod in IUserSession
-        private static async Task<string> PostData(string url, string data, string content = null)
+        // Todo: replace with extensionmethod in IUserSession
+        private static async Task<string> PostData(string url, string authdata, string content = null)
         {
             try
             {
@@ -418,7 +451,7 @@ namespace BoxKite.Twitter.Authentication
                 var request = new HttpRequestMessage(HttpMethod.Post, new Uri(url));
                 request.Headers.Add("Accept-Encoding", "identity");
                 request.Headers.Add("User-Agent", "BoxKite.Twitter/1.0");
-                request.Headers.Add("Authorization", data);
+                request.Headers.Add("Authorization", authdata);
                 if (content != null)
                 {
                     request.Content = new StringContent(content, Encoding.UTF8, "application/x-www-form-urlencoded");
@@ -428,9 +461,9 @@ namespace BoxKite.Twitter.Authentication
                     response.Content.ReadAsStringAsync().ToObservable().Timeout(TimeSpan.FromSeconds(30));
                 return await clientresponse;
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return "";
+                return e.Message;
             }
         }
     }

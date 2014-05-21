@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BoxKite.Twitter;
+using BoxKite.Twitter.Authentication;
 using BoxKite.Twitter.Models;
 
 namespace BoxKite.Twitter.Console
@@ -172,6 +173,20 @@ namespace BoxKite.Twitter.Console
                     else
                         successStatus = false;
                 }
+                // 10
+                if (testSeq.Contains(10))
+                {
+                    ConsoleOutput.PrintMessage("1.10 Start ApplicationOnlyAuth", ConsoleColor.Gray);
+                    var getAuthToken = await session.StartApplicationOnlyAuth();
+                    if (getAuthToken)
+                    {
+                        ConsoleOutput.PrintMessage(String.Format("Returned: {0}", getAuthToken));
+                    }
+                    else
+                        successStatus = false;
+                }
+
+
             }
             catch (Exception e)
             {

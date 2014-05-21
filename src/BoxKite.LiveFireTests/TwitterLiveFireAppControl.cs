@@ -33,10 +33,10 @@ namespace BoxKite.Twitter.Console
                     // NOTE: some tests require a previous test to work successfully
                     // NOTE: some tests post/delete items. This *is* a live fire test!
 
-                    var testSeriesToRun = new List<int> {10};
+                    var testSeriesToRun = new List<int> {12};
 
                     // Calls tested by Test Series
-                    // series 1 => 9 (UserAccounts)
+                    // series 1 => 10 (UserAccounts & Auth)
                     // series 2 => 1 (API Management)
                     // series 3 => 4 (Direct Messages)
                     // series 4 => 4 (Tweets)
@@ -47,14 +47,15 @@ namespace BoxKite.Twitter.Console
                     // series 9 => 2 (SuggestedUsers)
                     // series 10=> 7 (Lists)
                     // series 11=> 3 (Combos)
+                    // series 12=> 1 (Application Only Auth tests)
                     // =============
-                    // TOTAL      50
+                    // TOTAL      52
 
                     // Test Series 1
                     if (testSeriesToRun.Contains(1))
                     {
                         var ualft = new UserAccountLiveFireTests();
-                        var testResult1 = ualft.DoUserAccountTest(session, new List<int> {8}).Result;
+                        var testResult1 = ualft.DoUserAccountTest(session, new List<int> {1,2,3,10}).Result;
 
                         if (testResult1)
                         {
@@ -251,6 +252,25 @@ namespace BoxKite.Twitter.Console
                         else
                         {
                             ConsoleOutput.PrintMessage(String.Format("11.0 Combos Tests Status: {0}", testResult11),
+                                ConsoleColor.Red);
+                        }
+                    }
+
+
+                    // Test Series 12 Lists
+                    if (testSeriesToRun.Contains(12))
+                    {
+                        var cmbs = new ApplicationOnlyAuthFireTests();
+                        var testResult12 = cmbs.DoCombosTest(session, new List<int> { 1 }).Result;
+
+                        if (testResult12)
+                        {
+                            ConsoleOutput.PrintMessage(String.Format("12.0 Application Auth Tests Status: {0}", testResult12),
+                                ConsoleColor.White);
+                        }
+                        else
+                        {
+                            ConsoleOutput.PrintMessage(String.Format("12.0 Application Auth Tests Status: {0}", testResult12),
                                 ConsoleColor.Red);
                         }
                     }

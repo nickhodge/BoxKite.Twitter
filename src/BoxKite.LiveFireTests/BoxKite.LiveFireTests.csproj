@@ -108,6 +108,7 @@
       <Link>Helpers\DesktopPlatformAdaptor.cs</Link>
     </Compile>
     <Compile Include="Tests\ApiManagementLiveFireTests.cs" />
+    <Compile Include="Tests\ApplicationOnlyAuthLiveFireTests.cs" />
     <Compile Include="Tests\CombosLiveFireTests.cs" />
     <Compile Include="Tests\ListsLiveFireTests.cs" />
     <Compile Include="Tests\SuggestedUsersLiveFireTests.cs" />

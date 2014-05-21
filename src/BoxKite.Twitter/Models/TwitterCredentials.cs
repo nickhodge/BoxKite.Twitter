@@ -28,6 +28,13 @@ namespace BoxKite.Twitter.Models
         public string ConsumerSecret { get; set; }
 
         /// <summary>
+        /// Application only OAuth2 BearerToken
+        /// ref: https://dev.twitter.com/docs/auth/application-only-auth
+        /// </summary>
+        [DataMember]
+        public string BearerToken { get; set; }
+
+        /// <summary>
         /// Associated with these ConsumerKey/Secret and this user is a Token
         /// </summary>
         [DataMember]

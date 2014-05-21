@@ -3,11 +3,17 @@
 
 using System;
 using System.Globalization;
+using System.Text;
 
 namespace BoxKite.Twitter.Extensions
 {
     public static class StringExtensions
     {
+        public static String ToBase64String(this String source)
+        {
+            return Convert.ToBase64String(Encoding.UTF8.GetBytes(source));
+        }
+
         // very smallish microimplementation of the standards
         // http://en.wikipedia.org/wiki/List_of_XML_and_HTML_character_entity_references
         // TODO: need to complete this based on what twitter spits out
