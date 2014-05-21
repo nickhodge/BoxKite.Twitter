@@ -104,9 +104,6 @@
     <Compile Include="..\Boxkite.Twitter.Console\Helpers\SecureIt.cs">
       <Link>Helpers\SecureIt.cs</Link>
     </Compile>
-    <Compile Include="..\BoxKite.Twitter.Desktop\Helpers\DesktopPlatformAdaptor.cs">
-      <Link>Helpers\DesktopPlatformAdaptor.cs</Link>
-    </Compile>
     <Compile Include="Tests\ApiManagementLiveFireTests.cs" />
     <Compile Include="Tests\ApplicationOnlyAuthLiveFireTests.cs" />
     <Compile Include="Tests\CombosLiveFireTests.cs" />

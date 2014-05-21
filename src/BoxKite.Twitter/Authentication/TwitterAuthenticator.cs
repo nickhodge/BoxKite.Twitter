@@ -396,6 +396,9 @@ namespace BoxKite.Twitter.Authentication
             var basicAuth = string.Format("Basic {0}", authToPost.ToBase64String());
             var response = await PostData(OAuth2TokenUrl, basicAuth, OAuth2TokenUrlPostRequestRFC6749);
             var jresponse = JObject.Parse(response);
+            // pretty blantant response
+            // Todo: make response match API response at https://dev.twitter.com/docs/auth/application-only-auth
+            // Todo: 401/403 response
             if (jresponse["errors"] != null)
             {
                 return false;

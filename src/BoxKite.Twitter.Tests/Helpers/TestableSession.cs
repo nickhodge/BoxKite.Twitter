@@ -23,12 +23,39 @@ namespace BoxKite.Twitter.Tests
 
         public string clientID { get; set; }
         public string clientSecret { get; set; }
+        public string bearerToken { get; set; }
+        public int WaitTimeoutSeconds { get; set; }
         public TwitterCredentials TwitterCredentials { get; set; }
         public IPlatformAdaptor PlatformAdaptor { get; set; }
 
         public IUserStream UserStreamBuilder()
         {
             throw new System.NotImplementedException();
+        }
+
+        public Task<HttpResponseMessage> GetApplicationAuthAsync(string relativeUrl, SortedDictionary<string, string> parameters)
+        {
+            if (!string.IsNullOrWhiteSpace(expectedGetUrl))
+            {
+                Assert.AreEqual(expectedGetUrl, relativeUrl);
+            }
+
+            this.receviedParameters = parameters;
+
+            if (simulatingError)
+            {
+                var response = new HttpResponseMessage(httpStatusCode) { Content = new StringContent(contents) }; //grab the supplied error code in setup
+                return Task.FromResult(response);
+            }
+            else
+            {
+                var response = new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Content = new StringContent(contents)
+                };
+                return Task.FromResult(response);
+            }
         }
 
         public Task<HttpResponseMessage> GetAsync(string relativeUrl, SortedDictionary<string, string> parameters)

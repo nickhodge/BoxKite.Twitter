@@ -18,6 +18,13 @@ namespace BoxKite.Twitter.Console
         public async Task<bool> DoCombosTest(IUserSession session, List<int> testSeq)
         {
             var successStatus = true;
+
+            // first, let's make our own session with clientkey/secret
+            //var twitterClientKeys = await ClientKeyManager.GetTwitterClientKeys();
+            //var newsession = new UserSession(twitterClientKeys.Item1, twitterClientKeys.Item2, new DesktopPlatformAdaptor());
+            var newsession = new UserSession("", "", new DesktopPlatformAdaptor());
+
+
             try
             {
                 // 1
@@ -25,7 +32,7 @@ namespace BoxKite.Twitter.Console
                 {
                     ConsoleOutput.PrintMessage("12.1 User Time Line//Application Auth Only", ConsoleColor.Gray);
 
-                    var combo1 = await session.GetUserTimeline("KatyPerry");
+                    var combo1 = await newsession.GetUserTimeline("KatyPerry");
 
                     if (combo1.OK)
                     {
@@ -40,8 +47,7 @@ namespace BoxKite.Twitter.Console
                         successStatus = false;
                         throw new Exception("cannot user time line app only auth");
                     }
-
-                }
+                } // end test 1
 
             }
             catch (Exception e)

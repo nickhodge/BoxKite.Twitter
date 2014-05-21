@@ -26,7 +26,7 @@ namespace BoxKite.Twitter
         //
 
         // largestSeenIds
-        // TBD: these should/could be properties on Account so they can be persisted across launches
+        // ToDo: these should/could be properties on Account so they can be persisted across launches
         private long _homeTimeLineLargestSeenId;
         private long _directMessagesReceivedLargestSeenId;
         private long _directMessagesSentLargestSeenId;

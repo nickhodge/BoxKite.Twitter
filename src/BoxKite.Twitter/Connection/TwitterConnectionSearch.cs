@@ -14,7 +14,7 @@ namespace BoxKite.Twitter
     public partial class TwitterConnection
     {
         // largestSeenIds
-        // TBD: these should/could be properties on Account so they can be persisted across launches
+        // todo: these should/could be properties on Account so they can be persisted across launches
         private long _searchLargestSeenId;
         //
 

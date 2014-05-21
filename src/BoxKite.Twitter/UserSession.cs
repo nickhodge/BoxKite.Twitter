@@ -1,4 +1,4 @@
-// (c) 2012-2013 Nick Hodge mailto:hodgenick@gmail.com & Brendan Forster
+// (c) 2012-2014 Nick Hodge mailto:hodgenick@gmail.com & Brendan Forster
 // License: MS-PL
 
 using System;
@@ -41,7 +41,7 @@ namespace BoxKite.Twitter
 
         public IEventAggregator TwitterConnectionEvents { get; set; }
         public IPlatformAdaptor PlatformAdaptor { get; set; }
-         public IUserStream UserStream { get; set; }
+        public IUserStream UserStream { get; set; }
         public ISearchStream SearchStream { get; set; }
         public int WaitTimeoutSeconds { get; set; }
 
@@ -54,9 +54,9 @@ namespace BoxKite.Twitter
         {
             this.clientID = clientID;
             this.clientSecret = clientSecret;
-            this.TwitterCredentials = TwitterCredentials.Null;
-            this.PlatformAdaptor = platformAdaptor;
-            this.WaitTimeoutSeconds = waitTimeoutSeconds;
+            TwitterCredentials = TwitterCredentials.Null;
+            PlatformAdaptor = platformAdaptor;
+            WaitTimeoutSeconds = waitTimeoutSeconds;
         }
 
         public UserSession(string clientID, string clientSecret, string bearerToken, IPlatformAdaptor platformAdaptor, int waitTimeoutSeconds = 30)
@@ -64,20 +64,20 @@ namespace BoxKite.Twitter
             this.clientID = clientID;
             this.clientSecret = clientSecret;
             this.bearerToken = bearerToken;
-            this.TwitterCredentials = TwitterCredentials.Null;
-            this.PlatformAdaptor = platformAdaptor;
-            this.WaitTimeoutSeconds = waitTimeoutSeconds;
+            TwitterCredentials = TwitterCredentials.Null;
+            PlatformAdaptor = platformAdaptor;
+            WaitTimeoutSeconds = waitTimeoutSeconds;
         }
 
 
         public UserSession(TwitterCredentials credentials, IPlatformAdaptor platformAdaptor, int waitTimeoutSeconds = 30)
         {
-            this.TwitterCredentials = credentials;
-            this.clientID = credentials.ConsumerKey;
-            this.clientSecret = credentials.ConsumerSecret;
-            this.bearerToken = credentials.BearerToken;
-            this.PlatformAdaptor = platformAdaptor;
-            this.WaitTimeoutSeconds = waitTimeoutSeconds;
+            TwitterCredentials = credentials;
+            clientID = credentials.ConsumerKey;
+            clientSecret = credentials.ConsumerSecret;
+            bearerToken = credentials.BearerToken;
+            PlatformAdaptor = platformAdaptor;
+            WaitTimeoutSeconds = waitTimeoutSeconds;
         }
 
         public IUserStream UserStreamBuilder()
@@ -85,18 +85,24 @@ namespace BoxKite.Twitter
             return UserStream ?? this.GetUserStream(TwitterConnectionEvents);
         }
 
+        /// <summary>
+        /// Use OAuth2 Bearer To do read-only query
+        /// </summary>
+        /// <param name="url">URL to call</param>
+        /// <param name="parameters">Params to send</param>
+        /// <returns></returns>
         public async Task<HttpResponseMessage> GetApplicationAuthAsync(string url, SortedDictionary<string, string> parameters)
         {
             if (clientID != null && clientSecret != null && bearerToken == null)
             {
                 await this.StartApplicationOnlyAuth();
             }
-            if (TwitterCredentials == TwitterCredentials.Null && String.IsNullOrEmpty(this.bearerToken))
+            if (TwitterCredentials == TwitterCredentials.Null && String.IsNullOrEmpty(bearerToken))
                 throw new ArgumentException("Need to  must be specified and validated");
 
             var querystring = parameters.Aggregate("", (current, entry) => current + (entry.Key + "=" + entry.Value + "&"));
 
-            var oauth2 = String.Format("Bearer {0}",this.bearerToken);
+            var oauth2 = String.Format("Bearer {0}",bearerToken);
             var fullUrl = url;
 
             var handler = new HttpClientHandler();
@@ -117,6 +123,12 @@ namespace BoxKite.Twitter
             return clientdownload;
         }
 
+        /// <summary>
+        /// Use OAuth1.0a auth to do more intensive reads
+        /// </summary>
+        /// <param name="url">URL to call</param>
+        /// <param name="parameters">Params to send</param>
+        /// <returns></returns>
         public async Task<HttpResponseMessage> GetAsync(string url, SortedDictionary<string, string> parameters)
         {
             if (TwitterCredentials == TwitterCredentials.Null || TwitterCredentials.Valid == false)
@@ -145,6 +157,12 @@ namespace BoxKite.Twitter
             return clientdownload;
         }
 
+        /// <summary>
+        /// Use OAuth1.0a auth to do more intensive POST
+        /// </summary>
+        /// <param name="url">URL to call</param>
+        /// <param name="parameters">Params to send</param>
+        /// <returns></returns>
         public async Task<HttpResponseMessage> PostAsync(string url, SortedDictionary<string, string> parameters)
         {
             if (TwitterCredentials == TwitterCredentials.Null || TwitterCredentials.Valid == false)
