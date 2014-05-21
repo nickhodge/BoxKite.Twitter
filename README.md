@@ -10,9 +10,13 @@ Questions? You can find me on Twitter, of course! [@NickHodgeMSFT](https://twitt
 
 ## Version News
 
+Version 1.5.x Implements:
+* start of [Application-only Authentication via OAuth2](https://dev.twitter.com/docs/auth/application-only-auth)
+* this is going to require some rework in the API to permit App-level API access (pull user timeslines, friends of account, list resources, search in tweets etc) without a user login.
+
 Version 1.4.x Implements:
 * Getting/Setting Profile Banners (added to twitter API 21st April 2014)
-```
+```csharp
 await session.GetProfileBanners(screen_name:"realnickhodge");
 await session.ChangeProfileBanner("boxkite1500x500", fs);
 ```
@@ -47,6 +51,7 @@ Version 1.2.x Fixes/Implements:
 At the present time, BoxKite.Twitter supports API version 1.1 of the following:
 
 * [Twitter 1.1 REST API](https://dev.twitter.com/docs/api/1.1)
+* [User and Application authentication](https://dev.twitter.com/docs/auth/application-only-auth)
 * [User streams](https://dev.twitter.com/docs/streaming-apis/streams/user)
 * [Search streams](https://dev.twitter.com/docs/api/1.1/post/statuses/filter)
 
@@ -71,13 +76,18 @@ Install-Package BoxKite.Twitter
 
 * More indepth [developer details are documented here](wiki/devdetails)
 * There are a few, [small missing pieces documented here](wiki/todos)
-* 50 ["Live Fire" tests are explained here](wiki/livefire)
+* 52 ["Live Fire" tests are explained here](wiki/livefire)
 * [Sample, Simple WPF/XAML 4.5 Client App](wiki/samplewpf)
 * Note: Sample Windows 8.1 app under development, will be in a separate repo
 
 ##To Build:
-* VS2013 with latest NuGet supporting PCLs (Portable Class Libraries)
-* Project is VS2013, but code should work and build in VS2012
+* Visual Studio 2013 Update 2 with latest NuGet supporting PCLs (Portable Class Libraries) and Universal libraries
+* Solution is Visual Studio 2013 Update 2, but code should work and build in VS2012
+
+##Where you can help out
+* Reworking the API to make sense for more developers than me
+* Ensuring this works on non-Microsoft .NET platforms
+* Documentation, of course
 
 ##API Coverage, With Tests & Intellisense Comments
 [From Twitter REST API v1.1](https://dev.twitter.com/docs/api/1.1)
@@ -102,9 +112,9 @@ Install-Package BoxKite.Twitter
 *  API rate limits
 
 ##Tests:
-* 116 test methods with average of 4 assertion tests each
+* 119 test methods with average of 4 assertion tests each
 * Both Twitter API 1.1 and Userstream Unit Tests
-* 50 "Live Fire Tests" (Live integration tests) Included as a separate project, it is engaged via the Console; uses a real Twitter Account to exercise the API. Configurable Test series, individual tests that can be run.
+* 52 "Live Fire Tests" (Live integration tests) Included as a separate project, it is engaged via the Console; uses a real Twitter Account to exercise the API. Configurable Test series, individual tests that can be run.
 * Test source is JSON from [dev.twitter.com](https://dev.twitter.com/) and where innaccurate on the site, taken from live data or corrected to match live data.
 * Error response type testing (eg: 429 rate_limits) & generic decode tests included
 
