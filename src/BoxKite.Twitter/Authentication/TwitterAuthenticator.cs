@@ -29,7 +29,7 @@ namespace BoxKite.Twitter.Authentication
         private const string OAuth2TokenUrlPostRequestRFC6749 = "grant_type=client_credentials";
         private const string SafeURLEncodeChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_.~";
 
-        public static async Task<string> StartAuthentication(this IUserSession session)
+        public static async Task<string> StartUserAuthentication(this IUserSession session)
         {
             if (string.IsNullOrWhiteSpace(session.clientID))
                 throw new ArgumentException("ClientID must be specified", session.clientID);
@@ -383,7 +383,7 @@ namespace BoxKite.Twitter.Authentication
             return TwitterCredentials.Null;
         }
 
-        public static async Task<bool> StartApplicationOnlyAuth(this IUserSession session)
+        public static async Task<bool> StartApplicationOnlyAuth(this IApplicationSession session)
         {
             if (string.IsNullOrEmpty(session.clientID))
                 throw new ArgumentException("Twitter Consumer Key is required for Application only Auth");

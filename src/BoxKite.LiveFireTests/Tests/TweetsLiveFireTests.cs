@@ -90,7 +90,7 @@ namespace BoxKite.Twitter.Console
                         }
                         else
                         {
-                            TwitterLiveFireAppControl.PrintTwitterErrors(tweets4.twitterControlMessage);
+                            TwitterLiveFireUserControl.PrintTwitterErrors(tweets4.twitterControlMessage);
                             successStatus = false;
                         }
                     }

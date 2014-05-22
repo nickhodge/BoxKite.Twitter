@@ -91,7 +91,7 @@ namespace BoxKite.Twitter
         {
             TwitterCommunication = new CancellationTokenSource();
             //
-            UserStream = Session.UserStreamBuilder();
+            UserStream = UserSession.UserStreamBuilder();
 
             // this watches the userstream, if there is a disconnect event, do something about it
             TwitterConnectionEvents.GetEvent<TwitterUserStreamDisconnectEvent>().Subscribe(ManageUserStreamDisconnect);
@@ -183,7 +183,7 @@ namespace BoxKite.Twitter
         {
             var largestseenid = sinceid;
 
-            var hometl = await Session.GetHomeTimeline(count: sinceIdPagingSize, since_id: sinceid);
+            var hometl = await UserSession.GetHomeTimeline(count: sinceIdPagingSize, since_id: sinceid);
             if (!hometl.OK) return largestseenid;
             foreach (var tweet in hometl)
             {
@@ -197,7 +197,7 @@ namespace BoxKite.Twitter
         {
             var largestseenid = sinceid;
 
-            var mentionsofme = await Session.GetMentions(count: sinceIdPagingSize, since_id: sinceid);
+            var mentionsofme = await UserSession.GetMentions(count: sinceIdPagingSize, since_id: sinceid);
             if (!mentionsofme.OK) return largestseenid;
             foreach (var tweet in mentionsofme.Where(tweet => tweet.Id > sinceid))
             {
@@ -211,7 +211,7 @@ namespace BoxKite.Twitter
         {
             var largestseenid = sinceid;
 
-            var rtofme = await Session.GetRetweetsOfMe(count: pagingSize, since_id: sinceid);
+            var rtofme = await UserSession.GetRetweetsOfMe(count: pagingSize, since_id: sinceid);
             if (!rtofme.OK) return largestseenid;
             foreach (var tweet in rtofme.Where(tweet => tweet.Id > sinceid))
             {
@@ -225,7 +225,7 @@ namespace BoxKite.Twitter
         {
             var largestseenid = sinceid;
 
-            var dmrecd = await Session.GetDirectMessages(count: pagingSize, since_id: sinceid);
+            var dmrecd = await UserSession.GetDirectMessages(count: pagingSize, since_id: sinceid);
             if (!dmrecd.OK) return largestseenid;
             foreach (var dm in dmrecd.Where(dm => dm.Id > sinceid))
             {
@@ -239,7 +239,7 @@ namespace BoxKite.Twitter
         {
             var largestseenid = sinceid;
             
-            var mysentdms = await Session.GetDirectMessagesSent(count: pagingSize, since_id: sinceid);
+            var mysentdms = await UserSession.GetDirectMessagesSent(count: pagingSize, since_id: sinceid);
             if (!mysentdms.OK) return largestseenid;
 
             foreach (var dm in mysentdms.Where(dm => dm.Id > sinceid))
@@ -254,7 +254,7 @@ namespace BoxKite.Twitter
         {
            var largestseenid = sinceid;
             
-            var hometl = await Session.GetUserTimeline(user_id: AccountDetails.UserId, count: pagingSize, since_id: sinceid);
+            var hometl = await UserSession.GetUserTimeline(user_id: AccountDetails.UserId, count: pagingSize, since_id: sinceid);
             if (!hometl.OK) return largestseenid;
 
             foreach (var tweet in hometl.Where(tweet => tweet.Id > sinceid))
@@ -309,7 +309,7 @@ namespace BoxKite.Twitter
 
             do
             {
-                var hometl = await Session.GetHomeTimeline(count: pagingSize, max_id: smallestid);
+                var hometl = await UserSession.GetHomeTimeline(count: pagingSize, max_id: smallestid);
                 if (hometl.OK)
                 {
                     smallestid = long.MaxValue;
@@ -346,7 +346,7 @@ namespace BoxKite.Twitter
 
             do
             {
-                var mentionsofme = await Session.GetMentions(count: pagingSize, max_id: smallestid);
+                var mentionsofme = await UserSession.GetMentions(count: pagingSize, max_id: smallestid);
                 if (mentionsofme.OK)
                 {
                     smallestid = long.MaxValue;
@@ -383,7 +383,7 @@ namespace BoxKite.Twitter
 
             do
             {
-                var rtofme = await Session.GetRetweetsOfMe(count: pagingSize, max_id: smallestid);
+                var rtofme = await UserSession.GetRetweetsOfMe(count: pagingSize, max_id: smallestid);
                 if (rtofme.OK)
                 {
                     smallestid = long.MaxValue;
@@ -420,7 +420,7 @@ namespace BoxKite.Twitter
 
             do
             {
-                var dmrecd = await Session.GetDirectMessages(count: pagingSize, max_id: smallestid);
+                var dmrecd = await UserSession.GetDirectMessages(count: pagingSize, max_id: smallestid);
                 if (dmrecd.OK)
                 {
                     smallestid = long.MaxValue;
@@ -459,7 +459,7 @@ namespace BoxKite.Twitter
 
             do
             {
-                var mysentdms = await Session.GetDirectMessagesSent(count: pagingSize, max_id: smallestid);
+                var mysentdms = await UserSession.GetDirectMessagesSent(count: pagingSize, max_id: smallestid);
                 if (mysentdms.OK)
                 {
                     smallestid = long.MaxValue;
@@ -496,7 +496,7 @@ namespace BoxKite.Twitter
 
             do
             {
-                var hometl = await Session.GetUserTimeline(user_id:AccountDetails.UserId, count: pagingSize, max_id: smallestid);
+                var hometl = await UserSession.GetUserTimeline(user_id:AccountDetails.UserId, count: pagingSize, max_id: smallestid);
                 if (hometl.OK)
                 {
                     smallestid = long.MaxValue;

@@ -35,6 +35,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ApplicationAuthModules\TimelineExtensions.cs" />
     <Compile Include="Authentication\TwitterAuthenticator.cs" />
     <Compile Include="Configuration\Configuration.cs" />
     <Compile Include="Connection\TwitterConnectionEvents.cs" />
@@ -45,10 +46,11 @@
     <Compile Include="Helpers\EventAggregator\EventAggregator.cs" />
     <Compile Include="Helpers\EventAggregator\IEventAggregator.cs" />
     <Compile Include="Interfaces\ISearchStream.cs" />
+    <Compile Include="Interfaces\IApplicationSession.cs" />
     <Compile Include="Models\Service\ProfileBanners.cs" />
     <Compile Include="Models\Stream\IStreamEvent.cs" />
     <Compile Include="Models\Stream\StreamSearchRequest.cs" />
-    <Compile Include="Modules\SearchStreamExtensions.cs" />
+    <Compile Include="UserAuthModules\SearchStreamExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SearchStream.cs" />
     <Compile Include="Extensions\Api.cs" />
@@ -102,20 +104,21 @@
     <Compile Include="Models\Tweet.cs" />
     <Compile Include="Models\TwitterCredentials.cs" />
     <Compile Include="Models\User.cs" />
-    <Compile Include="Modules\ApiManagementExtensions.cs" />
-    <Compile Include="Modules\DirectMessageExtensions.cs" />
-    <Compile Include="Modules\FavouritesExtensions.cs" />
-    <Compile Include="Modules\FriendsFollowerExtensions.cs" />
-    <Compile Include="Modules\ListExtensions.cs" />
-    <Compile Include="Modules\PlacesGeoExtensions.cs" />
-    <Compile Include="Modules\ReportExtensions.cs" />
-    <Compile Include="Modules\SearchExtensions.cs" />
-    <Compile Include="Modules\SuggestedUsersExtension.cs" />
-    <Compile Include="Modules\TimelineExtensions.cs" />
-    <Compile Include="Modules\TrendsExtenstions.cs" />
-    <Compile Include="Modules\TweetExtensions.cs" />
-    <Compile Include="Modules\UsersExtensions.cs" />
-    <Compile Include="Modules\UserStreamExtensions.cs" />
+    <Compile Include="UserAuthModules\ApiManagementExtensions.cs" />
+    <Compile Include="UserAuthModules\DirectMessageExtensions.cs" />
+    <Compile Include="UserAuthModules\FavouritesExtensions.cs" />
+    <Compile Include="UserAuthModules\FriendsFollowerExtensions.cs" />
+    <Compile Include="UserAuthModules\ListExtensions.cs" />
+    <Compile Include="UserAuthModules\PlacesGeoExtensions.cs" />
+    <Compile Include="UserAuthModules\ReportExtensions.cs" />
+    <Compile Include="UserAuthModules\SearchExtensions.cs" />
+    <Compile Include="UserAuthModules\SuggestedUsersExtension.cs" />
+    <Compile Include="UserAuthModules\TimelineExtensions.cs" />
+    <Compile Include="UserAuthModules\TrendsExtenstions.cs" />
+    <Compile Include="UserAuthModules\TweetExtensions.cs" />
+    <Compile Include="UserAuthModules\UsersExtensions.cs" />
+    <Compile Include="UserAuthModules\UserStreamExtensions.cs" />
+    <Compile Include="ApplicationSession.cs" />
     <Compile Include="UserSession.cs" />
     <Compile Include="UserStream.cs" />
   </ItemGroup>

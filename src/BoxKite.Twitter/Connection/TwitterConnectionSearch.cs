@@ -35,7 +35,7 @@ namespace BoxKite.Twitter
             TwitterConnectionEvents.GetEvent<TwitterSearchStreamDisconnectEvent>().Subscribe(ManageSearchStreamDisconnect);
             //
             _currentSearchText = textToSearch;
-            SearchStream = Session.StartSearchStream(TwitterConnectionEvents, track: textToSearch);
+            SearchStream = UserSession.StartSearchStream(TwitterConnectionEvents, track: textToSearch);
             SearchStream.FoundTweets.Subscribe(_searchtimeline.OnNext);
             SearchStream.Start();
             //
@@ -73,7 +73,7 @@ namespace BoxKite.Twitter
             do
             {
                 //TODO: need to unhardcode SearchResultType
-                var searchtl = await Session.SearchFor(searchtext:_currentSearchText, searchResponseType:SearchResultType.Recent, count: pagingSize, max_id: smallestid);
+                var searchtl = await UserSession.SearchFor(searchtext:_currentSearchText, searchResponseType:SearchResultType.Recent, count: pagingSize, max_id: smallestid);
                 if (searchtl.OK)
                 {
                     smallestid = long.MaxValue;
@@ -117,7 +117,7 @@ namespace BoxKite.Twitter
         {
             var largestseenid = sinceid;
 
-            var searchtl = await Session.SearchFor(searchtext: _currentSearchText, searchResponseType: SearchResultType.Recent, count: pagingSize, since_id: sinceid);
+            var searchtl = await UserSession.SearchFor(searchtext: _currentSearchText, searchResponseType: SearchResultType.Recent, count: pagingSize, since_id: sinceid);
             if (!searchtl.OK) return largestseenid;
 
             foreach (var tweet in searchtl.Tweets.Where(tweet => tweet.Id > sinceid))

@@ -42,7 +42,7 @@ namespace BoxKite.Twitter
 
             do
             {
-                var ff2List = await Session.GetFriendshipRequestsIncoming(cursor: nextcursor);
+                var ff2List = await UserSession.GetFriendshipRequestsIncoming(cursor: nextcursor);
                 if (ff2List.twitterFaulted)
                 {
                     break;

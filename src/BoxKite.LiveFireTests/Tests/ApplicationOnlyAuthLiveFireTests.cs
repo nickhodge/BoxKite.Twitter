@@ -15,15 +15,9 @@ namespace BoxKite.Twitter.Console
 {
     public class ApplicationOnlyAuthFireTests
     {
-        public async Task<bool> DoCombosTest(IUserSession session, List<int> testSeq)
+        public async Task<bool> DoCombosTest(TwitterConnection twitterConnection, List<int> testSeq)
         {
             var successStatus = true;
-
-            // first, let's make our own session with clientkey/secret
-            //var twitterClientKeys = await ClientKeyManager.GetTwitterClientKeys();
-            //var newsession = new UserSession(twitterClientKeys.Item1, twitterClientKeys.Item2, new DesktopPlatformAdaptor());
-            var newsession = new UserSession("", "", new DesktopPlatformAdaptor());
-
 
             try
             {
@@ -32,7 +26,7 @@ namespace BoxKite.Twitter.Console
                 {
                     ConsoleOutput.PrintMessage("12.1 User Time Line//Application Auth Only", ConsoleColor.Gray);
 
-                    var combo1 = await newsession.GetUserTimeline("KatyPerry");
+                    var combo1 = await twitterConnection.ApplicationSession.GetUserTimeline("KatyPerry");
 
                     if (combo1.OK)
                     {

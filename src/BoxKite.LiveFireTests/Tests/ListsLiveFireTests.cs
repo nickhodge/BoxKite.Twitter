@@ -34,7 +34,7 @@ namespace BoxKite.Twitter.Console
                     }
                     else
                     {
-                        TwitterLiveFireAppControl.PrintTwitterErrors(lists1.twitterControlMessage);
+                        TwitterLiveFireUserControl.PrintTwitterErrors(lists1.twitterControlMessage);
                         successStatus = false;
                     }
                 }
@@ -56,7 +56,7 @@ namespace BoxKite.Twitter.Console
                     }
                     else
                     {
-                        TwitterLiveFireAppControl.PrintTwitterErrors(lists2.twitterControlMessage);
+                        TwitterLiveFireUserControl.PrintTwitterErrors(lists2.twitterControlMessage);
                         successStatus = false;
                     }
                 }
@@ -75,7 +75,7 @@ namespace BoxKite.Twitter.Console
                             await session.GetMyListsUserIsMemberOf(screen_name: "shiftkey", cursor: nextcursor);
                         if (lists3.twitterFaulted)
                         {                                           
-                            TwitterLiveFireAppControl.PrintTwitterErrors(lists3.twitterControlMessage);
+                            TwitterLiveFireUserControl.PrintTwitterErrors(lists3.twitterControlMessage);
                             successStatus = false;
                             break;
                         }
@@ -109,7 +109,7 @@ namespace BoxKite.Twitter.Console
                         if (lists4.twitterFaulted)
                         {
                             successStatus = false;
-                            TwitterLiveFireAppControl.PrintTwitterErrors(lists4.twitterControlMessage);
+                            TwitterLiveFireUserControl.PrintTwitterErrors(lists4.twitterControlMessage);
                             break;
                         }
                         nextcursor = lists4.next_cursor;
@@ -141,7 +141,7 @@ namespace BoxKite.Twitter.Console
                     }
                     else
                     {
-                        TwitterLiveFireAppControl.PrintTwitterErrors(lists5.twitterControlMessage);
+                        TwitterLiveFireUserControl.PrintTwitterErrors(lists5.twitterControlMessage);
                         successStatus = false;
                     }
                 }
@@ -177,7 +177,7 @@ namespace BoxKite.Twitter.Console
                     }
                     else
                     {
-                        TwitterLiveFireAppControl.PrintTwitterErrors(lists7.twitterControlMessage);
+                        TwitterLiveFireUserControl.PrintTwitterErrors(lists7.twitterControlMessage);
                     }
                 }
             }

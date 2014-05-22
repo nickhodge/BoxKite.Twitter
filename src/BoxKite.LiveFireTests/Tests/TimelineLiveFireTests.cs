@@ -195,7 +195,7 @@ namespace BoxKite.Twitter.Console
                         else
                         {
                             successStatus = false;
-                            TwitterLiveFireAppControl.PrintTwitterErrors(timeline6.twitterControlMessage);
+                            TwitterLiveFireUserControl.PrintTwitterErrors(timeline6.twitterControlMessage);
                             break;
                         }
                     } while (howManyToGet > 0);
