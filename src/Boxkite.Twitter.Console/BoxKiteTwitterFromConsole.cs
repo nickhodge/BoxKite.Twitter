@@ -32,14 +32,14 @@ namespace BoxKite.Twitter.Console
                 twitterConnection = new TwitterConnection(twitterClientKeys.Item1, twitterClientKeys.Item2);
 
                 // PIN based authentication
-                var oauth = twitterConnection.BeginAuthentication().Result;
+                var oauth = twitterConnection.BeginUserAuthentication().Result;
 
                 // if the response is null, something is wrong with the initial request to OAuth
                 if (!string.IsNullOrWhiteSpace(oauth))
                 {
                     ConsoleOutput.PrintMessage("Pin: ");
                     var pin = System.Console.ReadLine();
-                    twittercredentials = twitterConnection.CompleteAuthentication(pin, oauth).Result;
+                    twittercredentials = twitterConnection.CompleteUserAuthentication(pin, oauth).Result;
 
                     ManageTwitterCredentials.SaveTwitterCredentialsToFile(twittercredentials);
                 }
@@ -59,14 +59,14 @@ namespace BoxKite.Twitter.Console
                 ConsoleOutput.PrintMessage(twitterConnection.TwitterCredentials.ScreenName +
                                            " is authorised to use BoxKite.Twitter.");
 
-                var session = twitterConnection.Session;
+                var session = twitterConnection.UserSession;
                 var userstream = twitterConnection.UserStream;
                 var searchstream = twitterConnection;
  
                 // userstream.Tweets.Subscribe( t => ConsoleOutput.PrintTweet(t));
 
                 //userstream.Events.Subscribe(e => ConsoleOutput.PrintEvent(e, ConsoleColor.Yellow));
-                //userstream.DirectMessages.Subscribe(
+                //userstream.DirectMessages.Subscribe(C:\Users\nhodge\Documents\GitHub\BoxKite.Twitter\src\BoxKite.Twitter\SearchStream.cs
                 //    d => ConsoleOutput.PrintDirect(d, ConsoleColor.Magenta, ConsoleColor.Black));
                 //userstream.Start();
 

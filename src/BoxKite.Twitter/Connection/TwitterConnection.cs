@@ -28,69 +28,69 @@ namespace BoxKite.Twitter
         public TwitterConnection(string twitterConsumerKey, string twitterConsumerSecret, IEventAggregator eventAggregator = null, IPlatformAdaptor platformAdaptor = null)
         {
             TwitterConnectionEvents = eventAggregator ?? new EventAggregator();
-            PlatformAdaptor = platformAdaptor;
             ApplicationSession = ApplicationSessionBuilder(twitterConsumerKey, twitterConsumerSecret);
+            PlatformAdaptor = platformAdaptor;
         }
 
         public TwitterConnection(TwitterCredentials twitterCredentials, IEventAggregator eventAggregator = null, IPlatformAdaptor platformAdaptor = null)
         {
             TwitterCredentials = twitterCredentials;
-            PlatformAdaptor = platformAdaptor;
             TwitterConnectionEvents = eventAggregator ?? new EventAggregator();
             UserSession = SessionBuilder();
+            PlatformAdaptor = platformAdaptor;
         }
 
         public TwitterConnection(string twitterConsumerKey, string twitterConsumerSecret, string xauthusername, string xauthpassword, IEventAggregator eventAggregator = null, IPlatformAdaptor platformAdaptor = null)
         {
             TwitterConnectionEvents = eventAggregator ?? new EventAggregator();
-            PlatformAdaptor = platformAdaptor;
             UserSession = SessionBuilder(twitterConsumerKey, twitterConsumerSecret);
+            PlatformAdaptor = platformAdaptor;
         }
 #endif
 #if (WINDOWSDESKTOP)
         public TwitterConnection(string twitterConsumerKey, string twitterConsumerSecret, IEventAggregator eventAggregator = null)
         {
             TwitterConnectionEvents = eventAggregator ?? new EventAggregator();
+            ApplicationSession = ApplicationSessionBuilder(twitterConsumerKey, twitterConsumerSecret);
             PlatformAdaptor = new DesktopPlatformAdaptor();
-            Session = SessionBuilder(twitterConsumerKey, twitterConsumerSecret);
-        }
+         }
 
         public TwitterConnection(TwitterCredentials twitterCredentials, IEventAggregator eventAggregator = null)
         {
             TwitterCredentials = twitterCredentials;
-            PlatformAdaptor = new DesktopPlatformAdaptor();
             TwitterConnectionEvents = eventAggregator ?? new EventAggregator();
-            Session = SessionBuilder();
+            UserSession = SessionBuilder();
+            PlatformAdaptor = new DesktopPlatformAdaptor();
         }
 
         public TwitterConnection(string twitterConsumerKey, string twitterConsumerSecret, string xauthusername, string xauthpassword, IEventAggregator eventAggregator = null)
         {
             TwitterConnectionEvents = eventAggregator ?? new EventAggregator();
+            UserSession = SessionBuilder(twitterConsumerKey, twitterConsumerSecret);
             PlatformAdaptor = new DesktopPlatformAdaptor();
-            Session = SessionBuilder(twitterConsumerKey, twitterConsumerSecret);
         }
 #endif
 #if(WIN8RT)
         public TwitterConnection(string twitterConsumerKey, string twitterConsumerSecret, IEventAggregator eventAggregator = null)
         {
             TwitterConnectionEvents = eventAggregator ?? new EventAggregator();
+            ApplicationSession = ApplicationSessionBuilder(twitterConsumerKey, twitterConsumerSecret);
             PlatformAdaptor = new Win8RTPlatformAdaptor();
-            Session = SessionBuilder(twitterConsumerKey, twitterConsumerSecret);
-        }
+         }
 
         public TwitterConnection(TwitterCredentials twitterCredentials, IEventAggregator eventAggregator = null)
         {
             TwitterCredentials = twitterCredentials;
-            PlatformAdaptor = new Win8RTPlatformAdaptor();
             TwitterConnectionEvents = eventAggregator ?? new EventAggregator();
-            Session = SessionBuilder();
+            UserSession = SessionBuilder();
+            PlatformAdaptor = new Win8RTPlatformAdaptor();
         }
 
         public TwitterConnection(string twitterConsumerKey, string twitterConsumerSecret, string xauthusername, string xauthpassword, IEventAggregator eventAggregator = null)
         {
             TwitterConnectionEvents = eventAggregator ?? new EventAggregator();
+            UserSession = SessionBuilder(twitterConsumerKey, twitterConsumerSecret);
             PlatformAdaptor = new Win8RTPlatformAdaptor();
-            Session = SessionBuilder(twitterConsumerKey, twitterConsumerSecret);
         } 
 #endif
 
@@ -148,7 +148,7 @@ namespace BoxKite.Twitter
 #if(WIN8RT)
         public async Task<TwitterCredentials> Authenticate(string _callbackuri)
         {
-            var twittercredentials = await Session.Authentication(_callbackuri);
+            var twittercredentials = await UserSession.Authentication(_callbackuri);
             if (!twittercredentials.Valid) return null;
             return twittercredentials;
         }

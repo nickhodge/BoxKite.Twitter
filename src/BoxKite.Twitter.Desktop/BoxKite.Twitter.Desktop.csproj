@@ -71,6 +71,12 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\BoxKite.Twitter\ApplicationAuthModules\TimelineExtensions.cs">
+      <Link>ApplicationAuthModules\TimelineExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\ApplicationSession.cs">
+      <Link>ApplicationSession.cs</Link>
+    </Compile>
     <Compile Include="..\BoxKite.Twitter\Authentication\TwitterAuthenticator.cs">
       <Link>Authentication\TwitterAuthenticator.cs</Link>
     </Compile>
@@ -118,6 +124,9 @@
     </Compile>
     <Compile Include="..\BoxKite.Twitter\Helpers\JSONCustomConverters.cs">
       <Link>Helpers\JSONCustomConverters.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Interfaces\IApplicationSession.cs">
+      <Link>Interfaces\IApplicationSession.cs</Link>
     </Compile>
     <Compile Include="..\BoxKite.Twitter\Interfaces\IPlatformAdaptor.cs">
       <Link>Interfaces\IPlatformAdaptor.cs</Link>
@@ -260,53 +269,53 @@
     <Compile Include="..\BoxKite.Twitter\Models\User.cs">
       <Link>Models\User.cs</Link>
     </Compile>
-    <Compile Include="..\BoxKite.Twitter\Modules\ApiManagementExtensions.cs">
-      <Link>Modules\ApiManagementExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\BoxKite.Twitter\Modules\DirectMessageExtensions.cs">
-      <Link>Modules\DirectMessageExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\BoxKite.Twitter\Modules\FavouritesExtensions.cs">
-      <Link>Modules\FavouritesExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\BoxKite.Twitter\Modules\FriendsFollowerExtensions.cs">
-      <Link>Modules\FriendsFollowerExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\BoxKite.Twitter\Modules\ListExtensions.cs">
-      <Link>Modules\ListExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\BoxKite.Twitter\Modules\PlacesGeoExtensions.cs">
-      <Link>Modules\PlacesGeoExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\BoxKite.Twitter\Modules\ReportExtensions.cs">
-      <Link>Modules\ReportExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\BoxKite.Twitter\Modules\SearchExtensions.cs">
-      <Link>Modules\SearchExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\BoxKite.Twitter\Modules\SearchStreamExtensions.cs">
-      <Link>Modules\SearchStreamExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\BoxKite.Twitter\Modules\SuggestedUsersExtension.cs">
-      <Link>Modules\SuggestedUsersExtension.cs</Link>
-    </Compile>
-    <Compile Include="..\BoxKite.Twitter\Modules\TimelineExtensions.cs">
-      <Link>Modules\TimelineExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\BoxKite.Twitter\Modules\TrendsExtenstions.cs">
-      <Link>Modules\TrendsExtenstions.cs</Link>
-    </Compile>
-    <Compile Include="..\BoxKite.Twitter\Modules\TweetExtensions.cs">
-      <Link>Modules\TweetExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\BoxKite.Twitter\Modules\UsersExtensions.cs">
-      <Link>Modules\UsersExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\BoxKite.Twitter\Modules\UserStreamExtensions.cs">
-      <Link>Modules\UserStreamExtensions.cs</Link>
-    </Compile>
     <Compile Include="..\BoxKite.Twitter\SearchStream.cs">
       <Link>SearchStream.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\UserAuthModules\ApiManagementExtensions.cs">
+      <Link>UserAuthModules\ApiManagementExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\UserAuthModules\DirectMessageExtensions.cs">
+      <Link>UserAuthModules\DirectMessageExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\UserAuthModules\FavouritesExtensions.cs">
+      <Link>UserAuthModules\FavouritesExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\UserAuthModules\FriendsFollowerExtensions.cs">
+      <Link>UserAuthModules\FriendsFollowerExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\UserAuthModules\ListExtensions.cs">
+      <Link>UserAuthModules\ListExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\UserAuthModules\PlacesGeoExtensions.cs">
+      <Link>UserAuthModules\PlacesGeoExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\UserAuthModules\ReportExtensions.cs">
+      <Link>UserAuthModules\ReportExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\UserAuthModules\SearchExtensions.cs">
+      <Link>UserAuthModules\SearchExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\UserAuthModules\SearchStreamExtensions.cs">
+      <Link>UserAuthModules\SearchStreamExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\UserAuthModules\SuggestedUsersExtension.cs">
+      <Link>UserAuthModules\SuggestedUsersExtension.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\UserAuthModules\TimelineExtensions.cs">
+      <Link>UserAuthModules\TimelineExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\UserAuthModules\TrendsExtenstions.cs">
+      <Link>UserAuthModules\TrendsExtenstions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\UserAuthModules\TweetExtensions.cs">
+      <Link>UserAuthModules\TweetExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\UserAuthModules\UsersExtensions.cs">
+      <Link>UserAuthModules\UsersExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\UserAuthModules\UserStreamExtensions.cs">
+      <Link>UserAuthModules\UserStreamExtensions.cs</Link>
     </Compile>
     <Compile Include="..\BoxKite.Twitter\UserSession.cs">
       <Link>UserSession.cs</Link>
