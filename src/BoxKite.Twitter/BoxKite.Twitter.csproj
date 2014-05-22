@@ -37,7 +37,6 @@
   <ItemGroup>
     <Compile Include="ApplicationAuthModules\TimelineExtensions.cs" />
     <Compile Include="Authentication\TwitterAuthenticator.cs" />
-    <Compile Include="Configuration\Configuration.cs" />
     <Compile Include="Connection\TwitterConnectionEvents.cs" />
     <Compile Include="Connection\TwitterConnectionEngine.cs" />
     <Compile Include="Connection\TwitterConnectionSearch.cs" />

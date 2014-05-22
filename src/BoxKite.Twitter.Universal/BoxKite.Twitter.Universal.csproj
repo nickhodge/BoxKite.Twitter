@@ -52,9 +52,6 @@
     <Compile Include="..\BoxKite.Twitter\Authentication\TwitterAuthenticator.cs">
       <Link>Authentication\TwitterAuthenticator.cs</Link>
     </Compile>
-    <Compile Include="..\BoxKite.Twitter\Configuration\Configuration.cs">
-      <Link>Configuration\Configuration.cs</Link>
-    </Compile>
     <Compile Include="..\BoxKite.Twitter\Connection\TwitterConnection.cs">
       <Link>Connection\TwitterConnection.cs</Link>
     </Compile>

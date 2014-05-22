@@ -141,14 +141,14 @@ namespace BoxKite.Twitter
                     {
                         line = responseStream.ReadLine();
                         if (string.IsNullOrWhiteSpace(line.Trim())) continue;
-
+#if (TRACE)
                         if (line == "ENDBOXKITESEARCHSTREAMTEST")
                         {
                             responseStream.Dispose();
                             Dispose();
                             break;
                         }
-
+#endif
                         if (line == "<html>") // needs embellishment
                         {
                             var restofline = responseStream.ReadToEnd();

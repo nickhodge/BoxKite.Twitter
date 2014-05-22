@@ -3,18 +3,13 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
-using System.Text;
 using System.Threading.Tasks;
 using BoxKite.Twitter.Authentication;
-using BoxKite.Twitter.Extensions;
-using BoxKite.Twitter.Models;
 using Reactive.EventAggregator;
 
 namespace BoxKite.Twitter
