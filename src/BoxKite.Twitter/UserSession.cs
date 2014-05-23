@@ -35,9 +35,8 @@ namespace BoxKite.Twitter
             }
         }
 
-        private const string OauthSignatureMethod = "HMAC-SHA1";
-        private const string OauthVersion = "1.0";
-        private const string UserAgent = "BoxKite.Twitter/1.0";
+        private const string OAuthSignatureMethod = "HMAC-SHA1";
+        private const string OAuthVersion = "1.0";
 
         public IEventAggregator TwitterConnectionEvents { get; set; }
         public IPlatformAdaptor PlatformAdaptor { get; set; }
@@ -45,7 +44,8 @@ namespace BoxKite.Twitter
         public ISearchStream SearchStream { get; set; }
         public int WaitTimeoutSeconds { get; set; }
 
-        public UserSession(string clientID, string clientSecret, IPlatformAdaptor platformAdaptor, int waitTimeoutSeconds = 30)
+        public UserSession(string clientID, string clientSecret, IPlatformAdaptor platformAdaptor, int waitTimeoutSeconds = 30) 
+            : base(clientID, clientSecret, waitTimeoutSeconds)
         {
             this.clientID = clientID;
             this.clientSecret = clientSecret;
@@ -55,6 +55,7 @@ namespace BoxKite.Twitter
         }
 
         public UserSession(string clientID, string clientSecret, string bearerToken, IPlatformAdaptor platformAdaptor, int waitTimeoutSeconds = 30)
+            : base(clientID, clientSecret, waitTimeoutSeconds)
         {
             this.clientID = clientID;
             this.clientSecret = clientSecret;
@@ -66,6 +67,7 @@ namespace BoxKite.Twitter
 
 
         public UserSession(TwitterCredentials credentials, IPlatformAdaptor platformAdaptor, int waitTimeoutSeconds = 30)
+            : base(credentials.ConsumerKey, credentials.ConsumerSecret, waitTimeoutSeconds)
         {
             TwitterCredentials = credentials;
             clientID = credentials.ConsumerKey;
@@ -97,7 +99,7 @@ namespace BoxKite.Twitter
 
             var querystring = parameters.Aggregate("", (current, entry) => current + (entry.Key + "=" + entry.Value + "&"));
 
-            var oauth2 = String.Format("Bearer {0}",bearerToken);
+            var oauth2authheader = String.Format("Bearer {0}", bearerToken);
             var fullUrl = url;
 
             var handler = new HttpClientHandler();
@@ -106,8 +108,8 @@ namespace BoxKite.Twitter
                 handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
             }
             var client = new HttpClient(handler);
-            client.DefaultRequestHeaders.Add("Authorization", oauth2);
-            client.DefaultRequestHeaders.Add("User-Agent", UserAgent);
+            client.DefaultRequestHeaders.Add("Authorization", oauth2authheader);
+            client.DefaultRequestHeaders.Add("User-Agent", TwitterApi.UserAgent());
 
             if (!string.IsNullOrWhiteSpace(querystring))
                 fullUrl += "?" + querystring.Substring(0, querystring.Length - 1);
@@ -131,7 +133,7 @@ namespace BoxKite.Twitter
 
             var querystring = parameters.Aggregate("", (current, entry) => current + (entry.Key + "=" + entry.Value + "&"));
 
-            var oauth = BuildAuthenticatedResult(url, parameters, "GET");
+            var oauth1aAuthheader = BuildAuthenticatedResult(url, parameters, "GET");
             var fullUrl = url;
 
             var handler = new HttpClientHandler();
@@ -140,8 +142,8 @@ namespace BoxKite.Twitter
                 handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
             }
             var client = new HttpClient(handler);
-            client.DefaultRequestHeaders.Add("Authorization", oauth.Header);
-            client.DefaultRequestHeaders.Add("User-Agent", UserAgent);
+            client.DefaultRequestHeaders.Add("Authorization", oauth1aAuthheader.Header);
+            client.DefaultRequestHeaders.Add("User-Agent", TwitterApi.UserAgent());
 
             if (!string.IsNullOrWhiteSpace(querystring))
                 fullUrl += "?" + querystring.Substring(0, querystring.Length - 1);
@@ -163,7 +165,7 @@ namespace BoxKite.Twitter
             if (TwitterCredentials == TwitterCredentials.Null || TwitterCredentials.Valid == false)
                 throw new ArgumentException("TwitterCredentials must be specified and validated");
 
-            var oauth = BuildAuthenticatedResult(url, parameters, "POST");
+            var oauth1aAuthheader = BuildAuthenticatedResult(url, parameters, "POST");
             var handler = new HttpClientHandler();
             if (handler.SupportsAutomaticDecompression)
             {
@@ -171,8 +173,8 @@ namespace BoxKite.Twitter
             }
             var client = new HttpClient(handler);
 
-            client.DefaultRequestHeaders.Add("Authorization", oauth.Header);
-            client.DefaultRequestHeaders.Add("User-Agent", UserAgent);
+            client.DefaultRequestHeaders.Add("Authorization", oauth1aAuthheader.Header);
+            client.DefaultRequestHeaders.Add("User-Agent", TwitterApi.UserAgent());
 
             var content = parameters.Aggregate(string.Empty, (current, e) => current + string.Format("{0}={1}&", e.Key, Uri.EscapeDataString(e.Value)));
             var data = new StringContent(content, Encoding.UTF8, "application/x-www-form-urlencoded");
@@ -193,7 +195,7 @@ namespace BoxKite.Twitter
             {
                 throw new ArgumentException("FileContents must have something actually in them.");
             }
-            var oauth = BuildAuthenticatedResult(url, parameters, "POST", multipartform: true);
+            var oauth1aAuthheader = BuildAuthenticatedResult(url, parameters, "POST", multipartform: true);
             var handler = new HttpClientHandler();
             if (handler.SupportsAutomaticDecompression)
             {
@@ -201,8 +203,8 @@ namespace BoxKite.Twitter
             }
             var client = new HttpClient(handler);
             client.DefaultRequestHeaders.ExpectContinue = false;
-            client.DefaultRequestHeaders.Add("Authorization", oauth.Header);
-            client.DefaultRequestHeaders.Add("User-Agent", UserAgent);
+            client.DefaultRequestHeaders.Add("Authorization", oauth1aAuthheader.Header);
+            client.DefaultRequestHeaders.Add("User-Agent", TwitterApi.UserAgent());
 
             var data = new MultipartFormDataContent();
             if (parameters.Count > 0)
@@ -265,7 +267,7 @@ namespace BoxKite.Twitter
 
             var request = new HttpRequestMessage(HttpMethod.Get, fullUrl);
             request.Headers.Add("Authorization", oauth.Header);
-            request.Headers.Add("User-Agent", UserAgent);
+            request.Headers.Add("User-Agent", TwitterApi.UserAgent());
             return request;
         }
 
@@ -276,7 +278,7 @@ namespace BoxKite.Twitter
 
             var request = new HttpRequestMessage(HttpMethod.Post, fullUrl);
             request.Headers.Add("Authorization", oauth.Header);
-            request.Headers.Add("User-Agent", UserAgent);
+            request.Headers.Add("User-Agent", TwitterApi.UserAgent());
 
             var content = parameters.Aggregate(string.Empty, (current, e) => current + string.Format("{0}={1}&", e.Key, Uri.EscapeDataString(e.Value)));
             request.Content = new StringContent(content, Encoding.UTF8, "application/x-www-form-urlencoded");
@@ -301,10 +303,10 @@ namespace BoxKite.Twitter
                          {
                              {"oauth_consumer_key", oauthConsumerKey},
                              {"oauth_nonce", oauthNonce},
-                             {"oauth_signature_method", OauthSignatureMethod},
+                             {"oauth_signature_method", OAuthSignatureMethod},
                              {"oauth_timestamp", oauthTimestamp},
                              {"oauth_token", oauthToken},
-                             {"oauth_version", OauthVersion}
+                             {"oauth_version", OAuthVersion}
                          };
 
             var querystring = "";
@@ -349,21 +351,21 @@ namespace BoxKite.Twitter
             return new OAuth
                        {
                            Nonce = oauthNonce,
-                           SignatureMethod = OauthSignatureMethod,
+                           SignatureMethod = OAuthSignatureMethod,
                            Timestamp = oauthTimestamp,
                            ConsumerKey = oauthConsumerKey,
                            Token = oauthToken,
                            SignatureString = signatureString,
-                           Version = OauthVersion,
+                           Version = OAuthVersion,
                            Header = string.Format(
                                         "OAuth oauth_nonce=\"{0}\", oauth_signature_method=\"{1}\", oauth_timestamp=\"{2}\", oauth_consumer_key=\"{3}\", oauth_token=\"{4}\", oauth_signature=\"{5}\", oauth_version=\"{6}\"",
                                         Uri.EscapeDataString(oauthNonce),
-                                        Uri.EscapeDataString(OauthSignatureMethod),
+                                        Uri.EscapeDataString(OAuthSignatureMethod),
                                         Uri.EscapeDataString(oauthTimestamp),
                                         Uri.EscapeDataString(oauthConsumerKey),
                                         Uri.EscapeDataString(oauthToken),
                                         Uri.EscapeDataString(signatureString),
-                                        Uri.EscapeDataString(OauthVersion))
+                                        Uri.EscapeDataString(OAuthVersion))
                        };
         }
 

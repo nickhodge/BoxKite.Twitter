@@ -26,7 +26,7 @@ namespace BoxKite.Twitter
             var parameters = new TwitterParametersCollection();
             parameters.Create(count:count,include_entities:true,since_id:since_id,max_id:max_id, user_id:user_id, screen_name:screen_name);
 
-            var url = Api.Resolve("/1.1/favorites/list.json");
+            var url = TwitterApi.Resolve("/1.1/favorites/list.json");
             return await session.GetAsync(url, parameters)
                           .ContinueWith(c => c.MapToMany<Tweet>());
         }
@@ -42,7 +42,7 @@ namespace BoxKite.Twitter
             var parameters = new TwitterParametersCollection();
             parameters.Create(id: tweet.Id);
 
-            var url = Api.Resolve("/1.1/favorites/create.json");
+            var url = TwitterApi.Resolve("/1.1/favorites/create.json");
             return await session.PostAsync(url, parameters)
                           .ContinueWith(c => c.MapToSingle<Tweet>());
         }
@@ -58,7 +58,7 @@ namespace BoxKite.Twitter
             var parameters = new TwitterParametersCollection();
             parameters.Create(id: tweet.Id);
 
-            var url = Api.Resolve("/1.1/favorites/destroy.json");
+            var url = TwitterApi.Resolve("/1.1/favorites/destroy.json");
             return await session.PostAsync(url, parameters)
                           .ContinueWith(c => c.MapToSingle<Tweet>());
         }

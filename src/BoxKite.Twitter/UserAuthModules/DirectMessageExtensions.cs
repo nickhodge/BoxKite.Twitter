@@ -23,7 +23,7 @@ namespace BoxKite.Twitter
             parameters.Create(include_entities: true, count: count, since_id: since_id,
                 max_id: max_id);
                 
-            return await session.GetAsync(Api.Resolve("/1.1/direct_messages.json"), parameters)
+            return await session.GetAsync(TwitterApi.Resolve("/1.1/direct_messages.json"), parameters)
                           .ContinueWith(c => c.MapToMany<DirectMessage>());
         }
 
@@ -41,7 +41,7 @@ namespace BoxKite.Twitter
             parameters.Create(include_entities: true, count: count, since_id: since_id,
                 max_id: max_id);
 
-            return await session.GetAsync(Api.Resolve("/1.1/direct_messages/sent.json"), parameters)
+            return await session.GetAsync(TwitterApi.Resolve("/1.1/direct_messages/sent.json"), parameters)
                           .ContinueWith(c => c.MapToMany<DirectMessage>());
         }
 
@@ -56,7 +56,7 @@ namespace BoxKite.Twitter
             var parameters = new TwitterParametersCollection();
             parameters.Create(id: id);
 
-            return await session.GetAsync(Api.Resolve("/1.1/direct_messages/show.json"), parameters)
+            return await session.GetAsync(TwitterApi.Resolve("/1.1/direct_messages/show.json"), parameters)
                           .ContinueWith(c => c.MapToSingle<DirectMessage>());
         }
 
@@ -77,7 +77,7 @@ namespace BoxKite.Twitter
                         "Either screen_name and text required"); ;
             }
 
-            return await session.PostAsync(Api.Resolve("/1.1/direct_messages/new.json"), parameters)
+            return await session.PostAsync(TwitterApi.Resolve("/1.1/direct_messages/new.json"), parameters)
                           .ContinueWith(c => c.MapToSingle<DirectMessage>());
         }
 
@@ -92,7 +92,7 @@ namespace BoxKite.Twitter
             var parameters = new TwitterParametersCollection();
             parameters.Create(id: id);
 
-            return await session.PostAsync(Api.Resolve("/1.1/direct_messages/destroy.json"), parameters)
+            return await session.PostAsync(TwitterApi.Resolve("/1.1/direct_messages/destroy.json"), parameters)
                           .ContinueWith(c => c.MapToTwitterSuccess());
         }
     }

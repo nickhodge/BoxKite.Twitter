@@ -98,7 +98,8 @@
     <Compile Include="AdditionalTweetAndTimelineTests.cs" />
     <Compile Include="DecodeTests.cs" />
     <Compile Include="Helpers\TestableSearchStream.cs" />
-    <Compile Include="Helpers\TestableStream.cs" />
+    <Compile Include="Helpers\TestableApplicationSession.cs" />
+    <Compile Include="Helpers\TestableUserStream.cs" />
     <Compile Include="Modules\ApiManagementExtensionsTests.cs" />
     <Compile Include="Modules\ReportExtensionsTests.cs" />
     <Compile Include="Modules\DirectMessagesTests.cs" />
@@ -106,7 +107,7 @@
     <Compile Include="Helpers\ObservableExtensions.cs" />
     <Compile Include="ErrorTests.cs" />
     <Compile Include="Modules\FavouritesTests.cs" />
-    <Compile Include="Helpers\TestableSession.cs" />
+    <Compile Include="Helpers\TestableUserSession.cs" />
     <Compile Include="Modules\FriendsFollowersExtensionsTests.cs" />
     <Compile Include="Modules\ListExtensionsTests.cs" />
     <Compile Include="Modules\PlaceGeoExtensionsTests.cs" />

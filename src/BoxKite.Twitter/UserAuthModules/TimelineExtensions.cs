@@ -22,7 +22,7 @@ namespace BoxKite.Twitter
             var parameters = new TwitterParametersCollection();
             parameters.Create(include_entities: true, count: count, since_id: since_id, max_id: max_id);
 
-            return await session.GetAsync(Api.Resolve("/1.1/statuses/mentions_timeline.json"), parameters)
+            return await session.GetAsync(TwitterApi.Resolve("/1.1/statuses/mentions_timeline.json"), parameters)
                           .ContinueWith(c => c.MapToMany<Tweet>());
         }
 
@@ -43,7 +43,7 @@ namespace BoxKite.Twitter
             var parameters = new TwitterParametersCollection();
             parameters.Create(include_entities: true, include_rts: true, count: count, since_id: since_id, max_id: max_id, screen_name:screen_name);
 
-            return await session.GetAsync(Api.Resolve("/1.1/statuses/user_timeline.json"), parameters)
+            return await session.GetAsync(TwitterApi.Resolve("/1.1/statuses/user_timeline.json"), parameters)
                           .ContinueWith(c => c.MapToMany<Tweet>());
         }
 
@@ -60,7 +60,7 @@ namespace BoxKite.Twitter
             var parameters = new TwitterParametersCollection();
             parameters.Create(include_entities: true, include_rts:true,  count:count, since_id: since_id, max_id: max_id);
 
-            return await session.GetAsync(Api.Resolve("/1.1/statuses/home_timeline.json"), parameters)
+            return await session.GetAsync(TwitterApi.Resolve("/1.1/statuses/home_timeline.json"), parameters)
                           .ContinueWith(c => c.MapToMany<Tweet>());
         }
 
@@ -77,7 +77,7 @@ namespace BoxKite.Twitter
             var parameters = new TwitterParametersCollection();
             parameters.Create(include_entities: true, include_rts: true, count: count, since_id: since_id, max_id: max_id);
 
-            return await session.GetAsync(Api.Resolve("/1.1/statuses/retweets_of_me.json"), parameters)
+            return await session.GetAsync(TwitterApi.Resolve("/1.1/statuses/retweets_of_me.json"), parameters)
                           .ContinueWith(c => c.MapToMany<Tweet>());
         }
     }

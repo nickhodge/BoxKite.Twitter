@@ -23,7 +23,7 @@ namespace BoxKite.Twitter
             {
                 if (searchStream.SearchParameters.EnsureOneOf(new[] { "track", "follow", "locations" }).IsFalse())
                     return null;
-                var request = session.CreatePost(Api.SearchStreaming("/1.1/statuses/filter.json"),
+                var request = session.CreatePost(TwitterApi.SearchStreaming("/1.1/statuses/filter.json"),
                     searchStream.SearchParameters);
                 var c = new HttpClient() {Timeout = TimeSpan.FromDays(1)};
                 return c.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, searchStream.CancelSearchStream.Token);
@@ -41,7 +41,7 @@ namespace BoxKite.Twitter
             {
                 if (searchStream.SearchParameters.EnsureOneOf(new[] { "track", "follow", "locations" }).IsFalse())
                     return null;
-                var request = session.CreatePost(Api.SearchStreaming("/1.1/statuses/filter.json"),
+                var request = session.CreatePost(TwitterApi.SearchStreaming("/1.1/statuses/filter.json"),
                     searchStream.SearchParameters);
                 var c = new HttpClient() { Timeout = TimeSpan.FromDays(1) };
                 return c.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, searchStream.CancelSearchStream.Token);

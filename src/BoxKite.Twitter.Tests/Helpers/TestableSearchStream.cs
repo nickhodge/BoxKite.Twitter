@@ -16,7 +16,7 @@ namespace BoxKite.Twitter.Tests
             Func<Task<HttpResponseMessage>> startConnection =
                 () =>
                 {
-                    var resp = ((TestableSession)session).MakeResponse();
+                    var resp = ((TestableUserSession)session).MakeResponse();
                     return resp;
                 };
            searchStream.CreateOpenConnection = startConnection;

@@ -27,7 +27,7 @@ namespace BoxKite.Twitter
             var parameters = new TwitterParametersCollection();
             parameters.Create(include_entities: true, include_rts: true, count: count, since_id: since_id, max_id: max_id, screen_name:screen_name);
 
-            return await appsession.GetAsync(Api.Resolve("/1.1/statuses/user_timeline.json"), parameters)
+            return await appsession.GetAsync(TwitterApi.Resolve("/1.1/statuses/user_timeline.json"), parameters)
                           .ContinueWith(c => c.MapToMany<Tweet>());
         }
     }

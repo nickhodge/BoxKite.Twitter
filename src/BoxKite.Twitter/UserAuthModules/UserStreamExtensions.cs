@@ -19,7 +19,7 @@ namespace BoxKite.Twitter
                 () =>
                 {
                     var parameters = new SortedDictionary<string, string>();
-                    var request = session.CreateGet(Api.UserStreaming("/1.1/user.json"), parameters);
+                    var request = session.CreateGet(TwitterApi.UserStreaming("/1.1/user.json"), parameters);
                     var c = new HttpClient() { Timeout = TimeSpan.FromDays(1) };
                     return c.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
                 };

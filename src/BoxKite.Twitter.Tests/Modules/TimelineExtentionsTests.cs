@@ -11,7 +11,7 @@ namespace BoxKite.Twitter.Tests
     [TestClass]
     public class TimelineExtensionsTests
     {
-        readonly TestableSession session = new TestableSession();
+        readonly TestableUserSession session = new TestableUserSession();
 
         [TestMethod]
         public async Task Get_Mentions_Timeline()

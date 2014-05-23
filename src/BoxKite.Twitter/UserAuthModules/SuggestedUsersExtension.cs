@@ -17,7 +17,7 @@ namespace BoxKite.Twitter
         public static async Task<TwitterResponseCollection<SuggestedUsers>> GetSuggestedLists(this IUserSession session)
         {
             var parameters = new TwitterParametersCollection();
-            return await session.GetAsync(Api.Resolve("/1.1/users/suggestions.json"), parameters)
+            return await session.GetAsync(TwitterApi.Resolve("/1.1/users/suggestions.json"), parameters)
                           .ContinueWith(c => c.MapToMany<SuggestedUsers>());
         }
 
@@ -30,7 +30,7 @@ namespace BoxKite.Twitter
         public static async Task<SuggestedUsers> GetSuggestedUsers(this IUserSession session, string slug)
         {
             var parameters = new TwitterParametersCollection();
-            var url = Api.Resolve("/1.1/users/suggestions/{0}.json", slug);
+            var url = TwitterApi.Resolve("/1.1/users/suggestions/{0}.json", slug);
             return await session.GetAsync(url, parameters)
                           .ContinueWith(c => c.MapToSingle<SuggestedUsers>());
         }

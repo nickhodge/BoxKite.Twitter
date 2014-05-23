@@ -29,7 +29,7 @@ namespace BoxKite.Twitter
                         "Either screen_name or user_id required");;
             }
 
-            return await session.GetAsync(Api.Resolve("/1.1/lists/list.json"), parameters)
+            return await session.GetAsync(TwitterApi.Resolve("/1.1/lists/list.json"), parameters)
                           .ContinueWith(c => c.MapToMany<TwitterList>());
         }
 
@@ -54,7 +54,7 @@ namespace BoxKite.Twitter
                                  };
             parameters.Create(list_id:list_id, slug:slug, owner_id:owner_id, owner_screen_name:owner_screen_name, since_id:since_id, max_id:max_id);
 
-            return await session.GetAsync(Api.Resolve("/1.1/lists/statuses.json"), parameters)
+            return await session.GetAsync(TwitterApi.Resolve("/1.1/lists/statuses.json"), parameters)
                           .ContinueWith(c => c.MapToMany<Tweet>());
         }
 
@@ -75,7 +75,7 @@ namespace BoxKite.Twitter
             var parameters = new TwitterParametersCollection();
             parameters.Create(list_id: list_id, slug: slug, owner_id: owner_id, owner_screen_name: owner_screen_name, user_id: user_id, screen_name: screen_name);
 
-            return await session.PostAsync(Api.Resolve("/1.1/lists/members/destroy"), parameters)
+            return await session.PostAsync(TwitterApi.Resolve("/1.1/lists/members/destroy"), parameters)
                           .ContinueWith(c => c.MapToTwitterSuccess());
         }
 
@@ -96,7 +96,7 @@ namespace BoxKite.Twitter
                                  };
             parameters.Create(cursor: cursor, user_id: user_id, screen_name: screen_name);
 
-            return await session.GetAsync(Api.Resolve("/1.1/lists/memberships.json"), parameters)
+            return await session.GetAsync(TwitterApi.Resolve("/1.1/lists/memberships.json"), parameters)
                           .ContinueWith(c => c.MapToSingle <UserInListCursored>()); 
         }
 
@@ -117,7 +117,7 @@ namespace BoxKite.Twitter
                                  };
             parameters.Create(cursor: cursor, user_id: user_id, screen_name: screen_name);
 
-            return await session.GetAsync(Api.Resolve("/1.1/lists/memberships.json"), parameters)
+            return await session.GetAsync(TwitterApi.Resolve("/1.1/lists/memberships.json"), parameters)
                           .ContinueWith(c => c.MapToSingle<UserInListCursored>());
         }
 
@@ -138,7 +138,7 @@ namespace BoxKite.Twitter
             var parameters = new TwitterParametersCollection();
             parameters.Create(skip_status:false, include_entities:true, cursor:cursor, list_id: list_id, slug: slug, owner_id: owner_id, owner_screen_name: owner_screen_name);
 
-            return await session.GetAsync(Api.Resolve("/1.1/lists/subscribers.json"), parameters)
+            return await session.GetAsync(TwitterApi.Resolve("/1.1/lists/subscribers.json"), parameters)
                           .ContinueWith(c => c.MapToSingle<UserListDetailedCursored>()); 
         }
 
@@ -157,7 +157,7 @@ namespace BoxKite.Twitter
             var parameters = new TwitterParametersCollection();
             parameters.Create(list_id: list_id, slug: slug, owner_id: owner_id, owner_screen_name: owner_screen_name);
 
-            return await session.PostAsync(Api.Resolve("/1.1/lists/subscribers/create.json"), parameters)
+            return await session.PostAsync(TwitterApi.Resolve("/1.1/lists/subscribers/create.json"), parameters)
                           .ContinueWith(c => c.MapToSingle<TwitterList>());
         }
 
@@ -178,7 +178,7 @@ namespace BoxKite.Twitter
             var parameters = new TwitterParametersCollection();
             parameters.Create(list_id: list_id, slug: slug, owner_id: owner_id, owner_screen_name: owner_screen_name, user_id: user_id, screen_name: screen_name);
 
-            return await session.GetAsync(Api.Resolve("/1.1/lists/subscribers/show.json"), parameters)
+            return await session.GetAsync(TwitterApi.Resolve("/1.1/lists/subscribers/show.json"), parameters)
                           .ContinueWith(c => c.MapToSingle<User>());
         }
 
@@ -197,7 +197,7 @@ namespace BoxKite.Twitter
             var parameters = new TwitterParametersCollection();
             parameters.Create(list_id: list_id, slug: slug, owner_id: owner_id, owner_screen_name: owner_screen_name);
 
-            return await session.PostAsync(Api.Resolve("/1.1/lists/subscribers/destroy.json"), parameters)
+            return await session.PostAsync(TwitterApi.Resolve("/1.1/lists/subscribers/destroy.json"), parameters)
                           .ContinueWith(c => c.MapToTwitterSuccess());
         }
         
@@ -226,7 +226,7 @@ namespace BoxKite.Twitter
                         "Either screen_names or user_ids required"); ;
             }
 
-            return await session.PostAsync(Api.Resolve("/1.1/lists/members/create_all.json"), parameters)
+            return await session.PostAsync(TwitterApi.Resolve("/1.1/lists/members/create_all.json"), parameters)
                           .ContinueWith(c => c.MapToTwitterSuccess());
         }
 
@@ -247,7 +247,7 @@ namespace BoxKite.Twitter
             var parameters = new TwitterParametersCollection();
             parameters.Create(user_id:user_id,screen_name:screen_name, list_id: list_id, slug: slug, owner_id: owner_id, owner_screen_name: owner_screen_name, skip_status:true,include_entities:true);
 
-            return await session.GetAsync(Api.Resolve("/1.1/lists/members/show.json"), parameters)
+            return await session.GetAsync(TwitterApi.Resolve("/1.1/lists/members/show.json"), parameters)
                           .ContinueWith(c => c.MapToSingle<User>());
         }
 
@@ -267,7 +267,7 @@ namespace BoxKite.Twitter
             var parameters = new TwitterParametersCollection();
             parameters.Create(list_id: list_id, slug: slug, owner_id: owner_id, owner_screen_name: owner_screen_name, skip_status: true, include_entities: true, cursor:cursor);
 
-            return await session.GetAsync(Api.Resolve("/1.1/lists/members.json"), parameters)
+            return await session.GetAsync(TwitterApi.Resolve("/1.1/lists/members.json"), parameters)
                           .ContinueWith(c => c.MapToSingle<UserListDetailedCursored>());
         }
 
@@ -288,7 +288,7 @@ namespace BoxKite.Twitter
             var parameters = new TwitterParametersCollection();
             parameters.Create(list_id: list_id, slug: slug, owner_id: owner_id, owner_screen_name: owner_screen_name, user_id: user_id_to_add, screen_name: screen_name_to_add);
 
-            return await session.PostAsync(Api.Resolve("/1.1/lists/members/create.json"), parameters)
+            return await session.PostAsync(TwitterApi.Resolve("/1.1/lists/members/create.json"), parameters)
                           .ContinueWith(c => c.MapToTwitterSuccess());
         }
 
@@ -307,7 +307,7 @@ namespace BoxKite.Twitter
             var parameters = new TwitterParametersCollection();
             parameters.Create(list_id: list_id, slug: slug, owner_id: owner_id, owner_screen_name: owner_screen_name);
 
-            return await session.PostAsync(Api.Resolve("/1.1/lists/destroy.json"), parameters)
+            return await session.PostAsync(TwitterApi.Resolve("/1.1/lists/destroy.json"), parameters)
                           .ContinueWith(c => c.MapToSingle<TwitterList>());
         }
 
@@ -339,7 +339,7 @@ namespace BoxKite.Twitter
                 parameters.Add("description", description);
             }
 
-            return await session.PostAsync(Api.Resolve("/1.1/lists/update.json"), parameters)
+            return await session.PostAsync(TwitterApi.Resolve("/1.1/lists/update.json"), parameters)
                           .ContinueWith(c => c.MapToTwitterSuccess());
         }
 
@@ -365,7 +365,7 @@ namespace BoxKite.Twitter
                 parameters.Add("description", description);
             }
 
-            return await session.PostAsync(Api.Resolve("/1.1/lists/create.json"), parameters)
+            return await session.PostAsync(TwitterApi.Resolve("/1.1/lists/create.json"), parameters)
                           .ContinueWith(c => c.MapToSingle<TwitterList>());
         }
 
@@ -384,7 +384,7 @@ namespace BoxKite.Twitter
             var parameters = new TwitterParametersCollection();
             parameters.Create(list_id: list_id, slug: slug, owner_id: owner_id, owner_screen_name: owner_screen_name);
 
-            return await session.GetAsync(Api.Resolve("/1.1/lists/show.json"), parameters)
+            return await session.GetAsync(TwitterApi.Resolve("/1.1/lists/show.json"), parameters)
                           .ContinueWith(c => c.MapToSingle<TwitterList>());
         }
 
@@ -403,7 +403,7 @@ namespace BoxKite.Twitter
             var parameters = new TwitterParametersCollection();
             parameters.Create(user_id:user_id,screen_name:screen_name,count:count,cursor:cursor);
 
-            return await session.GetAsync(Api.Resolve("/1.1/lists/subscriptions.json"), parameters)
+            return await session.GetAsync(TwitterApi.Resolve("/1.1/lists/subscriptions.json"), parameters)
                           .ContinueWith(c => c.MapToSingle<TwitterListCursored>());
         }
 
@@ -432,7 +432,7 @@ namespace BoxKite.Twitter
                         "Either screen_names or user_ids required"); ;
             }
 
-            return await session.PostAsync(Api.Resolve("/1.1/lists/members/destroy_all.json"), parameters)
+            return await session.PostAsync(TwitterApi.Resolve("/1.1/lists/members/destroy_all.json"), parameters)
                           .ContinueWith(c => c.MapToTwitterSuccess());
         }
 
@@ -451,7 +451,7 @@ namespace BoxKite.Twitter
             var parameters = new TwitterParametersCollection();
             parameters.Create(user_id: user_id, screen_name: screen_name, count: count, cursor: cursor);
 
-            return await session.GetAsync(Api.Resolve("/1.1/lists/ownerships.json"), parameters)
+            return await session.GetAsync(TwitterApi.Resolve("/1.1/lists/ownerships.json"), parameters)
                           .ContinueWith(c => c.MapToSingle<TwitterListCursored>());
         }
 

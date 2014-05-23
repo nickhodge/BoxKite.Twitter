@@ -23,7 +23,7 @@ namespace BoxKite.Twitter
             if (exclude)
                 parameters.Add("exclude","hashtags");
 
-            return await session.GetAsync(Api.Resolve("/1.1/trends/place.json"), parameters)
+            return await session.GetAsync(TwitterApi.Resolve("/1.1/trends/place.json"), parameters)
                 .ContinueWith(c => c.MapToMany<TrendsForPlaceResponse>());
         }
 
@@ -36,7 +36,7 @@ namespace BoxKite.Twitter
         {
             var parameters = new TwitterParametersCollection();
 
-            return await session.GetAsync(Api.Resolve("/1.1/trends/available.json"), parameters)
+            return await session.GetAsync(TwitterApi.Resolve("/1.1/trends/available.json"), parameters)
                 .ContinueWith(c => c.MapToMany<TrendsAvailableLocationsResponse>());
         }
 
@@ -57,7 +57,7 @@ namespace BoxKite.Twitter
                                  {"long", longitude.ToString()},
                              };
 
-            return await session.GetAsync(Api.Resolve("/1.1/trends/closest.json"), parameters)
+            return await session.GetAsync(TwitterApi.Resolve("/1.1/trends/closest.json"), parameters)
                 .ContinueWith(c => c.MapToMany<TrendsAvailableLocationsResponse>());
         }
     }

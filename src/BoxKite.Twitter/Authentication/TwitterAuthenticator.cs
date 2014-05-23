@@ -453,7 +453,7 @@ namespace BoxKite.Twitter.Authentication
                 var client = new HttpClient(handler);
                 var request = new HttpRequestMessage(HttpMethod.Post, new Uri(url));
                 request.Headers.Add("Accept-Encoding", "identity");
-                request.Headers.Add("User-Agent", "BoxKite.Twitter/1.0");
+                request.Headers.Add("User-Agent", TwitterApi.UserAgent());
                 request.Headers.Add("Authorization", authdata);
                 if (content != null)
                 {

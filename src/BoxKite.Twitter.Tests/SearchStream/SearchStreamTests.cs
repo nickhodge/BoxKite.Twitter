@@ -14,7 +14,7 @@ namespace BoxKite.Twitter.Tests
     [TestClass]
     public class SearchStreamTests : ReactiveTest
     {
-        private readonly TestableSession session = new TestableSession();
+        private readonly TestableUserSession session = new TestableUserSession();
   
         [TestMethod]
         public async Task SearchStream1_incoming_Tweets()

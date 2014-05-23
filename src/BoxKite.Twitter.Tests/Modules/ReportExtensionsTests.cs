@@ -10,7 +10,7 @@ namespace BoxKite.Twitter.Tests
     [TestClass]
     public class ReportExtensionsTest
     {
-        private readonly TestableSession session = new TestableSession();
+        private readonly TestableUserSession session = new TestableUserSession();
 
         [TestMethod]
         public async Task Get_Trends_For_Place()

@@ -13,7 +13,7 @@ namespace BoxKite.Twitter.Tests
     [TestClass]
     public class TweetExtensionsTests
     {
-        readonly TestableSession session = new TestableSession();
+        readonly TestableUserSession session = new TestableUserSession();
 
         [TestMethod]
         public async Task Create_And_Send_Tweet()

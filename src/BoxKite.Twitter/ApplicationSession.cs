@@ -10,6 +10,7 @@ using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
 using BoxKite.Twitter.Authentication;
+using BoxKite.Twitter.Extensions;
 using Reactive.EventAggregator;
 
 namespace BoxKite.Twitter
@@ -65,7 +66,7 @@ namespace BoxKite.Twitter
             }
             var client = new HttpClient(handler);
             client.DefaultRequestHeaders.Add("Authorization", oauth2);
-            client.DefaultRequestHeaders.Add("User-Agent", oauth2.UserAgent());
+            client.DefaultRequestHeaders.Add("User-Agent", TwitterApi.UserAgent());
 
             if (!string.IsNullOrWhiteSpace(querystring))
                 fullUrl += "?" + querystring.Substring(0, querystring.Length - 1);

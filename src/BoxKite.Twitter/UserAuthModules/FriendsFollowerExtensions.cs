@@ -29,7 +29,7 @@ namespace BoxKite.Twitter
                         "Either screen_name or user_id required"); ;
             }
 
-            return await session.GetAsync(Api.Resolve("/1.1/friends/ids.json"), parameters)
+            return await session.GetAsync(TwitterApi.Resolve("/1.1/friends/ids.json"), parameters)
                              .ContinueWith(t => t.MapToSingle<FriendsFollowersIDsCursored>());
         }
 
@@ -52,7 +52,7 @@ namespace BoxKite.Twitter
                         "Either screen_name or user_id required"); ;
             }
 
-            return await session.GetAsync(Api.Resolve("/1.1/followers/ids.json"), parameters)
+            return await session.GetAsync(TwitterApi.Resolve("/1.1/followers/ids.json"), parameters)
                              .ContinueWith(t => t.MapToSingle<FriendsFollowersIDsCursored>());
         }
 
@@ -75,7 +75,7 @@ namespace BoxKite.Twitter
                         "Either screen_names or user_ids required"); ;
             }
 
-            var url = Api.Resolve("/1.1/friendships/lookup.json");
+            var url = TwitterApi.Resolve("/1.1/friendships/lookup.json");
             return await session.GetAsync(url, parameters)
                           .ContinueWith(f => f.MapToMany<FriendshipLookupResponse>());
         }
@@ -90,7 +90,7 @@ namespace BoxKite.Twitter
             var parameters = new TwitterParametersCollection();
             parameters.Create(cursor:cursor);
 
-            return await session.GetAsync(Api.Resolve("/1.1/friendships/incoming.json"), parameters)
+            return await session.GetAsync(TwitterApi.Resolve("/1.1/friendships/incoming.json"), parameters)
                              .ContinueWith(t => t.MapToSingle<FriendsFollowersIDsCursored>());
         }
 
@@ -104,7 +104,7 @@ namespace BoxKite.Twitter
             var parameters = new TwitterParametersCollection();
             parameters.Create(cursor: cursor);
 
-            return await session.GetAsync(Api.Resolve("/1.1/friendships/outgoing.json"), parameters)
+            return await session.GetAsync(TwitterApi.Resolve("/1.1/friendships/outgoing.json"), parameters)
                              .ContinueWith(t => t.MapToSingle<FriendsFollowersIDsCursored>());
         }
 
@@ -128,7 +128,7 @@ namespace BoxKite.Twitter
                         "Either screen_name or user_id required"); ;
             }
 
-            return await session.PostAsync(Api.Resolve("/1.1/friendships/create.json"), parameters)
+            return await session.PostAsync(TwitterApi.Resolve("/1.1/friendships/create.json"), parameters)
                           .ContinueWith(c => c.MapToSingle<User>());
         }
 
@@ -151,7 +151,7 @@ namespace BoxKite.Twitter
                         "Either screen_name or user_id required"); ;
             }
 
-            return await session.PostAsync(Api.Resolve("/1.1/post/friendships/destroy.json"), parameters)
+            return await session.PostAsync(TwitterApi.Resolve("/1.1/post/friendships/destroy.json"), parameters)
                           .ContinueWith(c => c.MapToSingle<User>());
         }
 
@@ -176,7 +176,7 @@ namespace BoxKite.Twitter
                         "Either screen_name or user_id required"); ;
             }
 
-            return await session.PostAsync(Api.Resolve("/1.1/friendships/update.json"), parameters)
+            return await session.PostAsync(TwitterApi.Resolve("/1.1/friendships/update.json"), parameters)
                           .ContinueWith(c => c.MapToUserStatus());
         }
 
@@ -220,7 +220,7 @@ namespace BoxKite.Twitter
             }
 
 
-            return await session.PostAsync(Api.Resolve("/1.1/friendships/show.json"), parameters)
+            return await session.PostAsync(TwitterApi.Resolve("/1.1/friendships/show.json"), parameters)
                           .ContinueWith(c => c.MapToUserStatus());
         }
 
@@ -246,7 +246,7 @@ namespace BoxKite.Twitter
                         "Either screen_name or user_id required"); ;
             }
 
-            return await session.GetAsync(Api.Resolve("/1.1/friends/list.json"), parameters)
+            return await session.GetAsync(TwitterApi.Resolve("/1.1/friends/list.json"), parameters)
                              .ContinueWith(t => t.MapToSingle<UserListDetailedCursored>());
         }
 
@@ -273,7 +273,7 @@ namespace BoxKite.Twitter
                         "Either screen_name or user_id required"); ;
             }
 
-            return await session.GetAsync(Api.Resolve("/1.1/followers/list.json"), parameters)
+            return await session.GetAsync(TwitterApi.Resolve("/1.1/followers/list.json"), parameters)
                              .ContinueWith(t => t.MapToSingle<UserListDetailedCursored>());
         }
 

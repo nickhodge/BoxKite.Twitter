@@ -12,7 +12,7 @@ namespace BoxKite.Twitter.Tests.Modules
     [TestClass]
     public class ListExtensionsTests
     {
-        private readonly TestableSession session = new TestableSession();
+        private readonly TestableUserSession session = new TestableUserSession();
 
         [TestMethod]
         public async Task Get_Lists()

@@ -14,13 +14,14 @@ namespace BoxKite.Twitter
 {
     public partial class TwitterConnection
     {
-        // controls
+        // constants
         private const int maxbackoff = 450;
         private const int pagingSize = 50;
         private const int sinceIdPagingSize = 200;
+        private readonly TimeSpan _multiFetchBackoffTimer = new TimeSpan(1200);
         //
 
-        // status bits
+        // status bits in state machine
         private readonly Subject<bool> backFillCompleted = new Subject<bool>();
         private readonly Subject<bool> userStreamConnected = new Subject<bool>();
         //
@@ -66,7 +67,6 @@ namespace BoxKite.Twitter
          */
 
         private CancellationTokenSource _twitterCommunicationToken;
-        private readonly TimeSpan _multiFetchBackoffTimer = new TimeSpan(1200);
 
         private bool IsUnique(Tweet t)
         {
@@ -226,9 +226,9 @@ namespace BoxKite.Twitter
             if (!dmrecd.OK) return largestseenid;
             foreach (var dm in dmrecd.Where(dm => dm.Id > sinceid))
             {
-                _directmessages.OnNext(dm);
                 largestseenid = dm.Id;
-            }
+                _directmessages.OnNext(dm);
+             }
             return largestseenid;
         }
 
@@ -241,8 +241,8 @@ namespace BoxKite.Twitter
 
             foreach (var dm in mysentdms.Where(dm => dm.Id > sinceid))
             {
-                _directmessages.OnNext(dm);
                 largestseenid = dm.Id;
+                _directmessages.OnNext(dm);
             }
             return largestseenid;
         }
@@ -256,8 +256,8 @@ namespace BoxKite.Twitter
 
             foreach (var tweet in hometl.Where(tweet => tweet.Id > sinceid))
             {
-                _mytweets.OnNext(tweet);
                 largestseenid = tweet.Id;
+                _mytweets.OnNext(tweet);
             }
             return largestseenid;
         }

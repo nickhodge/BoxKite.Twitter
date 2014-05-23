@@ -41,7 +41,6 @@
     <Compile Include="Connection\TwitterConnectionEngine.cs" />
     <Compile Include="Connection\TwitterConnectionSearch.cs" />
     <Compile Include="Connection\TwitterConnection.cs" />
-    <Compile Include="Constants\Constants.cs" />
     <Compile Include="Extensions\StreamExtensions.cs" />
     <Compile Include="Helpers\EventAggregator\EventAggregator.cs" />
     <Compile Include="Helpers\EventAggregator\IEventAggregator.cs" />

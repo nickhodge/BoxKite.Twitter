@@ -35,7 +35,7 @@ namespace BoxKite.Twitter
                 parameters.Add("until", untilDate);
             }
 
-            return await session.GetAsync(Api.Resolve("/1.1/search/tweets.json"), parameters)
+            return await session.GetAsync(TwitterApi.Resolve("/1.1/search/tweets.json"), parameters)
                           .ContinueWith(c => c.MapToSingle<SearchResponse>());
         }
 
@@ -71,7 +71,7 @@ namespace BoxKite.Twitter
 
             parameters.Add("geocode",String.Format("{0},{1},{2}{3}",latitude,longitude,distance,distanceUnits));
 
-            return await session.GetAsync(Api.Resolve("/1.1/search/tweets.json"), parameters)
+            return await session.GetAsync(TwitterApi.Resolve("/1.1/search/tweets.json"), parameters)
                           .ContinueWith(c => c.MapToSingle<SearchResponse>());
         }
 
@@ -83,7 +83,7 @@ namespace BoxKite.Twitter
         public async static Task<TwitterResponseCollection<SavedSearch>> GetSavedSearches(this IUserSession session)
         {
             var parameters = new TwitterParametersCollection();
-            return await session.GetAsync(Api.Resolve("/1.1/saved_searches/list.json"), parameters)
+            return await session.GetAsync(TwitterApi.Resolve("/1.1/saved_searches/list.json"), parameters)
                           .ContinueWith(c => c.MapToMany<SavedSearch>());
         }
 
@@ -96,7 +96,7 @@ namespace BoxKite.Twitter
         public async static Task<SavedSearch> GetSaveASearch(this IUserSession session, string id)
         {
             var parameters = new TwitterParametersCollection();
-            var url = Api.Resolve("/1.1/saved_searches/show/{0}.json", id); 
+            var url = TwitterApi.Resolve("/1.1/saved_searches/show/{0}.json", id); 
             return await session.GetAsync(url, parameters)
                 .ContinueWith(c => c.MapToSingle<SavedSearch>());
         }
@@ -113,7 +113,7 @@ namespace BoxKite.Twitter
                              {
                                  {"query", searchtext.TrimAndTruncate(1000).UrlEncode()},
                              };
-            return await session.PostAsync(Api.Resolve("/1.1/saved_searches/create.json"), parameters)
+            return await session.PostAsync(TwitterApi.Resolve("/1.1/saved_searches/create.json"), parameters)
                           .ContinueWith(c => c.MapToSingle<SavedSearch>());
         }
 
@@ -126,7 +126,7 @@ namespace BoxKite.Twitter
         public async static Task<SavedSearch> DeleteSavedSearch(this IUserSession session, string id)
         {
             var parameters = new TwitterParametersCollection();
-            var savedSearch = Api.Resolve("/1.1/saved_searches/destroy/{0}.json", id);
+            var savedSearch = TwitterApi.Resolve("/1.1/saved_searches/destroy/{0}.json", id);
              return await session.PostAsync(savedSearch, parameters)
                           .ContinueWith(c => c.MapToSingle<SavedSearch>());
         }

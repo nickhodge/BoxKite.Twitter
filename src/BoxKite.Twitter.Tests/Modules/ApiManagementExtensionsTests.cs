@@ -9,7 +9,7 @@ namespace BoxKite.Twitter.Tests
     [TestClass]
     public class ApiManagemenentExtensionsTests
     {
-        readonly TestableSession session = new TestableSession();
+        readonly TestableUserSession session = new TestableUserSession();
 
         [TestMethod]
         public async Task Get_Twitter_API_Limits()

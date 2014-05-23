@@ -12,7 +12,7 @@ namespace BoxKite.Twitter.Tests
     [TestClass]
     public class FavouritesTests
     {
-        readonly TestableSession session = new TestableSession();
+        readonly TestableUserSession session = new TestableUserSession();
 
         [TestMethod]
         public async Task Get_Favourites_For_CurrentUser_ReturnsSet()

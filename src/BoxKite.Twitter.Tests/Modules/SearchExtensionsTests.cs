@@ -11,7 +11,7 @@ namespace BoxKite.Twitter.Tests
     [TestClass]
     public class SearchExtensionsTests
     {
-        readonly TestableSession session = new TestableSession();
+        readonly TestableUserSession session = new TestableUserSession();
 
         [TestMethod]
         public async Task Search_Query_received()

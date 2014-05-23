@@ -19,7 +19,7 @@ namespace BoxKite.Twitter
         public static async Task<AccountSettings> GetAccountSettings(this IUserSession session)
         {
             var parameters = new TwitterParametersCollection();
-            return await session.GetAsync(Api.Resolve("/1.1/account/settings.json"), parameters)
+            return await session.GetAsync(TwitterApi.Resolve("/1.1/account/settings.json"), parameters)
                           .ContinueWith(c => c.MapToSingle<AccountSettings>());
         }
 
@@ -40,7 +40,7 @@ namespace BoxKite.Twitter
                         "Either screen_name or user_id required"); ;
             }
 
-            return await session.GetAsync(Api.Resolve("/1.1/users/show.json"), parameters)
+            return await session.GetAsync(TwitterApi.Resolve("/1.1/users/show.json"), parameters)
                           .ContinueWith(c => c.MapToSingle<User>());
         }
 
@@ -53,7 +53,7 @@ namespace BoxKite.Twitter
             var parameters = new TwitterParametersCollection();
             parameters.Create(include_entities: true);
 
-            return await session.GetAsync(Api.Resolve("/1.1/account/verify_credentials.json"), parameters)
+            return await session.GetAsync(TwitterApi.Resolve("/1.1/account/verify_credentials.json"), parameters)
                           .ContinueWith(c => c.MapToSingle<User>());
         }
 
@@ -102,7 +102,7 @@ namespace BoxKite.Twitter
                 parameters.Add("lang", lang);
             }
 
-            return await session.PostAsync(Api.Resolve("/1.1/account/settings.json"), parameters)
+            return await session.PostAsync(TwitterApi.Resolve("/1.1/account/settings.json"), parameters)
                           .ContinueWith(c => c.MapToSingle<AccountSettings>());
         }
 
@@ -144,7 +144,7 @@ namespace BoxKite.Twitter
                 parameters.Add("description", description.TrimAndTruncate(160));
             }
 
-            return await session.PostAsync(Api.Resolve("/1.1/account/update_profile.json"), parameters)
+            return await session.PostAsync(TwitterApi.Resolve("/1.1/account/update_profile.json"), parameters)
                 .ContinueWith(c => c.MapToSingle<AccountProfile>());
         }
 
@@ -164,7 +164,7 @@ namespace BoxKite.Twitter
                                  {"use", useImage.ToString()},
                              };
 
-            return await session.PostFileAsync(Api.Resolve("/1.1/account/update_profile_background_image.json"), parameters, fileName, "image", imageContent)
+            return await session.PostFileAsync(TwitterApi.Resolve("/1.1/account/update_profile_background_image.json"), parameters, fileName, "image", imageContent)
                            .ContinueWith(c => c.MapToSingle<AccountProfile>());
         }
 
@@ -185,7 +185,7 @@ namespace BoxKite.Twitter
                                  {"use", useImage.ToString()},
                              };
 
-            return await session.PostFileAsync(Api.Resolve("/1.1/account/update_profile_background_image.json"), parameters, fileName, "image", srImage:imageDataStream)
+            return await session.PostFileAsync(TwitterApi.Resolve("/1.1/account/update_profile_background_image.json"), parameters, fileName, "image", srImage:imageDataStream)
                            .ContinueWith(c => c.MapToSingle<AccountProfile>());
         }
 
@@ -199,7 +199,7 @@ namespace BoxKite.Twitter
         {
             var parameters = new TwitterParametersCollection();
 
-            return await session.PostFileAsync(Api.Resolve("/1.1/account/update_profile_image.json"), parameters, fileName, "image", srImage:imageContentStream)
+            return await session.PostFileAsync(TwitterApi.Resolve("/1.1/account/update_profile_image.json"), parameters, fileName, "image", srImage:imageContentStream)
                            .ContinueWith(c => c.MapToSingle<AccountProfile>());
         }
 
@@ -214,7 +214,7 @@ namespace BoxKite.Twitter
         {
             var parameters = new TwitterParametersCollection();
 
-            return await session.PostFileAsync(Api.Resolve("/1.1/account/update_profile_image.json"), parameters, fileName, "image", imageContent)
+            return await session.PostFileAsync(TwitterApi.Resolve("/1.1/account/update_profile_image.json"), parameters, fileName, "image", imageContent)
                            .ContinueWith(c => c.MapToSingle<AccountProfile>());
         }
 
@@ -259,7 +259,7 @@ namespace BoxKite.Twitter
                 parameters.Add("profile_text_color", profile_text_color);
             }
 
-            return await session.PostAsync(Api.Resolve("/1.1/account/update_profile_colors.json"), parameters)
+            return await session.PostAsync(TwitterApi.Resolve("/1.1/account/update_profile_colors.json"), parameters)
                            .ContinueWith(c => c.MapToSingle<AccountProfile>());
         }
 
@@ -275,7 +275,7 @@ namespace BoxKite.Twitter
                                  {"device", device}
                              };
 
-            return await session.PostAsync(Api.Resolve("/1.1/account/update_delivery_device.json"), parameters)
+            return await session.PostAsync(TwitterApi.Resolve("/1.1/account/update_delivery_device.json"), parameters)
                          .ContinueWith(c => c.MapToTwitterSuccess()); 
         }
 
@@ -287,7 +287,7 @@ namespace BoxKite.Twitter
         {
             var parameters = new TwitterParametersCollection();
 
-            return await session.PostAsync(Api.Resolve("/1.1/account/remove_profile_banner.json"), parameters)
+            return await session.PostAsync(TwitterApi.Resolve("/1.1/account/remove_profile_banner.json"), parameters)
                          .ContinueWith(c => c.MapToTwitterSuccess());
         }
 
@@ -325,7 +325,7 @@ namespace BoxKite.Twitter
                 parameters.Add("offset_top", banner_width.ToString());
             }
 
-            return await session.PostFileAsync(Api.Resolve("/1.1/account/update_profile_banner.json"), parameters, fileName, "banner", imageContent)
+            return await session.PostFileAsync(TwitterApi.Resolve("/1.1/account/update_profile_banner.json"), parameters, fileName, "banner", imageContent)
                            .ContinueWith(c => c.MapToTwitterSuccess());
         }
 
@@ -363,7 +363,7 @@ namespace BoxKite.Twitter
                 parameters.Add("offset_top", banner_width.ToString());
             }
 
-            return await session.PostFileAsync(Api.Resolve("/1.1/account/update_profile_banner.json"), parameters, fileName, "banner", srImage: imageContentStream)
+            return await session.PostFileAsync(TwitterApi.Resolve("/1.1/account/update_profile_banner.json"), parameters, fileName, "banner", srImage: imageContentStream)
                 .ContinueWith(c => c.MapToTwitterSuccess());
 
        }
@@ -384,7 +384,7 @@ namespace BoxKite.Twitter
                 return session.MapParameterError<ProfileBanners>(
                         "Either screen_name or user_id required"); ;
             } 
-            return await session.GetAsync(Api.Resolve("/1.1/users/profile_banner.json"), parameters)
+            return await session.GetAsync(TwitterApi.Resolve("/1.1/users/profile_banner.json"), parameters)
                          .ContinueWith(c => c.MapToSingle<ProfileBanners>());
         }
 
@@ -399,7 +399,7 @@ namespace BoxKite.Twitter
             var parameters = new TwitterParametersCollection();
             parameters.Create(cursor:cursor);
 
-            return await session.GetAsync(Api.Resolve("/1.1/blocks/list.json"), parameters)
+            return await session.GetAsync(TwitterApi.Resolve("/1.1/blocks/list.json"), parameters)
                          .ContinueWith(c => c.MapToSingle<UserListDetailedCursored>());
         }
 
@@ -421,7 +421,7 @@ namespace BoxKite.Twitter
                         "Either screen_name or user_id required"); ;
             }
 
-            return await session.PostAsync(Api.Resolve("/1.1/blocks/create.json"), parameters)
+            return await session.PostAsync(TwitterApi.Resolve("/1.1/blocks/create.json"), parameters)
                          .ContinueWith(c => c.MapToSingle<User>());
         }
 
@@ -443,7 +443,7 @@ namespace BoxKite.Twitter
                         "Either screen_name or user_id required"); ;
             }
 
-            return await session.PostAsync(Api.Resolve("/1.1/blocks/destroy.json"), parameters)
+            return await session.PostAsync(TwitterApi.Resolve("/1.1/blocks/destroy.json"), parameters)
                          .ContinueWith(c => c.MapToSingle<User>());
         }
 
@@ -467,7 +467,7 @@ namespace BoxKite.Twitter
                         "Either screen_names or user_ids required"); ;
             }
 
-            return await session.PostAsync(Api.Resolve("/1.1/users/lookup.json"), parameters).ContinueWith(c => c.MapToMany<User>());
+            return await session.PostAsync(TwitterApi.Resolve("/1.1/users/lookup.json"), parameters).ContinueWith(c => c.MapToMany<User>());
         }
 
         /// <summary>
@@ -487,7 +487,7 @@ namespace BoxKite.Twitter
                              };
             parameters.Create(count:count,include_entities:true);
 
-            return await session.GetAsync(Api.Resolve("/1.1/users/search.json"), parameters).ContinueWith(c => c.MapToMany<User>());
+            return await session.GetAsync(TwitterApi.Resolve("/1.1/users/search.json"), parameters).ContinueWith(c => c.MapToMany<User>());
         }
     }
 }

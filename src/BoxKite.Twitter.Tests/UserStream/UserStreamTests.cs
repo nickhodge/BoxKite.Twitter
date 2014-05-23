@@ -15,7 +15,7 @@ namespace BoxKite.Twitter.Tests
     [TestClass]
     public class UserStreamTests : ReactiveTest
     {
-        private readonly TestableSession session = new TestableSession();
+        private readonly TestableUserSession session = new TestableUserSession();
 
         [TestMethod]        
         public async Task UserStream1_initialFriends_And_Tweets()

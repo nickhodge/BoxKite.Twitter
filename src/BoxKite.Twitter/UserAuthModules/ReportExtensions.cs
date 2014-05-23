@@ -29,7 +29,7 @@ namespace BoxKite.Twitter
                         "Either screen_name or user_id required"); ;
             }
 
-            return await session.PostAsync(Api.Resolve("/1.1/users/report_spam.json"), parameters)
+            return await session.PostAsync(TwitterApi.Resolve("/1.1/users/report_spam.json"), parameters)
                           .ContinueWith(c => c.MapToSingle<User>());
         }
     }

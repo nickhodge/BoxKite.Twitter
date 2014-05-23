@@ -27,11 +27,11 @@ namespace BoxKite.Twitter
         public IObservable<Tweet> SearchTimeLine { get { return _searchtimeline; } }
         private string _currentSearchText = "";
 
-        private CancellationTokenSource TwitterSearchCommunication;
+        private CancellationTokenSource _twitterSearchCommunicationToken;
 
         public void StartSearch(string textToSearch)
         {
-            TwitterSearchCommunication = new CancellationTokenSource();
+            _twitterSearchCommunicationToken = new CancellationTokenSource();
             TwitterConnectionEvents.GetEvent<TwitterSearchStreamDisconnectEvent>().Subscribe(ManageSearchStreamDisconnect);
             //
             _currentSearchText = textToSearch;
@@ -52,7 +52,7 @@ namespace BoxKite.Twitter
 
         public void StopSearch()
         {
-            TwitterSearchCommunication.Cancel();
+            _twitterSearchCommunicationToken.Cancel();
             _searchStreamConnected.OnNext(false);
             SearchStream.Stop();
         }

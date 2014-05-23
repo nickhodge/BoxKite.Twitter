@@ -12,7 +12,7 @@ namespace BoxKite.Twitter.Tests
     [TestClass]
     public class ErrorTests
     {
-        readonly TestableSession errorsession = new TestableSession();
+        readonly TestableUserSession errorsession = new TestableUserSession();
 
         [TestMethod]
         public async Task Get_Rate_LimitExceeded_Error_OnCollection()

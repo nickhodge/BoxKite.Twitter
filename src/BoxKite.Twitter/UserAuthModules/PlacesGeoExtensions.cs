@@ -19,7 +19,7 @@ namespace BoxKite.Twitter
         public static async Task<Place> GetPlaceInfo(this IUserSession session, string place_id)
         {
             var parameters = new SortedDictionary<string, string>();
-            var url = Api.Resolve("/1.1/geo/id/{0}.json", place_id);
+            var url = TwitterApi.Resolve("/1.1/geo/id/{0}.json", place_id);
             return await session.GetAsync(url, parameters)
                           .ContinueWith(c => c.MapToSingle<Place>());
         }
@@ -46,7 +46,7 @@ namespace BoxKite.Twitter
                                  {"max_results", max_results.ToString()}
                              };
 
-            return await session.GetAsync(Api.Resolve("/1.1/geo/reverse_geocode.json"), parameters)
+            return await session.GetAsync(TwitterApi.Resolve("/1.1/geo/reverse_geocode.json"), parameters)
                           .ContinueWith(c => c.MapToSingle<ReverseGeoCodePlaces>());
  
         }
@@ -103,7 +103,7 @@ namespace BoxKite.Twitter
                 }
             }
 
-            return await session.GetAsync(Api.Resolve("/1.1/geo/search.json"), parameters)
+            return await session.GetAsync(TwitterApi.Resolve("/1.1/geo/search.json"), parameters)
                           .ContinueWith(c => c.MapToSingle<ReverseGeoCodePlaces>());
 
         }
@@ -133,7 +133,7 @@ namespace BoxKite.Twitter
                 parameters.Add("contained_within", contained_within);
             }
 
-            return await session.GetAsync(Api.Resolve("/1.1/geo/similar_places.json"), parameters)
+            return await session.GetAsync(TwitterApi.Resolve("/1.1/geo/similar_places.json"), parameters)
                 .ContinueWith(c => c.MapToSingle<ReverseGeoCodePlaces>());
         }
 
@@ -160,7 +160,7 @@ namespace BoxKite.Twitter
                                  {"token", token}
                              };
 
-            return await session.PostAsync(Api.Resolve("/1.1/geo/create.json"), parameters)
+            return await session.PostAsync(TwitterApi.Resolve("/1.1/geo/create.json"), parameters)
                 .ContinueWith(c => c.MapToSingle<AddPlaceResponse>());
         }
     }
