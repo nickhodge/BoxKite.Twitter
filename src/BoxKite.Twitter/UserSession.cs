@@ -19,7 +19,7 @@ using Reactive.EventAggregator;
 
 namespace BoxKite.Twitter
 {
-    public class UserSession : IUserSession
+    public class UserSession : ApplicationSession, IUserSession
     {
         // used http://garyshortblog.wordpress.com/2011/02/11/a-twitter-oauth-example-in-c/
 
@@ -44,11 +44,6 @@ namespace BoxKite.Twitter
         public IUserStream UserStream { get; set; }
         public ISearchStream SearchStream { get; set; }
         public int WaitTimeoutSeconds { get; set; }
-
-        // handle clientID/clientSecret if no supplied TwitterCredentials
-        public string clientID { get; set; }
-        public string clientSecret { get; set; }
-        public string bearerToken { get; set; }
 
         public UserSession(string clientID, string clientSecret, IPlatformAdaptor platformAdaptor, int waitTimeoutSeconds = 30)
         {

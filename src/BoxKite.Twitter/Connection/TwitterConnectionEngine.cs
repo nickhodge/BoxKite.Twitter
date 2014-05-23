@@ -1,4 +1,4 @@
-﻿// (c) 2012-2013 Nick Hodge mailto:hodgenick@gmail.com & Brendan Forster
+﻿// (c) 2012-2014 Nick Hodge mailto:hodgenick@gmail.com & Brendan Forster
 // License: MS-PL
 
 using System;
@@ -65,8 +65,7 @@ namespace BoxKite.Twitter
          * not .Subscribed to from the UserStream
          */
 
-        private CancellationTokenSource TwitterCommunication;
-
+        private CancellationTokenSource _twitterCommunicationToken;
         private readonly TimeSpan _multiFetchBackoffTimer = new TimeSpan(1200);
 
         private bool IsUnique(Tweet t)
@@ -79,17 +78,15 @@ namespace BoxKite.Twitter
         private void AddToHomeTimeLine(Tweet t)
         {
             // only Publish if unique
-            if (IsUnique(t))
-            {
-                _tweetsseen.OnNext(t.Id);
-                _timeline.OnNext(t);
-                _usersseen.OnNext(t.User);
-            }
+            if (!IsUnique(t)) return;
+            _tweetsseen.OnNext(t.Id);
+            _timeline.OnNext(t);
+            _usersseen.OnNext(t.User);
         }
 
         public void Start()
         {
-            TwitterCommunication = new CancellationTokenSource();
+            _twitterCommunicationToken = new CancellationTokenSource();
             //
             UserStream = UserSession.UserStreamBuilder();
 
@@ -117,7 +114,7 @@ namespace BoxKite.Twitter
 
         public void Stop()
         {
-            TwitterCommunication.Cancel();
+            _twitterCommunicationToken.Cancel();
             UserStream.Stop();
             userStreamConnected.OnNext(false);
         }

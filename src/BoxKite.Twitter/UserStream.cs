@@ -1,4 +1,4 @@
-// (c) 2012-2013 Nick Hodge mailto:hodgenick@gmail.com & Brendan Forster
+// (c) 2012-2014 Nick Hodge mailto:hodgenick@gmail.com & Brendan Forster
 // License: MS-PL
 
 using System;
@@ -106,10 +106,12 @@ namespace BoxKite.Twitter
 #endif
                     try
                     {
+#if (TRACE)
                         if (line == "ENDBOXKITEUSERSTREAMTEST")
                         {
                             Stop();
                         }
+#endif
                         if (string.IsNullOrWhiteSpace(line)) return;
                         var obj = JsonConvert.DeserializeObject<JObject>(line);
 

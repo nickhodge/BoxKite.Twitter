@@ -148,9 +148,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BoxKite.Twitter\BoxKite.Twitter.csproj">
-      <Project>{2eb6324b-f465-44ab-823f-e591845b8d80}</Project>
-      <Name>BoxKite.Twitter</Name>
+    <ProjectReference Include="..\BoxKite.Twitter.Desktop\BoxKite.Twitter.Desktop.csproj">
+      <Project>{98ffbf69-762f-4111-84b9-e757d9a698b9}</Project>
+      <Name>BoxKite.Twitter.Desktop</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

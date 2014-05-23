@@ -1,4 +1,4 @@
-﻿// (c) 2012-2013 Nick Hodge mailto:hodgenick@gmail.com & Brendan Forster
+﻿// (c) 2012-2014 Nick Hodge mailto:hodgenick@gmail.com & Brendan Forster
 // License: MS-PL
 
 using System;
@@ -36,14 +36,14 @@ namespace BoxKite.Twitter
         {
             TwitterCredentials = twitterCredentials;
             TwitterConnectionEvents = eventAggregator ?? new EventAggregator();
-            UserSession = SessionBuilder();
+            UserSession = UserSessionBuilder();
             PlatformAdaptor = platformAdaptor;
         }
 
         public TwitterConnection(string twitterConsumerKey, string twitterConsumerSecret, string xauthusername, string xauthpassword, IEventAggregator eventAggregator = null, IPlatformAdaptor platformAdaptor = null)
         {
             TwitterConnectionEvents = eventAggregator ?? new EventAggregator();
-            UserSession = SessionBuilder(twitterConsumerKey, twitterConsumerSecret);
+            UserSession = UserSessionBuilder(twitterConsumerKey, twitterConsumerSecret);
             PlatformAdaptor = platformAdaptor;
         }
 #endif
@@ -59,14 +59,14 @@ namespace BoxKite.Twitter
         {
             TwitterCredentials = twitterCredentials;
             TwitterConnectionEvents = eventAggregator ?? new EventAggregator();
-            UserSession = SessionBuilder();
+            UserSession = UserSessionBuilder();
             PlatformAdaptor = new DesktopPlatformAdaptor();
         }
 
         public TwitterConnection(string twitterConsumerKey, string twitterConsumerSecret, string xauthusername, string xauthpassword, IEventAggregator eventAggregator = null)
         {
             TwitterConnectionEvents = eventAggregator ?? new EventAggregator();
-            UserSession = SessionBuilder(twitterConsumerKey, twitterConsumerSecret);
+            UserSession = UserSessionBuilder(twitterConsumerKey, twitterConsumerSecret);
             PlatformAdaptor = new DesktopPlatformAdaptor();
         }
 #endif
@@ -82,14 +82,14 @@ namespace BoxKite.Twitter
         {
             TwitterCredentials = twitterCredentials;
             TwitterConnectionEvents = eventAggregator ?? new EventAggregator();
-            UserSession = SessionBuilder();
+            UserSession = UserSessionBuilder();
             PlatformAdaptor = new Win8RTPlatformAdaptor();
         }
 
         public TwitterConnection(string twitterConsumerKey, string twitterConsumerSecret, string xauthusername, string xauthpassword, IEventAggregator eventAggregator = null)
         {
             TwitterConnectionEvents = eventAggregator ?? new EventAggregator();
-            UserSession = SessionBuilder(twitterConsumerKey, twitterConsumerSecret);
+            UserSession = UserSessionBuilder(twitterConsumerKey, twitterConsumerSecret);
             PlatformAdaptor = new Win8RTPlatformAdaptor();
         } 
 #endif
@@ -99,13 +99,13 @@ namespace BoxKite.Twitter
             return ApplicationSession ?? new ApplicationSession(twitterConsumerKey, twitterConsumerSecret);
         }
 
-        private IUserSession SessionBuilder()
+        private IUserSession UserSessionBuilder()
         {
             // todo insert oauth2 from ApplicationSession
             return UserSession ?? new UserSession(TwitterCredentials, PlatformAdaptor);
         }
 
-        private IUserSession SessionBuilder(string twitterConsumerKey, string twitterConsumerSecret)
+        private IUserSession UserSessionBuilder(string twitterConsumerKey, string twitterConsumerSecret)
         {
             return UserSession ?? new UserSession(twitterConsumerKey, twitterConsumerSecret, PlatformAdaptor);
         }
@@ -132,7 +132,7 @@ namespace BoxKite.Twitter
             return twittercredentials;
         }
 
-        public async Task<bool> VerifyCredentials()
+        public async Task<bool> VerifyUserCredentials()
         {
             AccountDetails = await UserSession.GetVerifyCredentials();
             if (AccountDetails.OK) // go deeper
@@ -146,7 +146,7 @@ namespace BoxKite.Twitter
         }
 
 #if(WIN8RT)
-        public async Task<TwitterCredentials> Authenticate(string _callbackuri)
+        public async Task<TwitterCredentials> AuthenticateUser(string _callbackuri)
         {
             var twittercredentials = await UserSession.Authentication(_callbackuri);
             if (!twittercredentials.Valid) return null;
