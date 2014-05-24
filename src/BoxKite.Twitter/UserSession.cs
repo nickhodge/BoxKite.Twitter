@@ -38,11 +38,9 @@ namespace BoxKite.Twitter
         private const string OAuthSignatureMethod = "HMAC-SHA1";
         private const string OAuthVersion = "1.0";
 
-        public IEventAggregator TwitterConnectionEvents { get; set; }
         public IPlatformAdaptor PlatformAdaptor { get; set; }
         public IUserStream UserStream { get; set; }
         public ISearchStream SearchStream { get; set; }
-        public int WaitTimeoutSeconds { get; set; }
 
         public UserSession(string clientID, string clientSecret, IPlatformAdaptor platformAdaptor, int waitTimeoutSeconds = 30) 
             : base(clientID, clientSecret, waitTimeoutSeconds)
@@ -64,7 +62,6 @@ namespace BoxKite.Twitter
             PlatformAdaptor = platformAdaptor;
             WaitTimeoutSeconds = waitTimeoutSeconds;
         }
-
 
         public UserSession(TwitterCredentials credentials, IPlatformAdaptor platformAdaptor, int waitTimeoutSeconds = 30)
             : base(credentials.ConsumerKey, credentials.ConsumerSecret, waitTimeoutSeconds)
@@ -126,7 +123,7 @@ namespace BoxKite.Twitter
         /// <param name="url">URL to call</param>
         /// <param name="parameters">Params to send</param>
         /// <returns></returns>
-        public async Task<HttpResponseMessage> GetAsync(string url, SortedDictionary<string, string> parameters)
+        public new async Task<HttpResponseMessage> GetAsync(string url, SortedDictionary<string, string> parameters) 
         {
             if (TwitterCredentials == TwitterCredentials.Null || TwitterCredentials.Valid == false)
                 throw new ArgumentException("TwitterCredentials must be specified and validated");

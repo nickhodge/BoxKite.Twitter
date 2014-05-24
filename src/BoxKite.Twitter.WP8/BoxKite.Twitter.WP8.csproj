@@ -106,9 +106,6 @@
     <Compile Include="..\BoxKite.Twitter\Connection\TwitterConnectionSearch.cs">
       <Link>Connection\TwitterConnectionSearch.cs</Link>
     </Compile>
-    <Compile Include="..\BoxKite.Twitter\Extensions\Api.cs">
-      <Link>Extensions\Api.cs</Link>
-    </Compile>
     <Compile Include="..\BoxKite.Twitter\Extensions\DateTimeExtensions.cs">
       <Link>Extensions\DateTimeExtensions.cs</Link>
     </Compile>
@@ -126,6 +123,9 @@
     </Compile>
     <Compile Include="..\BoxKite.Twitter\Extensions\TweetExtensions.cs">
       <Link>Extensions\TweetExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Extensions\TwitterApi.cs">
+      <Link>Extensions\TwitterApi.cs</Link>
     </Compile>
     <Compile Include="..\BoxKite.Twitter\Helpers\BindableBase.cs">
       <Link>Helpers\BindableBase.cs</Link>

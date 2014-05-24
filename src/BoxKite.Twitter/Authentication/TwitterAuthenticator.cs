@@ -20,15 +20,6 @@ namespace BoxKite.Twitter.Authentication
 {
     public static class TwitterAuthenticator
     {
-        /* Utilities */
-        private const string RequestTokenUrl = "https://api.twitter.com/oauth/request_token";
-        private const string AuthenticateUrl = "https://api.twitter.com/oauth/authorize?oauth_token=";
-        private const string AuthorizeTokenUrl = "https://api.twitter.com/oauth/access_token";
-        private const string XAuthorizeTokenUrl = "https://api.twitter.com/oauth/access_token?send_error_codes=true";
-        private const string OAuth2TokenUrl = "https://api.twitter.com/oauth2/token";
-        private const string OAuth2TokenUrlPostRequestRFC6749 = "grant_type=client_credentials";
-        private const string SafeURLEncodeChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_.~";
-
         public static async Task<string> StartUserAuthentication(this IUserSession session)
         {
             if (string.IsNullOrWhiteSpace(session.clientID))
@@ -50,7 +41,7 @@ namespace BoxKite.Twitter.Authentication
                     nonce,
                     sinceEpoch);
 
-            var sigBaseString = string.Format("POST&{0}&{1}", RequestTokenUrl.UrlEncode(), sigBaseStringParams.UrlEncode());
+            var sigBaseString = string.Format("POST&{0}&{1}", TwitterApi.RequestTokenUrl().UrlEncode(), sigBaseStringParams.UrlEncode());
             var signature = session.GenerateSignature(session.clientSecret, sigBaseString, null);
             var dataToPost = string.Format(
                     "OAuth realm=\"\", oauth_nonce=\"{0}\", oauth_timestamp=\"{1}\", oauth_consumer_key=\"{2}\", oauth_signature_method=\"HMAC-SHA1\", oauth_version=\"1.0\", oauth_signature=\"{3}\"",
@@ -59,7 +50,7 @@ namespace BoxKite.Twitter.Authentication
                     session.clientID,
                     signature.UrlEncode());
 
-            var response = await PostData(RequestTokenUrl, dataToPost);
+            var response = await PostData(TwitterApi.RequestTokenUrl(), dataToPost);
 
             if (string.IsNullOrWhiteSpace(response))
                 return null;
@@ -73,7 +64,7 @@ namespace BoxKite.Twitter.Authentication
                     case "oauth_token": //these tokens are request tokens, first step before getting access tokens
                         oAuthToken = splits[1];
                         break;
-                    case "oauth_token_secret":
+                    case "oauth_token_secret": // not used
                         var OAuthTokenSecret = splits[1];
                         break;
                     case "oauth_callback_confirmed":
@@ -82,7 +73,7 @@ namespace BoxKite.Twitter.Authentication
             }
 
             if (!string.IsNullOrWhiteSpace(oAuthToken))
-                session.PlatformAdaptor.DisplayAuthInBrowser(AuthenticateUrl + oAuthToken);
+                session.PlatformAdaptor.DisplayAuthInBrowser(TwitterApi.AuthenticateUrl()+ oAuthToken);
 
             return oAuthToken;
         }
@@ -103,7 +94,7 @@ namespace BoxKite.Twitter.Authentication
                     pinAuthorizationCode,
                     oAuthToken);
 
-            var response = await PostData(AuthorizeTokenUrl, dataToPost);
+            var response = await PostData(TwitterApi.AuthorizeTokenUrl(), dataToPost);
 
             if (string.IsNullOrWhiteSpace(response))
                 return TwitterCredentials.Null; //oops something wrong here
@@ -172,7 +163,7 @@ namespace BoxKite.Twitter.Authentication
                     nonce,
                     sinceEpoch);
 
-            var sigBaseString = string.Format("POST&{0}&{1}", RequestTokenUrl.UrlEncode(), sigBaseStringParams.UrlEncode());
+            var sigBaseString = string.Format("POST&{0}&{1}", TwitterApi.RequestTokenUrl().UrlEncode(), sigBaseStringParams.UrlEncode());
             var signature = session.GenerateSignature(session.clientSecret, sigBaseString, null);
             var dataToPost = string.Format(
                     "OAuth realm=\"\", oauth_nonce=\"{0}\", oauth_timestamp=\"{1}\", oauth_consumer_key=\"{2}\", oauth_signature_method=\"HMAC-SHA1\", oauth_version=\"1.0\", oauth_signature=\"{3}\"",
@@ -181,7 +172,7 @@ namespace BoxKite.Twitter.Authentication
                     session.clientID,
                     signature.UrlEncode());
 
-            var response = await PostData(RequestTokenUrl, dataToPost);
+            var response = await PostData(TwitterApi.RequestTokenUrl(), dataToPost);
 
             if (string.IsNullOrWhiteSpace(response))
                 return TwitterCredentials.Null;
@@ -207,7 +198,7 @@ namespace BoxKite.Twitter.Authentication
 
             if (oauthCallbackConfirmed && !string.IsNullOrWhiteSpace(oAuthToken))
             {
-                var authresponse = await session.PlatformAdaptor.AuthWithBroker(AuthenticateUrl + oAuthToken, _callbackuri);
+                var authresponse = await session.PlatformAdaptor.AuthWithBroker(TwitterApi.AuthenticateUrl() + oAuthToken, _callbackuri);
                 if (!string.IsNullOrWhiteSpace(authresponse))
                 {
                     var responseData = authresponse.Substring(authresponse.IndexOf("oauth_token"));
@@ -239,7 +230,7 @@ namespace BoxKite.Twitter.Authentication
                         sinceEpoch,
                         request_token);
 
-                    sigBaseString = string.Format("POST&{0}&{1}", AuthorizeTokenUrl.UrlEncode(), sigBaseStringParams.UrlEncode());
+                    sigBaseString = string.Format("POST&{0}&{1}", TwitterApi.AuthorizeTokenUrl().UrlEncode(), sigBaseStringParams.UrlEncode());
                     signature = session.GenerateSignature(session.clientSecret, sigBaseString, null);
 
                     var httpContent = String.Format("oauth_verifier={0}", oauth_verifier);
@@ -252,7 +243,7 @@ namespace BoxKite.Twitter.Authentication
                             request_token,
                             signature.UrlEncode());
 
-                    response = await PostData(AuthorizeTokenUrl, dataToPost, httpContent);
+                    response = await PostData(TwitterApi.AuthorizeTokenUrl(), dataToPost, httpContent);
 
                     if (string.IsNullOrWhiteSpace(response))
                         return TwitterCredentials.Null; //oops something wrong here
@@ -326,7 +317,7 @@ namespace BoxKite.Twitter.Authentication
                     nonce,
                     sinceEpoch);
 
-            var sigBaseString = string.Format("POST&{0}&{1}", XAuthorizeTokenUrl.UrlEncode(),
+            var sigBaseString = string.Format("POST&{0}&{1}", TwitterApi.XAuthorizeTokenUrl().UrlEncode(),
                 sigBaseStringParams.UrlEncode());
             var signature = session.GenerateSignature(session.clientSecret, sigBaseString, null);
             var dataToPost = string.Format(
@@ -341,7 +332,7 @@ namespace BoxKite.Twitter.Authentication
                 xauthusername.UrlEncode(),
                 xauthpassword.UrlEncode());
 
-            var authresponse = await PostData(XAuthorizeTokenUrl, dataToPost, contentToPost);
+            var authresponse = await PostData(TwitterApi.XAuthorizeTokenUrl(), dataToPost, contentToPost);
 
             var _accessToken = "";
             var _accessTokenSecret = "";
@@ -394,7 +385,7 @@ namespace BoxKite.Twitter.Authentication
             // and ref: http://tools.ietf.org/html/rfc6749#section-4.4
             var authToPost = String.Format("{0}:{1}", session.clientID.UrlEncode(), session.clientSecret.UrlEncode());
             var basicAuth = string.Format("Basic {0}", authToPost.ToBase64String());
-            var response = await PostData(OAuth2TokenUrl, basicAuth, OAuth2TokenUrlPostRequestRFC6749);
+            var response = await PostData(TwitterApi.OAuth2TokenUrl(), basicAuth, TwitterApi.OAuth2TokenUrlPostRequestRFC6749());
             var jresponse = JObject.Parse(response);
             // pretty blantant response
             // Todo: make response match API response at https://dev.twitter.com/docs/auth/application-only-auth
@@ -427,7 +418,7 @@ namespace BoxKite.Twitter.Authentication
 
             foreach (var symbol in value)
             {
-                if (SafeURLEncodeChars.IndexOf((char) symbol) != -1)
+                if (TwitterApi.SafeURLEncodeChars().IndexOf((char) symbol) != -1)
                 {
                     result.Append(symbol);
                 }

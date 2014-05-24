@@ -52,7 +52,7 @@
     <Compile Include="UserAuthModules\SearchStreamExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SearchStream.cs" />
-    <Compile Include="Extensions\Api.cs" />
+    <Compile Include="Extensions\TwitterApi.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\ResponseExtensions.cs" />
