@@ -104,9 +104,9 @@ namespace BoxKite.Twitter.Models
             set { SetProperty(ref _favourited, value); }
         }
 
-        private Coordinates _location;
+        private GeoCoordinates _location;
         [JsonProperty("geo")]
-        public Coordinates Location
+        public GeoCoordinates Location
         {
             get { return _location; }
             set { SetProperty(ref _location, value); }

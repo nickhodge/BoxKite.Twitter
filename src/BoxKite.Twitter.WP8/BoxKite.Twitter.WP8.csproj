@@ -85,8 +85,35 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\BoxKite.Twitter\ApplicationAuthModules\ApiManagementExtensions.cs">
+      <Link>ApplicationAuthModules\ApiManagementExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\ApplicationAuthModules\FavouritesExtensions.cs">
+      <Link>ApplicationAuthModules\FavouritesExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\ApplicationAuthModules\FriendsFollowerExtensions.cs">
+      <Link>ApplicationAuthModules\FriendsFollowerExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\ApplicationAuthModules\ListExtensions.cs">
+      <Link>ApplicationAuthModules\ListExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\ApplicationAuthModules\PlacesGeoExtensions.cs">
+      <Link>ApplicationAuthModules\PlacesGeoExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\ApplicationAuthModules\SearchExtensions.cs">
+      <Link>ApplicationAuthModules\SearchExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\BoxKite.Twitter\ApplicationAuthModules\TimelineExtensions.cs">
       <Link>ApplicationAuthModules\TimelineExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\ApplicationAuthModules\TrendsExtenstions.cs">
+      <Link>ApplicationAuthModules\TrendsExtenstions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\ApplicationAuthModules\TweetExtensions.cs">
+      <Link>ApplicationAuthModules\TweetExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\ApplicationAuthModules\UsersExtensions.cs">
+      <Link>ApplicationAuthModules\UsersExtensions.cs</Link>
     </Compile>
     <Compile Include="..\BoxKite.Twitter\ApplicationSession.cs">
       <Link>ApplicationSession.cs</Link>
@@ -174,9 +201,6 @@
     </Compile>
     <Compile Include="..\BoxKite.Twitter\Models\SearchResponse.cs">
       <Link>Models\SearchResponse.cs</Link>
-    </Compile>
-    <Compile Include="..\BoxKite.Twitter\Models\Service\AccountProfile.cs">
-      <Link>Models\Service\AccountProfile.cs</Link>
     </Compile>
     <Compile Include="..\BoxKite.Twitter\Models\Service\AccountSettings.cs">
       <Link>Models\Service\AccountSettings.cs</Link>
@@ -267,9 +291,6 @@
     </Compile>
     <Compile Include="..\BoxKite.Twitter\Models\TwitterCredentials.cs">
       <Link>Models\TwitterCredentials.cs</Link>
-    </Compile>
-    <Compile Include="..\BoxKite.Twitter\Models\TwitterEnumerable.cs">
-      <Link>Models\TwitterEnumerable.cs</Link>
     </Compile>
     <Compile Include="..\BoxKite.Twitter\Models\TwitterList.cs">
       <Link>Models\TwitterList.cs</Link>

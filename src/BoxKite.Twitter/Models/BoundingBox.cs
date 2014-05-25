@@ -11,6 +11,6 @@ namespace BoxKite.Twitter.Models
         public string Type { get; set; }
 
         [JsonProperty("coordinates")]
-        public List<List<List<double>>> Coordinates { get; set; }
+        public List<List<List<double>>> GeoCoordinates { get; set; }
     }
 }

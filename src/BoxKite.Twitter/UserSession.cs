@@ -15,7 +15,6 @@ using System.Threading.Tasks;
 using BoxKite.Twitter.Authentication;
 using BoxKite.Twitter.Extensions;
 using BoxKite.Twitter.Models;
-using Reactive.EventAggregator;
 
 namespace BoxKite.Twitter
 {

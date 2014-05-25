@@ -10,7 +10,7 @@ namespace BoxKite.Twitter
 {
     // TODO: manage https://support.twitter.com/articles/14020-twitter-for-sms-basic-features
 
-    public static class TweetExtensions
+    public static partial class TweetExtensions
     {
         /// <summary>
         /// Sends a Tweet

@@ -23,7 +23,7 @@ namespace BoxKite.Twitter.Models
     public class ReverseGeoCodePlacesQueryParams
     {
         public int? accuracy { get; set; }
-        public Coordinates coordinates { get; set; }
+        public GeoCoordinates coordinates { get; set; }
         public string granularity { get; set; }
         public string query { get; set; }
         public string contained_within { get; set; }

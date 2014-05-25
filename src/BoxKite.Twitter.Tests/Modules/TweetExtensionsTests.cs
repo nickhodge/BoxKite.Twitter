@@ -40,7 +40,7 @@ namespace BoxKite.Twitter.Tests
             Assert.IsNotNull(singletweet);
             Assert.IsTrue(singletweet.Entities.Hashtags.ToList()[0].Text == "peterfalk");
             Assert.IsTrue(singletweet.Id == 243145735212777472);
-            singletweet.Location.coordinates.Count().ShouldBeEquivalentTo(2);
+            singletweet.Location.Coordinates.Count().ShouldBeEquivalentTo(2);
         }
 
         [TestMethod]
@@ -93,7 +93,7 @@ namespace BoxKite.Twitter.Tests
             Assert.IsTrue(tweetreply.Id == 193579947615453184);
             Assert.IsTrue(tweetreply.InReplyToId == 193577612956811264);
             Assert.IsTrue(tweetreply.InReplyToUserId == 823083);
-            tweetreply.Location.coordinates.Count().ShouldBeEquivalentTo(2);
+            tweetreply.Location.Coordinates.Count().ShouldBeEquivalentTo(2);
         }
 
         [TestMethod]

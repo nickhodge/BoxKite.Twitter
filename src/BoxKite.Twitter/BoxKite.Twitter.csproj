@@ -35,7 +35,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ApplicationAuthModules\ApiManagementExtensions.cs" />
+    <Compile Include="ApplicationAuthModules\FavouritesExtensions.cs" />
+    <Compile Include="ApplicationAuthModules\FriendsFollowerExtensions.cs" />
+    <Compile Include="ApplicationAuthModules\ListExtensions.cs" />
+    <Compile Include="ApplicationAuthModules\PlacesGeoExtensions.cs" />
+    <Compile Include="ApplicationAuthModules\SearchExtensions.cs" />
     <Compile Include="ApplicationAuthModules\TimelineExtensions.cs" />
+    <Compile Include="ApplicationAuthModules\TrendsExtenstions.cs" />
+    <Compile Include="ApplicationAuthModules\TweetExtensions.cs" />
+    <Compile Include="ApplicationAuthModules\UsersExtensions.cs" />
     <Compile Include="Authentication\TwitterAuthenticator.cs" />
     <Compile Include="Connection\TwitterConnectionEvents.cs" />
     <Compile Include="Connection\TwitterConnectionEngine.cs" />
@@ -58,7 +67,6 @@
     <Compile Include="Extensions\ResponseExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\TweetExtensions.cs" />
-    <Compile Include="Models\TwitterEnumerable.cs" />
     <Compile Include="Models\TwitterParametersCollection.cs" />
     <Compile Include="Helpers\BindableBase.cs" />
     <Compile Include="Models\TwitterResponseCollection.cs" />
@@ -86,7 +94,6 @@
     <Compile Include="Models\Place.cs" />
     <Compile Include="Models\SavedSearch.cs" />
     <Compile Include="Models\SearchResponse.cs" />
-    <Compile Include="Models\Service\AccountProfile.cs" />
     <Compile Include="Models\Service\AccountSettings.cs" />
     <Compile Include="Models\Service\ApiRateLimit.cs" />
     <Compile Include="Models\Service\AddPlaceResponse.cs" />

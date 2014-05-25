@@ -24,7 +24,7 @@ namespace BoxKite.Twitter.Tests
 
             Assert.IsNotNull(placegeo);
             placegeo.FullName.ShouldBeEquivalentTo("Presidio, San Francisco");
-            placegeo.BoundingBox.Coordinates[0][0][0].ShouldBeEquivalentTo(-122.48530488);
+            placegeo.BoundingBox.GeoCoordinates[0][0][0].ShouldBeEquivalentTo(-122.48530488);
         }
 
         [TestMethod]

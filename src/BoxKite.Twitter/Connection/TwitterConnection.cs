@@ -113,8 +113,7 @@ namespace BoxKite.Twitter
         // auth happens when no creds are present
         public async Task<string> BeginUserAuthentication()
         {
-            var oAuthToken = await UserSession.StartUserAuthentication();
-            return oAuthToken;
+            return await UserSession.StartUserAuthentication();
         }
 
         // second stage of auth confirms the pin is OK

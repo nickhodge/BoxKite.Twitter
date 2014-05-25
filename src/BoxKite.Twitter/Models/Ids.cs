@@ -11,7 +11,7 @@ namespace BoxKite.Twitter.Models
             public int previous_cursor { get; set; }
 
             [JsonProperty("ids")]
-            public List<long> ids { get; set; }
+            public List<long> IDs { get; set; }
 
             public string previous_cursor_str { get; set; }
             public int next_cursor { get; set; }
