@@ -36,24 +36,5 @@ namespace BoxKite.Twitter
             
         }
 
-        private async void GetFriendshipRequestsIncoming_Backfill()
-        {
-            long nextcursor = -1;
-
-            do
-            {
-                var ff2List = await UserSession.GetFriendshipRequestsIncoming(cursor: nextcursor);
-                if (ff2List.twitterFaulted)
-                {
-                    break;
-                };
-                nextcursor = ff2List.next_cursor;
-                foreach (var l in ff2List.UserIDs)
-                {
-                    //
-                }
-            } while (nextcursor != 0);
-        }
-
     }
 }

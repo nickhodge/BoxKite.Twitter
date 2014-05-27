@@ -27,38 +27,61 @@ namespace BoxKite.Twitter
         //
 
         // largestSeenIds
-        // ToDo: these should/could be properties on Account so they can be persisted across launches
-        private long _homeTimeLineLargestSeenId;
-        private long _directMessagesReceivedLargestSeenId;
-        private long _directMessagesSentLargestSeenId;
-        private long _retweetsOfMeLargestSeenId;
-        private long _mentionsOfMeLargestSeenId;
-        private long _myTweetsLargestSeenId;
+        public long HomeTimeLineLargestSeenId { get; set; }
+        public long DirectMessagesReceivedLargestSeenId { get; set; }
+        public long DirectMessagesSentLargestSeenId { get; set; }
+        public long RetweetsOfMeLargestSeenId { get; set; }
+        public long MentionsOfMeLargestSeenId { get; set; }
+        public long MyTweetsLargestSeenId { get; set; }
         //
 
         readonly Subject<Tweet> _timeline = new Subject<Tweet>();
+        /// <summary>
+        /// Observable List of Tweets on the authenticated User's Home Timeline
+        /// </summary>
         public IObservable<Tweet> TimeLine { get { return _timeline; } }
 
         readonly Subject<Tweet> _retweetsOnTimeline = new Subject<Tweet>();
+        /// <summary>
+        /// Observable List of Retweets on the authenticated User's Home Timeline
+        /// </summary>
         public IObservable<Tweet> RetweetsOnTimeLine { get { return _retweetsOnTimeline; } }
 
         readonly Subject<Tweet> _mentions = new Subject<Tweet>();
+        /// <summary>
+        /// Observable List of Tweets Mentioning the authenticated User
+        /// </summary>
         public IObservable<Tweet> Mentions { get { return _mentions; } }
 
         readonly Subject<Tweet> _mytweets = new Subject<Tweet>();
+        /// <summary>
+        /// Observable List of Tweets Sent by the authenticated User
+        /// </summary>
         public IObservable<Tweet> MyTweets { get { return _mytweets; } }
 
         readonly Subject<DirectMessage> _directmessages = new Subject<DirectMessage>();
+        /// <summary>
+        /// Observable List of Direct Messages to and by the authenticated User
+        /// </summary>
         public IObservable<DirectMessage> DirectMessages { get { return _directmessages; } }
 
         readonly Subject<User> _usersseen = new Subject<User>();
+        /// <summary>
+        /// Observable List of User IDs seen in this session
+        /// </summary>
         public IObservable<User> UsersSeen { get { return _usersseen; } }
 
         readonly Subject<DeleteEventStatus> _streamdeleteevent = new Subject<DeleteEventStatus>();
+        /// <summary>
+        /// Observable List of Tweets requested to be deleted from the app
+        /// </summary>
         public IObservable<DeleteEventStatus> StreamDeleteEvent { get { return _streamdeleteevent; } }
 
         private readonly List<long> _tweetIdsRegister = new List<long>();
         readonly Subject<long> _tweetsseen = new Subject<long>();
+        /// <summary>
+        /// Observable List of Tweet IDs seen in this session
+        /// </summary>
         public IObservable<long> TweetsSeen { get { return _tweetsseen; } }
 
         /*
@@ -162,12 +185,12 @@ namespace BoxKite.Twitter
                 var observable = Observable.Interval(TimeSpan.FromMinutes(1));
                 observable.Subscribe(async t =>
                 {
-                    _homeTimeLineLargestSeenId = await GetHomeTimeLine_Failover(_homeTimeLineLargestSeenId);
-                    _directMessagesReceivedLargestSeenId = await GetDirectMessages_Received_Failover(_directMessagesReceivedLargestSeenId);
-                    _directMessagesSentLargestSeenId = await GetDirectMessages_Sent_Failover(_directMessagesSentLargestSeenId);
-                    _retweetsOfMeLargestSeenId = await GetRTOfMe_Failover(_retweetsOfMeLargestSeenId);
-                    _mentionsOfMeLargestSeenId = await GetMentions_Failover(_mentionsOfMeLargestSeenId);
-                    _myTweetsLargestSeenId = await GetMyTweets_Failover(_myTweetsLargestSeenId);
+                    HomeTimeLineLargestSeenId = await GetHomeTimeLine_Failover(HomeTimeLineLargestSeenId);
+                    DirectMessagesReceivedLargestSeenId = await GetDirectMessages_Received_Failover(DirectMessagesReceivedLargestSeenId);
+                    DirectMessagesSentLargestSeenId = await GetDirectMessages_Sent_Failover(DirectMessagesSentLargestSeenId);
+                    RetweetsOfMeLargestSeenId = await GetRTOfMe_Failover(RetweetsOfMeLargestSeenId);
+                    MentionsOfMeLargestSeenId = await GetMentions_Failover(MentionsOfMeLargestSeenId);
+                    MyTweetsLargestSeenId = await GetMyTweets_Failover(MyTweetsLargestSeenId);
                 });
             });
         }
@@ -269,27 +292,27 @@ namespace BoxKite.Twitter
             var o = Observable.CombineLatest(
                 Observable.Start( async () =>
                     {
-                        _homeTimeLineLargestSeenId = await GetHomeTimeLine_Backfill();
+                        HomeTimeLineLargestSeenId = await GetHomeTimeLine_Backfill();
                     }),
                 Observable.Start( async () =>
                     {
-                       _directMessagesReceivedLargestSeenId = await GetDirectMessages_Received_Backfill();
+                       DirectMessagesReceivedLargestSeenId = await GetDirectMessages_Received_Backfill();
                     }),
                 Observable.Start( async () =>
                     {
-                        _directMessagesSentLargestSeenId = await GetDirectMessages_Sent_Backfill();
+                        DirectMessagesSentLargestSeenId = await GetDirectMessages_Sent_Backfill();
                     }),
                 Observable.Start( async () =>
                     {
-                        _retweetsOfMeLargestSeenId = await GetRTOfMe_Backfill();
+                        RetweetsOfMeLargestSeenId = await GetRTOfMe_Backfill();
                     }),
                 Observable.Start( async () =>
                     {
-                        _mentionsOfMeLargestSeenId = await GetMentions_Backfill();
+                        MentionsOfMeLargestSeenId = await GetMentions_Backfill();
                     }),
                 Observable.Start( async () =>
                     {
-                        _myTweetsLargestSeenId = await GetMyTweets_Backfill();
+                        MyTweetsLargestSeenId = await GetMyTweets_Backfill();
                     })
                 ).Finally(() => backFillCompleted.OnNext(true));
             await o;
@@ -493,7 +516,7 @@ namespace BoxKite.Twitter
 
             do
             {
-                var hometl = await TwitterSession.GetUserTimeline(user_id:AccountDetails.UserId, count: pagingSize, max_id: smallestid);
+                var hometl = await UserSession.GetUserTimeline(user_id:AccountDetails.UserId, count: pagingSize, max_id: smallestid);
                 if (hometl.OK)
                 {
                     smallestid = long.MaxValue;

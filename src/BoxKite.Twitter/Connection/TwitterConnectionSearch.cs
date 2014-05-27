@@ -14,8 +14,7 @@ namespace BoxKite.Twitter
     public partial class TwitterConnection
     {
         // largestSeenIds
-        // todo: these should/could be properties on Account so they can be persisted across launches
-        private long _searchLargestSeenId;
+        public long _searchLargestSeenId { get; set; }
         //
 
         // status bits
@@ -33,15 +32,22 @@ namespace BoxKite.Twitter
         {
             _twitterSearchCommunicationToken = new CancellationTokenSource();
             TwitterConnectionEvents.GetEvent<TwitterSearchStreamDisconnectEvent>().Subscribe(ManageSearchStreamDisconnect);
-            //
+            _searchStreamConnected.Where(status => status.IsFalse()).Subscribe(StartPollingSearch);
             _currentSearchText = textToSearch;
-            SearchStream = UserSession.StartSearchStream(TwitterConnectionEvents, track: textToSearch);
-            SearchStream.FoundTweets.Subscribe(_searchtimeline.OnNext);
-            SearchStream.Start();
+            //
+            if (UserSession.IsActive)
+            {
+                SearchStream = UserSession.StartSearchStream(TwitterConnectionEvents, track: textToSearch);
+                SearchStream.FoundTweets.Subscribe(_searchtimeline.OnNext);
+                SearchStream.Start();
+                _searchStreamConnected.OnNext(true);
+            }
+            else
+            {
+                TwitterConnectionEvents.Publish(new TwitterSearchStreamDisconnectEvent());
+            }
             //
             Task.Factory.StartNew(ProcessSearchBackFill_Pump);
-            _searchStreamConnected.Where(status => status.IsFalse()).Subscribe(StartPollingSearch);
-            _searchStreamConnected.OnNext(true);
         }
 
         // subscriber to the userstream disconnecting
@@ -73,7 +79,7 @@ namespace BoxKite.Twitter
             do
             {
                 //TODO: need to unhardcode SearchResultType
-                var searchtl = await UserSession.SearchFor(searchtext:_currentSearchText, searchResponseType:SearchResultType.Recent, count: pagingSize, max_id: smallestid);
+                var searchtl = await TwitterSession.SearchFor(searchtext:_currentSearchText, searchResponseType:SearchResultType.Recent, count: pagingSize, max_id: smallestid);
                 if (searchtl.OK)
                 {
                     smallestid = long.MaxValue;
@@ -117,7 +123,7 @@ namespace BoxKite.Twitter
         {
             var largestseenid = sinceid;
 
-            var searchtl = await UserSession.SearchFor(searchtext: _currentSearchText, searchResponseType: SearchResultType.Recent, count: pagingSize, since_id: sinceid);
+            var searchtl = await TwitterSession.SearchFor(searchtext: _currentSearchText, searchResponseType: SearchResultType.Recent, count: pagingSize, since_id: sinceid);
             if (!searchtl.OK) return largestseenid;
 
             foreach (var tweet in searchtl.Tweets.Where(tweet => tweet.Id > sinceid))

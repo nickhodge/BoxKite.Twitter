@@ -34,7 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>BoxKite.Twitter.Console.BoxKiteTwitterFromConsole</StartupObject>
+    <StartupObject>BoxKite.Twitter.Console.BoxKiteTwitterFromConsole_AppAuth</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -80,6 +80,7 @@
     <Compile Include="..\BoxKite.Twitter.Desktop\Helpers\DesktopPlatformAdaptor.cs">
       <Link>Helpers\DesktopPlatformAdaptor.cs</Link>
     </Compile>
+    <Compile Include="BoxKiteTwitterFromConsole_AppAuth.cs" />
     <Compile Include="BoxKiteTwitterFromConsole.cs" />
     <Compile Include="Helpers\ConsoleOutput.cs" />
     <Compile Include="Helpers\FilesHelper.cs" />

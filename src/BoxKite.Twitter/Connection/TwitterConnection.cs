@@ -51,8 +51,8 @@ namespace BoxKite.Twitter
 
         public TwitterConnection(string twitterConsumerKey, string twitterConsumerSecret, string xauthusername, string xauthpassword, IEventAggregator eventAggregator = null, IPlatformAdaptor platformAdaptor = null)
         {
-            TwitterConnectionEvents = eventAggregator ?? new EventAggregator();
             PlatformAdaptor = platformAdaptor;
+            TwitterConnectionEvents = eventAggregator ?? new EventAggregator();
             UserSession = UserSessionBuilder(twitterConsumerKey, twitterConsumerSecret);
         }
 #endif
