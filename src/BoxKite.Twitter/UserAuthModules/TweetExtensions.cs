@@ -9,8 +9,6 @@ using BoxKite.Twitter.Models;
 
 namespace BoxKite.Twitter
 {
-    // TODO: manage https://support.twitter.com/articles/14020-twitter-for-sms-basic-features
-
     public static class TweetExtensions
     {
         /// <summary>

@@ -112,7 +112,6 @@ namespace BoxKite.Twitter
 
         private IUserSession UserSessionBuilder()
         {
-            // todo insert oauth2 from ApplicationSession
             return UserSession ?? new UserSession(TwitterCredentials, PlatformAdaptor);
         }
 

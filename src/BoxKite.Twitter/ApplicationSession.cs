@@ -70,7 +70,7 @@ namespace BoxKite.Twitter
             client.DefaultRequestHeaders.Add("User-Agent", TwitterApi.UserAgent());
 
             if (!string.IsNullOrWhiteSpace(querystring))
-                fullUrl += "?" + querystring.Substring(0, querystring.Length - 1);
+                fullUrl += "?" + querystring.TrimLastChar();
 
             var download = client.GetAsync(fullUrl).ToObservable().Timeout(TimeSpan.FromSeconds(WaitTimeoutSeconds));
             return await download;
@@ -103,7 +103,7 @@ namespace BoxKite.Twitter
 
             var querystring = parameters.Aggregate("", (current, entry) => current + (entry.Key + "=" + entry.Value + "&"));
             if (!string.IsNullOrWhiteSpace(querystring))
-                querystring = querystring.Substring(0, querystring.Length - 1);
+                querystring = querystring.TrimLastChar();
 
             var oauth2bearertoken = "";
 
