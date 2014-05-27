@@ -37,7 +37,7 @@ namespace BoxKite.Twitter.Console
             if (testSeriesToRun.Contains(12))
             {
                 var cmbs = new ApplicationOnlyAuthFireTests();
-                var testResult12 = cmbs.DoApplicationOnlyAuthFireTests(twitterConnection, new List<int> { 1,6 }).Result;
+                var testResult12 = cmbs.DoApplicationOnlyAuthFireTests(twitterConnection, new List<int> { 2 }).Result;
 
                 if (testResult12)
                 {

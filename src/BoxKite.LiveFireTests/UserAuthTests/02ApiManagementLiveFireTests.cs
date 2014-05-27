@@ -21,10 +21,10 @@ namespace BoxKite.Twitter.Console
                     var currentapi = await session.GetCurrentAPIStatus();
                     if (currentapi.OK)
                     {
-                        foreach (var x in currentapi.ApiRateStatuses)
+                        foreach (var x in currentapi.APIRateStatuses)
                         {
                             ConsoleOutput.PrintMessage(
-                                String.Format("API on: {0} Calls: {1}/{2} Resets: {3}", x.Key, x.Value.remaining, x.Value.limit, x.Value.ResetTime ));
+                                String.Format("API on: {0} Calls: {1}/{2} Resets: {3}", x.Key, x.Value.Remaining, x.Value.Limit, x.Value.ResetTime ));
                         }
                     }
                     else

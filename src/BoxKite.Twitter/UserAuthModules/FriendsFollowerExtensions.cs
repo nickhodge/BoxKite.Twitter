@@ -177,7 +177,7 @@ namespace BoxKite.Twitter
             }
 
             return await session.PostAsync(TwitterApi.Resolve("/1.1/friendships/update.json"), parameters)
-                          .ContinueWith(c => c.MapToUserStatus());
+                          .ContinueWith(c => c.MapToSingle<UserStatus>());
         }
 
         /// <summary>
@@ -221,7 +221,7 @@ namespace BoxKite.Twitter
 
 
             return await session.PostAsync(TwitterApi.Resolve("/1.1/friendships/show.json"), parameters)
-                          .ContinueWith(c => c.MapToUserStatus());
+                          .ContinueWith(c => c.MapToSingle<UserStatus>());
         }
 
         /// <summary>
@@ -258,7 +258,7 @@ namespace BoxKite.Twitter
             }
 
             return await session.GetAsync(TwitterApi.Resolve("/1.1/friendships/show.json"), parameters)
-                          .ContinueWith(c => c.MapToUserStatus());
+                          .ContinueWith(c => c.MapToSingle<UserStatus>());
         }
 
         /// <summary>

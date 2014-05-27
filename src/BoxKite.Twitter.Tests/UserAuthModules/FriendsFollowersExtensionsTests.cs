@@ -123,8 +123,8 @@ namespace BoxKite.Twitter.Tests
             var updatefs = await session.ChangeFriendship("testscreenname", 345);
 
             Assert.IsNotNull(updatefs);
-            updatefs.Source.CanDM.Should().BeTrue();
-            updatefs.Target.FollowedBy.Should().BeTrue();
+            updatefs.Relationship.Source.CanDM.Should().BeTrue();
+            updatefs.Relationship.Target.FollowedBy.Should().BeTrue();
         }
 
         [TestMethod]
@@ -137,8 +137,8 @@ namespace BoxKite.Twitter.Tests
             var updatefs = await session.GetFriendship("sourcescreenname", "targetscreenname", 342, 6536);
 
             Assert.IsNotNull(updatefs);
-            updatefs.Source.CanDM.Should().BeTrue();
-            updatefs.Target.FollowedBy.Should().BeTrue();
+            updatefs.Relationship.Source.CanDM.Should().BeTrue();
+            updatefs.Relationship.Target.FollowedBy.Should().BeTrue();
         }
 
         [TestMethod]

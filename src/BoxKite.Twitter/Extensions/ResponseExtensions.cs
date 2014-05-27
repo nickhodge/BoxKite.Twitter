@@ -3,46 +3,50 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using BoxKite.Twitter.Models;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace BoxKite.Twitter.Extensions
 {
     internal static class ResponseExtensions
     {
         // special case decodes
-        internal static ApiRateStatusCall MapToApiRateLimits(this Task<HttpResponseMessage> task)
+       internal static async Task<ApiRateStatusResponse> MapToApiRateLimits(this Task<HttpResponseMessage> task)
         {
             if (task.IsFaulted || task.IsCanceled)
             {
-                return new ApiRateStatusCall { twitterFaulted = true, twitterControlMessage = MapHTTPResponses(task) };
+                return new ApiRateStatusResponse { twitterFaulted = true, twitterControlMessage = MapHTTPResponses(task) };
             }
 
             var result = task.Result;
             if (!result.IsSuccessStatusCode)
             {
-                return new ApiRateStatusCall { twitterFaulted = true, twitterControlMessage = MapHTTPResponses(task) };
+                return new ApiRateStatusResponse { twitterFaulted = true, twitterControlMessage = MapHTTPResponses(task) };
             }
 
-            var content = result.Content.ReadAsStringAsync();
-
-            var apiresp = JsonConvert.DeserializeObject<dynamic>(content.Result);
-            var apiratelimit = new ApiRateStatusCall { ApiRateStatuses = new Dictionary<string, ApiRateStatus>() };
-
-            foreach (var x in apiresp.resources)
+            var content = await result.Content.ReadAsStringAsync();
+            var jresponse = JObject.Parse(content);
+            var apiratelimit = new ApiRateStatusResponse
             {
-                foreach (var i in x.Value)
-                {
-                    apiratelimit.ApiRateStatuses.Add(i.Name, new ApiRateStatus { apipath = i.Name, remaining = i.Value.remaining, limit = i.Value.limit, reset = i.Value.reset });
-                }
+                APIRateStatuses = new Dictionary<string, APIRateStatus>(),
+                APIContext = (string) jresponse["rate_limit_context"]["access_token"]
+            };
+
+            foreach (var x in from resourcetypes in jresponse["resources"] from resourcetype in resourcetypes from apicall in resourcetype select apicall)
+            {
+                var k = JsonConvert.DeserializeObject<APIRateStatus>(x.First.ToString());
+                k.APIPath = ((JProperty) x).Name;
+                apiratelimit.APIRateStatuses.Add(k.APIPath, k);
             }
 
             return apiratelimit;
-        }
+        } 
 
         // TwitterSuccess is a wrapped bool
         internal static TwitterSuccess MapToTwitterSuccess(this Task<HttpResponseMessage> task)
@@ -54,42 +58,6 @@ namespace BoxKite.Twitter.Extensions
             var result = task.Result;
             resp.Status = result.IsSuccessStatusCode;
             return resp;
-        }
-
-        internal static UserStatus MapToUserStatus(this Task<HttpResponseMessage> task)
-        {
-            if (task.IsFaulted || task.IsCanceled)
-            {
-                return new UserStatus { twitterFaulted = true, twitterControlMessage = MapHTTPResponses(task) };
-            }
-
-            var result = task.Result;
-            if (!result.IsSuccessStatusCode)
-            {
-                return new UserStatus { twitterFaulted = true, twitterControlMessage = MapHTTPResponses(task) };
-            }
-
-            var content = result.Content.ReadAsStringAsync();
-            var ids = JsonConvert.DeserializeObject<dynamic>(content.Result);
-            var userst = new UserStatus
-            {
-                Target = new UserStatusTarget
-                {
-                    Id = ids.relationship.target.id,
-                    FollowedBy = Convert.ToBoolean(ids.relationship.target.followed_by),
-                    ScreenName = ids.relationship.target.screen_name,
-                    Following = Convert.ToBoolean(ids.relationship.target.following)
-                },
-                Source = new UserStatusSource
-                {
-                    Id = ids.relationship.source.id,
-                    FollowedBy = Convert.ToBoolean(ids.relationship.source.followed_by),
-                    ScreenName = ids.relationship.source.screen_name,
-                    Following = Convert.ToBoolean(ids.relationship.source.following),
-                    CanDM = Convert.ToBoolean(ids.relationship.source.can_dm)
-                }
-            };
-            return userst;
         }
 
         // special generic case decodes of JSON responses

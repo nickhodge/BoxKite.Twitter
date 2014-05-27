@@ -14,14 +14,12 @@ namespace BoxKite.Twitter
         /// </summary>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/application/rate_limit_status </remarks>
-        public static async Task<ApiRateStatusCall> GetCurrentAPIStatus(this ITwitterSession session)
+        public static async Task<ApiRateStatusResponse> GetCurrentAPIStatus(this ITwitterSession session)
         {
             var parameters = new SortedDictionary<string, string>();
             var url = TwitterApi.Resolve("/1.1/application/rate_limit_status.json");
-            return await session.GetAsync(url, parameters)
-                          .ContinueWith(c => c.MapToApiRateLimits());
+            var c = session.GetAsync(url, parameters);
+            return await c.MapToApiRateLimits();
         }
-
-
     }
 }

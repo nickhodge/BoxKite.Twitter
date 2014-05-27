@@ -21,7 +21,7 @@ namespace BoxKite.Twitter.Tests
             var api = await session.GetCurrentAPIStatus();
 
             Assert.IsNotNull(api);
-            Assert.IsTrue(api.ApiRateStatuses.Count == 61);
+            Assert.IsTrue(api.APIRateStatuses.Count == 61);
         }
 
     }

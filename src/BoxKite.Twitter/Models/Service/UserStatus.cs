@@ -6,6 +6,12 @@ namespace BoxKite.Twitter.Models
 {
     public class UserStatus : TwitterControlBase
     {
+        [JsonProperty("relationship")]
+        public UserStatusRelationship Relationship { get; set; }
+    }
+
+    public class UserStatusRelationship
+    {
         [JsonProperty("target")]
         public UserStatusTarget Target { get; set; }
 
@@ -25,7 +31,7 @@ namespace BoxKite.Twitter.Models
         public string ScreenName { get; set; }
 
         [JsonProperty("following")]
-        public bool Following { get; set; }
+        public bool? Following { get; set; }
     }
 
     public class UserStatusSource
@@ -34,30 +40,16 @@ namespace BoxKite.Twitter.Models
         public long Id { get; set; }
 
         [JsonProperty("followed_by")]
-        public bool FollowedBy { get; set; }
+        public bool? FollowedBy { get; set; }
 
         [JsonProperty("screen_name")]
         public string ScreenName { get; set; }
 
         [JsonProperty("following")]
-        public bool Following { get; set; }
+        public bool? Following { get; set; }
 
         [JsonProperty("can_dm")]
-        public bool CanDM { get; set; }
+        public bool? CanDM { get; set; }
 
-        [JsonProperty("blocking")]
-        public bool Blocking { get; set; }
-
-        [JsonProperty("all_replies")]
-        public bool AllReplies { get; set; }
-
-        [JsonProperty("want_retweets")]
-        public bool WantRetweets { get; set; }
-
-        [JsonProperty("marked_spam")]
-        public bool MarkedSpam { get; set; }
-
-        [JsonProperty("notifications_enabled")]
-        public bool NotificationsEnabled { get; set; }
     }
 }

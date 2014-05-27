@@ -47,10 +47,10 @@ namespace BoxKite.Twitter.Console
 
                     if (combo2.OK)
                     {
-                        foreach (var apir in combo2.ApiRateStatuses)
+                        foreach (var apir in combo2.APIRateStatuses)
                         {
                             ConsoleOutput.PrintMessage(
-                                String.Format("API: {0} Limit: {1} Remaining: {2}", apir.Value.apipath, apir.Value.limit, apir.Value.remaining));
+                                String.Format("API: {0} Limit: {1} Remaining: {2}", apir.Value.APIPath, apir.Value.Limit, apir.Value.Remaining));
                         }
                     }
                     else

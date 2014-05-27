@@ -8,21 +8,21 @@ using Newtonsoft.Json;
 
 namespace BoxKite.Twitter.Models
 {
-    public class ApiRateStatusCall : TwitterControlBase
+    public class ApiRateStatusResponse : TwitterControlBase
     {
-        [JsonIgnore]
-        public Dictionary<string, ApiRateStatus> ApiRateStatuses { get; set; } 
+        public string APIContext { get; set; }
+        public Dictionary<string, APIRateStatus> APIRateStatuses { get; set; } 
     }
 
-    public class ApiRateStatus
+    public class APIRateStatus
     {
-        public string apipath { get; set; }
-        public int remaining { get; set; }
-        public int limit { get; set; }
-        public double reset { get; set; }
-        public DateTime ResetTime
+        public string APIPath { get; set; }
+        public int Remaining { get; set; }
+        public int Limit { get; set; }
+        public double Reset { get; set; }
+        public DateTimeOffset ResetTime
         {
-            get { return reset.FromUnixEpochSeconds(); }
+            get { return Reset.FromUnixEpochSeconds(); }
         }
     }
 }
