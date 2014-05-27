@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BoxKite.Twitter
 {
-    public static partial class UsersExtensions
+    public static class UsersExtensions
     {
         /// <summary>
         /// Returns settings (including current trend, geo and sleep time information) for the authenticating user.
@@ -454,8 +454,8 @@ namespace BoxKite.Twitter
         /// <param name="user_ids">up to 100 are allowed in a single request. </param>
         /// <returns>Observable List of full user details</returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/users/lookup </remarks>
-        public static async Task<TwitterResponseCollection<User>> GetUsersDetailsFull(this IUserSession session, List<string> screen_names = null,
-            List<long> user_ids = null)
+        public static async Task<TwitterResponseCollection<User>> GetUsersDetailsFull(this IUserSession session, IEnumerable<string> screen_names = null,
+            IEnumerable<long> user_ids = null)
         {
             var parameters = new TwitterParametersCollection();
             parameters.Create(include_entities: true);
@@ -470,6 +470,28 @@ namespace BoxKite.Twitter
             return await session.PostAsync(TwitterApi.Resolve("/1.1/users/lookup.json"), parameters).ContinueWith(c => c.MapToMany<User>());
         }
 
+        /// <summary>
+        /// Returns fully-hydrated user objects for up to 100 users per request, as specified by comma-separated values passed to the user_id and/or screen_name parameters.
+        /// </summary>
+        /// <param name="screen_names">up to 100 are allowed in a single request.</param>
+        /// <param name="user_ids">up to 100 are allowed in a single request. </param>
+        /// <returns>Observable List of full user details</returns>
+        /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/users/lookup </remarks>
+        public static async Task<TwitterResponseCollection<User>> GetUsersDetailsFull(this ITwitterSession session, IEnumerable<string> screen_names = null,
+            IEnumerable<long> user_ids = null)
+        {
+            var parameters = new TwitterParametersCollection();
+            parameters.Create(include_entities: true);
+            parameters.CreateCollection(screen_names: screen_names, user_ids: user_ids);
+
+            if (parameters.EnsureEitherOr("screen_name", "user_id").IsFalse())
+            {
+                return session.MapParameterError<TwitterResponseCollection<User>>(
+                        "Either screen_names or user_ids required"); ;
+            }
+
+            return await session.GetAsync(TwitterApi.Resolve("/1.1/users/lookup.json"), parameters).ContinueWith(c => c.MapToMany<User>());
+        }
         /// <summary>
         /// Provides a simple, relevance-based search interface to public user accounts on Twitter. Only the first 1,000 matching results are available.
         /// </summary>

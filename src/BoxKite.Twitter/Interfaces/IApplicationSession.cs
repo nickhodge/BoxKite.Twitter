@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BoxKite.Twitter
 {
-    public interface IApplicationSession
+    public interface IApplicationSession : ITwitterSession
     {
         bool IsActive { get; set; }
         string clientID { get; set; }
@@ -15,9 +15,9 @@ namespace BoxKite.Twitter
         string bearerToken { get; set; }
         int WaitTimeoutSeconds { get; set; }
 
-        Task<HttpResponseMessage> GetAsync(string relativeUrl, SortedDictionary<string, string> parameters);
+        new Task<HttpResponseMessage> GetAsync(string relativeUrl, SortedDictionary<string, string> parameters);
 
-        Task<HttpResponseMessage> PostAsync(string url, SortedDictionary<string, string> parameters, bool forInitialAuth);
+       Task<HttpResponseMessage> PostAsync(string url, SortedDictionary<string, string> parameters, bool forInitialAuth);
 
     }
 }

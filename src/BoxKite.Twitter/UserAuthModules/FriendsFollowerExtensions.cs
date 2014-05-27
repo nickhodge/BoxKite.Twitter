@@ -8,7 +8,7 @@ using BoxKite.Twitter.Models;
 
 namespace BoxKite.Twitter
 {
-    public static partial class FriendsFollowersExtensions
+    public static class FriendsFollowersExtensions
     {
         /// <summary>
         /// Returns a cursored collection of user IDs for every user the specified user is following (otherwise known as their "friends")
@@ -18,7 +18,7 @@ namespace BoxKite.Twitter
         /// <param name="screen_name">screen_name or user_id must be provided</param>
         /// <param name="count">how many to return default 500</param>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/friends/ids </remarks>
-        public async static Task<FriendsFollowersIDsCursored> GetFriendsIDs(this IUserSession session, string screen_name = "", int user_id = 0, int count = 500, long cursor = -1)
+        public async static Task<FriendsFollowersIDsCursored> GetFriendsIDs(this ITwitterSession session, string screen_name = "", int user_id = 0, int count = 500, long cursor = -1)
         {
             var parameters = new TwitterParametersCollection();
             parameters.Create(count: count, cursor:cursor, screen_name:screen_name, user_id:user_id);
@@ -41,7 +41,7 @@ namespace BoxKite.Twitter
         /// <param name="screen_name">screen_name or user_id must be provided</param>
         /// <param name="count">how many to return default 500</param>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/followers/ids </remarks>
-        public static async Task<FriendsFollowersIDsCursored> GetFollowersIDs(this IUserSession session, string screen_name = "", int user_id = 0, int count = 500, long cursor = -1)
+        public static async Task<FriendsFollowersIDsCursored> GetFollowersIDs(this ITwitterSession session, string screen_name = "", int user_id = 0, int count = 500, long cursor = -1)
         {
             var parameters = new TwitterParametersCollection();
             parameters.Create(count: count, cursor: cursor, screen_name: screen_name, user_id: user_id);
@@ -225,6 +225,49 @@ namespace BoxKite.Twitter
         }
 
         /// <summary>
+        /// Returns detailed information about the relationship between two arbitrary users.
+        /// </summary>
+        /// <param name="source_screen_name">The user_id of the subject user.</param>
+        /// <param name="source_id">The screen_name of the subject user.</param>
+        /// <param name="target_id">The user_id of the target user.</param>
+        /// <param name="target_screen_name">The screen_name of the target user.</param>
+        /// <returns></returns>
+        /// <remarks> ref: https://api.twitter.com/1.1/friendships/show.json </remarks>
+        public async static Task<UserStatus> GetFriendship(this ITwitterSession session, string source_screen_name = "", string target_screen_name = "", int source_id = 0, int target_id = 0)
+        {
+            var parameters = new TwitterParametersCollection();
+
+            if (!string.IsNullOrWhiteSpace(source_screen_name))
+            {
+                parameters.Add("source_screen_name", source_screen_name);
+            }
+
+            if (source_id != 0)
+            {
+                parameters.Add("source_id", source_id.ToString());
+            }
+
+            if (!string.IsNullOrWhiteSpace(target_screen_name))
+            {
+                parameters.Add("target_screen_name", target_screen_name);
+            }
+
+            if (target_id != 0)
+            {
+                parameters.Add("target_id", target_id.ToString());
+            }
+
+            if (parameters.EnsureAllArePresent(new string[] { "source_screen_name", "source_id", "target_screen_name", "target_id" }).IsFalse())
+            {
+                return session.MapParameterError<UserStatus>(
+                        "source_screen_name, source_id, target_screen_name and target_id are all required"); ;
+            }
+
+            return await session.GetAsync(TwitterApi.Resolve("/1.1/friendships/show.json"), parameters)
+                          .ContinueWith(c => c.MapToUserStatus());
+        }
+
+        /// <summary>
         /// Returns a cursored collection of user objects for every user the specified user is following (otherwise known as their "friends").
         /// </summary>
         /// <param name="cursor">default is first page (-1) otherwise provide starting point</param>
@@ -232,7 +275,7 @@ namespace BoxKite.Twitter
         /// <param name="screen_name">screen_name or user_id must be provided</param>
         /// <param name="count">how many to return default 500</param>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/friends/list </remarks>
-        public async static Task<UserListDetailedCursored> GetFriendsList(this IUserSession session, string screen_name = "", int user_id = 0, int count = 20, long cursor = -1)
+        public async static Task<UserListDetailedCursored> GetFriendsList(this ITwitterSession session, string screen_name = "", int user_id = 0, int count = 20, long cursor = -1)
         {
             var parameters = new TwitterParametersCollection
                                     {
@@ -259,7 +302,7 @@ namespace BoxKite.Twitter
         /// <param name="screen_name">screen_name or user_id must be provided</param>
         /// <param name="count">how many to return default 500</param>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/followers/list </remarks>
-        public async static Task<UserListDetailedCursored> GetFollowersList(this IUserSession session, string screen_name = "", int user_id = 0, int count = 20, long cursor = -1)
+        public async static Task<UserListDetailedCursored> GetFollowersList(this ITwitterSession session, string screen_name = "", int user_id = 0, int count = 20, long cursor = -1)
         {
             var parameters = new TwitterParametersCollection
                                     {

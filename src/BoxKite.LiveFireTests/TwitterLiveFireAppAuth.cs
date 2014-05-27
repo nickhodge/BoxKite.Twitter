@@ -28,16 +28,16 @@ namespace BoxKite.Twitter.Console
             var testSeriesToRun = new List<int> {12};
 
             // Calls tested by Test Series
-            // series 12=> 1 (Application Only Auth tests)
+            // series 12=> 4 (Application Only Auth tests)
             // =============
-            // TOTAL       1
+            // TOTAL       4
 
             // Test Series 12 Application Only Auth tests
 
             if (testSeriesToRun.Contains(12))
             {
                 var cmbs = new ApplicationOnlyAuthFireTests();
-                var testResult12 = cmbs.DoApplicationOnlyAuthFireTests(twitterConnection, new List<int> { 4 }).Result;
+                var testResult12 = cmbs.DoApplicationOnlyAuthFireTests(twitterConnection, new List<int> { 1,2,3,4 }).Result;
 
                 if (testResult12)
                 {

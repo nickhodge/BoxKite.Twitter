@@ -8,7 +8,7 @@ using BoxKite.Twitter.Models;
 
 namespace BoxKite.Twitter
 {
-    public static partial class SearchExtensions
+    public static class SearchExtensions
     {
         /// <summary>
         /// dedicated API for running searches against the real-time index of recent Tweets. 6-9 days of historical data
@@ -21,7 +21,7 @@ namespace BoxKite.Twitter
         /// <param name="searchResponseType">SearchResult.Mixed (default), SearchResult.Recent, SearchResult.Popular</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/search/tweets </remarks>
-        public async static Task<SearchResponse> SearchFor(this IUserSession session, string searchtext, SearchResultType searchResponseType, long max_id = 0, long since_id = 0, string untilDate = "", int count = 20)
+        public async static Task<SearchResponse> SearchFor(this ITwitterSession session, string searchtext, SearchResultType searchResponseType, long max_id = 0, long since_id = 0, string untilDate = "", int count = 20)
         {
             var parameters = new TwitterParametersCollection
                                  {
@@ -55,7 +55,7 @@ namespace BoxKite.Twitter
         /// <param name="searchResponseType">SearchResult.Mixed (default), SearchResult.Recent, SearchResult.Popular</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/search/tweets </remarks>
-        public async static Task<SearchResponse> SearchFor(this IUserSession session, string searchtext, SearchResultType searchResponseType, double latitude, double longitude, double distance, string distanceUnits="km", long max_id = 0, long since_id = 0, string untilDate = "", int count = 20)
+        public async static Task<SearchResponse> SearchFor(this ITwitterSession session, string searchtext, SearchResultType searchResponseType, double latitude, double longitude, double distance, string distanceUnits="km", long max_id = 0, long since_id = 0, string untilDate = "", int count = 20)
         {
             var parameters = new TwitterParametersCollection
                                  {

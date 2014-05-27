@@ -9,7 +9,7 @@ namespace BoxKite.Twitter.Console
 {
     public class ApiManagementLiveFireTests
     {
-        public async Task<bool> DoApiTest(IUserSession session, List<int> testSeq)
+        public async Task<bool> DoApiTest(ITwitterSession session, List<int> testSeq)
         {
             var successStatus = true;
             try

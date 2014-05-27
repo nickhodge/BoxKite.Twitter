@@ -10,7 +10,7 @@ namespace BoxKite.Twitter
 {
     // TODO: manage https://support.twitter.com/articles/14020-twitter-for-sms-basic-features
 
-    public static partial class TweetExtensions
+    public static class TweetExtensions
     {
         /// <summary>
         /// Sends a Tweet
@@ -104,7 +104,7 @@ namespace BoxKite.Twitter
         /// <param name="tweetID">The tweet ID to return</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/statuses/show/%3Aid  </remarks>
-        public async static Task<Tweet> GetTweet(this IUserSession session, long tweetID)
+        public async static Task<Tweet> GetTweet(this ITwitterSession session, long tweetID)
         {
             var parameters = new TwitterParametersCollection
                              {
@@ -124,13 +124,31 @@ namespace BoxKite.Twitter
         /// <param name="count"></param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/statuses/retweets/%3Aid  </remarks>
-        public async static Task<TwitterResponseCollection<Tweet>> GetRetweets(this IUserSession session, Tweet tweet, int count = 20)
+        public async static Task<TwitterResponseCollection<Tweet>> GetRetweets(this ITwitterSession session, Tweet tweet, int count = 20)
         {
             var parameters = new TwitterParametersCollection
                              {
                                  {"count", count.ToString()},
                              };
             var path = TwitterApi.Resolve("/1.1/statuses/retweets/{0}.json", tweet.Id);
+            return await session.GetAsync(path, parameters)
+                .ContinueWith(c => c.MapToMany<Tweet>());
+        }
+
+
+        /// <summary>
+        /// Gets the Retweets of a particular tweet
+        /// </summary>
+        /// <param name="tweetid"></param>
+        /// <param name="count"></param>
+        /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/statuses/retweets/%3Aid  </remarks>
+        public async static Task<TwitterResponseCollection<Tweet>> GetRetweets(this ITwitterSession session, long tweetid, int count = 20)
+        {
+            var parameters = new TwitterParametersCollection
+                             {
+                                 {"count", count.ToString()},
+                             };
+            var path = TwitterApi.Resolve("/1.1/statuses/retweets/{0}.json", tweetid);
             return await session.GetAsync(path, parameters)
                 .ContinueWith(c => c.MapToMany<Tweet>());
         }

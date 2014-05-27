@@ -14,7 +14,7 @@ namespace BoxKite.Twitter
         /// </summary>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/users/suggestions </remarks>
-        public static async Task<TwitterResponseCollection<SuggestedUsers>> GetSuggestedLists(this IUserSession session)
+        public static async Task<TwitterResponseCollection<SuggestedUsers>> GetSuggestedLists(this ITwitterSession session)
         {
             var parameters = new TwitterParametersCollection();
             return await session.GetAsync(TwitterApi.Resolve("/1.1/users/suggestions.json"), parameters)
@@ -27,7 +27,7 @@ namespace BoxKite.Twitter
         /// <param name="slug">The short name of list or a category returned by GetSuggestedList</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/users/suggestions/%3Aslug </remarks>
-        public static async Task<SuggestedUsers> GetSuggestedUsers(this IUserSession session, string slug)
+        public static async Task<SuggestedUsers> GetSuggestedUsers(this ITwitterSession session, string slug)
         {
             var parameters = new TwitterParametersCollection();
             var url = TwitterApi.Resolve("/1.1/users/suggestions/{0}.json", slug);

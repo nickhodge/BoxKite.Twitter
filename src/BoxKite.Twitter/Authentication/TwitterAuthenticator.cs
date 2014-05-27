@@ -139,6 +139,7 @@ namespace BoxKite.Twitter.Authentication
                         UserID = Int64.Parse(_userId),
                         Valid = true
                     };
+                    session.IsActive = true;
                 return twitterCreds;
                 }
             }
@@ -399,6 +400,7 @@ namespace BoxKite.Twitter.Authentication
             var content = await result.Content.ReadAsStringAsync();
             var jresponse = JObject.Parse(content);
             appsession.bearerToken = (string) jresponse["access_token"];
+            appsession.IsActive = true;
             return true;
         }
 

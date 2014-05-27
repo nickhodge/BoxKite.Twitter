@@ -251,7 +251,7 @@ namespace BoxKite.Twitter
         {
            var largestseenid = sinceid;
             
-            var hometl = await UserSession.GetUserTimeline(user_id: AccountDetails.UserId, count: pagingSize, since_id: sinceid);
+            var hometl = await TwitterSession.GetUserTimeline(user_id: AccountDetails.UserId, count: pagingSize, since_id: sinceid);
             if (!hometl.OK) return largestseenid;
 
             foreach (var tweet in hometl.Where(tweet => tweet.Id > sinceid))
@@ -493,7 +493,7 @@ namespace BoxKite.Twitter
 
             do
             {
-                var hometl = await UserSession.GetUserTimeline(user_id:AccountDetails.UserId, count: pagingSize, max_id: smallestid);
+                var hometl = await TwitterSession.GetUserTimeline(user_id:AccountDetails.UserId, count: pagingSize, max_id: smallestid);
                 if (hometl.OK)
                 {
                     smallestid = long.MaxValue;

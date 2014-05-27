@@ -152,7 +152,7 @@ namespace BoxKite.Twitter.Extensions
         }
 
         // Map incorrect parameter errors
-        internal static T MapParameterError<T>(this IUserSession s, string errorMessage) where T : new()
+        internal static T MapParameterError<T>(this ITwitterSession s, string errorMessage) where T : new()
         {
             var responseMessage = new T();
 

@@ -104,36 +104,6 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\BoxKite.Twitter\ApplicationAuthModules\ApiManagementExtensions.cs">
-      <Link>ApplicationAuthModules\ApiManagementExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\BoxKite.Twitter\ApplicationAuthModules\FavouritesExtensions.cs">
-      <Link>ApplicationAuthModules\FavouritesExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\BoxKite.Twitter\ApplicationAuthModules\FriendsFollowerExtensions.cs">
-      <Link>ApplicationAuthModules\FriendsFollowerExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\BoxKite.Twitter\ApplicationAuthModules\ListExtensions.cs">
-      <Link>ApplicationAuthModules\ListExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\BoxKite.Twitter\ApplicationAuthModules\PlacesGeoExtensions.cs">
-      <Link>ApplicationAuthModules\PlacesGeoExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\BoxKite.Twitter\ApplicationAuthModules\SearchExtensions.cs">
-      <Link>ApplicationAuthModules\SearchExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\BoxKite.Twitter\ApplicationAuthModules\TimelineExtensions.cs">
-      <Link>ApplicationAuthModules\TimelineExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\BoxKite.Twitter\ApplicationAuthModules\TrendsExtenstions.cs">
-      <Link>ApplicationAuthModules\TrendsExtenstions.cs</Link>
-    </Compile>
-    <Compile Include="..\BoxKite.Twitter\ApplicationAuthModules\TweetExtensions.cs">
-      <Link>ApplicationAuthModules\TweetExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\BoxKite.Twitter\ApplicationAuthModules\UsersExtensions.cs">
-      <Link>ApplicationAuthModules\UsersExtensions.cs</Link>
-    </Compile>
     <Compile Include="..\BoxKite.Twitter\ApplicationSession.cs">
       <Link>ApplicationSession.cs</Link>
     </Compile>
@@ -193,6 +163,9 @@
     </Compile>
     <Compile Include="..\BoxKite.Twitter\Interfaces\ISearchStream.cs">
       <Link>Interfaces\ISearchStream.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Interfaces\ITwitterSession.cs">
+      <Link>Interfaces\ITwitterSession.cs</Link>
     </Compile>
     <Compile Include="..\BoxKite.Twitter\Interfaces\IUserSession.cs">
       <Link>Interfaces\IUserSession.cs</Link>

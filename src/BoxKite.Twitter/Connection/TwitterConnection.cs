@@ -19,6 +19,14 @@ namespace BoxKite.Twitter
         public TwitterCredentials TwitterCredentials { get; set; }
         public AccountSettings AccountSettings { get; set; }
 
+        public ITwitterSession TwitterSession
+        {
+            get
+            {
+                // return the highest level if the dev asks for a generic TwitterSession
+                return UserSession.IsActive ? UserSession : ApplicationSession;
+            }
+        }
         public IApplicationSession ApplicationSession { get; set; }
         public IUserSession UserSession { get; set; }
         public IUserStream UserStream { get; set; }
@@ -139,6 +147,7 @@ namespace BoxKite.Twitter
             AccountDetails = await UserSession.GetVerifyCredentials();
             if (AccountDetails.OK) // go deeper
             {
+                UserSession.IsActive = true;
                 AccountSettings = await UserSession.GetAccountSettings();
                 AccountDetails = await UserSession.GetUserProfile(user_id: AccountDetails.UserId);
                 return AccountDetails.OK;
@@ -152,6 +161,7 @@ namespace BoxKite.Twitter
         {
             var twittercredentials = await UserSession.Authentication(_callbackuri);
             if (!twittercredentials.Valid) return null;
+            UserSession.IsActive = true;
             return twittercredentials;
         }
 #endif

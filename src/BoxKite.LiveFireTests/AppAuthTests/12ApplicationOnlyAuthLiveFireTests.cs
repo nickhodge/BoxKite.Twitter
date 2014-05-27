@@ -3,13 +3,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
-using BoxKite.Twitter;
-using BoxKite.Twitter.Authentication;
 using BoxKite.Twitter.Models;
-using Reactive.EventAggregator;
 
 namespace BoxKite.Twitter.Console
 {
@@ -26,7 +21,7 @@ namespace BoxKite.Twitter.Console
                 {
                     ConsoleOutput.PrintMessage("12.1 User Time Line//Application Auth Only", ConsoleColor.Gray);
 
-                    var combo1 = await twitterConnection.ApplicationSession.GetUserTimeline("KatyPerry");
+                    var combo1 = await twitterConnection.TwitterSession.GetUserTimeline("KatyPerry");
 
                     if (combo1.OK)
                     {
@@ -48,7 +43,7 @@ namespace BoxKite.Twitter.Console
                 {
                     ConsoleOutput.PrintMessage("12.2 API Management//Rate limits", ConsoleColor.Gray);
 
-                    var combo2 = await twitterConnection.ApplicationSession.GetCurrentAPIStatus();
+                    var combo2 = await twitterConnection.TwitterSession.GetCurrentAPIStatus();
 
                     if (combo2.OK)
                     {
@@ -70,7 +65,7 @@ namespace BoxKite.Twitter.Console
                 {
                     ConsoleOutput.PrintMessage("12.3 Get a Tweet//", ConsoleColor.Gray);
 
-                    var combo3 = await twitterConnection.ApplicationSession.GetTweet(464717579861258242);
+                    var combo3 = await twitterConnection.TwitterSession.GetTweet(464717579861258242);
 
                     if (combo3.OK)
                     {
@@ -91,7 +86,7 @@ namespace BoxKite.Twitter.Console
 
                     var oldtweet = new Tweet() {Id = 453310114796412928};
 
-                    var combo4 = await twitterConnection.ApplicationSession.GetRetweets(oldtweet);
+                    var combo4 = await twitterConnection.TwitterSession.GetRetweets(oldtweet);
 
                     if (combo4.OK)
                     {

@@ -35,16 +35,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="ApplicationAuthModules\ApiManagementExtensions.cs" />
-    <Compile Include="ApplicationAuthModules\FavouritesExtensions.cs" />
-    <Compile Include="ApplicationAuthModules\FriendsFollowerExtensions.cs" />
-    <Compile Include="ApplicationAuthModules\ListExtensions.cs" />
-    <Compile Include="ApplicationAuthModules\PlacesGeoExtensions.cs" />
-    <Compile Include="ApplicationAuthModules\SearchExtensions.cs" />
-    <Compile Include="ApplicationAuthModules\TimelineExtensions.cs" />
-    <Compile Include="ApplicationAuthModules\TrendsExtenstions.cs" />
-    <Compile Include="ApplicationAuthModules\TweetExtensions.cs" />
-    <Compile Include="ApplicationAuthModules\UsersExtensions.cs" />
+    <Compile Include="UserAuthModules\ApiManagementExtensions.cs" />
     <Compile Include="Authentication\TwitterAuthenticator.cs" />
     <Compile Include="Connection\TwitterConnectionEvents.cs" />
     <Compile Include="Connection\TwitterConnectionEngine.cs" />
@@ -53,6 +44,7 @@
     <Compile Include="Extensions\StreamExtensions.cs" />
     <Compile Include="Helpers\EventAggregator\EventAggregator.cs" />
     <Compile Include="Helpers\EventAggregator\IEventAggregator.cs" />
+    <Compile Include="Interfaces\ITwitterSession.cs" />
     <Compile Include="Interfaces\ISearchStream.cs" />
     <Compile Include="Interfaces\IApplicationSession.cs" />
     <Compile Include="Models\Service\ProfileBanners.cs" />
@@ -109,7 +101,6 @@
     <Compile Include="Models\Tweet.cs" />
     <Compile Include="Models\TwitterCredentials.cs" />
     <Compile Include="Models\User.cs" />
-    <Compile Include="UserAuthModules\ApiManagementExtensions.cs" />
     <Compile Include="UserAuthModules\DirectMessageExtensions.cs" />
     <Compile Include="UserAuthModules\FavouritesExtensions.cs" />
     <Compile Include="UserAuthModules\FriendsFollowerExtensions.cs" />

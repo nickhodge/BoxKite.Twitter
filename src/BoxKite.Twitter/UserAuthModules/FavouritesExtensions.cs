@@ -7,7 +7,7 @@ using BoxKite.Twitter.Models;
 
 namespace BoxKite.Twitter
 {
-    public static partial class FavouritesExtensions
+    public static class FavouritesExtensions
     {
         /// <summary>
         /// https://dev.twitter.com/docs/api/1.1/get/favorites/list

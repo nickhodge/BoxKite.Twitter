@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BoxKite.Twitter
 {
-    public static partial class PlacesGeoExtensions
+    public static class PlacesGeoExtensions
     {
         /// <summary>
         /// Returns all the information about a known place.

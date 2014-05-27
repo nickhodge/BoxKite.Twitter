@@ -7,7 +7,7 @@ using BoxKite.Twitter.Models;
 
 namespace BoxKite.Twitter
 {
-    public static partial class TrendsExtensions
+    public static class TrendsExtensions
     {
         /// <summary>
         /// Returns the top 10 trending topics for a specific WOEID, if trending information is available for it.
@@ -16,7 +16,7 @@ namespace BoxKite.Twitter
         /// <param name="exclude">If true will remove all hashtags from the trends list.</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/trends/place </remarks>
-        public static async Task<TwitterResponseCollection<TrendsForPlaceResponse>> GetTrendsForPlace(this IUserSession session, int place_id = 1, bool exclude = false)
+        public static async Task<TwitterResponseCollection<TrendsForPlaceResponse>> GetTrendsForPlace(this ITwitterSession session, int place_id = 1, bool exclude = false)
         {
             var parameters = new TwitterParametersCollection
                         {{"id",place_id.ToString()}};
@@ -32,7 +32,7 @@ namespace BoxKite.Twitter
         /// </summary>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/trends/available </remarks>
-        public static async Task<TwitterResponseCollection<TrendsAvailableLocationsResponse>> GetTrendsAvailableLocations(this IUserSession session)
+        public static async Task<TwitterResponseCollection<TrendsAvailableLocationsResponse>> GetTrendsAvailableLocations(this ITwitterSession session)
         {
             var parameters = new TwitterParametersCollection();
 
@@ -48,7 +48,7 @@ namespace BoxKite.Twitter
         /// <returns></returns>
         /// <remarks> ref:  https://dev.twitter.com/docs/api/1.1/get/trends/closest </remarks>
         public static async Task<TwitterResponseCollection<TrendsAvailableLocationsResponse>> GetTrendsByLocation(
-            this IUserSession session, double latitude = 0.0,
+            this ITwitterSession session, double latitude = 0.0,
             double longitude = 0.0)
         {
             var parameters = new TwitterParametersCollection
