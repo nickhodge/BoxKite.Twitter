@@ -90,7 +90,6 @@
     <Compile Include="Models\TwitterList.cs" />
     <Compile Include="Models\BoundingBox.cs" />
     <Compile Include="Models\Coordinates.cs" />
-    <Compile Include="Models\Ids.cs" />
     <Compile Include="Models\Place.cs" />
     <Compile Include="Models\SavedSearch.cs" />
     <Compile Include="Models\SearchResponse.cs" />

@@ -9,6 +9,7 @@ namespace BoxKite.Twitter
 {
     public static partial class FavouritesExtensions
     {
+        /*
         /// <summary>
         /// https://dev.twitter.com/docs/api/1.1/get/favorites/list
         /// Returns the count most recent Tweets favorited by the authenticating or specified user.
@@ -62,5 +63,7 @@ namespace BoxKite.Twitter
             return await session.PostAsync(url, parameters)
                           .ContinueWith(c => c.MapToSingle<Tweet>());
         }
+ */
     }
+        
 }

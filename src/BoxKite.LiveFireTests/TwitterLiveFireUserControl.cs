@@ -14,7 +14,7 @@ namespace BoxKite.Twitter.Console
 
         public static void Main(string[] args)
         {
-            ConsoleOutput.PrintMessage("BoxKite.Twitter Live Fire Tests");
+            ConsoleOutput.PrintMessage("BoxKite.Twitter Live Fire Tests (User Auth)");
             ConsoleOutput.PrintMessage("(control-c ends at anytime)");
 
             var twittercredentials = ManageTwitterCredentials.GetTwitterCredentialsFromFile();

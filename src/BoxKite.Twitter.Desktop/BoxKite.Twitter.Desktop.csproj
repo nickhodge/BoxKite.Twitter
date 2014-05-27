@@ -176,9 +176,6 @@
     <Compile Include="..\BoxKite.Twitter\Models\DirectMessage.cs">
       <Link>Models\DirectMessage.cs</Link>
     </Compile>
-    <Compile Include="..\BoxKite.Twitter\Models\Ids.cs">
-      <Link>Models\Ids.cs</Link>
-    </Compile>
     <Compile Include="..\BoxKite.Twitter\Models\Place.cs">
       <Link>Models\Place.cs</Link>
     </Compile>

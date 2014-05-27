@@ -10,6 +10,7 @@ namespace BoxKite.Twitter
 {
     public static partial class FriendsFollowersExtensions
     {
+        /*
         /// <summary>
         /// Returns a cursored collection of user IDs for every user the specified user is following (otherwise known as their "friends")
         /// </summary>
@@ -276,6 +277,6 @@ namespace BoxKite.Twitter
             return await session.GetAsync(TwitterApi.Resolve("/1.1/followers/list.json"), parameters)
                              .ContinueWith(t => t.MapToSingle<UserListDetailedCursored>());
         }
-
+        */
     }
 }

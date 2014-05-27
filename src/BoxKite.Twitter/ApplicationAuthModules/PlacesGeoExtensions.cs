@@ -10,6 +10,7 @@ namespace BoxKite.Twitter
 {
     public static partial class PlacesGeoExtensions
     {
+        /*
         /// <summary>
         /// Returns all the information about a known place.
         /// </summary>
@@ -163,5 +164,6 @@ namespace BoxKite.Twitter
             return await session.PostAsync(TwitterApi.Resolve("/1.1/geo/create.json"), parameters)
                 .ContinueWith(c => c.MapToSingle<AddPlaceResponse>());
         }
+         */
     }
 }

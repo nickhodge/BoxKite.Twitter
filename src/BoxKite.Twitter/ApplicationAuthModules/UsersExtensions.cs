@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace BoxKite.Twitter
 {
     public static partial class UsersExtensions
-    {
+    {/*
         /// <summary>
         /// Returns settings (including current trend, geo and sleep time information) for the authenticating user.
         /// </summary>
@@ -489,5 +489,6 @@ namespace BoxKite.Twitter
 
             return await session.GetAsync(TwitterApi.Resolve("/1.1/users/search.json"), parameters).ContinueWith(c => c.MapToMany<User>());
         }
+      * */
     }
 }

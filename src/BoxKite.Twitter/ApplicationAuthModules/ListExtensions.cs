@@ -10,6 +10,7 @@ namespace BoxKite.Twitter
 {
     public static partial class ListExtensions
     {
+        /*
         /// <summary>
         /// Returns all lists the authenticating or specified user subscribes to, including their own. The user is specified using the user_id or screen_name parameters. If no user is given, the authenticating user is used.
         /// </summary>
@@ -454,6 +455,6 @@ namespace BoxKite.Twitter
             return await session.GetAsync(TwitterApi.Resolve("/1.1/lists/ownerships.json"), parameters)
                           .ContinueWith(c => c.MapToSingle<TwitterListCursored>());
         }
-
+        */
     }
 }

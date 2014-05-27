@@ -100,24 +100,24 @@
     <Compile Include="Helpers\TestableSearchStream.cs" />
     <Compile Include="Helpers\TestableApplicationSession.cs" />
     <Compile Include="Helpers\TestableUserStream.cs" />
-    <Compile Include="Modules\ApiManagementExtensionsTests.cs" />
-    <Compile Include="Modules\ReportExtensionsTests.cs" />
-    <Compile Include="Modules\DirectMessagesTests.cs" />
+    <Compile Include="UserAuthModules\ApiManagementExtensionsTests.cs" />
+    <Compile Include="UserAuthModules\ReportExtensionsTests.cs" />
+    <Compile Include="UserAuthModules\DirectMessagesTests.cs" />
     <Compile Include="Helpers\Json.cs" />
     <Compile Include="Helpers\ObservableExtensions.cs" />
     <Compile Include="ErrorTests.cs" />
-    <Compile Include="Modules\FavouritesTests.cs" />
+    <Compile Include="UserAuthModules\FavouritesTests.cs" />
     <Compile Include="Helpers\TestableUserSession.cs" />
-    <Compile Include="Modules\FriendsFollowersExtensionsTests.cs" />
-    <Compile Include="Modules\ListExtensionsTests.cs" />
-    <Compile Include="Modules\PlaceGeoExtensionsTests.cs" />
-    <Compile Include="Modules\SuggestedUsersExtensionsTest.cs" />
-    <Compile Include="Modules\TimelineExtentionsTests.cs" />
-    <Compile Include="Modules\TrendsExtensionsTests.cs" />
-    <Compile Include="Modules\UsersExtensionsTests.cs" />
+    <Compile Include="UserAuthModules\FriendsFollowersExtensionsTests.cs" />
+    <Compile Include="UserAuthModules\ListExtensionsTests.cs" />
+    <Compile Include="UserAuthModules\PlaceGeoExtensionsTests.cs" />
+    <Compile Include="UserAuthModules\SuggestedUsersExtensionsTest.cs" />
+    <Compile Include="UserAuthModules\TimelineExtentionsTests.cs" />
+    <Compile Include="UserAuthModules\TrendsExtensionsTests.cs" />
+    <Compile Include="UserAuthModules\UsersExtensionsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Modules\TweetExtensionsTests.cs" />
-    <Compile Include="Modules\SearchExtensionsTests.cs" />
+    <Compile Include="UserAuthModules\TweetExtensionsTests.cs" />
+    <Compile Include="UserAuthModules\SearchExtensionsTests.cs" />
     <Compile Include="SearchStream\SearchStreamTests.cs" />
     <Compile Include="UserStream\UserStreamTests.cs" />
   </ItemGroup>
@@ -397,7 +397,9 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="ApplicationAuthModules\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BoxKite.Twitter\BoxKite.Twitter.csproj">
       <Project>{2eb6324b-f465-44ab-823f-e591845b8d80}</Project>

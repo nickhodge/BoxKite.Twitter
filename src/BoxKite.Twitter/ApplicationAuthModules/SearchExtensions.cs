@@ -10,6 +10,7 @@ namespace BoxKite.Twitter
 {
     public static partial class SearchExtensions
     {
+        /*
         /// <summary>
         /// dedicated API for running searches against the real-time index of recent Tweets. 6-9 days of historical data
         /// </summary>
@@ -131,20 +132,8 @@ namespace BoxKite.Twitter
                           .ContinueWith(c => c.MapToSingle<SavedSearch>());
         }
 
-        private static string SearchResultString(SearchResultType searchResult)
-        {
-            if (searchResult == SearchResultType.Recent)
-                return "recent";
-            return searchResult == SearchResultType.Popular ? "popular" : "mixed";
-        }
-
+        */
     }
 
-
-    public enum SearchResultType : int
-    {
-        Mixed = 1,
-        Recent = 2,
-        Popular = 3
-     }
+         
 }

@@ -8,7 +8,7 @@ using BoxKite.Twitter.Models;
 namespace BoxKite.Twitter
 {
     public static partial class TrendsExtensions
-    {
+    {/*
         /// <summary>
         /// Returns the top 10 trending topics for a specific WOEID, if trending information is available for it.
         /// </summary>
@@ -60,5 +60,6 @@ namespace BoxKite.Twitter
             return await session.GetAsync(TwitterApi.Resolve("/1.1/trends/closest.json"), parameters)
                 .ContinueWith(c => c.MapToMany<TrendsAvailableLocationsResponse>());
         }
+      * */
     }
 }

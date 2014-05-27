@@ -33,7 +33,7 @@ namespace BoxKite.Twitter.Console
                         foreach (var trnd in combo1)
                         {
                             ConsoleOutput.PrintMessage(
-                                String.Format("Tweet Test: {0}", trnd.Text));
+                                String.Format("App Auth Timeline Test: {0}", trnd.Text));
                         }
                     }
                     else
