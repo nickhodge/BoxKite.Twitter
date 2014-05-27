@@ -39,31 +39,6 @@ namespace BoxKite.Twitter.Tests
             throw new System.NotImplementedException();
         }
 
-        public Task<HttpResponseMessage> GetApplicationAuthAsync(string relativeUrl, SortedDictionary<string, string> parameters)
-        {
-            if (!string.IsNullOrWhiteSpace(expectedGetUrl))
-            {
-                Assert.AreEqual(expectedGetUrl, relativeUrl);
-            }
-
-            this.receviedParameters = parameters;
-
-            if (simulatingError)
-            {
-                var response = new HttpResponseMessage(httpStatusCode) { Content = new StringContent(contents) }; //grab the supplied error code in setup
-                return Task.FromResult(response);
-            }
-            else
-            {
-                var response = new HttpResponseMessage
-                {
-                    StatusCode = HttpStatusCode.OK,
-                    Content = new StringContent(contents)
-                };
-                return Task.FromResult(response);
-            }
-        }
-
         public Task<HttpResponseMessage> GetAsync(string relativeUrl, SortedDictionary<string, string> parameters)
         {
             if (!string.IsNullOrWhiteSpace(expectedGetUrl))
@@ -87,6 +62,11 @@ namespace BoxKite.Twitter.Tests
                                };
                 return Task.FromResult(response);
             }
+        }
+
+        public Task<HttpResponseMessage> PostAsync(string url, SortedDictionary<string, string> parameters, bool forInitialAuth)
+        {
+            throw new NotImplementedException();
         }
 
         public Task<HttpResponseMessage> PostAsync(string relativeUrl, SortedDictionary<string, string> parameters)

@@ -14,6 +14,7 @@ namespace BoxKite.Twitter.Tests
         string contents;
         SortedDictionary<string, string> receviedParameters;
         string expectedGetUrl;
+        string expectedPostUrl;
 
         public bool simulatingError { get; set; }
         public HttpStatusCode httpStatusCode { get; set; }
@@ -59,6 +60,33 @@ namespace BoxKite.Twitter.Tests
                 return Task.FromResult(response);
             }
         }
+
+        public Task<HttpResponseMessage> PostAsync(string relativeUrl, SortedDictionary<string, string> parameters, bool isForInitial=false)
+        {
+            if (!string.IsNullOrWhiteSpace(expectedPostUrl))
+            {
+                Assert.AreEqual(expectedPostUrl, relativeUrl);
+            }
+
+            this.receviedParameters = parameters;
+
+            if (simulatingError)
+            {
+                var response = new HttpResponseMessage(httpStatusCode) { Content = new StringContent(contents) };
+                //grab the supplied error code in setup
+                return Task.FromResult(response);
+            }
+            else
+            {
+                var response = new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Content = new StringContent(contents)
+                };
+                return Task.FromResult(response);
+            }
+        }
+
 
         public HttpRequestMessage CreateGet(string fullUrl, SortedDictionary<string, string> parameters)
         {

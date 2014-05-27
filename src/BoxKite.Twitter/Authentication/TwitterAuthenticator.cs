@@ -375,6 +375,9 @@ namespace BoxKite.Twitter.Authentication
             return TwitterCredentials.Null;
         }
 
+        /// <summary>
+        /// Using client(consumer) id and key, start a 'readonly' Application-auth'd session
+        /// </summary>
         public static async Task<bool> StartApplicationOnlyAuth(this IApplicationSession appsession)
         {
             if (string.IsNullOrEmpty(appsession.clientID))
@@ -399,7 +402,6 @@ namespace BoxKite.Twitter.Authentication
             return true;
         }
 
-        // Todo: replace with extensionmethod in IUserSession
         private static string GenerateSignature(this IUserSession session, string signingKey, string baseString, string tokenSecret)
                 {
                     session.PlatformAdaptor.AssignKey(Encoding.UTF8.GetBytes(string.Format("{0}&{1}", OAuthUrlEncode(signingKey),
@@ -412,7 +414,6 @@ namespace BoxKite.Twitter.Authentication
                     return signatureString;
                 }
         
-        // Todo: replace with extensionmethod in IUserSession
         private static string OAuthUrlEncode(string value)
         {
             var result = new StringBuilder();
@@ -432,7 +433,6 @@ namespace BoxKite.Twitter.Authentication
             return result.ToString();
         }
 
-        // Todo: replace with extensionmethod in IUserSession
         private static async Task<string> PostData(string url, string authdata, string content = null)
         {
             try

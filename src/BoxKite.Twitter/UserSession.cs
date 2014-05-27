@@ -79,44 +79,6 @@ namespace BoxKite.Twitter
         }
 
         /// <summary>
-        /// Use OAuth2 Bearer To do read-only query
-        /// </summary>
-        /// <param name="url">URL to call</param>
-        /// <param name="parameters">Params to send</param>
-        /// <returns></returns>
-        public async Task<HttpResponseMessage> GetApplicationAuthAsync(string url, SortedDictionary<string, string> parameters)
-        {
-            if (clientID != null && clientSecret != null && bearerToken == null)
-            {
-                await this.StartApplicationOnlyAuth();
-            }
-            if (TwitterCredentials == TwitterCredentials.Null && String.IsNullOrEmpty(bearerToken))
-                throw new ArgumentException("Need to  must be specified and validated");
-
-            var querystring = parameters.Aggregate("", (current, entry) => current + (entry.Key + "=" + entry.Value + "&"));
-
-            var oauth2authheader = String.Format("Bearer {0}", bearerToken);
-            var fullUrl = url;
-
-            var handler = new HttpClientHandler();
-            if (handler.SupportsAutomaticDecompression)
-            {
-                handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
-            }
-            var client = new HttpClient(handler);
-            client.DefaultRequestHeaders.Add("Authorization", oauth2authheader);
-            client.DefaultRequestHeaders.Add("User-Agent", TwitterApi.UserAgent());
-
-            if (!string.IsNullOrWhiteSpace(querystring))
-                fullUrl += "?" + querystring.Substring(0, querystring.Length - 1);
-
-            var download = client.GetAsync(fullUrl).ToObservable().Timeout(TimeSpan.FromSeconds(WaitTimeoutSeconds));
-            var clientdownload = await download;
-
-            return clientdownload;
-        }
-
-        /// <summary>
         /// Use OAuth1.0a auth to do more intensive reads
         /// </summary>
         /// <param name="url">URL to call</param>
@@ -181,8 +143,7 @@ namespace BoxKite.Twitter
             return clientdownload;
         }
 
-        public async Task<HttpResponseMessage> PostFileAsync(string url, SortedDictionary<string, string> parameters,
-            string fileName, string fileContentsKey, byte[] fileContents = null, Stream srImageStream = null)
+        public async Task<HttpResponseMessage> PostFileAsync(string url, SortedDictionary<string, string> parameters, string fileName, string fileContentsKey, byte[] fileContents = null, Stream srImageStream = null)
         {
             if (TwitterCredentials == TwitterCredentials.Null || TwitterCredentials.Valid == false)
                 throw new ArgumentException("TwitterCredentials must be specified and validated");
