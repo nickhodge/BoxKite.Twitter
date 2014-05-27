@@ -1,6 +1,7 @@
 ﻿// (c) 2012-2014 Nick Hodge mailto:hodgenick@gmail.com & Brendan Forster
 // License: MS-PL
 
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using BoxKite.Twitter.Extensions;
@@ -154,6 +155,24 @@ namespace BoxKite.Twitter
         }
 
         /// <summary>
+        /// Gets the Users who retweeted a particular tweet
+        /// </summary>
+        /// <param name="tweetid"></param>
+        /// <param name="cursor">default is first page (-1) otherwise provide starting point</param>
+         /// <param name="screen_name">screen_name or user_id must be provided</param>
+        /// <param name="count">how many to return default 500</param>
+        /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/statuses/retweeters/ids </remarks>
+        public async static Task<RetweetersResponseIDsCursored> GetRetweeters(this IUserSession session, long tweetid, int count = 20, long cursor = -1)
+        {
+            var parameters = new TwitterParametersCollection();
+            parameters.Create(id: tweetid, count: count, cursor: cursor);
+
+            var path = TwitterApi.Resolve("/1.1/statuses/retweeters/id.json", parameters);
+            return await session.GetAsync(path, parameters)
+                .ContinueWith(c => c.MapToSingle<RetweetersResponseIDsCursored>());
+        }
+
+        /// <summary>
         /// Sends a Tweet, with status text, with attached image
         /// </summary>
         /// <param name="text">Text of tweet to send</param>
@@ -269,6 +288,22 @@ namespace BoxKite.Twitter
 
             return await session.PostFileAsync(TwitterApi.Upload("/1.1/statuses/update_with_media.json"), parameters, fileName, "media[]", srImage: imageDataStream)
                           .ContinueWith(c => c.MapToSingle<Tweet>());
+        }
+
+        /// <summary>
+        /// Returns fully-hydrated tweets for up to 100 tweets per request, as specified by comma-separated values passed to the user_id and/or screen_name parameters.
+        /// </summary>
+        /// <param name="id">up to 100 are allowed in a single request.</param>
+        /// <returns>Observable List of full tweets</returns>
+        /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/statuses/lookup </remarks>
+        public static async Task<TwitterResponseCollection<Tweet>> GetTweetsFull(this IUserSession session, IEnumerable<long> tweetids = null)
+        {
+            var parameters = new TwitterParametersCollection();
+            parameters.Create(include_entities: true);
+            parameters.CreateCollection(tweetids: tweetids);
+
+            return await session.PostAsync(TwitterApi.Resolve("/1.1/statuses/lookup.json"), parameters)
+                .ContinueWith(c => c.MapToMany<Tweet>());
         }
     }
 }

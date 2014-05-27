@@ -17,7 +17,7 @@ namespace BoxKite.Twitter.Models
     internal static class ApiParameters
     {
         internal static void CreateCollection(this TwitterParametersCollection parameters,
-            IEnumerable<string> screen_names = null, IEnumerable<long> user_ids = null)
+            IEnumerable<string> screen_names = null, IEnumerable<long> user_ids = null, IEnumerable<long> tweetids = null)
         {
             var screenNameList = new StringBuilder();
             if (screen_names != null)
@@ -40,6 +40,15 @@ namespace BoxKite.Twitter.Models
                 userIDList.Append(userID + ",");
             }
             parameters.Add("user_id", userIDList.ToString().TrimLastChar());
+
+            var tweetIDList = new StringBuilder();
+            if (tweetids == null) return;
+            if (!tweetids.Any()) return;
+            foreach (var tweetID in tweetids)
+            {
+                userIDList.Append(tweetID + ",");
+            }
+            parameters.Add("id", userIDList.ToString().TrimLastChar());
         }
 
         internal static void Create(this TwitterParametersCollection parameters,

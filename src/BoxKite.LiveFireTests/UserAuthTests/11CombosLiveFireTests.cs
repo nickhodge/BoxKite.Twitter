@@ -75,7 +75,7 @@ namespace BoxKite.Twitter.Console
                         nextcursor = ff2List.next_cursor;
                         ConsoleOutput.PrintMessage(String.Format("Previous cursor: {0} Next cursor: {1}",
                             ff2List.previous_cursor, ff2List.next_cursor));
-                        foreach (var l in ff2List.IDs)
+                        foreach (var l in ff2List.UserIDs)
                         {
                             userids2.Add(l);
                             ff5ListCount++;
@@ -125,7 +125,7 @@ namespace BoxKite.Twitter.Console
                         nextcursor = ff3List.next_cursor;
                         ConsoleOutput.PrintMessage(String.Format("Previous cursor: {0} Next cursor: {1}",
                             ff3List.previous_cursor, ff3List.next_cursor));
-                        foreach (var l in ff3List.IDs)
+                        foreach (var l in ff3List.UserIDs)
                         {
                             userids3.Add(l);
                             ff5ListCount++;

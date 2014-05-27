@@ -176,6 +176,9 @@
     <Compile Include="..\BoxKite.Twitter\Models\Service\ProfileBanners.cs">
       <Link>Models\Service\ProfileBanners.cs</Link>
     </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Service\RetweetersResponse .cs">
+      <Link>Models\Service\RetweetersResponse .cs</Link>
+    </Compile>
     <Compile Include="..\BoxKite.Twitter\Models\Service\ReverseGeocodePlaces.cs">
       <Link>Models\Service\ReverseGeocodePlaces.cs</Link>
     </Compile>

@@ -48,7 +48,7 @@ namespace BoxKite.Twitter
                     break;
                 };
                 nextcursor = ff2List.next_cursor;
-                foreach (var l in ff2List.IDs)
+                foreach (var l in ff2List.UserIDs)
                 {
                     //
                 }

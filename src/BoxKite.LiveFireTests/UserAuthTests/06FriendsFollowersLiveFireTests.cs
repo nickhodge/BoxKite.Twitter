@@ -34,7 +34,7 @@ namespace BoxKite.Twitter.Console
                         nextcursor = ff1List.next_cursor;
                         ConsoleOutput.PrintMessage(String.Format("Previous cursor: {0} Next cursor: {1}",
                             ff1List.previous_cursor, ff1List.next_cursor));
-                        foreach (var l in ff1List.IDs)
+                        foreach (var l in ff1List.UserIDs)
                         {
                             ffListCount++;
                             ConsoleOutput.PrintMessage(String.Format("User ID: {0}", l ));
@@ -64,7 +64,7 @@ namespace BoxKite.Twitter.Console
                         nextcursor = ff2List.next_cursor;
                         ConsoleOutput.PrintMessage(String.Format("Previous cursor: {0} Next cursor: {1}",
                             ff2List.previous_cursor, ff2List.next_cursor));
-                        foreach (var l in ff2List.IDs)
+                        foreach (var l in ff2List.UserIDs)
                         {
                             ff2ListCount++;
                             ConsoleOutput.PrintMessage(String.Format("User ID: {0}", l));
@@ -118,7 +118,7 @@ namespace BoxKite.Twitter.Console
                         nextcursor = ff4List.next_cursor;
                         ConsoleOutput.PrintMessage(String.Format("Previous cursor: {0} Next cursor: {1}",
                             ff4List.previous_cursor, ff4List.next_cursor));
-                        foreach (var l in ff4List.IDs)
+                        foreach (var l in ff4List.UserIDs)
                         {
                             ff4ListCount++;
                             ConsoleOutput.PrintMessage(String.Format("User ID: {0}", l));
@@ -148,7 +148,7 @@ namespace BoxKite.Twitter.Console
                         nextcursor = ff5List.next_cursor;
                         ConsoleOutput.PrintMessage(String.Format("Previous cursor: {0} Next cursor: {1}",
                             ff5List.previous_cursor, ff5List.next_cursor));
-                        foreach (var l in ff5List.IDs)
+                        foreach (var l in ff5List.UserIDs)
                         {
                             ff5ListCount++;
                             ConsoleOutput.PrintMessage(String.Format("User ID: {0}", l));

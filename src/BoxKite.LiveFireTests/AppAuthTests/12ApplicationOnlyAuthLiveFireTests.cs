@@ -103,7 +103,7 @@ namespace BoxKite.Twitter.Console
                 // 5 
                 if (testSeq.Contains(5))
                 {
-                    ConsoleOutput.PrintMessage("12.5 Get a friendships//", ConsoleColor.Gray);
+                    ConsoleOutput.PrintMessage("12.5 Get friendships//", ConsoleColor.Gray);
 
                     var combo5 = await twitterConnection.TwitterSession.GetFriendship(source_screen_name:"shiftkey",target_screen_name:"nickhodgemsft");
 
@@ -116,7 +116,8 @@ namespace BoxKite.Twitter.Console
                         successStatus = false;
                         throw new Exception("cannot get friendships (app only auth)");
                     }
-                } // end test 4
+                } // end test 5
+
             }
             catch (Exception e)
             {

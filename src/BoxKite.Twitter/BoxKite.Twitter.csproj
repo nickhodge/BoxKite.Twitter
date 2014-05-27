@@ -35,6 +35,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Models\Service\RetweetersResponse .cs" />
     <Compile Include="UserAuthModules\ApiManagementExtensions.cs" />
     <Compile Include="Authentication\TwitterAuthenticator.cs" />
     <Compile Include="Connection\TwitterConnectionEvents.cs" />

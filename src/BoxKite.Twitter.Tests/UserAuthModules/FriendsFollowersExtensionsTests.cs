@@ -24,8 +24,8 @@ namespace BoxKite.Twitter.Tests
 
             Assert.IsNotNull(friends);
             friends.next_cursor.ShouldBeEquivalentTo(0);
-            friends.IDs.Should().HaveCount(31);
-            friends.IDs.ToList()[6].ShouldBeEquivalentTo(14488353);
+            friends.UserIDs.Should().HaveCount(31);
+            friends.UserIDs.ToList()[6].ShouldBeEquivalentTo(14488353);
         }
 
         [TestMethod]
@@ -39,8 +39,8 @@ namespace BoxKite.Twitter.Tests
 
             Assert.IsNotNull(followers);
             followers.next_cursor.ShouldBeEquivalentTo(0);
-            followers.IDs.Should().HaveCount(31);
-            followers.IDs.ToList()[6].ShouldBeEquivalentTo(14488353);
+            followers.UserIDs.Should().HaveCount(31);
+            followers.UserIDs.ToList()[6].ShouldBeEquivalentTo(14488353);
         }
 
         [TestMethod]
@@ -68,8 +68,8 @@ namespace BoxKite.Twitter.Tests
 
             Assert.IsNotNull(fsr);
             fsr.next_cursor.ShouldBeEquivalentTo(0);
-            fsr.IDs.Should().HaveCount(31);
-            fsr.IDs.ToList()[6].ShouldBeEquivalentTo(14488353);
+            fsr.UserIDs.Should().HaveCount(31);
+            fsr.UserIDs.ToList()[6].ShouldBeEquivalentTo(14488353);
         }
 
         [TestMethod]
@@ -83,8 +83,8 @@ namespace BoxKite.Twitter.Tests
 
             Assert.IsNotNull(fsr);
             fsr.next_cursor.ShouldBeEquivalentTo(0);
-            fsr.IDs.Should().HaveCount(31);
-            fsr.IDs.ToList()[6].ShouldBeEquivalentTo(14488353);
+            fsr.UserIDs.Should().HaveCount(31);
+            fsr.UserIDs.ToList()[6].ShouldBeEquivalentTo(14488353);
         }
 
         [TestMethod]
