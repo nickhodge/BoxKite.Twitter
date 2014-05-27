@@ -104,11 +104,14 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\BoxKite.Twitter\ApplicationSession.cs">
-      <Link>ApplicationSession.cs</Link>
-    </Compile>
     <Compile Include="..\BoxKite.Twitter\Authentication\TwitterAuthenticator.cs">
       <Link>Authentication\TwitterAuthenticator.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Connection\ApplicationSession.cs">
+      <Link>Connection\ApplicationSession.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Connection\SearchStream.cs">
+      <Link>Connection\SearchStream.cs</Link>
     </Compile>
     <Compile Include="..\BoxKite.Twitter\Connection\TwitterConnection.cs">
       <Link>Connection\TwitterConnection.cs</Link>
@@ -121,6 +124,12 @@
     </Compile>
     <Compile Include="..\BoxKite.Twitter\Connection\TwitterConnectionSearch.cs">
       <Link>Connection\TwitterConnectionSearch.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Connection\UserSession.cs">
+      <Link>Connection\UserSession.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Connection\UserStream.cs">
+      <Link>Connection\UserStream.cs</Link>
     </Compile>
     <Compile Include="..\BoxKite.Twitter\Extensions\DateTimeExtensions.cs">
       <Link>Extensions\DateTimeExtensions.cs</Link>
@@ -296,9 +305,6 @@
     <Compile Include="..\BoxKite.Twitter\Models\User.cs">
       <Link>Models\User.cs</Link>
     </Compile>
-    <Compile Include="..\BoxKite.Twitter\SearchStream.cs">
-      <Link>SearchStream.cs</Link>
-    </Compile>
     <Compile Include="..\BoxKite.Twitter\UserAuthModules\ApiManagementExtensions.cs">
       <Link>UserAuthModules\ApiManagementExtensions.cs</Link>
     </Compile>
@@ -343,12 +349,6 @@
     </Compile>
     <Compile Include="..\BoxKite.Twitter\UserAuthModules\UserStreamExtensions.cs">
       <Link>UserAuthModules\UserStreamExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\BoxKite.Twitter\UserSession.cs">
-      <Link>UserSession.cs</Link>
-    </Compile>
-    <Compile Include="..\BoxKite.Twitter\UserStream.cs">
-      <Link>UserStream.cs</Link>
     </Compile>
     <Compile Include="Helpers\Win8RTPlatformAdaptor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -53,7 +53,7 @@
     <Compile Include="Models\Stream\StreamSearchRequest.cs" />
     <Compile Include="UserAuthModules\SearchStreamExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SearchStream.cs" />
+    <Compile Include="Connection\SearchStream.cs" />
     <Compile Include="Extensions\TwitterApi.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
@@ -115,9 +115,9 @@
     <Compile Include="UserAuthModules\TweetExtensions.cs" />
     <Compile Include="UserAuthModules\UsersExtensions.cs" />
     <Compile Include="UserAuthModules\UserStreamExtensions.cs" />
-    <Compile Include="ApplicationSession.cs" />
-    <Compile Include="UserSession.cs" />
-    <Compile Include="UserStream.cs" />
+    <Compile Include="Connection\ApplicationSession.cs" />
+    <Compile Include="Connection\UserSession.cs" />
+    <Compile Include="Connection\UserStream.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
