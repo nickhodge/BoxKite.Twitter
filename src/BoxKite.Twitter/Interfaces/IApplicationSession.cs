@@ -16,5 +16,8 @@ namespace BoxKite.Twitter
         int WaitTimeoutSeconds { get; set; }
 
         Task<HttpResponseMessage> GetAsync(string relativeUrl, SortedDictionary<string, string> parameters);
-     }
+
+        Task<HttpResponseMessage> PostAsync(string url, SortedDictionary<string, string> parameters, bool forInitialAuth);
+
+    }
 }

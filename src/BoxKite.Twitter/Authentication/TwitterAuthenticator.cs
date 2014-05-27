@@ -2,6 +2,7 @@
 // License: MS-PL
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.Linq;
@@ -374,27 +375,27 @@ namespace BoxKite.Twitter.Authentication
             return TwitterCredentials.Null;
         }
 
-        public static async Task<bool> StartApplicationOnlyAuth(this IApplicationSession session)
+        public static async Task<bool> StartApplicationOnlyAuth(this IApplicationSession appsession)
         {
-            if (string.IsNullOrEmpty(session.clientID))
+            if (string.IsNullOrEmpty(appsession.clientID))
                 throw new ArgumentException("Twitter Consumer Key is required for Application only Auth");
-            if (string.IsNullOrEmpty(session.clientSecret))
+            if (string.IsNullOrEmpty(appsession.clientSecret))
                 throw new ArgumentException("Twitter Consumer Secret is required for Application only Auth");
 
             // ref: https://dev.twitter.com/docs/auth/application-only-auth
             // and ref: http://tools.ietf.org/html/rfc6749#section-4.4
-            var authToPost = String.Format("{0}:{1}", session.clientID.UrlEncode(), session.clientSecret.UrlEncode());
-            var basicAuth = string.Format("Basic {0}", authToPost.ToBase64String());
-            var response = await PostData(TwitterApi.OAuth2TokenUrl(), basicAuth, TwitterApi.OAuth2TokenUrlPostRequestRFC6749());
-            var jresponse = JObject.Parse(response);
-            // pretty blantant response
-            // Todo: make response match API response at https://dev.twitter.com/docs/auth/application-only-auth
-            // Todo: 401/403 response
-            if (jresponse["errors"] != null)
+
+            var oAuth2TokenUrlPostRequestRfc6749 = new SortedDictionary<string, string>
             {
+                {"grant_type", "client_credentials"}
+            };
+
+            var result = await appsession.PostAsync(TwitterApi.OAuth2TokenUrl(), oAuth2TokenUrlPostRequestRfc6749, forInitialAuth: true);
+            if (!result.IsSuccessStatusCode)
                 return false;
-            }
-            session.bearerToken = (string) jresponse["access_token"];
+            var content = await result.Content.ReadAsStringAsync();
+            var jresponse = JObject.Parse(content);
+            appsession.bearerToken = (string) jresponse["access_token"];
             return true;
         }
 

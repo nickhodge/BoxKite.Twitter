@@ -19,7 +19,7 @@ namespace BoxKite.Twitter.Console
 
             var authString = twitterConnection.BeginUserAuthentication().Result;
  
-                // if the response is null, something is wrong with the initial request to OAuth
+            // if the response is null, something is wrong with the initial request to OAuth
             if (!string.IsNullOrWhiteSpace(authString))
             {
                 ConsoleOutput.PrintMessage("Pin: ");
@@ -30,10 +30,13 @@ namespace BoxKite.Twitter.Console
             if (twitterCredentials.Valid)
             {
                 ConsoleOutput.PrintMessage(twitterCredentials.ScreenName + " is authorised to use BoxKite.Twitter.");
-
-                ConsoleOutput.PrintMessage("Press Return to close window");
-                System.Console.ReadLine();
             }
+            else
+            {
+                ConsoleOutput.PrintMessage("Something Went Wrong during User Authentication Dance.");              
+            }
+            ConsoleOutput.PrintMessage("Press Return to close window");
+            System.Console.ReadLine();
         }
 
         public static void PrintTwitterErrors(TwitterControlMessage tcm)
