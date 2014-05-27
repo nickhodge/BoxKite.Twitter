@@ -96,6 +96,9 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AdditionalTweetAndTimelineTests.cs" />
+    <Compile Include="ApplicationAuthModules\ApiManagementExtensionsTests.cs" />
+    <Compile Include="ApplicationAuthModules\TimelineExtentionsTests.cs" />
+    <Compile Include="ApplicationAuthModules\TweetExtensionsTests.cs" />
     <Compile Include="DecodeTests.cs" />
     <Compile Include="Helpers\TestableSearchStream.cs" />
     <Compile Include="Helpers\TestableApplicationSession.cs" />
@@ -122,6 +125,12 @@
     <Compile Include="UserStream\UserStreamTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="appauthdata\timeline\453310114796412928.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="appauthdata\timeline\user_timeline.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Content Include="data\apiratelimit.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -395,11 +404,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <Content Include="appauthdata\rate_limit_status.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ApplicationAuthModules\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\BoxKite.Twitter\BoxKite.Twitter.csproj">
       <Project>{2eb6324b-f465-44ab-823f-e591845b8d80}</Project>

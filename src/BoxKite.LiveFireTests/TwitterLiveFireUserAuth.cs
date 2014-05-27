@@ -7,7 +7,7 @@ using BoxKite.Twitter.Models;
 
 namespace BoxKite.Twitter.Console
 {
-    public class TwitterLiveFireUserControl
+    public class TwitterLiveFireUserAuth
     {
         public static IUserStream userstream;
         public static IUserSession usersession;

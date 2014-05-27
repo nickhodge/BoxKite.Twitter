@@ -16,7 +16,6 @@ namespace BoxKite.Twitter
         /// Gets a particular Tweet
         /// </summary>
         /// <param name="tweetID">The tweet ID to return</param>
-        /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/statuses/show/%3Aid  </remarks>
         public async static Task<Tweet> GetTweet(this IApplicationSession appsession, long tweetID)
         {
@@ -31,5 +30,22 @@ namespace BoxKite.Twitter
                 .ContinueWith(c => c.MapToSingle<Tweet>());
         }
 
+
+        /// <summary>
+        /// Gets the Retweets of a particular tweet
+        /// </summary>
+        /// <param name="tweet"></param>
+        /// <param name="count"></param>
+        /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/statuses/retweets/%3Aid  </remarks>
+        public async static Task<TwitterResponseCollection<Tweet>> GetRetweets(this IApplicationSession appsession, Tweet tweet, int count = 20)
+        {
+            var parameters = new TwitterParametersCollection
+                             {
+                                 {"count", count.ToString()},
+                             };
+            var path = TwitterApi.Resolve("/1.1/statuses/retweets/{0}.json", tweet.Id);
+            return await appsession.GetAsync(path, parameters)
+                .ContinueWith(c => c.MapToMany<Tweet>());
+        }
     }
 }

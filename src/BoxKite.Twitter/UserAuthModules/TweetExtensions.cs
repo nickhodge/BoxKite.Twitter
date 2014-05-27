@@ -123,6 +123,7 @@ namespace BoxKite.Twitter
         /// <param name="tweet"></param>
         /// <param name="count"></param>
         /// <returns></returns>
+        /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/statuses/retweets/%3Aid  </remarks>
         public async static Task<TwitterResponseCollection<Tweet>> GetRetweets(this IUserSession session, Tweet tweet, int count = 20)
         {
             var parameters = new TwitterParametersCollection

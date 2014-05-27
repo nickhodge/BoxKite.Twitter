@@ -1,13 +1,11 @@
 ﻿// (c) 2012-2014 Nick Hodge mailto:hodgenick@gmail.com & Brendan Forster
 // License: MS-PL
 using System;
-using System.Collections.Generic;
-using System.Threading;
 using BoxKite.Twitter.Models;
 
 namespace BoxKite.Twitter.Console
 {
-    public class TwitterLiveFireDoUserAuth
+    public class TwitterLiveFireDoUserAuthLoginFlow
     {
         private static TwitterCredentials twitterCredentials;
         public static void Main(string[] args)
