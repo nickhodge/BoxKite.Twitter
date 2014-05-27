@@ -404,6 +404,37 @@ namespace BoxKite.Twitter.Authentication
             return true;
         }
 
+        /// <summary>
+        /// Using client(consumer) id and key, start a 'readonly' Application-auth'd session
+        /// </summary>
+        /// <remarks>ref: https://dev.twitter.com/docs/api/1.1/post/oauth2/invalidate_token </remarks>
+        public static async Task<bool> StopApplicationOnlyAuth(this IApplicationSession appsession)
+        {
+            if (string.IsNullOrEmpty(appsession.clientID))
+                throw new ArgumentException("Twitter Consumer Key is required for Application only Auth");
+            if (string.IsNullOrEmpty(appsession.clientSecret))
+                throw new ArgumentException("Twitter Consumer Secret is required for Application only Auth");
+
+            // ref: https://dev.twitter.com/docs/auth/application-only-auth
+            // and ref: http://tools.ietf.org/html/rfc6749#section-4.4
+            // and ref: https://dev.twitter.com/docs/api/1.1/post/oauth2/invalidate_token
+
+            var oAuth2TokenUrlPostRequestRfc6749 = new SortedDictionary<string, string>
+            {
+                {"access_token", appsession.bearerToken}
+            };
+
+            var result = await appsession.PostAsync(TwitterApi.OAuth2TokenRevokeUrl(), oAuth2TokenUrlPostRequestRfc6749, forInitialAuth: true);
+            if (!result.IsSuccessStatusCode)
+                return false;
+            var content = await result.Content.ReadAsStringAsync();
+            var jresponse = JObject.Parse(content);
+            appsession.bearerToken = (string)jresponse["access_token"];
+            appsession.IsActive = false;
+            return true;
+        }
+
+
         private static string GenerateSignature(this IUserSession session, string signingKey, string baseString, string tokenSecret)
                 {
                     session.PlatformAdaptor.AssignKey(Encoding.UTF8.GetBytes(string.Format("{0}&{1}", OAuthUrlEncode(signingKey),

@@ -29,7 +29,7 @@ namespace BoxKite.Twitter
         /// <param name="screen_name">The screen name of the user for whom to return results for. Either a id or screen_name is required for this method.</param>
         /// <param name="user_id">The ID of the user for whom to return results for. Either an id or screen_name is required for this method.</param>
         /// <returns></returns>
-        public static async Task<User> GetUserProfile(this IUserSession session, string screen_name="", long user_id=0)
+        public static async Task<User> GetUserProfile(this ITwitterSession session, string screen_name="", long user_id=0)
         {
             var parameters = new TwitterParametersCollection();
             parameters.Create(screen_name:screen_name,include_entities:true,user_id:user_id);

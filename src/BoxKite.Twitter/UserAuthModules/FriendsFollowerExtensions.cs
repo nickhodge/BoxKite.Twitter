@@ -257,12 +257,6 @@ namespace BoxKite.Twitter
                 parameters.Add("target_id", target_id.ToString());
             }
 
-            if (parameters.EnsureAllArePresent(new string[] { "source_screen_name", "source_id", "target_screen_name", "target_id" }).IsFalse())
-            {
-                return session.MapParameterError<UserStatus>(
-                        "source_screen_name, source_id, target_screen_name and target_id are all required"); ;
-            }
-
             return await session.GetAsync(TwitterApi.Resolve("/1.1/friendships/show.json"), parameters)
                           .ContinueWith(c => c.MapToUserStatus());
         }

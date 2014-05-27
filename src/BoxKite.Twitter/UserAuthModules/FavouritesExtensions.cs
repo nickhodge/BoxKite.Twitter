@@ -21,7 +21,7 @@ namespace BoxKite.Twitter
         /// <param name="count">Specifies the number of records to retrieve. Must be less than or equal to 200. Defaults to 20.</param>
         /// <param name="max_id">Returns results with an ID less than (that is, older than) or equal to the specified </param>
         /// <returns></returns>
-        public async static Task<TwitterResponseCollection<Tweet>> GetFavourites(this IUserSession session, string screen_name = "", int user_id = 0, long since_id = 0, long max_id = 0, int count = 20 )
+        public async static Task<TwitterResponseCollection<Tweet>> GetFavourites(this ITwitterSession session, string screen_name = "", int user_id = 0, long since_id = 0, long max_id = 0, int count = 20 )
         {
             var parameters = new TwitterParametersCollection();
             parameters.Create(count:count,include_entities:true,since_id:since_id,max_id:max_id, user_id:user_id, screen_name:screen_name);

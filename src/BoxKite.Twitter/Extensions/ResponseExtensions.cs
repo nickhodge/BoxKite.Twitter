@@ -76,22 +76,17 @@ namespace BoxKite.Twitter.Extensions
                 Target = new UserStatusTarget
                 {
                     Id = ids.relationship.target.id,
-                    FollowedBy = ids.relationship.target.followed_by,
+                    FollowedBy = Convert.ToBoolean(ids.relationship.target.followed_by),
                     ScreenName = ids.relationship.target.screen_name,
-                    Following = ids.relationship.target.following
+                    Following = Convert.ToBoolean(ids.relationship.target.following)
                 },
                 Source = new UserStatusSource
                 {
                     Id = ids.relationship.source.id,
-                    FollowedBy = ids.relationship.source.followed_by,
+                    FollowedBy = Convert.ToBoolean(ids.relationship.source.followed_by),
                     ScreenName = ids.relationship.source.screen_name,
-                    Following = ids.relationship.source.following,
-                    CanDM = ids.relationship.source.can_dm,
-                    Blocking = ids.relationship.source.blocking,
-                    AllReplies = ids.relationship.source.all_replies,
-                    WantRetweets = ids.relationship.source.want_retweets,
-                    MarkedSpam = ids.relationship.source.marked_spam,
-                    NotificationsEnabled = ids.relationship.source.notifications_enabled
+                    Following = Convert.ToBoolean(ids.relationship.source.following),
+                    CanDM = Convert.ToBoolean(ids.relationship.source.can_dm)
                 }
             };
             return userst;

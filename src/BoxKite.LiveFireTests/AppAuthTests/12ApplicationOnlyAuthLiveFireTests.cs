@@ -98,6 +98,25 @@ namespace BoxKite.Twitter.Console
                         throw new Exception("cannot get retweet (app only auth)");
                     }
                 } // end test 4
+
+
+                // 5 
+                if (testSeq.Contains(5))
+                {
+                    ConsoleOutput.PrintMessage("12.5 Get a friendships//", ConsoleColor.Gray);
+
+                    var combo5 = await twitterConnection.TwitterSession.GetFriendship(source_screen_name:"shiftkey",target_screen_name:"nickhodgemsft");
+
+                    if (combo5.OK)
+                    {
+                        
+                    }
+                    else
+                    {
+                        successStatus = false;
+                        throw new Exception("cannot get friendships (app only auth)");
+                    }
+                } // end test 4
             }
             catch (Exception e)
             {

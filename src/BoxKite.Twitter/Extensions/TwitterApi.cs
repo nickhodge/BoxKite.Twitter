@@ -16,7 +16,8 @@ namespace BoxKite.Twitter.Extensions
         public static string AuthenticateUrl(){ return "https://api.twitter.com/oauth/authorize?oauth_token=";}
         public static string AuthorizeTokenUrl(){ return "https://api.twitter.com/oauth/access_token";}
         public static string XAuthorizeTokenUrl(){ return "https://api.twitter.com/oauth/access_token?send_error_codes=true";}
-        public static string OAuth2TokenUrl(){ return "https://api.twitter.com/oauth2/token";}
+        public static string OAuth2TokenUrl() { return "https://api.twitter.com/oauth2/token"; }
+        public static string OAuth2TokenRevokeUrl() { return "https://api.twitter.com/oauth2/invalidate_token"; }
         public static string SafeURLEncodeChars() { return "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_.~"; }
 
 
