@@ -96,20 +96,20 @@ namespace BoxKite.Twitter.Console
                 // var track = new List<string> { "mh370" };
 
                 
-                         userstream.Tweets.Subscribe(t =>
-                                                            {
-                                                                ConsoleOutput.PrintTweet(t, ConsoleColor.Green);
-                                                            });
+                userstream.Tweets.Subscribe(t =>
+                                                {
+                                                    ConsoleOutput.PrintTweet(t, ConsoleColor.Green);
+                                                });
 
-                        twitterConnection.SearchTimeLine.Subscribe(t => { ConsoleOutput.PrintTweet(t, ConsoleColor.Cyan); });
+                twitterConnection.SearchTimeLine.Subscribe(t => { ConsoleOutput.PrintTweet(t, ConsoleColor.Cyan); });
 
 
-                        twitterConnection.InitSearchStreaming("mh370");
+                    twitterConnection.InitSearchStreaming("mh370");
 
-                         while (true)
-                         {
-                             Thread.Sleep(TimeSpan.FromSeconds(0.5));
-                         }
+                        while (true)
+                        {
+                            Thread.Sleep(TimeSpan.FromSeconds(0.5));
+                        }
                 
                   
                  /* twitterConnection.StartSearch("mh370");
