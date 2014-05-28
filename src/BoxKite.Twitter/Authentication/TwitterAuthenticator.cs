@@ -140,7 +140,7 @@ namespace BoxKite.Twitter.Authentication
                         Valid = true
                     };
                     session.IsActive = true;
-                return twitterCreds;
+                    return twitterCreds;
                 }
             }
             return TwitterCredentials.Null;

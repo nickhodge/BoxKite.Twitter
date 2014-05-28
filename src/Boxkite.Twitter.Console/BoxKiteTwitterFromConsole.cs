@@ -54,14 +54,15 @@ namespace BoxKite.Twitter.Console
             {
                 twitterConnection = new TwitterConnection(twittercredentials);
 
-                twitterConnection.Start();
+                twitterConnection.InitUserStreaming();
 
                 ConsoleOutput.PrintMessage(twitterConnection.TwitterCredentials.ScreenName +
                                            " is authorised to use BoxKite.Twitter.");
 
-                var session = twitterConnection.UserSession;
+                var usersession = twitterConnection.UserSession;
                 var userstream = twitterConnection.UserStream;
-                var searchstream = twitterConnection;
+                var applicationsession = twitterConnection.ApplicationSession;
+                var searchstream = twitterConnection.SearchStream;
  
                 // userstream.Tweets.Subscribe( t => ConsoleOutput.PrintTweet(t));
 
@@ -94,63 +95,67 @@ namespace BoxKite.Twitter.Console
                // var locations = new List<string> { "-180", "-90", "180", "90" };
                 // var track = new List<string> { "mh370" };
 
-               /*
-                        userstream.Tweets.Subscribe(t =>
-                                                           {
-                                                               ConsoleOutput.PrintTweet(t, ConsoleColor.Green);
-                                                           });
+                
+                         userstream.Tweets.Subscribe(t =>
+                                                            {
+                                                                ConsoleOutput.PrintTweet(t, ConsoleColor.Green);
+                                                            });
 
-                        twitterConnection.StartSearch("mh370");
+                        twitterConnection.SearchTimeLine.Subscribe(t => { ConsoleOutput.PrintTweet(t, ConsoleColor.Cyan); });
 
-                        while (true)
-                        {
-                            Thread.Sleep(TimeSpan.FromSeconds(0.5));
-                        }
-                */
 
-                var xx = session.GetUserProfile(screen_name:"nickhodgemsft").Result;
+                        twitterConnection.InitSearchStreaming("mh370");
 
-                if (xx.twitterFaulted)
-                {
-                    PrintTwitterErrors(xx.twitterControlMessage);
-                }
-                else
-                {
-                    ConsoleOutput.PrintMessage(xx.ToString());
-                }
+                         while (true)
+                         {
+                             Thread.Sleep(TimeSpan.FromSeconds(0.5));
+                         }
+                
+                  
+                 /* twitterConnection.StartSearch("mh370");
+                 var xx = session.GetUserProfile(screen_name:"nickhodgemsft").Result;
 
-                /*
+                 if (xx.twitterFaulted)
+                 {
+                     PrintTwitterErrors(xx.twitterControlMessage);
+                 }
+                 else
+                 {
+                     ConsoleOutput.PrintMessage(xx.ToString());
+                 }
 
-                var fileName = "sampleimage\\boxkite1500x500.png";
+                
 
-                if (File.Exists(fileName))
-                {
-                    // var newImage = File.ReadAllBytes(fileName);
+                 var fileName = "sampleimage\\boxkite1500x500.png";
 
-                    var sr = FilesHelper.FromFile(fileName);
+                 if (File.Exists(fileName))
+                 {
+                     // var newImage = File.ReadAllBytes(fileName);
 
-                    // var x = session.SendTweetWithImage("Testing Image Upload. You can Ignore", Path.GetFileName(fileName),newImage).Result;
+                     var sr = FilesHelper.FromFile(fileName);
 
-                    using (var fs = new FileStream(sr, FileMode.Open, FileAccess.Read))
-                    {
+                     // var x = session.SendTweetWithImage("Testing Image Upload. You can Ignore", Path.GetFileName(fileName),newImage).Result;
 
-                        var x = session.ChangeProfileBanner("sampleimage\\boxkite1500x500.png", fs).Result;
+                     using (var fs = new FileStream(sr, FileMode.Open, FileAccess.Read))
+                     {
 
-                        // var x = session.SendTweetWithImage("Maggies Rules", "maggie.jpg", fs).Result;
+                         var x = session.ChangeProfileBanner("sampleimage\\boxkite1500x500.png", fs).Result;
 
-                        if (x.twitterFaulted)
-                        {
-                            PrintTwitterErrors(x.twitterControlMessage);
-                        }
-                        else
-                        {
-                            ConsoleOutput.PrintMessage("OK");
-                        }
+                         // var x = session.SendTweetWithImage("Maggies Rules", "maggie.jpg", fs).Result;
 
-                    }
+                         if (x.twitterFaulted)
+                         {
+                             PrintTwitterErrors(x.twitterControlMessage);
+                         }
+                         else
+                         {
+                             ConsoleOutput.PrintMessage("OK");
+                         }
 
-                }
-                */
+                     }
+
+                 }
+                 */
                 /*
                 mainTwitterAccount.TimeLine.Subscribe(t => ConsoleOutput.PrintTweet(t));
                 mainTwitterAccount.Mentions.Subscribe(

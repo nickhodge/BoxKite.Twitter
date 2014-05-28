@@ -71,6 +71,7 @@ namespace BoxKite.Twitter
             bearerToken = credentials.BearerToken;
             PlatformAdaptor = platformAdaptor;
             WaitTimeoutSeconds = waitTimeoutSeconds;
+            IsActive = true;
         }
 
         public IUserStream UserStreamBuilder()

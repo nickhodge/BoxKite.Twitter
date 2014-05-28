@@ -107,7 +107,7 @@ namespace BoxKite.Twitter
             _usersseen.OnNext(t.User);
         }
 
-        public void Start()
+        public void InitUserStreaming()
         {
             _twitterCommunicationToken = new CancellationTokenSource();
             //
@@ -135,7 +135,7 @@ namespace BoxKite.Twitter
             userStreamConnected.Where(status => status.IsFalse()).Subscribe(StartPollingUpdates);
         }
 
-        public void Stop()
+        public void StopUserStream()
         {
             _twitterCommunicationToken.Cancel();
             UserStream.Stop();

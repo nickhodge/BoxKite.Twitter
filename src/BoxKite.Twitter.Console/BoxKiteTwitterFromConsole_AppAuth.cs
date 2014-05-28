@@ -22,7 +22,7 @@ namespace BoxKite.Twitter.Console
 
             twitterConnection = new TwitterConnection("3izxqWiej34yTlofisw", "uncicYQtDx5SoWth1I9xcn5vrpczUct1Oz9ydwTY4");
 
-            twitterConnection.StartSearch("mh370");
+            twitterConnection.InitSearchStreaming("mh370");
             twitterConnection.SearchTimeLine.Subscribe(t => ConsoleOutput.PrintTweet(t));
 
             while (true)

@@ -59,7 +59,7 @@ namespace BoxKite.Twitter.Console
         private static void cancelStreamHandler(object sender, ConsoleCancelEventArgs e)
         {
             if (twitterConnection != null)
-                twitterConnection.Stop();
+                twitterConnection.StopUserStream();
             ConsoleOutput.PrintMessage("All finished.", ConsoleColor.Blue);
             Thread.Sleep(TimeSpan.FromSeconds(1.3));
         }

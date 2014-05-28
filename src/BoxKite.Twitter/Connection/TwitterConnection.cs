@@ -37,8 +37,8 @@ namespace BoxKite.Twitter
         {
             PlatformAdaptor = platformAdaptor;
             TwitterConnectionEvents = eventAggregator ?? new EventAggregator();
-            ApplicationSession = ApplicationSessionBuilder(twitterConsumerKey, twitterConsumerSecret);
-            UserSession = UserSessionBuilder(twitterConsumerKey, twitterConsumerSecret);
+            ApplicationSession = BuildApplicationSession(twitterConsumerKey, twitterConsumerSecret);
+            UserSession = BuildUserSession(twitterConsumerKey, twitterConsumerSecret);
         }
 
         public TwitterConnection(TwitterCredentials twitterCredentials, IEventAggregator eventAggregator = null, IPlatformAdaptor platformAdaptor = null)
@@ -46,14 +46,14 @@ namespace BoxKite.Twitter
             PlatformAdaptor = platformAdaptor;
             TwitterConnectionEvents = eventAggregator ?? new EventAggregator();
             TwitterCredentials = twitterCredentials;
-            UserSession = UserSessionBuilder();
+            UserSession = BuildUserSession();
         }
 
         public TwitterConnection(string twitterConsumerKey, string twitterConsumerSecret, string xauthusername, string xauthpassword, IEventAggregator eventAggregator = null, IPlatformAdaptor platformAdaptor = null)
         {
             PlatformAdaptor = platformAdaptor;
             TwitterConnectionEvents = eventAggregator ?? new EventAggregator();
-            UserSession = UserSessionBuilder(twitterConsumerKey, twitterConsumerSecret);
+            UserSession = BuildUserSession(twitterConsumerKey, twitterConsumerSecret);
         }
 #endif
 #if (WINDOWSDESKTOP)
@@ -61,8 +61,8 @@ namespace BoxKite.Twitter
         {
             PlatformAdaptor = new DesktopPlatformAdaptor();
             TwitterConnectionEvents = eventAggregator ?? new EventAggregator();
-            ApplicationSession = ApplicationSessionBuilder(twitterConsumerKey, twitterConsumerSecret);
-            UserSession = UserSessionBuilder(twitterConsumerKey, twitterConsumerSecret);
+            ApplicationSession = BuildApplicationSession(twitterConsumerKey, twitterConsumerSecret);
+            UserSession = BuildUserSession(twitterConsumerKey, twitterConsumerSecret);
          }
 
         public TwitterConnection(TwitterCredentials twitterCredentials, IEventAggregator eventAggregator = null)
@@ -70,14 +70,14 @@ namespace BoxKite.Twitter
             PlatformAdaptor = new DesktopPlatformAdaptor();
             TwitterConnectionEvents = eventAggregator ?? new EventAggregator();
             TwitterCredentials = twitterCredentials;
-            UserSession = UserSessionBuilder();
+            UserSession = BuildUserSession();
         }
 
         public TwitterConnection(string twitterConsumerKey, string twitterConsumerSecret, string xauthusername, string xauthpassword, IEventAggregator eventAggregator = null)
         {
             PlatformAdaptor = new DesktopPlatformAdaptor();
             TwitterConnectionEvents = eventAggregator ?? new EventAggregator();
-            UserSession = UserSessionBuilder(twitterConsumerKey, twitterConsumerSecret);
+            UserSession = BuildUserSession(twitterConsumerKey, twitterConsumerSecret);
         }
 #endif
 #if(WIN8RT)
@@ -85,8 +85,8 @@ namespace BoxKite.Twitter
         {
             PlatformAdaptor = new Win8RTPlatformAdaptor();
             TwitterConnectionEvents = eventAggregator ?? new EventAggregator();
-            ApplicationSession = ApplicationSessionBuilder(twitterConsumerKey, twitterConsumerSecret);
-            UserSession = UserSessionBuilder(twitterConsumerKey, twitterConsumerSecret);
+            ApplicationSession = BuildApplicationSession(twitterConsumerKey, twitterConsumerSecret);
+            UserSession = BuildUserSession(twitterConsumerKey, twitterConsumerSecret);
          }
 
         public TwitterConnection(TwitterCredentials twitterCredentials, IEventAggregator eventAggregator = null)
@@ -94,28 +94,28 @@ namespace BoxKite.Twitter
             PlatformAdaptor = new Win8RTPlatformAdaptor();
             TwitterCredentials = twitterCredentials;
             TwitterConnectionEvents = eventAggregator ?? new EventAggregator();
-            UserSession = UserSessionBuilder();
+            UserSession = BuildUserSession();
         }
 
         public TwitterConnection(string twitterConsumerKey, string twitterConsumerSecret, string xauthusername, string xauthpassword, IEventAggregator eventAggregator = null)
         {
             PlatformAdaptor = new Win8RTPlatformAdaptor();
             TwitterConnectionEvents = eventAggregator ?? new EventAggregator();
-            UserSession = UserSessionBuilder(twitterConsumerKey, twitterConsumerSecret);
+            UserSession = BuildUserSession(twitterConsumerKey, twitterConsumerSecret);
          } 
 #endif
 
-        private IApplicationSession ApplicationSessionBuilder(string twitterConsumerKey, string twitterConsumerSecret)
+        private IApplicationSession BuildApplicationSession(string twitterConsumerKey, string twitterConsumerSecret)
         {
             return ApplicationSession ?? new ApplicationSession(twitterConsumerKey, twitterConsumerSecret);
         }
 
-        private IUserSession UserSessionBuilder()
+        private IUserSession BuildUserSession()
         {
             return UserSession ?? new UserSession(TwitterCredentials, PlatformAdaptor);
         }
 
-        private IUserSession UserSessionBuilder(string twitterConsumerKey, string twitterConsumerSecret)
+        private IUserSession BuildUserSession(string twitterConsumerKey, string twitterConsumerSecret)
         {
             return UserSession ?? new UserSession(twitterConsumerKey, twitterConsumerSecret, PlatformAdaptor);
         }
