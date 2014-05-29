@@ -4,15 +4,23 @@
 
 BoxKite.Twitter is a .NET Library that provides an interface to Twitter API 1.1, licensed [MS-PL](http://opensource.org/licenses/MS-PL).
 
-Supporting Windows 8, Windows Phone 8, Universal Apps and .NET 4.5 Portable Class Libaries; it uses modern .NET development mechanisms `async/await` and `Reactive Extensions`.
+Supporting Windows 8, Windows Phone 8, Universal Apps and .NET 4.5 Portable Class Libaries; it uses modern .NET development mechanisms `async/await` and [Reactive Extensions](https://rx.codeplex.com/).
 
 Questions? You can find me on Twitter, of course! [@NickHodgeMSFT](https://twitter.com/NickHodgeMSFT)
 
 ## Version News
 
+Version 2.0.0-pre Implements/Changes:
+* Both Twitter's [Application Authentication](https://dev.twitter.com/docs/auth/application-only-auth) and [User Authentication](https://dev.twitter.com/docs/auth/obtaining-access-tokens) supported.
+* REST APIs mapped to Application/User Authentication as based on Twitter documentation
+* `TwitterConnection` method naming changes (verb/noun, more sensible)
+* a couple of new Twitter REST API endpoints added eg: [status/retweeters](https://dev.twitter.com/docs/api/1.1/get/statuses/retweeters/ids)
+* Removal of Json <dynamic> use (only used twice)
+* various small bugs
+
 Version 1.5.x Implements:
 * start of [Application-only Authentication via OAuth2](https://dev.twitter.com/docs/auth/application-only-auth)
-* this is going to require some rework in the API to permit App-level API access (pull user timeslines, friends of account, list resources, search in tweets etc) without a user login.
+* this is going to require some rework in the API to permit App-level API access (pull user timelines, friends of account, list resources, search in tweets etc) without a user login.
 
 Version 1.4.x Implements:
 * Getting/Setting Profile Banners (added to twitter API 21st April 2014)
@@ -43,7 +51,6 @@ Version 1.2.x Fixes/Implements:
 * As per Twitter: [User IDs moving to 64 bits later in 2013](https://dev.twitter.com/blog/test-accounts-user-ids-greater-32-bits) 
 * Note: Using .NET long to hold user_id
 * Note: this impacts any downstream client expecting plain old 32 bit ints
-
 * FriendlyDateTimeString now says "Just Now" rather than "in 13 seconds" when user's device clock has drifted forward from correct internet time.
 
 ## Twitter API Coverage
@@ -63,6 +70,12 @@ At the present time, BoxKite.Twitter supports API version 1.1 of the following:
 Install-Package BoxKite.Twitter
 ```
 
+For 2.0.0-pre:
+
+```
+Install-Package BoxKite.Twitter -pre
+```
+
 ##So What Does the Code look like?
 
 [Pop into the wiki](https://github.com/nickhodge/BoxKite.Twitter/wiki) to see code examples
@@ -76,7 +89,7 @@ Install-Package BoxKite.Twitter
 
 * More indepth [developer details are documented here](wiki/devdetails)
 * There are a few, [small missing pieces documented here](wiki/todos)
-* 52 ["Live Fire" tests are explained here](wiki/livefire)
+* 55 ["Live Fire" tests are explained here](wiki/livefire)
 * [Sample, Simple WPF/XAML 4.5 Client App](wiki/samplewpf)
 * Note: Sample Windows 8.1 app under development, will be in a separate repo
 
@@ -85,7 +98,8 @@ Install-Package BoxKite.Twitter
 * Solution is Visual Studio 2013 Update 2, but code should work and build in VS2012
 
 ##Where you can help out
-* Reworking the API to make sense for more developers than me
+* Modeling the API to make sense for more developers than me
+* Additional points for Reactive hook up
 * Ensuring this works on non-Microsoft .NET platforms
 * Documentation, of course
 
@@ -112,9 +126,9 @@ Install-Package BoxKite.Twitter
 *  API rate limits
 
 ##Tests:
-* 119 test methods with average of 4 assertion tests each
+* 122 test methods with average of 4 assertion tests each
 * Both Twitter API 1.1 and Userstream Unit Tests
-* 52 "Live Fire Tests" (Live integration tests) Included as a separate project, it is engaged via the Console; uses a real Twitter Account to exercise the API. Configurable Test series, individual tests that can be run.
+* 55 "Live Fire Tests" (Live integration tests) Included as a separate project, it is engaged via the Console; uses a real Twitter Account to exercise the API. Configurable Test series, individual tests that can be run.
 * Test source is JSON from [dev.twitter.com](https://dev.twitter.com/) and where innaccurate on the site, taken from live data or corrected to match live data.
 * Error response type testing (eg: 429 rate_limits) & generic decode tests included
 
