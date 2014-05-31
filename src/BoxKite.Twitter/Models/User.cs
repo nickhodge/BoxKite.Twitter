@@ -11,73 +11,30 @@ namespace BoxKite.Twitter.Models
 {
     public class User : TwitterControlBase
     {
-        private string _name;
         [JsonProperty("name")]
-        public string Name
-        {
-            get { return _name; }
-            set { SetProperty(ref _name, value); }
-        }
+        public string Name { get; set; }
 
-        private string _avatar;
-        [JsonProperty("profile_image_url")]
-        public string Avatar
-        {
-            get { return _avatar; }
-            set { SetProperty(ref _avatar, value); }
-        }
+         [JsonProperty("profile_image_url")]
+        public string Avatar { get; set; }
 
-        private int _followers;
-        [JsonProperty("followers_count")]
-        public int Followers
-        {
-            get { return _followers; }
-            set { SetProperty(ref _followers, value); }
-        }
+         [JsonProperty("followers_count")]
+         public int Followers { get; set; }
 
-        private int _friends;
         [JsonProperty("friends_count")]
-        public int Friends
-        {
-            get { return _friends; }
-            set { SetProperty(ref _friends, value); }
-        }
+         public int Friends { get; set; }
 
-        private bool _isprotected;
-        [JsonProperty("protected")]
-        public bool IsProtected
-        {
-            get { return _isprotected; }
-            set { SetProperty(ref _isprotected, value); }
-        }
+         [JsonProperty("protected")]
+        public bool IsProtected { get; set; }
 
-        private bool _isfollowedbyme;
         [JsonProperty("following")]
         [JsonConverter(typeof(NullToBoolConverter))]
-        public bool IsFollowedByMe
-        {
-            get { return _isfollowedbyme; }
-            set
-            {
-                SetProperty(ref _isfollowedbyme, value);
-            }
-        }
+         public bool IsFollowedByMe { get; set; }
 
-        private string _screenname;
         [JsonProperty("screen_name")]
-        public string ScreenName
-        {
-            get { return _screenname; }
-            set { SetProperty(ref _screenname, value); }
-        }
+        public string ScreenName { get; set; }
 
-        private long _userid;
         [JsonProperty("id_str")]
-        public long UserId
-        {
-            get { return _userid; }
-            set { SetProperty(ref _userid, value); }
-        }
+        public long UserId { get; set; }
 
         [JsonProperty("contributors_enabled")]
         public bool ContributorsEnabled { get; set; }
@@ -92,30 +49,15 @@ namespace BoxKite.Twitter.Models
         [JsonProperty("default_profile_image")]
         public bool DefaultProfileImage { get; set; }
 
-        private string _description;
         [JsonProperty("description")]
-        public string Description
-        {
-            get { return _description; }
-            set { SetProperty(ref _description, value); }
-        }
+        public string Description { get; set; }
 
-        private int _favouritescount;
-        [JsonProperty("favourites_count")] // yes, UK English spelling for a JSON field
-        public int FavouritesCount
-        {
-            get { return _favouritescount; }
-            set { SetProperty(ref _favouritescount, value); }
-        }
+         [JsonProperty("favourites_count")] // yes, UK English spelling for a JSON field
+        public int FavouritesCount { get; set; }
 
-        private bool _followrequestsent;
         [JsonProperty("follow_request_sent")]
         [JsonConverter(typeof(NullToBoolConverter))]
-        public bool FollowRequestSent
-        {
-            get { return _followrequestsent; }
-            set { SetProperty(ref _followrequestsent, value); }
-        }
+         public bool FollowRequestSent { get; set; }
 
         [JsonProperty("geo_enabled")]
         public bool GeoEnabled { get; set; }
@@ -129,21 +71,11 @@ namespace BoxKite.Twitter.Models
         [JsonProperty("lang")]
         public string Language { get; set; }
 
-        private int _listedcount;
         [JsonProperty("listed_count")]
-        public int ListedCount
-        {
-            get { return _listedcount; }
-            set { SetProperty(ref _listedcount, value); }
-        }
+        public int ListedCount { get; set; }
 
-        private string _location;
         [JsonProperty("location")]
-        public string Location
-        {
-            get { return _location; }
-            set { SetProperty(ref _location, value); }
-        }
+        public string Location { get; set; }
 
         [JsonProperty("notifications")]
         [JsonConverter(typeof(NullToBoolConverter))]
@@ -167,13 +99,8 @@ namespace BoxKite.Twitter.Models
         [JsonProperty("profile_background_tile")]
         public bool ProfileBackgroundTile { get; set; }
 
-        private string _profileimageurlhttps;
-        [JsonProperty("profile_image_url_https")]
-        public string ProfileImageUrlHTTPS
-        {
-            get { return _profileimageurlhttps; }
-            set { SetProperty(ref _profileimageurlhttps, value); }
-        }
+         [JsonProperty("profile_image_url_https")]
+        public string ProfileImageUrlHTTPS { get; set; }
 
         [JsonProperty("profile_link_color")]
         public string ProfileLinkColour { get; set; }
@@ -193,24 +120,14 @@ namespace BoxKite.Twitter.Models
         [JsonProperty("show_all_inline_media")]
         public bool ShowAllInlineMedia { get; set; }
 
-        private int _statuscount;
         [JsonProperty("statuses_count")]
-        public int StatusesCount
-        {
-            get { return _statuscount; }
-            set { SetProperty(ref _statuscount, value); }
-        }
+        public int StatusesCount { get; set; }
 
         [JsonProperty("time_zone")]
         public string TimeZone { get; set; }
 
-        private string _url;
         [JsonProperty("url")]
-        public string Url
-        {
-            get { return _url; }
-            set { SetProperty(ref _url, value); }
-        }
+        public string Url { get; set; }
 
         [JsonProperty("utc_offset")]
         public int? UTCOffset { get; set; }

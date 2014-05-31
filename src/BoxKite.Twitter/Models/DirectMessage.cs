@@ -10,97 +10,47 @@ namespace BoxKite.Twitter.Models
 {
     public class DirectMessage : TwitterControlBase
     {
-        private DateTimeOffset _time;
         [JsonProperty("created_at")]
         [JsonConverter(typeof(StringToDateTimeConverter))]
-        public DateTimeOffset Time
-        {
-            get { return _time; }
-            set { SetProperty(ref _time, value); }
-        }
+        public DateTimeOffset Time { get; set; }
 
         [JsonIgnore]
         public string ToFriendlyDateTime
         {
-            get { return _time.ToFriendlyText(); }
+            get { return Time.ToFriendlyText(); }
         }
 
-        private Entities _entities;
         [JsonProperty("entities")]
-        public Entities Entities
-        {
-            get { return _entities; }
-            set { SetProperty(ref _entities, value); }
-        }
+        public Entities Entities { get; set; }
 
-        private long _id;
         [JsonProperty("id")]
-        public long Id
-        {
-            get { return _id; }
-            set { SetProperty(ref _id, value); }
-        }
+        public long Id { get; set; }
 
-        private User _recipient;
         [JsonProperty("recipient")]
-        public User Recipient
-        {
-            get { return _recipient; }
-            set { SetProperty(ref _recipient, value); }
-        }
+        public User Recipient { get; set; }
 
-        private int _recipientid;
         [JsonProperty("recipient_id")]
-        public int RecipientId
-        {
-            get { return _recipientid; }
-            set { SetProperty(ref _recipientid, value); }
-        }
+        public int RecipientId { get; set; }
 
-        private string _recipientscreenname;
         [JsonProperty("recipient_screen_name")]
-        public string RecipientScreenName
-        {
-            get { return _recipientscreenname; }
-            set { SetProperty(ref _recipientscreenname, value); }
-        }
+        public string RecipientScreenName { get; set; }
 
-        private User _sender;
-        [JsonProperty("sender")]
-        public User Sender
-        {
-            get { return _sender; }
-            set { SetProperty(ref _sender, value); }
-        }
+         [JsonProperty("sender")]
+        public User Sender { get; set; }
 
-        private int _senderid;
         [JsonProperty("sender_id")]
-        public int SenderId
-        {
-            get { return _senderid; }
-            set { SetProperty(ref _senderid, value); }
-        }
+         public int SenderId { get; set; }
 
-        private string _senderscreenname;
         [JsonProperty("sender_screen_name")]
-        public string SenderScreenName
-        {
-            get { return _senderscreenname; }
-            set { SetProperty(ref _senderscreenname, value); }
-        }
+        public string SenderScreenName { get; set; }
 
-        private string _rawtext;
         [JsonProperty("text")]
-        public string RawText
-        {
-            get { return _rawtext; }
-            set { SetProperty(ref _rawtext, value); }
-        }
+        public string RawText { get; set; }
 
         [JsonIgnore]
         public string Text
         {
-            get { return _rawtext.HTMLDecode(); }
+            get { return RawText.HTMLDecode(); }
         }
     }
 }

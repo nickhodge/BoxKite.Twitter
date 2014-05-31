@@ -119,9 +119,6 @@
     <Compile Include="..\BoxKite.Twitter\Extensions\TwitterApi.cs">
       <Link>Extensions\TwitterApi.cs</Link>
     </Compile>
-    <Compile Include="..\BoxKite.Twitter\Helpers\BindableBase.cs">
-      <Link>Helpers\BindableBase.cs</Link>
-    </Compile>
     <Compile Include="..\BoxKite.Twitter\Helpers\EventAggregator\EventAggregator.cs">
       <Link>Helpers\EventAggregator\EventAggregator.cs</Link>
     </Compile>

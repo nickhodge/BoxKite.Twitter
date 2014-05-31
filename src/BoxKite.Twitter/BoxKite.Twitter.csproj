@@ -61,7 +61,6 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\TweetExtensions.cs" />
     <Compile Include="Models\TwitterParametersCollection.cs" />
-    <Compile Include="Helpers\BindableBase.cs" />
     <Compile Include="Models\TwitterResponseCollection.cs" />
     <Compile Include="Helpers\JSONCustomConverters.cs" />
     <Compile Include="Interfaces\IPlatformAdaptor.cs" />

@@ -9,102 +9,42 @@ namespace BoxKite.Twitter.Models
 {
     public class TwitterList : TwitterControlBase
     {
-        private string _slug;
         [JsonProperty("slug")]
-        public string Slug
-        {
-            get { return _slug; }
-            set { SetProperty(ref _slug, value); }
-        }
+        public string Slug { get; set; }
 
-        private string _name;
-        [JsonProperty("name")]
-        public string Name
-        {
-            get { return _name; }
-            set { SetProperty(ref _name, value); }
-        }
+         [JsonProperty("name")]
+        public string Name { get; set; }
 
-        private DateTimeOffset _createdtime;
         [JsonProperty("created_at")]
         [JsonConverter(typeof(StringToDateTimeConverter))]
-        public DateTimeOffset CreatedTime
-        {
-            get { return _createdtime; }
-            set { SetProperty(ref _createdtime, value); }
-        }
+         public DateTimeOffset CreatedTime { get; set; }
 
-        private string _uri;
         [JsonProperty("uri")]
-        public string Uri
-        {
-            get { return _uri; }
-            set { SetProperty(ref _uri, value); }
-        }
+        public string Uri { get; set; }
 
-        private int _subscribercount;
         [JsonProperty("subscriber_count")]
-        public int SubscriberCount
-        {
-            get { return _subscribercount; }
-            set { SetProperty(ref _subscribercount, value); }
-        }
+        public int SubscriberCount { get; set; }
 
-        private int _membercount;
-        [JsonProperty("member_count")]
-        public int MemberCount
-        {
-            get { return _membercount; }
-            set { SetProperty(ref _membercount, value); }
-        }
+         [JsonProperty("member_count")]
+        public int MemberCount { get; set; }
 
-        private string _mode;
         [JsonProperty("mode")]
-        public string Mode
-        {
-            get { return _mode; }
-            set { SetProperty(ref _mode, value); }
-        }
+         public string Mode { get; set; }
 
         // changed from int to long as per https://dev.twitter.com/blog/list-ids-become-64-bit-integers-early-2014
-        private long _id;
-        [JsonProperty("id_str")]
-        public long Id
-        {
-            get { return _id; }
-            set { SetProperty(ref _id, value); }
-        }
+         [JsonProperty("id_str")]
+        public long Id { get; set; }
 
-        private string _fullname;
-        [JsonProperty("full_name")]
-        public string FullName
-        {
-            get { return _fullname; }
-            set { SetProperty(ref _fullname, value); }
-        }
+         [JsonProperty("full_name")]
+         public string FullName { get; set; }
 
-        private string _description;
         [JsonProperty("description")]
-        public string Description
-        {
-            get { return _description; }
-            set { SetProperty(ref _description, value); }
-        }
+         public string Description { get; set; }
 
-        private User _user;
-        [JsonProperty("user")]
-        public User User
-        {
-            get { return _user; }
-            set { SetProperty(ref _user, value); }
-        }
+         [JsonProperty("user")]
+        public User User { get; set; }
 
-        private bool _following;
         [JsonProperty("following")]
-        public bool Following
-        {
-            get { return _following; }
-            set { SetProperty(ref _following, value); }
-        }
+         public bool Following { get; set; }
     }
 }

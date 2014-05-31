@@ -9,46 +9,21 @@ namespace BoxKite.Twitter.Models
 {
     public class SavedSearch : TwitterControlBase
     {
-        private long _id;
         [JsonProperty("id")]
-        public long Id
-        {
-            get { return _id; }
-            set { SetProperty(ref _id, value); }
-        }
+        public long Id { get; set; }
 
-        private string _name;
         [JsonProperty("name")]
-        public string Name
-        {
-            get { return _name; }
-            set { SetProperty(ref _name, value); }
-        }
+        public string Name { get; set; }
 
-        private string _position;
         [JsonProperty("position")]
-        public string Position
-        {
-            get { return _position; }
-            set { SetProperty(ref _position, value); }
-        }
+        public string Position { get; set; }
 
-        private string _query;
         [JsonProperty("query")]
-        public string Query
-        {
-            get { return _query; }
-            set { SetProperty(ref _query, value); }
-        }
+        public string Query { get; set; }
 
-        private DateTimeOffset _datecreated;
         [JsonProperty("created_at")]
         [JsonConverter(typeof(StringToDateTimeConverter))]
-        public DateTimeOffset DateCreated
-        {
-            get { return _datecreated; }
-            set { SetProperty(ref _datecreated, value); }
-        }
+        public DateTimeOffset DateCreated { get; set; }
 
     }
 }

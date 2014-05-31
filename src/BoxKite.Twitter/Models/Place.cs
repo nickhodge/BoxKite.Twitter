@@ -7,69 +7,29 @@ namespace BoxKite.Twitter.Models
 {
     public class Place : TwitterControlBase
     {
-        private string _id;
-        [JsonProperty("id")]
-        public string Id
-        {
-            get { return _id; }
-            set { SetProperty(ref _id, value); }
-        }
+         [JsonProperty("id")]
+        public string Id { get; set; }
 
-        private string _url;
         [JsonProperty("url")]
-        public string Url
-        {
-            get { return _url; }
-            set { SetProperty(ref _url, value); }
-        }
+         public string Url { get; set; }
 
-        private string _placetype;
-        [JsonProperty("place_type")]
-        public string PlaceType
-        {
-            get { return _placetype; }
-            set { SetProperty(ref _placetype, value); }
-        }
+       [JsonProperty("place_type")]
+        public string PlaceType { get; set; }
 
-        private string _name;
         [JsonProperty("name")]
-        public string Name
-        {
-            get { return _name; }
-            set { SetProperty(ref _name, value); }
-        }
+       public string Name { get; set; }
 
-        private string _fullname;
         [JsonProperty("full_name")]
-        public string FullName
-        {
-            get { return _fullname; }
-            set { SetProperty(ref _fullname, value); }
-        }
+        public string FullName { get; set; }
 
-        private string _countrycode;
         [JsonProperty("country_code")]
-        public string CountryCode
-        {
-            get { return _countrycode; }
-            set { SetProperty(ref _countrycode, value); }
-        }
+        public string CountryCode { get; set; }
 
-        private string _country;
         [JsonProperty("country")]
-        public string Country
-        {
-            get { return _country; }
-            set { SetProperty(ref _country, value); }
-        }
+        public string Country { get; set; }
 
-        private BoundingBox _boundingbox;
         [JsonProperty("bounding_box")]
-        public BoundingBox BoundingBox
-        {
-            get { return _boundingbox; }
-            set { SetProperty(ref _boundingbox, value); }
-        }
+        public BoundingBox BoundingBox { get; set; }
 
         [JsonProperty("attributes")]
         public object Attributes { get; set; }

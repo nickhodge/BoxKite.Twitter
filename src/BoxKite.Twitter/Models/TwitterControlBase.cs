@@ -30,7 +30,7 @@ namespace BoxKite.Twitter.Models
           Last-Modified: Sun, 12 May 2013 04:23:10 GMT
         }}
 */
-    public abstract class TwitterControlBase : BindableBase
+    public abstract class TwitterControlBase
     {
         public bool twitterFaulted { get; set; }
         public bool OK {
