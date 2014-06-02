@@ -16,6 +16,7 @@ Version 2.0.0-pre Implements/Changes:
 * `TwitterConnection` method naming changes (verb/noun, more sensible)
 * a couple of new Twitter REST API endpoints added eg: [status/retweeters](https://dev.twitter.com/docs/api/1.1/get/statuses/retweeters/ids)
 * Removal of Json <dynamic> use (only used twice)
+* Based on [Paul Bett's recommendation to remove Message Buses from reactive style apps](http://log.paulbetts.org/messagebus-and-why-you-shouldnt-use-it/), I surgically removed Brendan's Reactive.EventAggregator. Sorry, dude
 * various small bugs
 
 Version 1.5.x Implements:
@@ -137,7 +138,6 @@ Install-Package BoxKite.Twitter -pre
 
 * Without [Newtonsoft Json.NET](http://json.net) this library would not exist (MIT License)
 * Microsoft's Open sourced .NET [Reactive Extensions](https://rx.codeplex.com/) (Apache License 2.0)
-* Brendan Forster's [Reactive.EventAggregator](https://github.com/shiftkey/Reactive.EventAggregator) (source code from GitHub, manually added to BoxKite.Twitter)
 * [Portable version of the HTTP Client Libraries, 2.2.x](http://blogs.msdn.com/b/bclteam/p/httpclient.aspx) from the Microsoft ASP.NET WebAPI team [HTTP Client Libraries](http://nuget.org/packages/Microsoft.Net.Http/)  (sourced from NuGet, currently Licensed under [DotNetBetaUnsupported](http://go.microsoft.com/fwlink/?LinkID=279007) license)
 
 ### (Dependency when running BoxKite.Twitter.Tests only)
