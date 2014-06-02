@@ -2,6 +2,8 @@
 // License: MS-PL
 
 using System;
+using System.ComponentModel.Design;
+using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using BoxKite.Twitter.Models;
@@ -34,9 +36,11 @@ namespace BoxKite.Twitter.Tests
 
             searchstream1.Start();
 
-            while (searchstream1.IsActive)
+            var IsActive = true;
+            searchstream1.SearchStreamActive.Where(status => status.Equals(false)).Subscribe(t =>{IsActive = false;});
+
+            while (IsActive)
             {
-                Thread.Sleep(TimeSpan.FromSeconds(0.5));
             }
         }
 

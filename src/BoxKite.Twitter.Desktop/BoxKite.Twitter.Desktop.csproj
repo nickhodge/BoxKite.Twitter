@@ -119,12 +119,6 @@
     <Compile Include="..\BoxKite.Twitter\Extensions\TwitterApi.cs">
       <Link>Extensions\TwitterApi.cs</Link>
     </Compile>
-    <Compile Include="..\BoxKite.Twitter\Helpers\EventAggregator\EventAggregator.cs">
-      <Link>Helpers\EventAggregator\EventAggregator.cs</Link>
-    </Compile>
-    <Compile Include="..\BoxKite.Twitter\Helpers\EventAggregator\IEventAggregator.cs">
-      <Link>Helpers\EventAggregator\IEventAggregator.cs</Link>
-    </Compile>
     <Compile Include="..\BoxKite.Twitter\Helpers\JSONCustomConverters.cs">
       <Link>Helpers\JSONCustomConverters.cs</Link>
     </Compile>

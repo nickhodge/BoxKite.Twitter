@@ -13,7 +13,6 @@ using BoxKite.Twitter.Extensions;
 using BoxKite.Twitter.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Reactive.EventAggregator;
 
 namespace BoxKite.Twitter
 {
@@ -23,19 +22,15 @@ namespace BoxKite.Twitter
         public IObservable<Tweet> FoundTweets { get { return foundtweets; } }
 
         private Subject<StreamSearchRequest> searchrequests = new Subject<StreamSearchRequest>();
-        public Subject<StreamSearchRequest> SearchRequests
-        {
-            get { return searchrequests; }
-        }
+        public Subject<StreamSearchRequest> SearchRequests{ get { return searchrequests; } }
 
-        public bool IsActive { get; private set; }
+        readonly Subject<bool> _searchStreamActive = new Subject<bool>();
+        public IObservable<bool> SearchStreamActive { get { return _searchStreamActive; } }
 
         public CancellationTokenSource CancelSearchStream { get; set; }
         public TwitterParametersCollection SearchParameters { get; set; }
         public Func<Task<HttpResponseMessage>> CreateOpenConnection { get; set; }
-        public IUserSession parentSession { get; set; }
-
-        private IEventAggregator _eventAggregator;
+        private IUserSession parentSession { get; set; }
 
         public SearchStream(IUserSession session)
         {
@@ -44,25 +39,17 @@ namespace BoxKite.Twitter
             SearchRequests.Subscribe(ChangeSearchRequest);
         }
 
-        public SearchStream(IUserSession session, IEventAggregator eventAggregator)
-        {
-            parentSession = session;
-            CancelSearchStream = new CancellationTokenSource();
-            _eventAggregator = eventAggregator;
-            SearchRequests.Subscribe(ChangeSearchRequest);
-        }
-
         public void Start()
         {
             CancelSearchStream = new CancellationTokenSource();
-            IsActive = true;
+            _searchStreamActive.OnNext(true);
             Task.Factory.StartNew(ProcessMessages, CancelSearchStream.Token);  
         }
 
         public void Stop()
         {
-            CancelSearchStream.Cancel(); 
-            IsActive = false;
+            CancelSearchStream.Cancel();
+            _searchStreamActive.OnNext(false);
         }
 
         private void ChangeSearchRequest(StreamSearchRequest sr)
@@ -157,9 +144,7 @@ namespace BoxKite.Twitter
                         Debug.WriteLine(restofline);
 #endif
                             responseStream.Dispose();
-                            Dispose();
-                            if (_eventAggregator != null)
-                                _eventAggregator.Publish(new TwitterUserStreamDisconnectEvent());
+                            Dispose();                          
                             break;
                         }
 
@@ -191,8 +176,6 @@ namespace BoxKite.Twitter
             }
             catch (Exception)
             {
-                if (_eventAggregator != null)
-                    _eventAggregator.Publish(new TwitterSearchStreamDisconnectEvent());
                 Dispose();              
             }
         }
@@ -212,7 +195,7 @@ namespace BoxKite.Twitter
 
         public void Dispose()
         {
-            IsActive = false;
+            _searchStreamActive.OnNext(false);
             foundtweets.Dispose();
         }
     }

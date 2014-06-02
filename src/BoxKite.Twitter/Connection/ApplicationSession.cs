@@ -12,13 +12,11 @@ using System.Text;
 using System.Threading.Tasks;
 using BoxKite.Twitter.Authentication;
 using BoxKite.Twitter.Extensions;
-using Reactive.EventAggregator;
 
 namespace BoxKite.Twitter
 {
     public class ApplicationSession : IApplicationSession
     {
-        public IEventAggregator TwitterConnectionEvents { get; set; }
         public int WaitTimeoutSeconds { get; set; }
         public string clientID { get; set; }
         public string clientSecret { get; set; }

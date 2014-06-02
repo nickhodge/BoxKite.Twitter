@@ -7,13 +7,12 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using BoxKite.Twitter.Extensions;
-using Reactive.EventAggregator;
 
 namespace BoxKite.Twitter
 {
     public static class UserStreamExtensions
     {
-        public static IUserStream GetUserStream(this IUserSession session, IEventAggregator _eventAggregator)
+        public static IUserStream GetUserStream(this IUserSession session)
         {
             Func<Task<HttpResponseMessage>> startConnection =
                 () =>
@@ -24,7 +23,7 @@ namespace BoxKite.Twitter
                     return c.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
                 };
 
-            return new UserStream(startConnection, _eventAggregator);
+            return new UserStream(startConnection);
         }
     }
 }

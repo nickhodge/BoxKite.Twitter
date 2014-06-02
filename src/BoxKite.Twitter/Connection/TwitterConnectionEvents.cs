@@ -8,17 +8,6 @@ using BoxKite.Twitter.Models;
 
 namespace BoxKite.Twitter
 {
-    public class TwitterUserStreamDisconnectEvent
-    {
-
-    }
-
-    public class TwitterSearchStreamDisconnectEvent
-    {
-
-    }
-
-
     public partial class TwitterConnection
     {
         readonly Subject<IStreamEvent> _streamevents = new Subject<IStreamEvent>();

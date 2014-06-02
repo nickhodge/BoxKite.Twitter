@@ -8,16 +8,15 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using BoxKite.Twitter.Extensions;
 using BoxKite.Twitter.Models;
-using Reactive.EventAggregator;
 
 namespace BoxKite.Twitter
 {
     public static class SearchStreamExtensions
     {
 
-        public static ISearchStream StartSearchStream(this IUserSession session, IEventAggregator _eventAggregator, string track = null, string follow = null, string locations = null)
+        public static ISearchStream StartSearchStream(this IUserSession session, string track = null, string follow = null, string locations = null)
         {
-            var searchStream = new SearchStream(session, _eventAggregator);
+            var searchStream = new SearchStream(session);
             searchStream.SearchParameters = searchStream.ChangeSearchParameters(track, follow, locations);
             Func<Task<HttpResponseMessage>> startConnection = () =>
             {
@@ -33,9 +32,9 @@ namespace BoxKite.Twitter
             return searchStream;
         }
 
-        public static ISearchStream StartSearchStream(this IUserSession session, IEventAggregator _eventAggregator, IEnumerable<string> track = null, IEnumerable<string> follow = null, IEnumerable<string> locations = null)
+        public static ISearchStream StartSearchStream(this IUserSession session, IEnumerable<string> track = null, IEnumerable<string> follow = null, IEnumerable<string> locations = null)
         {
-            var searchStream = new SearchStream(session, _eventAggregator);
+            var searchStream = new SearchStream(session);
             searchStream.SearchParameters = searchStream.ChangeSearchParameters(track, follow, locations);
             Func<Task<HttpResponseMessage>> startConnection = () =>
             {

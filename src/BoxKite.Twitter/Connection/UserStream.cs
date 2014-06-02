@@ -15,7 +15,6 @@ using System.Threading.Tasks;
 using BoxKite.Twitter.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Reactive.EventAggregator;
 
 namespace BoxKite.Twitter
 {
@@ -43,33 +42,23 @@ namespace BoxKite.Twitter
         public IObservable<StreamUserWithheld> UserWithheld { get { return userwithheld; } }
         public IObservable<IEnumerable<long>> Friends { get { return friends; } }
 
-        public bool IsActive { get; private set; }
+        readonly Subject<bool> _userStreamActive = new Subject<bool>();
+        public IObservable<bool> UserStreamActive { get { return _userStreamActive; } }
         public CancellationTokenSource CancelUserStream { get; set; }
         public TimeSpan delay = TimeSpan.FromSeconds(5);
-
-        private IEventAggregator _eventAggregator;
 
         public UserStream(Func<Task<HttpResponseMessage>> createOpenConnection)
         {
             this.createOpenConnection = createOpenConnection;
             CancelUserStream = new CancellationTokenSource();
-            IsActive = true;
-        }
-
-        public UserStream(Func<Task<HttpResponseMessage>> createOpenConnection, IEventAggregator eventAggregator)
-        {
-            this.createOpenConnection = createOpenConnection;
-            CancelUserStream = new CancellationTokenSource();
-            _eventAggregator = eventAggregator;
-            IsActive = false;
+            _userStreamActive.OnNext(true);
         }
 
         public void Start()
         {
-            //if (IsActive) return;
             CancelUserStream = new CancellationTokenSource();
             Task.Factory.StartNew(ProcessMessages, CancelUserStream.Token);
-            IsActive = true;                 
+            _userStreamActive.OnNext(true);
         }
 
         public void Dispose()
@@ -85,12 +74,8 @@ namespace BoxKite.Twitter
             events.Dispose();
             directmessages.Dispose();
             scrubgeorequests.Dispose();
-
+            _userStreamActive.OnNext(false);
             CancelUserStream.Cancel();
-            IsActive = false;
-
-            if (_eventAggregator != null)
-                _eventAggregator.Publish(new TwitterUserStreamDisconnectEvent());
         }
 
         private async void ProcessMessages()

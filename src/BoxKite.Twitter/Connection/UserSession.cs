@@ -12,7 +12,6 @@ using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Text;
 using System.Threading.Tasks;
-using BoxKite.Twitter.Authentication;
 using BoxKite.Twitter.Extensions;
 using BoxKite.Twitter.Models;
 
@@ -76,7 +75,7 @@ namespace BoxKite.Twitter
 
         public IUserStream UserStreamBuilder()
         {
-            return UserStream ?? this.GetUserStream(TwitterConnectionEvents);
+            return UserStream ?? this.GetUserStream();
         }
 
         /// <summary>

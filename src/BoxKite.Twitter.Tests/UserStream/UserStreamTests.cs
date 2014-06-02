@@ -3,6 +3,7 @@
 
 using System;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using BoxKite.Twitter.Models;
@@ -41,11 +42,14 @@ namespace BoxKite.Twitter.Tests
                 );
 
             userstreamtest1.Start();
+            var IsActive = true;
+            userstreamtest1.UserStreamActive.Where(status => status.Equals(false)).Subscribe(t => { IsActive = false; });
 
-            while (userstreamtest1.IsActive)
+            while (IsActive)
             {
-                Thread.Sleep(TimeSpan.FromSeconds(0.5));
+                
             }
+ 
         }
 
         [TestMethod]
@@ -65,9 +69,11 @@ namespace BoxKite.Twitter.Tests
 
             userstreamtest2.Start();
 
-            while (userstreamtest2.IsActive)
+            var IsActive = true;
+            userstreamtest2.UserStreamActive.Where(status => status.Equals(false)).Subscribe(t => { IsActive = false; });
+            while (IsActive)
             {
-                Thread.Sleep(TimeSpan.FromSeconds(0.5));
+                
             }
         }
 
@@ -88,9 +94,11 @@ namespace BoxKite.Twitter.Tests
 
             userstreamtest3.Start();
 
-            while (userstreamtest3.IsActive)
+            var IsActive = true;
+            userstreamtest3.UserStreamActive.Where(status => status.Equals(false)).Subscribe(t => { IsActive = false; });
+            while (IsActive)
             {
-                Thread.Sleep(TimeSpan.FromSeconds(0.5));
+                
             }
         }
 
@@ -112,10 +120,12 @@ namespace BoxKite.Twitter.Tests
 
             userstreamtest4.Start();
 
-            while (userstreamtest4.IsActive)
+            var IsActive = true;
+            userstreamtest4.UserStreamActive.Where(status => status.Equals(false)).Subscribe(t => { IsActive = false; });
+            while (IsActive)
             {
-                Thread.Sleep(TimeSpan.FromSeconds(0.5));
-            }           
+                
+            }
         }
 
         [TestMethod]
@@ -135,9 +145,11 @@ namespace BoxKite.Twitter.Tests
 
             userstreamtest5.Start();
 
-            while (userstreamtest5.IsActive)
+            var IsActive = true;
+            userstreamtest5.UserStreamActive.Where(status => status.Equals(false)).Subscribe(t => { IsActive = false; });
+            while (IsActive)
             {
-                Thread.Sleep(TimeSpan.FromSeconds(0.5));
+                
             }
         }
 
@@ -162,9 +174,11 @@ namespace BoxKite.Twitter.Tests
 
             userstreamtest6.Start();
 
-            while (userstreamtest6.IsActive)
+            var IsActive = true;
+            userstreamtest6.UserStreamActive.Where(status => status.Equals(false)).Subscribe(t => { IsActive = false; });
+            while (IsActive)
             {
-                Thread.Sleep(TimeSpan.FromSeconds(0.5));
+                
             }
         }
 
@@ -183,9 +197,11 @@ namespace BoxKite.Twitter.Tests
 
             userstreamtest7.Start();
 
-            while (userstreamtest7.IsActive)
+            var IsActive = true;
+            userstreamtest7.UserStreamActive.Where(status => status.Equals(false)).Subscribe(t => { IsActive = false; });
+            while (IsActive)
             {
-                Thread.Sleep(TimeSpan.FromSeconds(0.5));
+                
             }
         }
 
@@ -204,9 +220,11 @@ namespace BoxKite.Twitter.Tests
 
             userstreamtest8.Start();
 
-            while (userstreamtest8.IsActive)
+            var IsActive = true;
+            userstreamtest8.UserStreamActive.Where(status => status.Equals(false)).Subscribe(t => { IsActive = false; });
+            while (IsActive)
             {
-                Thread.Sleep(TimeSpan.FromSeconds(0.5));
+                
             }
         }
 
@@ -228,9 +246,11 @@ namespace BoxKite.Twitter.Tests
 
             userstreamtest9.Start();
 
-            while (userstreamtest9.IsActive)
+            var IsActive = true;
+            userstreamtest9.UserStreamActive.Where(status => status.Equals(false)).Subscribe(t => { IsActive = false; });
+            while (IsActive)
             {
-                Thread.Sleep(TimeSpan.FromSeconds(0.5));
+                
             }
         }
 
@@ -250,9 +270,11 @@ namespace BoxKite.Twitter.Tests
 
             userstreamtest10.Start();
 
-            while (userstreamtest10.IsActive)
+            var IsActive = true;
+            userstreamtest10.UserStreamActive.Where(status => status.Equals(false)).Subscribe(t => { IsActive = false; });
+            while (IsActive)
             {
-                Thread.Sleep(TimeSpan.FromSeconds(0.5));
+                
             }
         }
 
@@ -272,9 +294,11 @@ namespace BoxKite.Twitter.Tests
 
             userstreamtest11.Start();
 
-            while (userstreamtest11.IsActive)
+            var IsActive = true;
+            userstreamtest11.UserStreamActive.Where(status => status.Equals(false)).Subscribe(t => { IsActive = false; });
+            while (IsActive)
             {
-                Thread.Sleep(TimeSpan.FromSeconds(0.5));
+                
             }
         }
 
@@ -296,9 +320,11 @@ namespace BoxKite.Twitter.Tests
 
             userstreamtest14.Start();
 
-            while (userstreamtest14.IsActive)
+            var IsActive = true;
+            userstreamtest14.UserStreamActive.Where(status => status.Equals(false)).Subscribe(t => { IsActive = false; });
+            while (IsActive)
             {
-                Thread.Sleep(TimeSpan.FromSeconds(0.5));
+                
             }
         }
 
@@ -318,9 +344,11 @@ namespace BoxKite.Twitter.Tests
 
             userstreamtest16.Start();
 
-            while (userstreamtest16.IsActive)
+            var IsActive = true;
+            userstreamtest16.UserStreamActive.Where(status => status.Equals(false)).Subscribe(t => { IsActive = false; });
+            while (IsActive)
             {
-                Thread.Sleep(TimeSpan.FromSeconds(0.5));
+                
             }
         }
 
@@ -339,9 +367,11 @@ namespace BoxKite.Twitter.Tests
 
             userstreamtest17.Start();
 
-            while (userstreamtest17.IsActive)
+            var IsActive = true;
+            userstreamtest17.UserStreamActive.Where(status => status.Equals(false)).Subscribe(t => { IsActive = false; });
+            while (IsActive)
             {
-                Thread.Sleep(TimeSpan.FromSeconds(0.5));
+                
             }
         }
 
@@ -368,9 +398,11 @@ namespace BoxKite.Twitter.Tests
 
             userstreamtest18.Start();
 
-            while (userstreamtest18.IsActive)
+            var IsActive = true;
+            userstreamtest18.UserStreamActive.Where(status => status.Equals(false)).Subscribe(t => { IsActive = false; });
+            while (IsActive)
             {
-                Thread.Sleep(TimeSpan.FromSeconds(0.5));
+                
             }
         }
 
@@ -396,9 +428,11 @@ namespace BoxKite.Twitter.Tests
 
             userstreamtest19.Start();
 
-            while (userstreamtest19.IsActive)
+            var IsActive = true;
+            userstreamtest19.UserStreamActive.Where(status => status.Equals(false)).Subscribe(t => { IsActive = false; });
+
+            while (IsActive)
             {
-                Thread.Sleep(TimeSpan.FromSeconds(0.5));
             }
         }
 

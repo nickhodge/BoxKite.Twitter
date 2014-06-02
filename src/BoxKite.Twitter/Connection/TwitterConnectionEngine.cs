@@ -22,8 +22,8 @@ namespace BoxKite.Twitter
         //
 
         // status bits in state machine
-        private readonly Subject<bool> backFillCompleted = new Subject<bool>();
-        private readonly Subject<bool> userStreamConnected = new Subject<bool>();
+        private readonly Subject<bool> _backFillCompleted = new Subject<bool>();
+        private readonly Subject<bool> _userStreamConnected = new Subject<bool>();
         //
 
         // largestSeenIds
@@ -113,9 +113,6 @@ namespace BoxKite.Twitter
             //
             UserStream = UserSession.UserStreamBuilder();
 
-            // this watches the userstream, if there is a disconnect event, do something about it
-            TwitterConnectionEvents.GetEvent<TwitterUserStreamDisconnectEvent>().Subscribe(ManageUserStreamDisconnect);
-
             // Separate stream events start 
             StartStreamEvents();
 
@@ -130,16 +127,14 @@ namespace BoxKite.Twitter
             Task.Factory.StartNew(ProcessBackfillPump);
 
             // If the UserStream doesn't or cannot connect, the userStreamConnected will fire
-            // There is something weird (at least on my various machines) where Windows 8.1 Preview
-            // cannot make a TLS3/SSL connection to userstream.twitter.com. I created this as a fallback
-            userStreamConnected.Where(status => status.IsFalse()).Subscribe(StartPollingUpdates);
+            UserStream.UserStreamActive.Where(status => status.IsFalse()).Subscribe(StartPollingUpdates);
         }
 
         public void StopUserStream()
         {
             _twitterCommunicationToken.Cancel();
             UserStream.Stop();
-            userStreamConnected.OnNext(false);
+            _userStreamConnected.OnNext(false);
         }
 
         private void StartUserStreams()
@@ -167,19 +162,13 @@ namespace BoxKite.Twitter
             UserStream.DeleteEvents.Subscribe(de => _streamdeleteevent.OnNext(de.DeleteEventStatus));
 
             UserStream.Start();
-            userStreamConnected.OnNext(true);
+            _userStreamConnected.OnNext(true);
         }
-
-        // subscriber to the userstream disconnecting
-        private void ManageUserStreamDisconnect(TwitterUserStreamDisconnectEvent disconnectEvent)
-        {
-            userStreamConnected.OnNext(false); // push message saying userStream is no longer connected
-        }
-
+#region FAIL-OVER TO PULL REQUESTS
         private void StartPollingUpdates(bool status)
         {
             // firstly wait on the backfills to complete before firing off these
-            backFillCompleted.Where(st => st == true).Subscribe(s =>
+            _backFillCompleted.Where(st => st == true).Subscribe(s =>
             {
                 // this will fire once per minute for 24 hours from init
                 var observable = Observable.Interval(TimeSpan.FromMinutes(1));
@@ -196,7 +185,7 @@ namespace BoxKite.Twitter
         }
 
 
-        // FAIL-OVER TO PULL REQUESTS
+
         //TODO: DRY these methods with <Func> goodness
 
         private async Task<long> GetHomeTimeLine_Failover(long sinceid)
@@ -285,8 +274,9 @@ namespace BoxKite.Twitter
             return largestseenid;
         }
 
+        #endregion
 
-        // BACKFILLS
+#region BACKFILLS
         private async void ProcessBackfillPump()
         {
             var o = Observable.CombineLatest(
@@ -314,7 +304,7 @@ namespace BoxKite.Twitter
                     {
                         MyTweetsLargestSeenId = await GetMyTweets_Backfill();
                     })
-                ).Finally(() => backFillCompleted.OnNext(true));
+                ).Finally(() => _backFillCompleted.OnNext(true));
             await o;
         }
 
@@ -543,6 +533,6 @@ namespace BoxKite.Twitter
             } while (backfillQuota > 0);
             return largestid;
         }
-
+#endregion
     }
 }

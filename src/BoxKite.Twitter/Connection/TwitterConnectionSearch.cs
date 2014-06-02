@@ -19,7 +19,7 @@ namespace BoxKite.Twitter
 
         // status bits
         private readonly Subject<bool> _searchBackFillCompleted = new Subject<bool>();
-        private readonly Subject<bool> _searchStreamConnected = new Subject<bool>();
+        private readonly Subject<bool> _searchStreamDisconnected = new Subject<bool>();
         //
 
         private readonly Subject<Tweet> _searchtimeline = new Subject<Tweet>();
@@ -31,35 +31,35 @@ namespace BoxKite.Twitter
         public void InitSearchStreaming(string textToSearch)
         {
             _twitterSearchCommunicationToken = new CancellationTokenSource();
-            TwitterConnectionEvents.GetEvent<TwitterSearchStreamDisconnectEvent>().Subscribe(ManageSearchStreamDisconnect);
-            _searchStreamConnected.Where(status => status.IsFalse()).Subscribe(StartPollingSearch);
+            // when the searchstream gets disconnected, revert to polling (REST) searches
+            _searchStreamDisconnected.Where(status => status.Equals(true)).Subscribe(StartPollingSearch);
             _currentSearchText = textToSearch;
             //
             if (UserSession.IsActive)
             {
-                SearchStream = UserSession.StartSearchStream(TwitterConnectionEvents, track: textToSearch);
+                SearchStream = UserSession.StartSearchStream(track: textToSearch);
                 SearchStream.FoundTweets.Subscribe(_searchtimeline.OnNext);
                 SearchStream.Start();
-                _searchStreamConnected.OnNext(true);
+                SearchStream.SearchStreamActive.Subscribe(t => ManageSearchStreamDisconnect());
             }
             else
             {
-                TwitterConnectionEvents.Publish(new TwitterSearchStreamDisconnectEvent());
+                // cannot get usersessin, fall back
+                _searchStreamDisconnected.OnNext(true);
             }
-            //
+            // and get "backfills"; tweets that pre-date the current stream/polling connection
             Task.Factory.StartNew(ProcessSearchBackFill_Pump);
         }
 
         // subscriber to the userstream disconnecting
-        private void ManageSearchStreamDisconnect(TwitterSearchStreamDisconnectEvent disconnectEvent)
+        private void ManageSearchStreamDisconnect()
         {
-            _searchStreamConnected.OnNext(false); // push message saying userStream is no longer connected
+            _searchStreamDisconnected.OnNext(true); // push message saying userStream is no longer connected
         }
 
         public void StopSearchStream()
         {
             _twitterSearchCommunicationToken.Cancel();
-            _searchStreamConnected.OnNext(false);
             SearchStream.Stop();
         }
 
