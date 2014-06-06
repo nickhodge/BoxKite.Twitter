@@ -59,6 +59,13 @@ namespace BoxKite.Twitter
             UserSession = BuildUserSession(twitterConsumerKey, twitterConsumerSecret);
          }
 
+       public TwitterConnection(string twitterConsumerKey, string twitterConsumerSecret, IPlatformAdaptor platformAdaptor = null)
+        {
+            PlatformAdaptor = platformAdaptor;
+            ApplicationSession = BuildApplicationSession(twitterConsumerKey, twitterConsumerSecret);
+            UserSession = BuildUserSession(twitterConsumerKey, twitterConsumerSecret);
+        }
+
         public TwitterConnection(TwitterCredentials twitterCredentials)
         {
             PlatformAdaptor = new DesktopPlatformAdaptor();
@@ -79,6 +86,13 @@ namespace BoxKite.Twitter
             ApplicationSession = BuildApplicationSession(twitterConsumerKey, twitterConsumerSecret);
             UserSession = BuildUserSession(twitterConsumerKey, twitterConsumerSecret);
          }
+
+       public TwitterConnection(string twitterConsumerKey, string twitterConsumerSecret, IPlatformAdaptor platformAdaptor = null)
+        {
+            PlatformAdaptor = platformAdaptor;
+            ApplicationSession = BuildApplicationSession(twitterConsumerKey, twitterConsumerSecret);
+            UserSession = BuildUserSession(twitterConsumerKey, twitterConsumerSecret);
+        }
 
         public TwitterConnection(TwitterCredentials twitterCredentials)
         {
