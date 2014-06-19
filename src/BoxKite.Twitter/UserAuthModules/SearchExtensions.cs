@@ -13,22 +13,22 @@ namespace BoxKite.Twitter
         /// <summary>
         /// dedicated API for running searches against the real-time index of recent Tweets. 6-9 days of historical data
         /// </summary>
-        /// <param name="searchtext">search query of 1,000 characters maximum, including operators. Queries may additionally be limited by complexity.</param>
-        /// <param name="max_id"></param>
-        /// <param name="since_id"></param>
+        /// <param name="searchText">search query of 1,000 characters maximum, including operators. Queries may additionally be limited by complexity.</param>
+        /// <param name="maxId"></param>
+        /// <param name="sinceId"></param>
         /// <param name="untilDate">YYYY-MM-DD format</param>
         /// <param name="count">Tweets to return Default 20</param>
         /// <param name="searchResponseType">SearchResult.Mixed (default), SearchResult.Recent, SearchResult.Popular</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/search/tweets </remarks>
-        public async static Task<SearchResponse> SearchFor(this ITwitterSession session, string searchtext, SearchResultType searchResponseType, long max_id = 0, long since_id = 0, string untilDate = "", int count = 20)
+        public async static Task<SearchResponse> SearchFor(this ITwitterSession session, string searchText, SearchResultType searchResponseType, long maxId = 0, long sinceId = 0, string untilDate = "", int count = 20)
         {
             var parameters = new TwitterParametersCollection
                                  {
-                                     {"q", searchtext.TrimAndTruncate(1000).UrlEncode()},
+                                     {"q", searchText.TrimAndTruncate(1000).UrlEncode()},
                                      {"result_type", SearchResultString(searchResponseType)},
                                  };
-            parameters.Create(since_id:since_id,max_id:max_id,count:count,include_entities:true);
+            parameters.Create(since_id:sinceId,max_id:maxId,count:count,include_entities:true);
 
             if (!string.IsNullOrWhiteSpace(untilDate))
             {
@@ -42,27 +42,27 @@ namespace BoxKite.Twitter
         /// <summary>
         /// Geotagged dedicated API for running searches against the real-time index of recent Tweets. 6-9 days
         /// </summary>
-        /// <param name="searchtext">search query of 1,000 characters maximum, including operators. Queries may additionally be limited by complexity.</param>
+        /// <param name="searchText">search query of 1,000 characters maximum, including operators. Queries may additionally be limited by complexity.</param>
         /// <param name="latitude">Returns tweets by users located within a given radius of the given latitude/longitude.</param>
         /// <param name="longitude">Returns tweets by users located within a given radius of the given latitude/longitude.</param>
         /// <param name="distance">Returns tweets by users located within a given radius of the given latitude/longitude.</param>
         /// <param name="distanceUnits">km (default) or mi</param>
-        /// <param name="searchtext">search query of 1,000 characters maximum, including operators. Queries may additionally be limited by complexity.</param>
-        /// <param name="max_id"></param>
-        /// <param name="since_id"></param>
+        /// <param name="searchText">search query of 1,000 characters maximum, including operators. Queries may additionally be limited by complexity.</param>
+        /// <param name="maxId"></param>
+        /// <param name="sinceId"></param>
         /// <param name="untilDate">YYYY-MM-DD format</param>
         /// <param name="count">Tweets to return Default 20</param>
         /// <param name="searchResponseType">SearchResult.Mixed (default), SearchResult.Recent, SearchResult.Popular</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/search/tweets </remarks>
-        public async static Task<SearchResponse> SearchFor(this ITwitterSession session, string searchtext, SearchResultType searchResponseType, double latitude, double longitude, double distance, string distanceUnits="km", long max_id = 0, long since_id = 0, string untilDate = "", int count = 20)
+        public async static Task<SearchResponse> SearchFor(this ITwitterSession session, string searchText, SearchResultType searchResponseType, double latitude, double longitude, double distance, string distanceUnits="km", long maxId = 0, long sinceId = 0, string untilDate = "", int count = 20)
         {
             var parameters = new TwitterParametersCollection
                                  {
-                                     {"q", searchtext.TrimAndTruncate(1000).UrlEncode()},
+                                     {"q", searchText.TrimAndTruncate(1000).UrlEncode()},
                                      {"result_type", SearchResultString(searchResponseType)},
                                  };
-            parameters.Create(since_id: since_id, max_id: max_id, count: count, include_entities: true);
+            parameters.Create(since_id: sinceId, max_id: maxId, count: count, include_entities: true);
 
             if (!string.IsNullOrWhiteSpace(untilDate))
             {
@@ -104,14 +104,14 @@ namespace BoxKite.Twitter
         /// <summary>
         /// Saves a search
         /// </summary>
-        /// <param name="searchtext">search query of 1,000 characters maximum, including operators. Queries may additionally be limited by complexity.</param>
+        /// <param name="searchText">search query of 1,000 characters maximum, including operators. Queries may additionally be limited by complexity.</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/saved_searches/create </remarks>
-        public async static Task<SavedSearch> CreateSaveSearch(this IUserSession session, string searchtext)
+        public async static Task<SavedSearch> CreateSaveSearch(this IUserSession session, string searchText)
         {
             var parameters = new TwitterParametersCollection
                              {
-                                 {"query", searchtext.TrimAndTruncate(1000).UrlEncode()},
+                                 {"query", searchText.TrimAndTruncate(1000).UrlEncode()},
                              };
             return await session.PostAsync(TwitterApi.Resolve("/1.1/saved_searches/create.json"), parameters)
                           .ContinueWith(c => c.MapToSingle<SavedSearch>());
@@ -123,10 +123,10 @@ namespace BoxKite.Twitter
         /// <param name="searchtext">The ID of the saved search.</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/saved_searches/destroy/%3Aid </remarks>
-        public async static Task<SavedSearch> DeleteSavedSearch(this IUserSession session, string id)
+        public async static Task<SavedSearch> DeleteSavedSearch(this IUserSession session, string SavedSearchId)
         {
             var parameters = new TwitterParametersCollection();
-            var savedSearch = TwitterApi.Resolve("/1.1/saved_searches/destroy/{0}.json", id);
+            var savedSearch = TwitterApi.Resolve("/1.1/saved_searches/destroy/{0}.json", SavedSearchId);
              return await session.PostAsync(savedSearch, parameters)
                           .ContinueWith(c => c.MapToSingle<SavedSearch>());
         }

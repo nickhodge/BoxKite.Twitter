@@ -52,7 +52,7 @@ namespace BoxKite.Twitter.Tests
             session.Returns(await Json.FromFile("data\\timeline\\usertimeline.txt"));
             session.ExpectGet("https://api.twitter.com/1.1/statuses/user_timeline.json");
 
-            var usertimeline = await session.GetUserTimeline(screen_name:"NickHodgeMSFT");
+            var usertimeline = await session.GetUserTimeline(screenName:"NickHodgeMSFT");
 
             Assert.IsNotNull(usertimeline);
             usertimeline.ToList()[1].Entities.Urls.Should().HaveCount(1);

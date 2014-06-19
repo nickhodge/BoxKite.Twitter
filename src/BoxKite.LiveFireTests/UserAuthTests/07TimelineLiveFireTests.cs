@@ -37,7 +37,7 @@ namespace BoxKite.Twitter.Console
                 if (testSeq.Contains(2))
                 {
                     ConsoleOutput.PrintMessage("7.2 Timeline\\GetUserTimeline", ConsoleColor.Gray);
-                    var timeline2 = await session.GetUserTimeline(screen_name: "shiftkey", count: 20);
+                    var timeline2 = await session.GetUserTimeline(screenName: "shiftkey", count: 20);
 
                     if (timeline2.OK)
                     {
@@ -101,7 +101,7 @@ namespace BoxKite.Twitter.Console
                         await Task.Delay(TimeSpan.FromSeconds(20));
 
                         ConsoleOutput.PrintMessage("Now Updating Home Timeline, should add newer messages");
-                        var timeline41 = await session.GetHomeTimeline(since_id: largestid, count: 10);
+                        var timeline41 = await session.GetHomeTimeline(sinceId: largestid, count: 10);
                         if (timeline41.OK)
                         {
                             foreach (var tweet in timeline41)
@@ -121,7 +121,7 @@ namespace BoxKite.Twitter.Console
 
 
                         ConsoleOutput.PrintMessage("Now Updating Home Timeline, should show older messages");
-                        var timeline42 = await session.GetHomeTimeline(max_id: smallestid, count: 10);
+                        var timeline42 = await session.GetHomeTimeline(maxId: smallestid, count: 10);
                         if (timeline42.OK)
                         {
                             foreach (var tweet in timeline42)
@@ -174,7 +174,7 @@ namespace BoxKite.Twitter.Console
 
                     do
                     {
-                        var timeline6 = await session.GetHomeTimeline(count: pagingSize, max_id: smallestid);
+                        var timeline6 = await session.GetHomeTimeline(count: pagingSize, maxId: smallestid);
                         if (timeline6.OK)
                         {
                             smallestid = timeline6.ToList()[0].Id; // grab the first for comparator

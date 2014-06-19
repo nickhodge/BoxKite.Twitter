@@ -43,7 +43,7 @@ namespace BoxKite.Twitter.Console
                 {
                     ConsoleOutput.PrintMessage("12.2 API Management//Rate limits", ConsoleColor.Gray);
 
-                    var combo2 = await twitterConnection.TwitterSession.GetCurrentAPIStatus();
+                    var combo2 = await twitterConnection.TwitterSession.GetCurrentApiStatus();
 
                     if (combo2.OK)
                     {
@@ -105,7 +105,7 @@ namespace BoxKite.Twitter.Console
                 {
                     ConsoleOutput.PrintMessage("12.5 Get friendships//", ConsoleColor.Gray);
 
-                    var combo5 = await twitterConnection.TwitterSession.GetFriendship(source_screen_name:"shiftkey",target_screen_name:"nickhodgemsft");
+                    var combo5 = await twitterConnection.TwitterSession.GetFriendship(sourceScreenName:"shiftkey",targetScreenName:"nickhodgemsft");
 
                     if (combo5.OK)
                     {

@@ -14,14 +14,14 @@ namespace BoxKite.Twitter
         /// Returns a cursored collection of user IDs for every user the specified user is following (otherwise known as their "friends")
         /// </summary>
         /// <param name="cursor">default is first page (-1) otherwise provide starting point</param>
-        /// <param name="user_id">screen_name or user_id must be provided</param>
-        /// <param name="screen_name">screen_name or user_id must be provided</param>
+        /// <param name="userId">screen_name or user_id must be provided</param>
+        /// <param name="screenName">screen_name or user_id must be provided</param>
         /// <param name="count">how many to return default 500</param>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/friends/ids </remarks>
-        public async static Task<FriendsFollowersIDsCursored> GetFriendsIDs(this ITwitterSession session, string screen_name = "", int user_id = 0, int count = 500, long cursor = -1)
+        public async static Task<FriendsFollowersIDsCursored> GetFriendsIDs(this ITwitterSession session, string screenName = "", int userId = 0, int count = 500, long cursor = -1)
         {
             var parameters = new TwitterParametersCollection();
-            parameters.Create(count: count, cursor:cursor, screen_name:screen_name, user_id:user_id);
+            parameters.Create(count: count, cursor:cursor, screen_name:screenName, user_id:userId);
 
             if (parameters.EnsureEitherOr("screen_name", "user_id").IsFalse())
             {
@@ -37,14 +37,14 @@ namespace BoxKite.Twitter
         /// Returns a cursored collection of user IDs following a particular user(otherwise known as their "followers")
         /// </summary>
         /// <param name="cursor">default is first page (-1) otherwise provide starting point</param>
-        /// <param name="user_id">screen_name or user_id must be provided</param>
-        /// <param name="screen_name">screen_name or user_id must be provided</param>
+        /// <param name="userId">screen_name or user_id must be provided</param>
+        /// <param name="screenName">screen_name or user_id must be provided</param>
         /// <param name="count">how many to return default 500</param>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/followers/ids </remarks>
-        public static async Task<FriendsFollowersIDsCursored> GetFollowersIDs(this ITwitterSession session, string screen_name = "", int user_id = 0, int count = 500, long cursor = -1)
+        public static async Task<FriendsFollowersIDsCursored> GetFollowersIDs(this ITwitterSession session, string screenName = "", int userId = 0, int count = 500, long cursor = -1)
         {
             var parameters = new TwitterParametersCollection();
-            parameters.Create(count: count, cursor: cursor, screen_name: screen_name, user_id: user_id);
+            parameters.Create(count: count, cursor: cursor, screen_name: screenName, user_id: userId);
 
             if (parameters.EnsureEitherOr("screen_name", "user_id").IsFalse())
             {
@@ -60,14 +60,14 @@ namespace BoxKite.Twitter
         /// <summary>
         /// Returns the relationships of the authenticating user to the comma-separated list of up to 100 screen_names or user_ids provided. Values for connections can be: following, following_requested, followed_by, none.
         /// </summary>
-        /// <param name="screen_names">list of screen_names to check</param>
-        /// <param name="user_ids">list of user_ids to check against</param>
+        /// <param name="screenNames">list of screen_names to check</param>
+        /// <param name="userIds">list of user_ids to check against</param>
         /// <returns></returns>
         /// <remarks> ref : https://dev.twitter.com/docs/api/1.1/get/friendships/lookup </remarks>
-        public async static Task<TwitterResponseCollection<FriendshipLookupResponse>> GetFriendships(this IUserSession session, IEnumerable<string> screen_names = null, IEnumerable<long> user_ids = null)
+        public async static Task<TwitterResponseCollection<FriendshipLookupResponse>> GetFriendships(this IUserSession session, IEnumerable<string> screenNames = null, IEnumerable<long> userIds = null)
         {
             var parameters = new TwitterParametersCollection();
-            parameters.CreateCollection(screen_names: screen_names, user_ids:user_ids);
+            parameters.CreateCollection(screen_names: screenNames, user_ids:userIds);
 
             if (parameters.EnsureEitherOr("screen_name", "user_id").IsFalse())
             {
@@ -111,16 +111,16 @@ namespace BoxKite.Twitter
         /// <summary>
         /// Allows the authenticating users to follow the user specified.
         /// </summary>
-        /// <param name="screen_name">The screen name of the user for whom to befriend.</param>
+        /// <param name="screenName">The screen name of the user for whom to befriend.</param>
         /// <param name="user_id">The ID of the user for whom to befriend.</param>
         /// <param name="follow">Enable notifications for the target user.</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/friendships/create </remarks>
-        public async static Task<User> CreateFriendship(this IUserSession session, string screen_name = "",
+        public async static Task<User> CreateFriendship(this IUserSession session, string screenName = "",
             int user_id = 0, bool follow=true)
         {
             var parameters = new TwitterParametersCollection();
-            parameters.Create(screen_name:screen_name,user_id:user_id,follow:follow);
+            parameters.Create(screen_name:screenName,user_id:user_id,follow:follow);
 
             if (parameters.EnsureEitherOr("screen_name", "user_id").IsFalse())
             {
@@ -135,15 +135,15 @@ namespace BoxKite.Twitter
         /// <summary>
         /// Allows the authenticating users to follow the user specified.
         /// </summary>
-        /// <param name="screen_name">The screen name of the user for whom to un-befriend.</param>
+        /// <param name="screenName">The screen name of the user for whom to un-befriend.</param>
         /// <param name="user_id">The ID of the user for whom to un-befriend.</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/friendships/destroy </remarks>
-        public async static Task<User> DeleteFriendship(this IUserSession session, string screen_name = "",
+        public async static Task<User> DeleteFriendship(this IUserSession session, string screenName = "",
             int user_id = 0)
         {
             var parameters = new TwitterParametersCollection();
-            parameters.Create(screen_name: screen_name, user_id: user_id);
+            parameters.Create(screen_name: screenName, user_id: user_id);
 
             if (parameters.EnsureEitherOr("screen_name", "user_id").IsFalse())
             {
@@ -158,17 +158,17 @@ namespace BoxKite.Twitter
         /// <summary>
         /// Allows one to enable or disable retweets and device notifications from the specified user.
         /// </summary>
-        /// <param name="screen_name">The screen name of the user</param>
+        /// <param name="screenName">The screen name of the user</param>
         /// <param name="user_id">The ID of the user</param>
         /// <param name="device">Enable/disable device notifications from the target user.</param>
         /// <param name="retweets">Enable/disable retweets from the target user.</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/friendships/update </remarks>
-        public async static Task<UserStatus> ChangeFriendship(this IUserSession session, string screen_name = "",
+        public async static Task<UserStatus> ChangeFriendship(this IUserSession session, string screenName = "",
             int user_id = 0, bool device=false, bool retweets=false)
         {
             var parameters = new TwitterParametersCollection();
-            parameters.Create(screen_name: screen_name, user_id: user_id,device:device,retweets:retweets);
+            parameters.Create(screen_name: screenName, user_id: user_id,device:device,retweets:retweets);
             
             if (parameters.EnsureEitherOr("screen_name", "user_id").IsFalse())
             {
@@ -183,34 +183,34 @@ namespace BoxKite.Twitter
         /// <summary>
         /// Returns detailed information about the relationship between two arbitrary users.
         /// </summary>
-        /// <param name="source_screen_name">The user_id of the subject user.</param>
-        /// <param name="source_id">The screen_name of the subject user.</param>
-        /// <param name="target_id">The user_id of the target user.</param>
-        /// <param name="target_screen_name">The screen_name of the target user.</param>
+        /// <param name="sourceScreenName">The user_id of the subject user.</param>
+        /// <param name="sourceId">The screen_name of the subject user.</param>
+        /// <param name="targetId">The user_id of the target user.</param>
+        /// <param name="targetScreenName">The screen_name of the target user.</param>
         /// <returns></returns>
         /// <remarks> ref: https://api.twitter.com/1.1/friendships/show.json </remarks>
-        public async static Task<UserStatus> GetFriendship(this IUserSession session, string source_screen_name="",string target_screen_name="", int source_id=0,int target_id=0)
+        public async static Task<UserStatus> GetFriendship(this IUserSession session, string sourceScreenName="",string targetScreenName="", int sourceId=0,int targetId=0)
         {
             var parameters = new TwitterParametersCollection();
 
-            if (!string.IsNullOrWhiteSpace(source_screen_name))
+            if (!string.IsNullOrWhiteSpace(sourceScreenName))
             {
-                parameters.Add("source_screen_name", source_screen_name);
+                parameters.Add("source_screen_name", sourceScreenName);
             }
 
-            if (source_id != 0)
+            if (sourceId != 0)
             {
-                parameters.Add("source_id", source_id.ToString());
+                parameters.Add("source_id", sourceId.ToString());
             }
 
-            if (!string.IsNullOrWhiteSpace(target_screen_name))
+            if (!string.IsNullOrWhiteSpace(targetScreenName))
             {
-                parameters.Add("target_screen_name", target_screen_name);
+                parameters.Add("target_screen_name", targetScreenName);
             }
 
-            if (target_id != 0)
+            if (targetId != 0)
             {
-                parameters.Add("target_id", target_id.ToString());
+                parameters.Add("target_id", targetId.ToString());
             }
 
             if (parameters.EnsureAllArePresent(new string[] { "source_screen_name", "source_id", "target_screen_name", "target_id" }).IsFalse())
@@ -227,34 +227,34 @@ namespace BoxKite.Twitter
         /// <summary>
         /// Returns detailed information about the relationship between two arbitrary users.
         /// </summary>
-        /// <param name="source_screen_name">The user_id of the subject user.</param>
-        /// <param name="source_id">The screen_name of the subject user.</param>
-        /// <param name="target_id">The user_id of the target user.</param>
-        /// <param name="target_screen_name">The screen_name of the target user.</param>
+        /// <param name="sourceScreenName">The user_id of the subject user.</param>
+        /// <param name="sourceId">The screen_name of the subject user.</param>
+        /// <param name="targetId">The user_id of the target user.</param>
+        /// <param name="targetScreenName">The screen_name of the target user.</param>
         /// <returns></returns>
         /// <remarks> ref: https://api.twitter.com/1.1/friendships/show.json </remarks>
-        public async static Task<UserStatus> GetFriendship(this ITwitterSession session, string source_screen_name = "", string target_screen_name = "", int source_id = 0, int target_id = 0)
+        public async static Task<UserStatus> GetFriendship(this ITwitterSession session, string sourceScreenName = "", string targetScreenName = "", int sourceId = 0, int targetId = 0)
         {
             var parameters = new TwitterParametersCollection();
 
-            if (!string.IsNullOrWhiteSpace(source_screen_name))
+            if (!string.IsNullOrWhiteSpace(sourceScreenName))
             {
-                parameters.Add("source_screen_name", source_screen_name);
+                parameters.Add("source_screen_name", sourceScreenName);
             }
 
-            if (source_id != 0)
+            if (sourceId != 0)
             {
-                parameters.Add("source_id", source_id.ToString());
+                parameters.Add("source_id", sourceId.ToString());
             }
 
-            if (!string.IsNullOrWhiteSpace(target_screen_name))
+            if (!string.IsNullOrWhiteSpace(targetScreenName))
             {
-                parameters.Add("target_screen_name", target_screen_name);
+                parameters.Add("target_screen_name", targetScreenName);
             }
 
-            if (target_id != 0)
+            if (targetId != 0)
             {
-                parameters.Add("target_id", target_id.ToString());
+                parameters.Add("target_id", targetId.ToString());
             }
 
             return await session.GetAsync(TwitterApi.Resolve("/1.1/friendships/show.json"), parameters)
@@ -265,17 +265,17 @@ namespace BoxKite.Twitter
         /// Returns a cursored collection of user objects for every user the specified user is following (otherwise known as their "friends").
         /// </summary>
         /// <param name="cursor">default is first page (-1) otherwise provide starting point</param>
-        /// <param name="user_id">screen_name or user_id must be provided</param>
-        /// <param name="screen_name">screen_name or user_id must be provided</param>
+        /// <param name="userId">screen_name or user_id must be provided</param>
+        /// <param name="screenName">screen_name or user_id must be provided</param>
         /// <param name="count">how many to return default 500</param>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/friends/list </remarks>
-        public async static Task<UserListDetailedCursored> GetFriendsList(this ITwitterSession session, string screen_name = "", int user_id = 0, int count = 20, long cursor = -1)
+        public async static Task<UserListDetailedCursored> GetFriendsList(this ITwitterSession session, string screenName = "", int userId = 0, int count = 20, long cursor = -1)
         {
             var parameters = new TwitterParametersCollection
                                     {
                                         {"include_user_entities", true.ToString()},
                                     };
-            parameters.Create(count: count, cursor: cursor, screen_name: screen_name, user_id: user_id, skip_status:true);
+            parameters.Create(count: count, cursor: cursor, screen_name: screenName, user_id: userId, skip_status:true);
 
             if (parameters.EnsureEitherOr("screen_name", "user_id").IsFalse())
             {
@@ -292,17 +292,17 @@ namespace BoxKite.Twitter
         /// Presently in most recent following first
         /// </summary>
         /// <param name="cursor">default is first page (-1) otherwise provide starting point</param>
-        /// <param name="user_id">screen_name or user_id must be provided</param>
-        /// <param name="screen_name">screen_name or user_id must be provided</param>
+        /// <param name="userId">screen_name or user_id must be provided</param>
+        /// <param name="screenName">screen_name or user_id must be provided</param>
         /// <param name="count">how many to return default 500</param>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/followers/list </remarks>
-        public async static Task<UserListDetailedCursored> GetFollowersList(this ITwitterSession session, string screen_name = "", int user_id = 0, int count = 20, long cursor = -1)
+        public async static Task<UserListDetailedCursored> GetFollowersList(this ITwitterSession session, string screenName = "", int userId = 0, int count = 20, long cursor = -1)
         {
             var parameters = new TwitterParametersCollection
                                     {
                                         {"include_user_entities", true.ToString()},
                                     };
-            parameters.Create(count: count, cursor: cursor, screen_name: screen_name, user_id: user_id, skip_status:true);
+            parameters.Create(count: count, cursor: cursor, screen_name: screenName, user_id: userId, skip_status:true);
 
             if (parameters.EnsureEitherOr("screen_name", "user_id").IsFalse())
             {

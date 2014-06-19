@@ -151,7 +151,7 @@ namespace BoxKite.Twitter
             {
                 UserSession.IsActive = true;
                 AccountSettings = await UserSession.GetAccountSettings();
-                AccountDetails = await UserSession.GetUserProfile(user_id: AccountDetails.UserId);
+                AccountDetails = await UserSession.GetUserProfile(userId: AccountDetails.UserId);
                 return AccountDetails.OK;
             }
             else

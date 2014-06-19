@@ -14,14 +14,14 @@ namespace BoxKite.Twitter
         /// <summary>
         /// Report the specified user as a spam account to Twitter. Additionally performs the equivalent of POST blocks/create on behalf of the authenticated user.
         /// </summary>
-        /// <param name="screen_name">The ID or screen_name of the user you want to report as a spammer. Helpful for disambiguating when a valid screen name is also a user ID.</param>
-        /// <param name="user_id">The ID of the user you want to report as a spammer. Helpful for disambiguating when a valid user ID is also a valid screen name.</param>
+        /// <param name="screenName">The ID or screen_name of the user you want to report as a spammer. Helpful for disambiguating when a valid screen name is also a user ID.</param>
+        /// <param name="userId">The ID of the user you want to report as a spammer. Helpful for disambiguating when a valid user ID is also a valid screen name.</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/users/report_spam </remarks>
-        public async static Task<User> ReportUserForSpam(this IUserSession session, string screen_name="", int user_id=0)
+        public async static Task<User> ReportUserForSpam(this IUserSession session, string screenName="", int userId=0)
         {
             var parameters = new TwitterParametersCollection();
-            parameters.Create(screen_name: screen_name, user_id: user_id);
+            parameters.Create(screen_name: screenName, user_id: userId);
 
             if (parameters.EnsureEitherOr("screen_name", "user_id").IsFalse())
             {

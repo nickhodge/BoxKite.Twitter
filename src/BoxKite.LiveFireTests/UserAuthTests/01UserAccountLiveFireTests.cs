@@ -71,7 +71,7 @@ namespace BoxKite.Twitter.Console
                 if (testSeq.Contains(4))
                 {
                     ConsoleOutput.PrintMessage("1.4 UsersExtensions\\ChangeAccountSettings", ConsoleColor.Gray);
-                    var changeSettings = await session.ChangeAccountSettings(trend_location_woeid: "1");
+                    var changeSettings = await session.ChangeAccountSettings(trendLocationWoeid: "1");
                     if (changeSettings.OK)
                     {
                         ConsoleOutput.PrintMessage(String.Format("Trend Location: {0}",
@@ -109,7 +109,7 @@ namespace BoxKite.Twitter.Console
                 if (testSeq.Contains(6))
                 {
                     ConsoleOutput.PrintMessage("1.6 UsersExtensions\\DeleteUserBlock", ConsoleColor.Gray);
-                    var deleteUserBlock = await session.DeleteUserBlock(screen_name: "NickHodgeMSFT");
+                    var deleteUserBlock = await session.DeleteUserBlock(screenName: "NickHodgeMSFT");
                     if (deleteUserBlock.OK)
                         ConsoleOutput.PrintMessage(String.Format("ScreenName: {0}", deleteUserBlock.ScreenName));
                     else
@@ -121,7 +121,7 @@ namespace BoxKite.Twitter.Console
                     ConsoleOutput.PrintMessage("1.7 UsersExtensions\\GetUsersDetailsFull From Screennames ",
                         ConsoleColor.Gray);
                     var screennames = new List<string> {"shiftkey", "katyperry"};
-                    var getUserDetailsFullFromScreenNames = await session.GetUsersDetailsFull(screen_names: screennames);
+                    var getUserDetailsFullFromScreenNames = await session.GetUsersDetailsFull(screenNames: screennames);
                     if (getUserDetailsFullFromScreenNames.OK)
                     {
                         ConsoleOutput.PrintMessage(String.Format("Returned: {0}",
@@ -140,7 +140,7 @@ namespace BoxKite.Twitter.Console
                 {
                     ConsoleOutput.PrintMessage("1.8 UsersExtensions\\GetUsersDetailsFull From IDs", ConsoleColor.Gray);
                     var usersids = new List<long> { 21447363, 14671135, 4503599627370241};
-                    var getUserDetailsFullFromIDs = await session.GetUsersDetailsFull(user_ids: usersids);
+                    var getUserDetailsFullFromIDs = await session.GetUsersDetailsFull(userIds: usersids);
                     if (getUserDetailsFullFromIDs.OK)
                     {
                         ConsoleOutput.PrintMessage(String.Format("Returned: {0}", getUserDetailsFullFromIDs.Count()));

@@ -15,16 +15,16 @@ namespace BoxKite.Twitter
         /// If user_id and screen_name is left blank, current auth'd user favourites are returned
         /// Entities are always returned
         /// </summary>
-        /// <param name="user_id">The ID of the user for whom to return results for</param>
+        /// <param name="userId">The ID of the user for whom to return results for</param>
         /// <param name="screen_name">The screen name of the user for whom to return results for</param>
-        /// <param name="since_id">Returns results with an ID greater than</param>
+        /// <param name="sinceId">Returns results with an ID greater than</param>
         /// <param name="count">Specifies the number of records to retrieve. Must be less than or equal to 200. Defaults to 20.</param>
-        /// <param name="max_id">Returns results with an ID less than (that is, older than) or equal to the specified </param>
+        /// <param name="maxId">Returns results with an ID less than (that is, older than) or equal to the specified </param>
         /// <returns></returns>
-        public async static Task<TwitterResponseCollection<Tweet>> GetFavourites(this ITwitterSession session, string screen_name = "", int user_id = 0, long since_id = 0, long max_id = 0, int count = 20 )
+        public async static Task<TwitterResponseCollection<Tweet>> GetFavourites(this ITwitterSession session, string screenName = "", int userId = 0, long sinceId = 0, long maxId = 0, int count = 20 )
         {
             var parameters = new TwitterParametersCollection();
-            parameters.Create(count:count,include_entities:true,since_id:since_id,max_id:max_id, user_id:user_id, screen_name:screen_name);
+            parameters.Create(count:count,include_entities:true,since_id:sinceId,max_id:maxId, user_id:userId, screen_name:screenName);
 
             var url = TwitterApi.Resolve("/1.1/favorites/list.json");
             return await session.GetAsync(url, parameters)

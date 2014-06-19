@@ -18,7 +18,7 @@ namespace BoxKite.Twitter.Tests
             appsession.Returns(await Json.FromFile("appauthdata\\rate_limit_status.json"));
             appsession.ExpectGet("https://api.twitter.com/1.1/application/rate_limit_status.json");
 
-            var api = await appsession.GetCurrentAPIStatus();
+            var api = await appsession.GetCurrentApiStatus();
 
             Assert.IsNotNull(api);
             Assert.IsTrue(api.APIRateStatuses.Count == 37);

@@ -12,14 +12,14 @@ namespace BoxKite.Twitter
         /// <summary>
         /// Returns the top 10 trending topics for a specific WOEID, if trending information is available for it.
         /// </summary>
-        /// <param name="place_id">The Yahoo! Where On Earth ID of the location to return trending information for. Global information is available by using 1 as the WOEID.</param>
+        /// <param name="placeId">The Yahoo! Where On Earth ID of the location to return trending information for. Global information is available by using 1 as the WOEID.</param>
         /// <param name="exclude">If true will remove all hashtags from the trends list.</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/trends/place </remarks>
-        public static async Task<TwitterResponseCollection<TrendsForPlaceResponse>> GetTrendsForPlace(this ITwitterSession session, int place_id = 1, bool exclude = false)
+        public static async Task<TwitterResponseCollection<TrendsForPlaceResponse>> GetTrendsForPlace(this ITwitterSession session, int placeId = 1, bool exclude = false)
         {
             var parameters = new TwitterParametersCollection
-                        {{"id",place_id.ToString()}};
+                        {{"id",placeId.ToString()}};
             if (exclude)
                 parameters.Add("exclude","hashtags");
 

@@ -79,7 +79,7 @@ namespace BoxKite.Twitter
             do
             {
                 //TODO: need to unhardcode SearchResultType
-                var searchtl = await TwitterSession.SearchFor(searchtext:_currentSearchText, searchResponseType:SearchResultType.Recent, count: pagingSize, max_id: smallestid);
+                var searchtl = await TwitterSession.SearchFor(searchText:_currentSearchText, searchResponseType:SearchResultType.Recent, count: pagingSize, maxId: smallestid);
                 if (searchtl.OK)
                 {
                     smallestid = long.MaxValue;
@@ -123,7 +123,7 @@ namespace BoxKite.Twitter
         {
             var largestseenid = sinceid;
 
-            var searchtl = await TwitterSession.SearchFor(searchtext: _currentSearchText, searchResponseType: SearchResultType.Recent, count: pagingSize, since_id: sinceid);
+            var searchtl = await TwitterSession.SearchFor(searchText: _currentSearchText, searchResponseType: SearchResultType.Recent, count: pagingSize, sinceId: sinceid);
             if (!searchtl.OK) return largestseenid;
 
             foreach (var tweet in searchtl.Tweets.Where(tweet => tweet.Id > sinceid))

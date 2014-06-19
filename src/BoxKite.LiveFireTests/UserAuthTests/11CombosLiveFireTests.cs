@@ -83,7 +83,7 @@ namespace BoxKite.Twitter.Console
 
                     if (userids2.Any())
                     {
-                        var userlist2 = await session.GetUsersDetailsFull(user_ids: userids2);
+                        var userlist2 = await session.GetUsersDetailsFull(userIds: userids2);
                         if (userlist2.OK)
                         {
                             foreach (var requsers in userlist2)
@@ -133,7 +133,7 @@ namespace BoxKite.Twitter.Console
 
                     if (userids3.Any())
                     {
-                        var userlist3 = await session.GetUsersDetailsFull(user_ids: userids3);
+                        var userlist3 = await session.GetUsersDetailsFull(userIds: userids3);
                         if (userlist3.OK)
                         {
                             foreach (var requsers in userlist3)

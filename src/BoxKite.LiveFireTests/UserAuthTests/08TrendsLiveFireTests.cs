@@ -43,7 +43,7 @@ namespace BoxKite.Twitter.Console
                 if (testSeq.Contains(2))
                 {
                     ConsoleOutput.PrintMessage("8.2 Trends\\GetTrendsForPlace as specified in location", ConsoleColor.Gray);
-                    var trends2 = await session.GetTrendsForPlace(place_id: woeidToSearch);
+                    var trends2 = await session.GetTrendsForPlace(placeId: woeidToSearch);
 
                     if (trends2.OK)
                     {

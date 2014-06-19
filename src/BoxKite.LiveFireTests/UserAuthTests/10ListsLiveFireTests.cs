@@ -21,7 +21,7 @@ namespace BoxKite.Twitter.Console
                 {
                     ConsoleOutput.PrintMessage("10.1 Lists\\GetLists", ConsoleColor.Gray);
 
-                    var lists1 = await session.GetLists(screen_name:"NickHodgeMSFT");
+                    var lists1 = await session.GetLists(screenName:"NickHodgeMSFT");
 
                     if (lists1.OK)
                     {
@@ -44,7 +44,7 @@ namespace BoxKite.Twitter.Console
                 {
                     ConsoleOutput.PrintMessage("10.2 Lists\\GetListTimeline", ConsoleColor.Gray);
 
-                    var lists2 = await session.GetListTimeline(list_id: twList.Id, slug:twList.Slug);
+                    var lists2 = await session.GetListTimeline(listId: twList.Id, slug:twList.Slug);
 
                     if (lists2.OK)
                     {
@@ -72,7 +72,7 @@ namespace BoxKite.Twitter.Console
                     do
                     {
                         var lists3 =
-                            await session.GetMyListsUserIsMemberOf(screen_name: "shiftkey", cursor: nextcursor);
+                            await session.GetMyListsUserIsMemberOf(screenName: "shiftkey", cursor: nextcursor);
                         if (lists3.twitterFaulted)
                         {                                           
                             TwitterLiveFireUserAuth.PrintTwitterErrors(lists3.twitterControlMessage);
@@ -105,7 +105,7 @@ namespace BoxKite.Twitter.Console
                     do
                     {
                         var lists4 =
-                            await session.GetMembersOnList(list_id: 52908745, slug: "autechheads", owner_id: 800364, owner_screen_name: "NickHodgeMSFT", cursor: nextcursor);
+                            await session.GetMembersOnList(listId: 52908745, slug: "autechheads", ownerId: 800364, ownerScreenName: "NickHodgeMSFT", cursor: nextcursor);
                         if (lists4.twitterFaulted)
                         {
                             successStatus = false;
@@ -130,7 +130,7 @@ namespace BoxKite.Twitter.Console
                     ConsoleOutput.PrintMessage("10.5 Lists\\IsUserOnList", ConsoleColor.Gray);
                     var testScreenName = "coatsy";    
                     var lists5 =
-                        await session.IsUserOnList(screen_name: testScreenName, list_id: 52908745, owner_id: 800364, owner_screen_name:"NickHodgeMSFT");
+                        await session.IsUserOnList(screenName: testScreenName, listId: 52908745, ownerId: 800364, ownerScreenName:"NickHodgeMSFT");
 
                     if (lists5.OK)
                     {
@@ -152,7 +152,7 @@ namespace BoxKite.Twitter.Console
                     ConsoleOutput.PrintMessage("10.6 Lists\\AddUserToMyList", ConsoleColor.Gray);
                     var testScreenName = "shiftkey";
                     var lists6 =
-                        await session.AddUserToMyList(list_id: 52908745, user_id_to_add: 14671135, screen_name_to_add:"shiftkey");
+                        await session.AddUserToMyList(listId: 52908745, userIdToAdd: 14671135, screenNameToAdd:"shiftkey");
 
                     if (lists6.Status)
                     {
@@ -169,7 +169,7 @@ namespace BoxKite.Twitter.Console
                     var testScreenNames = new List<string> {testScreenName};
 
                     var lists7 =
-                        await session.DeleteUsersFromList(list_id: 52908745, owner_id: 800364, owner_screen_name:"NickHodgeMSFT", screen_names:testScreenNames);
+                        await session.DeleteUsersFromList(listId: 52908745, ownerId: 800364, ownerScreenName:"NickHodgeMSFT", screenNames:testScreenNames);
 
                     if (lists7.Status)
                     {

@@ -117,7 +117,7 @@ namespace BoxKite.Twitter.Tests
             session.ExpectGet("https://api.twitter.com/1.1/users/show.json");
 
             // act
-            var userdetails = await session.GetUserProfile(user_id:1234);
+            var userdetails = await session.GetUserProfile(userId:1234);
 
             Assert.IsNotNull(userdetails);
             userdetails.Name.ShouldBeEquivalentTo("Ryan Sarver");
@@ -129,7 +129,7 @@ namespace BoxKite.Twitter.Tests
             session.Returns(await Json.FromFile("data\\users\\show.txt"));
             session.ExpectGet("https://api.twitter.com/1.1/users/show.json");
 
-            var user = await session.GetUserProfile(user_id: 1234);
+            var user = await session.GetUserProfile(userId: 1234);
             Assert.IsNotNull(user);
         }
 
@@ -163,7 +163,7 @@ namespace BoxKite.Twitter.Tests
             session.Returns(await Json.FromFile("data\\users\\bannerprofile.txt"));
             session.ExpectPost("https://api.twitter.com/1.1/account/update_profile_banner.json");
 
-            var banner = await session.GetProfileBanners(screen_name:"boxkite");
+            var banner = await session.GetProfileBanners(screenName:"boxkite");
 
             Assert.IsNotNull(banner);
             Assert.IsNotNull(banner.sizes);
@@ -234,7 +234,7 @@ namespace BoxKite.Twitter.Tests
             session.ExpectPost("https://api.twitter.com/1.1/users/lookup.json");
 
             var screen_names = new List<string> {"theSeanCook","shiftkey","NickHodgeMSFT"};
-            var userlist = await session.GetUsersDetailsFull(screen_names: screen_names);
+            var userlist = await session.GetUsersDetailsFull(screenNames: screen_names);
 
             Assert.IsNotNull(userlist);
             userlist.Count().ShouldBeEquivalentTo(2);
