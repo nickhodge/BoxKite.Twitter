@@ -85,22 +85,22 @@ namespace BoxKite.Twitter.Models
         public string ProfileBackgroundColour { get; set; }
 
         [JsonProperty("profile_background_image_url_https")]
-        public string ProfilebackgroundImageUrlHTTPS { get; set; }
+        public string ProfileBackgroundImageUrlHttps { get; set; }
 
         [JsonIgnore]
-        public string ProfilebackgroundImageUrl { get { return ProfileBannerImageUrlHTTPS; } }
+        public string ProfileBackgroundImageUrl { get { return ProfileBackgroundImageUrlHttps; } }
 
         [JsonProperty("profile_banner_url")]
-        public string ProfileBannerImageUrlHTTPS { get; set; }
+        public string ProfileBannerImageUrlHttps { get; set; }
 
         [JsonIgnore]
-        public string ProfileBannerImageUrl { get { return ProfileBannerImageUrlHTTPS; } }
+        public string ProfileBannerImageUrl { get { return ProfileBannerImageUrlHttps; } }
 
         [JsonProperty("profile_background_tile")]
         public bool ProfileBackgroundTile { get; set; }
 
          [JsonProperty("profile_image_url_https")]
-        public string ProfileImageUrlHTTPS { get; set; }
+        public string ProfileImageUrlHttps { get; set; }
 
         [JsonProperty("profile_link_color")]
         public string ProfileLinkColour { get; set; }

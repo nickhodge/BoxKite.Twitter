@@ -93,7 +93,7 @@ namespace BoxKite.Twitter.Tests
             var user = await session.GetUserProfile("nickhodgemsft");
 
             Assert.IsNotNull(user);
-            Assert.IsNotNull(user.ProfileBannerImageUrlHTTPS);
+            Assert.IsNotNull(user.ProfileBannerImageUrlHttps);
         }
 
         [TestMethod]
