@@ -40,36 +40,36 @@ namespace BoxKite.Twitter
         public IUserStream UserStream { get; set; }
         public ISearchStream SearchStream { get; set; }
 
-        public UserSession(string clientID, string clientSecret, IPlatformAdaptor platformAdaptor, int waitTimeoutSeconds = 30) 
-            : base(clientID, clientSecret, waitTimeoutSeconds)
+        public UserSession(string clientID, string clientSecret, IPlatformAdaptor platformAdaptor, int _waitTimeoutSeconds = 30) 
+            : base(clientID, clientSecret, _waitTimeoutSeconds)
         {
             this.clientID = clientID;
             this.clientSecret = clientSecret;
             TwitterCredentials = TwitterCredentials.Null;
             PlatformAdaptor = platformAdaptor;
-            WaitTimeoutSeconds = waitTimeoutSeconds;
+            waitTimeoutSeconds = _waitTimeoutSeconds;
         }
 
-        public UserSession(string clientID, string clientSecret, string bearerToken, IPlatformAdaptor platformAdaptor, int waitTimeoutSeconds = 30)
-            : base(clientID, clientSecret, waitTimeoutSeconds)
+        public UserSession(string clientID, string clientSecret, string bearerToken, IPlatformAdaptor platformAdaptor, int _waitTimeoutSeconds = 30)
+            : base(clientID, clientSecret, _waitTimeoutSeconds)
         {
             this.clientID = clientID;
             this.clientSecret = clientSecret;
             this.bearerToken = bearerToken;
             TwitterCredentials = TwitterCredentials.Null;
             PlatformAdaptor = platformAdaptor;
-            WaitTimeoutSeconds = waitTimeoutSeconds;
+            waitTimeoutSeconds = _waitTimeoutSeconds;
         }
 
-        public UserSession(TwitterCredentials credentials, IPlatformAdaptor platformAdaptor, int waitTimeoutSeconds = 30)
-            : base(credentials.ConsumerKey, credentials.ConsumerSecret, waitTimeoutSeconds)
+        public UserSession(TwitterCredentials credentials, IPlatformAdaptor platformAdaptor, int _waitTimeoutSeconds = 30)
+            : base(credentials.ConsumerKey, credentials.ConsumerSecret, _waitTimeoutSeconds)
         {
             TwitterCredentials = credentials;
             clientID = credentials.ConsumerKey;
             clientSecret = credentials.ConsumerSecret;
             bearerToken = credentials.BearerToken;
             PlatformAdaptor = platformAdaptor;
-            WaitTimeoutSeconds = waitTimeoutSeconds;
+            waitTimeoutSeconds = _waitTimeoutSeconds;
             IsActive = true;
         }
 
@@ -106,7 +106,7 @@ namespace BoxKite.Twitter
             if (!string.IsNullOrWhiteSpace(querystring))
                 fullUrl += "?" + querystring.Substring(0, querystring.Length - 1);
 
-            var download = client.GetAsync(fullUrl).ToObservable().Timeout(TimeSpan.FromSeconds(WaitTimeoutSeconds));
+            var download = client.GetAsync(fullUrl).ToObservable().Timeout(TimeSpan.FromSeconds(waitTimeoutSeconds));
             var clientdownload = await download;
 
             return clientdownload;
@@ -137,7 +137,7 @@ namespace BoxKite.Twitter
             var content = parameters.Aggregate(string.Empty, (current, e) => current + string.Format("{0}={1}&", e.Key, Uri.EscapeDataString(e.Value)));
             var data = new StringContent(content, Encoding.UTF8, "application/x-www-form-urlencoded");
 
-            var download = client.PostAsync(url, data).ToObservable().Timeout(TimeSpan.FromSeconds(WaitTimeoutSeconds));
+            var download = client.PostAsync(url, data).ToObservable().Timeout(TimeSpan.FromSeconds(waitTimeoutSeconds));
             var clientdownload = await download;
 
             return clientdownload;
@@ -186,7 +186,7 @@ namespace BoxKite.Twitter
             };
             data.Add(filedata);
 
-            var download = client.PostAsync(url, data).ToObservable().Timeout(TimeSpan.FromSeconds(WaitTimeoutSeconds));
+            var download = client.PostAsync(url, data).ToObservable().Timeout(TimeSpan.FromSeconds(waitTimeoutSeconds));
             var clientdownload = await download;
 
             return clientdownload;

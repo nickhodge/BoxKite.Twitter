@@ -17,25 +17,25 @@ namespace BoxKite.Twitter
 {
     public class ApplicationSession : IApplicationSession
     {
-        public int WaitTimeoutSeconds { get; set; }
+        public int waitTimeoutSeconds { get; set; }
         public string clientID { get; set; }
         public string clientSecret { get; set; }
         public string bearerToken { get; set; }
         public bool IsActive { get; set; }
 
-        public ApplicationSession(string clientID, string clientSecret, int waitTimeoutSeconds = 30)
+        public ApplicationSession(string clientID, string clientSecret, int _waitTimeoutSeconds = 30)
         {
             this.clientID = clientID;
             this.clientSecret = clientSecret;
-            WaitTimeoutSeconds = waitTimeoutSeconds;
+            waitTimeoutSeconds = _waitTimeoutSeconds;
         }
 
-        public ApplicationSession(string clientID, string clientSecret, string bearerToken, int waitTimeoutSeconds = 30)
+        public ApplicationSession(string clientID, string clientSecret, string bearerToken, int _waitTimeoutSeconds = 30)
         {
             this.clientID = clientID;
             this.clientSecret = clientSecret;
             this.bearerToken = bearerToken;
-            WaitTimeoutSeconds = waitTimeoutSeconds;
+            waitTimeoutSeconds = _waitTimeoutSeconds;
         }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace BoxKite.Twitter
             if (!string.IsNullOrWhiteSpace(querystring))
                 fullUrl += "?" + querystring.TrimLastChar();
 
-            var download = client.GetAsync(fullUrl).ToObservable().Timeout(TimeSpan.FromSeconds(WaitTimeoutSeconds));
+            var download = client.GetAsync(fullUrl).ToObservable().Timeout(TimeSpan.FromSeconds(waitTimeoutSeconds));
             return await download;
        }
 
@@ -121,7 +121,7 @@ namespace BoxKite.Twitter
 
             var data = new StringContent(querystring, Encoding.UTF8, "application/x-www-form-urlencoded");
 
-            var download = client.PostAsync(url, data).ToObservable().Timeout(TimeSpan.FromSeconds(WaitTimeoutSeconds));
+            var download = client.PostAsync(url, data).ToObservable().Timeout(TimeSpan.FromSeconds(waitTimeoutSeconds));
             return await download;
         }
     }

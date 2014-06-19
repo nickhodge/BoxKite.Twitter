@@ -25,7 +25,7 @@ namespace BoxKite.Twitter.Tests
         public string clientID { get; set; }
         public string clientSecret { get; set; }
         public string bearerToken { get; set; }
-        public int WaitTimeoutSeconds { get; set; }
+        public int waitTimeoutSeconds { get; set; }
         public TwitterCredentials TwitterCredentials { get; set; }
         public IPlatformAdaptor PlatformAdaptor { get; set; }
 

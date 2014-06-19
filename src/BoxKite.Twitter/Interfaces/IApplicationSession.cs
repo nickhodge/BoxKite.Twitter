@@ -13,7 +13,7 @@ namespace BoxKite.Twitter
         string clientID { get; set; }
         string clientSecret { get; set; }
         string bearerToken { get; set; }
-        int WaitTimeoutSeconds { get; set; }
+        int waitTimeoutSeconds { get; set; }
 
         new Task<HttpResponseMessage> GetAsync(string relativeUrl, SortedDictionary<string, string> parameters);
 
