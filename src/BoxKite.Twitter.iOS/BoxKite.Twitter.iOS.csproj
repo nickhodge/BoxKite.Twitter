@@ -60,12 +60,253 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
+    <Folder Include="Authentication\" />
+    <Folder Include="Connection\" />
+    <Folder Include="Extensions\" />
+    <Folder Include="Helpers\" />
+    <Folder Include="Interfaces\" />
+    <Folder Include="Models\" />
+    <Folder Include="UserAuthModules\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\BoxKite.Twitter\Authentication\TwitterAuthenticator.cs">
       <Link>Authentication\TwitterAuthenticator.cs</Link>
     </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="..\BoxKite.Twitter\Connection\ApplicationSession.cs">
+      <Link>Connection\ApplicationSession.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Connection\SearchStream.cs">
+      <Link>Connection\SearchStream.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Connection\TwitterConnection.cs">
+      <Link>Connection\TwitterConnection.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Connection\TwitterConnectionEngine.cs">
+      <Link>Connection\TwitterConnectionEngine.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Connection\TwitterConnectionEvents.cs">
+      <Link>Connection\TwitterConnectionEvents.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Connection\TwitterConnectionSearch.cs">
+      <Link>Connection\TwitterConnectionSearch.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Connection\UserSession.cs">
+      <Link>Connection\UserSession.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Connection\UserStream.cs">
+      <Link>Connection\UserStream.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Extensions\DateTimeExtensions.cs">
+      <Link>Extensions\DateTimeExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Extensions\EnumerableExtensions.cs">
+      <Link>Extensions\EnumerableExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Extensions\ResponseExtensions.cs">
+      <Link>Extensions\ResponseExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Extensions\StreamExtensions.cs">
+      <Link>Extensions\StreamExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Extensions\StringExtensions.cs">
+      <Link>Extensions\StringExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Extensions\TweetExtensions.cs">
+      <Link>Extensions\TweetExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Extensions\TwitterApi.cs">
+      <Link>Extensions\TwitterApi.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Helpers\JSONCustomConverters.cs">
+      <Link>Helpers\JSONCustomConverters.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Interfaces\IApplicationSession.cs">
+      <Link>Interfaces\IApplicationSession.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Interfaces\IPlatformAdaptor.cs">
+      <Link>Interfaces\IPlatformAdaptor.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Interfaces\ISearchStream.cs">
+      <Link>Interfaces\ISearchStream.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Interfaces\ITwitterSession.cs">
+      <Link>Interfaces\ITwitterSession.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Interfaces\IUserSession.cs">
+      <Link>Interfaces\IUserSession.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Interfaces\IUserStream.cs">
+      <Link>Interfaces\IUserStream.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\BoundingBox.cs">
+      <Link>Models\BoundingBox.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Coordinates.cs">
+      <Link>Models\Coordinates.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\DirectMessage.cs">
+      <Link>Models\DirectMessage.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Place.cs">
+      <Link>Models\Place.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\SavedSearch.cs">
+      <Link>Models\SavedSearch.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\SearchResponse.cs">
+      <Link>Models\SearchResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Tweet.cs">
+      <Link>Models\Tweet.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\TwitterControlBase.cs">
+      <Link>Models\TwitterControlBase.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\TwitterCredentials.cs">
+      <Link>Models\TwitterCredentials.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\TwitterList.cs">
+      <Link>Models\TwitterList.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\TwitterParametersCollection.cs">
+      <Link>Models\TwitterParametersCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\TwitterResponseCollection.cs">
+      <Link>Models\TwitterResponseCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\User.cs">
+      <Link>Models\User.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Service\AccountSettings.cs">
+      <Link>Models\Service\AccountSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Service\AddPlaceResponse.cs">
+      <Link>Models\Service\AddPlaceResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Service\ApiRateLimit.cs">
+      <Link>Models\Service\ApiRateLimit.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Service\FriendsFollowersIDsCursored.cs">
+      <Link>Models\Service\FriendsFollowersIDsCursored.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Service\FriendshipLookupResponse.cs">
+      <Link>Models\Service\FriendshipLookupResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Service\ProfileBanners.cs">
+      <Link>Models\Service\ProfileBanners.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Service\RetweetersResponse .cs">
+      <Link>Models\Service\RetweetersResponse .cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Service\ReverseGeocodePlaces.cs">
+      <Link>Models\Service\ReverseGeocodePlaces.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Service\SuggestedUsers.cs">
+      <Link>Models\Service\SuggestedUsers.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Service\TrendsAvailableResponse.cs">
+      <Link>Models\Service\TrendsAvailableResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Service\TrendsForPlaceResponse.cs">
+      <Link>Models\Service\TrendsForPlaceResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Service\TwitterError.cs">
+      <Link>Models\Service\TwitterError.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Service\TwitterListCursored.cs">
+      <Link>Models\Service\TwitterListCursored.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Service\TwitterSuccess.cs">
+      <Link>Models\Service\TwitterSuccess.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Service\UserInListCursored.cs">
+      <Link>Models\Service\UserInListCursored.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Service\UserListDetailedCursored.cs">
+      <Link>Models\Service\UserListDetailedCursored.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Service\UserStatus.cs">
+      <Link>Models\Service\UserStatus.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Stream\DeleteEvent.cs">
+      <Link>Models\Stream\DeleteEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Stream\IStreamEvent.cs">
+      <Link>Models\Stream\IStreamEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Stream\StreamDisconnect.cs">
+      <Link>Models\Stream\StreamDisconnect.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Stream\StreamEvent.cs">
+      <Link>Models\Stream\StreamEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Stream\StreamLimitNotice.cs">
+      <Link>Models\Stream\StreamLimitNotice.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Stream\StreamScrubGeo.cs">
+      <Link>Models\Stream\StreamScrubGeo.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Stream\StreamSearchRequest.cs">
+      <Link>Models\Stream\StreamSearchRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Stream\StreamStallWarning.cs">
+      <Link>Models\Stream\StreamStallWarning.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Stream\StreamStatusWithheld.cs">
+      <Link>Models\Stream\StreamStatusWithheld.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Stream\StreamToManyFollowsWarning.cs">
+      <Link>Models\Stream\StreamToManyFollowsWarning.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Stream\StreamUserWithheld.cs">
+      <Link>Models\Stream\StreamUserWithheld.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\UserAuthModules\ApiManagementExtensions.cs">
+      <Link>UserAuthModules\ApiManagementExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\UserAuthModules\DirectMessageExtensions.cs">
+      <Link>UserAuthModules\DirectMessageExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\UserAuthModules\FavouritesExtensions.cs">
+      <Link>UserAuthModules\FavouritesExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\UserAuthModules\FriendsFollowerExtensions.cs">
+      <Link>UserAuthModules\FriendsFollowerExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\UserAuthModules\ListExtensions.cs">
+      <Link>UserAuthModules\ListExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\UserAuthModules\PlacesGeoExtensions.cs">
+      <Link>UserAuthModules\PlacesGeoExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\UserAuthModules\ReportExtensions.cs">
+      <Link>UserAuthModules\ReportExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\UserAuthModules\SearchExtensions.cs">
+      <Link>UserAuthModules\SearchExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\UserAuthModules\SearchStreamExtensions.cs">
+      <Link>UserAuthModules\SearchStreamExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\UserAuthModules\SuggestedUsersExtension.cs">
+      <Link>UserAuthModules\SuggestedUsersExtension.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\UserAuthModules\TimelineExtensions.cs">
+      <Link>UserAuthModules\TimelineExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\UserAuthModules\TrendsExtenstions.cs">
+      <Link>UserAuthModules\TrendsExtenstions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\UserAuthModules\TweetExtensions.cs">
+      <Link>UserAuthModules\TweetExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\UserAuthModules\UserStreamExtensions.cs">
+      <Link>UserAuthModules\UserStreamExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\UserAuthModules\UsersExtensions.cs">
+      <Link>UserAuthModules\UsersExtensions.cs</Link>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
   <ItemGroup>
