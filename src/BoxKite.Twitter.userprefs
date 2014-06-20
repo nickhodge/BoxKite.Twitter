@@ -2,6 +2,9 @@
   <DisabledProjects>
     <String>BoxKite.Twitter.Universal/BoxKite.Twitter.Universal.csproj</String>
     <String>BoxKite.Twitter.Desktop/BoxKite.Twitter.Desktop.csproj</String>
+    <String>BoxKite.Twitter.Console/BoxKite.Twitter.Console.csproj</String>
+    <String>BoxKite.LiveFireTests/BoxKite.LiveFireTests.csproj</String>
+    <String>BoxKite.Twitter/BoxKite.Twitter.csproj</String>
   </DisabledProjects>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench />
