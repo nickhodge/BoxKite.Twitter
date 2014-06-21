@@ -81,7 +81,7 @@ At the present time, BoxKite.Twitter supports API version 1.1 of the following:
 Install-Package BoxKite.Twitter
 ```
 
-For 2.0.0-pre:
+For 2.0.x-pre:
 
 ```
 Install-Package BoxKite.Twitter -pre
@@ -98,11 +98,11 @@ Install-Package BoxKite.Twitter -pre
 
 ## Extra Info and Documentation
 
-* More indepth [developer details are documented here](wiki/devdetails)
-* There are a few, [small missing pieces documented here](wiki/todos)
-* 55 ["Live Fire" tests are explained here](wiki/livefire)
-* [Sample, Simple WPF/XAML 4.5 Client App](wiki/samplewpf)
-* Note: Sample Windows 8.1 app under development, will be in a separate repo
+* More indepth [developer details are documented here](https://github.com/nickhodge/BoxKite.Twitter/wiki/devdetails)
+* There are a few, [small missing pieces documented here](https://github.com/nickhodge/BoxKite.Twitter/wiki/todos)
+* 55 ["Live Fire" tests are explained here](https://github.com/nickhodge/BoxKite.Twitter/wiki/livefire)
+* [Sample, Simple WPF/XAML 4.5 Client App](https://github.com/nickhodge/BoxKite.Twitter/wiki/samplewpf)
+* Note: Sample apps in various stages of incompleteness; will be in a separate repo
 
 ##To Build:
 * Visual Studio 2013 Update 2 with latest NuGet supporting PCLs (Portable Class Libraries) and Universal libraries
