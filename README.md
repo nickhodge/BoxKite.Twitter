@@ -2,15 +2,15 @@
 
 ![boxkite logo](http://media.nickhodge.com/boxkite/twitter/github-logo-wide-2.png)
 
-BoxKite.Twitter is a .NET Library that provides an interface to Twitter API 1.1, licensed [MS-PL](http://opensource.org/licenses/MS-PL).
+BoxKite.Twitter is a .NET Library that provides an interface to the Twitter API 1.1, licensed [MS-PL](http://opensource.org/licenses/MS-PL).
 
-Supporting Windows 8, Windows Phone 8, Universal Apps and .NET 4.5 Portable Class Libaries; it uses modern .NET development mechanisms `async/await` and [Reactive Extensions](https://rx.codeplex.com/).
+Supporting Windows 8, Windows Phone 8, Universal Apps, iOS (Mono/Xamarin) and .NET 4.5 Portable Class Libaries; it uses modern .NET development mechanisms `async/await` and [Reactive Extensions](https://rx.codeplex.com/).
 
 Questions? You can find me on Twitter, of course! [@NickHodgeMSFT](https://twitter.com/NickHodgeMSFT)
 
 ## Version News
 
-Version 2.0.0-pre Implements/Changes:
+Version 2.0.x-pre Implements/Changes:
 * Both Twitter's [Application Authentication](https://dev.twitter.com/docs/auth/application-only-auth) and [User Authentication](https://dev.twitter.com/docs/auth/obtaining-access-tokens) supported.
 * REST APIs mapped to Application/User Authentication as based on Twitter documentation
 * iOS build (Android planned prior to final 2.0.x release)
@@ -18,7 +18,7 @@ Version 2.0.0-pre Implements/Changes:
 * a couple of new Twitter REST API endpoints added eg: [status/retweeters](https://dev.twitter.com/docs/api/1.1/get/statuses/retweeters/ids)
 * Removal of Json `<dynamic>` use (had only been used twice in 1.0.x series)
 * Based on [Paul Bett's recommendation to remove Message Buses from reactive style apps](http://log.paulbetts.org/messagebus-and-why-you-shouldnt-use-it/), I surgically removed Brendan's Reactive.EventAggregator. Sorry, dude
-* .NET API naming conventions
+* .NET API naming conventions (I strongly recommend you watch [Designing Wonderful .NET APIs](http://vimeo.com/97501377) from NDC 2014)
 * various small bugs
 
 Version 1.5.x Implements:
