@@ -13,14 +13,22 @@ Questions? You can find me on Twitter, of course! [@NickHodgeMSFT](https://twitt
 Version 2.0.x-pre Implements/Changes:
 * Both Twitter's [Application Authentication](https://dev.twitter.com/docs/auth/application-only-auth) and [User Authentication](https://dev.twitter.com/docs/auth/obtaining-access-tokens) supported.
 * REST APIs mapped to Application/User Authentication as based on Twitter documentation
-* iOS build (Android planned prior to final 2.0.x release)
+* iOS build (via Mono/Xamarin)
 * `TwitterConnection` method naming changes (verb/noun, more sensible)
 * a couple of new Twitter REST API endpoints added eg: [status/retweeters](https://dev.twitter.com/docs/api/1.1/get/statuses/retweeters/ids)
 * Removal of Json `<dynamic>` use (had only been used twice in 1.0.x series)
 * Based on [Paul Bett's recommendation to remove Message Buses from reactive style apps](http://log.paulbetts.org/messagebus-and-why-you-shouldnt-use-it/), I surgically removed Brendan's Reactive.EventAggregator. Sorry, dude
 * .NET API naming conventions (I strongly recommend you watch [Designing Wonderful .NET APIs](http://vimeo.com/97501377) from NDC 2014)
-* various small bugs
+* various small bugs crushed
 
+Plans prior to final 2.0.x (non-pre) release
+* Android and MacOS builds (via Mono/Xamarin)
+* change to BoxKiteTwitter exception handling from "inline" (what a stupid idea that was) errors
+* more work with Enums instead of true/false for params
+* clean up state machine in Searching (especially for Application Auth)
+
+Plans for 2.1 Release
+* cleanup with `<Func>` work in Backfills
 Version 1.5.x Implements:
 * start of [Application-only Authentication via OAuth2](https://dev.twitter.com/docs/auth/application-only-auth)
 * this is going to require some rework in the API to permit App-level API access (pull user timelines, friends of account, list resources, search in tweets etc) without a user login.
