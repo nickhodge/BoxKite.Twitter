@@ -135,6 +135,34 @@ namespace BoxKite.Twitter
 			UserSession = BuildUserSession(twitterConsumerKey, twitterConsumerSecret);
 		} 
 #endif
+#if(ANDROID)
+		public TwitterConnection(string twitterConsumerKey, string twitterConsumerSecret)
+		{
+			PlatformAdaptor = new AndroidPlatformAdaptor();
+			ApplicationSession = BuildApplicationSession(twitterConsumerKey, twitterConsumerSecret);
+			UserSession = BuildUserSession(twitterConsumerKey, twitterConsumerSecret);
+		}
+
+		public TwitterConnection(string twitterConsumerKey, string twitterConsumerSecret, IPlatformAdaptor platformAdaptor = null)
+		{
+		    PlatformAdaptor = platformAdaptor;
+		    ApplicationSession = BuildApplicationSession(twitterConsumerKey, twitterConsumerSecret);
+		    UserSession = BuildUserSession(twitterConsumerKey, twitterConsumerSecret);
+		}
+
+		public TwitterConnection(TwitterCredentials twitterCredentials)
+		{
+			PlatformAdaptor = new AndroidPlatformAdaptor();
+			TwitterCredentials = twitterCredentials;
+			UserSession = BuildUserSession();
+		}
+
+		public TwitterConnection(string twitterConsumerKey, string twitterConsumerSecret, string xauthusername, string xauthpassword)
+		{
+			PlatformAdaptor = new AndroidPlatformAdaptor();
+			UserSession = BuildUserSession(twitterConsumerKey, twitterConsumerSecret);
+		} 
+#endif
         private IApplicationSession BuildApplicationSession(string twitterConsumerKey, string twitterConsumerSecret)
         {
             return ApplicationSession ?? new ApplicationSession(twitterConsumerKey, twitterConsumerSecret);
