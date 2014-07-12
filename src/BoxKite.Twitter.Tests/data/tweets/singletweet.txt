@@ -1,8 +1,9 @@
 ﻿{
   "coordinates": null,
   "favorited": false,
+  "favorite_count": 10,
   "created_at": "Wed Sep 05 00:37:15 +0000 2012",
-  "truncated": false,
+  "truncated": true,
   "id_str": "243145735212777472",
   "entities": {
     "urls": [

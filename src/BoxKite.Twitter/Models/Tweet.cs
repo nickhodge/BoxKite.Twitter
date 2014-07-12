@@ -128,6 +128,23 @@ namespace BoxKite.Twitter.Models
             get { return _retweetedStatus; }
             set { SetProperty(ref _retweetedStatus, value); }
         }
+
+        private int _favoriteCount;
+
+        [JsonProperty("favorite_count")]
+        public int FavoriteCount
+        {
+            get { return _favoriteCount; }
+            set { _favoriteCount = value; }
+        }
+
+        private bool _truncated;
+        [JsonProperty("truncated")]
+        public bool Truncated
+        {
+            get { return _truncated; }
+            set { _truncated = value; }
+        }
     }
 
     public class Entities
