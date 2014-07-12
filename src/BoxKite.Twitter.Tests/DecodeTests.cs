@@ -161,6 +161,8 @@ namespace BoxKite.Twitter.Tests
             Assert.IsNull(tweet.Place);
             Assert.IsNull(tweet.RetweetedStatus);
             tweet.Favourited.ShouldBeEquivalentTo(false);
+            tweet.FavoriteCount.ShouldBeEquivalentTo(10);
+            tweet.Truncated.ShouldBeEquivalentTo(true);
             tweet.Source.ShouldBeEquivalentTo(
                 "<a href=\"http://jason-costa.blogspot.com\" rel=\"nofollow\">My Shiny App</a>");
             tweet.Text.ShouldBeEquivalentTo("Maybe he'll finally find his keys. #peterfalk");
