@@ -33,7 +33,7 @@ namespace BoxKite.Twitter.Models
         [JsonProperty("id_str")]
         public long Id { get; set; }
 
-         [JsonProperty("user")]
+        [JsonProperty("user")]
         public User User { get; set; }
 
         [JsonProperty("retweet_count")]
@@ -54,14 +54,35 @@ namespace BoxKite.Twitter.Models
         [JsonProperty("favorited")]
         public bool Favourited { get; set; }
 
-         [JsonProperty("geo")]
+        [JsonProperty("geo")]
         public GeoCoordinates Location { get; set; }
 
-         [JsonProperty("entities")]
+        [JsonProperty("entities")]
          public Entities Entities { get; set; }
 
         [JsonProperty("retweeted_status")]
-         public Tweet RetweetedStatus { get; set; }
+        public Tweet RetweetedStatus
+        {
+            get { return _retweetedStatus; }
+            set { SetProperty(ref _retweetedStatus, value); }
+        }
+
+        private int _favoriteCount;
+
+        [JsonProperty("favorite_count")]
+        public int FavoriteCount
+        {
+            get { return _favoriteCount; }
+            set { _favoriteCount = value; }
+        }
+
+        private bool _truncated;
+        [JsonProperty("truncated")]
+        public bool Truncated
+        {
+            get { return _truncated; }
+            set { _truncated = value; }
+        }
     }
 
     public class Entities
