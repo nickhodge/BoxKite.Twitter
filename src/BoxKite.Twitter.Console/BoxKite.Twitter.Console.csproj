@@ -99,9 +99,6 @@
     <Content Include="sampleimage\ooooh.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="oldconsole.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BoxKite.Twitter.Desktop\BoxKite.Twitter.Desktop.csproj">

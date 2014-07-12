@@ -218,9 +218,9 @@ namespace BoxKite.Twitter
             friends.OnNext(obj);
         }
 
-        private static IStreamEvent MapFromEventInStream(dynamic e)
+        private static IStreamEvent MapFromEventInStream(JObject e)
         {
-            string eventName = e["event"].Value.ToString();
+            string eventName = e["event"].ToString();
             if (eventName.Substring(0, 5) == "list_") // as list_*
             {
                 return MapFromStreamTo<ListStreamEvent>(e.ToString());
