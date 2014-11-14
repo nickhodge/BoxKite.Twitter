@@ -24,7 +24,7 @@ namespace BoxKite.Twitter.Models
         public User Recipient { get; set; }
 
         [JsonProperty("recipient_id")]
-        public int RecipientId { get; set; }
+        public long RecipientId { get; set; }
 
         [JsonProperty("recipient_screen_name")]
         public string RecipientScreenName { get; set; }
@@ -33,7 +33,7 @@ namespace BoxKite.Twitter.Models
         public User Sender { get; set; }
 
         [JsonProperty("sender_id")]
-         public int SenderId { get; set; }
+         public long SenderId { get; set; }
 
         [JsonProperty("sender_screen_name")]
         public string SenderScreenName { get; set; }
