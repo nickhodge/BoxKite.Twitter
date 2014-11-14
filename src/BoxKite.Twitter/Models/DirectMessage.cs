@@ -14,12 +14,6 @@ namespace BoxKite.Twitter.Models
         [JsonConverter(typeof(StringToDateTimeConverter))]
         public DateTimeOffset Time { get; set; }
 
-        [JsonIgnore]
-        public string ToFriendlyDateTime
-        {
-            get { return Time.ToFriendlyText(); }
-        }
-
         [JsonProperty("entities")]
         public Entities Entities { get; set; }
 
