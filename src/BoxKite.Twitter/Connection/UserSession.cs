@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -243,7 +244,8 @@ namespace BoxKite.Twitter
             return request;
         }
 
-        private OAuth BuildAuthenticatedResult(string fullUrl, IEnumerable<KeyValuePair<string, string>> parameters, string method, bool multipartform=false)
+        private OAuth BuildAuthenticatedResult(string fullUrl, IEnumerable<KeyValuePair<string, string>> parameters,
+            string method, bool multipartform = false)
         {
             var url = fullUrl;
 
@@ -257,14 +259,14 @@ namespace BoxKite.Twitter
             //must be in alphabetical order. I can't be bothered
             //with that, get SortedDictionary to do it's thing
             var sd = new SortedDictionary<string, string>
-                         {
-                             {"oauth_consumer_key", oauthConsumerKey},
-                             {"oauth_nonce", oauthNonce},
-                             {"oauth_signature_method", OAuthSignatureMethod},
-                             {"oauth_timestamp", oauthTimestamp},
-                             {"oauth_token", oauthToken},
-                             {"oauth_version", OAuthVersion}
-                         };
+            {
+                {"oauth_consumer_key", oauthConsumerKey},
+                {"oauth_nonce", oauthNonce},
+                {"oauth_signature_method", OAuthSignatureMethod},
+                {"oauth_timestamp", oauthTimestamp},
+                {"oauth_token", oauthToken},
+                {"oauth_version", OAuthVersion}
+            };
 
             var querystring = "";
 
@@ -274,7 +276,8 @@ namespace BoxKite.Twitter
             {
                 if (method.Equals("GET", StringComparison.OrdinalIgnoreCase))
                 {
-                    querystring = parameters.Aggregate(querystring, (current, entry) => current + (entry.Key + "=" + entry.Value + "&"));
+                    querystring = parameters.Aggregate(querystring,
+                        (current, entry) => current + (entry.Key + "=" + entry.Value + "&"));
                 }
 
                 foreach (var entry in parameters)
@@ -284,13 +287,15 @@ namespace BoxKite.Twitter
             foreach (var entry in sd)
             {
                 string value;
-                if (entry.Key == "status" || entry.Key == "text" || entry.Key == "screen_name" || entry.Key == "user_id" || entry.Key == "track" || entry.Key == "follow" || entry.Key == "locations")
+                if (entry.Key == "status" || entry.Key == "text" || entry.Key == "screen_name" ||
+                    entry.Key == "user_id" || entry.Key == "track" || entry.Key == "follow" ||
+                    entry.Key == "locations")
                 {
                     value = Uri.EscapeDataString(entry.Value);
                 }
                 else
                 {
-                   value = entry.Value;
+                    value = entry.Value;
                 }
 
                 baseString += Uri.EscapeDataString(entry.Key + "=" + value + "&");
@@ -298,7 +303,8 @@ namespace BoxKite.Twitter
 
             baseString = baseString.Substring(0, baseString.Length - 3);
 
-            var signingKey = Uri.EscapeDataString(_credentials.ConsumerSecret) + "&" + Uri.EscapeDataString(_credentials.TokenSecret);
+            var signingKey = Uri.EscapeDataString(_credentials.ConsumerSecret) + "&" +
+                             Uri.EscapeDataString(_credentials.TokenSecret);
 
             var encoding = Encoding.UTF8;
             PlatformAdaptor.AssignKey(encoding.GetBytes(signingKey));
@@ -306,24 +312,25 @@ namespace BoxKite.Twitter
             var hash = PlatformAdaptor.ComputeHash(data);
             var signatureString = Convert.ToBase64String(hash);
             return new OAuth
-                       {
-                           Nonce = oauthNonce,
-                           SignatureMethod = OAuthSignatureMethod,
-                           Timestamp = oauthTimestamp,
-                           ConsumerKey = oauthConsumerKey,
-                           Token = oauthToken,
-                           SignatureString = signatureString,
-                           Version = OAuthVersion,
-                           Header = string.Format(
-                                        "OAuth oauth_nonce=\"{0}\", oauth_signature_method=\"{1}\", oauth_timestamp=\"{2}\", oauth_consumer_key=\"{3}\", oauth_token=\"{4}\", oauth_signature=\"{5}\", oauth_version=\"{6}\"",
-                                        Uri.EscapeDataString(oauthNonce),
-                                        Uri.EscapeDataString(OAuthSignatureMethod),
-                                        Uri.EscapeDataString(oauthTimestamp),
-                                        Uri.EscapeDataString(oauthConsumerKey),
-                                        Uri.EscapeDataString(oauthToken),
-                                        Uri.EscapeDataString(signatureString),
-                                        Uri.EscapeDataString(OAuthVersion))
-                       };
+            {
+                Nonce = oauthNonce,
+                SignatureMethod = OAuthSignatureMethod,
+                Timestamp = oauthTimestamp,
+                ConsumerKey = oauthConsumerKey,
+                Token = oauthToken,
+                SignatureString = signatureString,
+                Version = OAuthVersion,
+                Header = string.Format(
+                    "OAuth oauth_nonce=\"{0}\", oauth_signature_method=\"{1}\", oauth_timestamp=\"{2}\", oauth_consumer_key=\"{3}\", oauth_token=\"{4}\", oauth_signature=\"{5}\", oauth_version=\"{6}\"",
+                    Uri.EscapeDataString(oauthNonce),
+                    Uri.EscapeDataString(OAuthSignatureMethod),
+                    Uri.EscapeDataString(oauthTimestamp),
+                    Uri.EscapeDataString(oauthConsumerKey),
+                    Uri.EscapeDataString(oauthToken),
+                    Uri.EscapeDataString(signatureString),
+                    Uri.EscapeDataString(OAuthVersion))
+            };
+
         }
 
         private struct OAuth

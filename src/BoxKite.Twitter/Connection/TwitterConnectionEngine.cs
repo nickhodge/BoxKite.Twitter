@@ -277,33 +277,34 @@ namespace BoxKite.Twitter
         #endregion
 
 #region BACKFILLS
+
         private async void ProcessBackfillPump()
         {
             var o = Observable.CombineLatest(
-                Observable.Start( async () =>
-                    {
-                        HomeTimeLineLargestSeenId = await GetHomeTimeLine_Backfill();
-                    }),
-                Observable.Start( async () =>
-                    {
-                       DirectMessagesReceivedLargestSeenId = await GetDirectMessages_Received_Backfill();
-                    }),
-                Observable.Start( async () =>
-                    {
-                        DirectMessagesSentLargestSeenId = await GetDirectMessages_Sent_Backfill();
-                    }),
-                Observable.Start( async () =>
-                    {
-                        RetweetsOfMeLargestSeenId = await GetRTOfMe_Backfill();
-                    }),
-                Observable.Start( async () =>
-                    {
-                        MentionsOfMeLargestSeenId = await GetMentions_Backfill();
-                    }),
-                Observable.Start( async () =>
-                    {
-                        MyTweetsLargestSeenId = await GetMyTweets_Backfill();
-                    })
+                Observable.Start(async () =>
+                {
+                    HomeTimeLineLargestSeenId = await GetHomeTimeLine_Backfill();
+                }),
+                Observable.Start(async () =>
+                {
+                    DirectMessagesReceivedLargestSeenId = await GetDirectMessages_Received_Backfill();
+                }),
+                Observable.Start(async () =>
+                {
+                    DirectMessagesSentLargestSeenId = await GetDirectMessages_Sent_Backfill();
+                }),
+                Observable.Start(async () =>
+                {
+                    RetweetsOfMeLargestSeenId = await GetRTOfMe_Backfill();
+                }),
+                Observable.Start(async () =>
+                {
+                    MentionsOfMeLargestSeenId = await GetMentions_Backfill();
+                }),
+                Observable.Start(async () =>
+                {
+                    MyTweetsLargestSeenId = await GetMyTweets_Backfill();
+                })
                 ).Finally(() => _backFillCompleted.OnNext(true));
             await o;
         }

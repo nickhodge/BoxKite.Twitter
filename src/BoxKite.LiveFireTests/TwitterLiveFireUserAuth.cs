@@ -33,7 +33,7 @@ namespace BoxKite.Twitter.Console
                     // NOTE: some tests require a previous test to work successfully
                     // NOTE: some tests post/delete items. This *is* a live fire test!
 
-                    var testSeriesToRun = new List<int> {3};
+                    var testSeriesToRun = new List<int> {7};
 
                     // Calls tested by Test Series
                     // series 1 => 10 (UserAccounts & Auth)
@@ -54,7 +54,7 @@ namespace BoxKite.Twitter.Console
                     if (testSeriesToRun.Contains(1))
                     {
                         var ualft = new UserAccountLiveFireTests();
-                        var testResult1 = ualft.DoUserAccountTest(session, new List<int> {1,2,3,5}).Result;
+                        var testResult1 = ualft.DoUserAccountTest(session, new List<int> {1,2,3,4,5,6}).Result;
 
                         if (testResult1)
                         {
@@ -91,7 +91,7 @@ namespace BoxKite.Twitter.Console
                     if (testSeriesToRun.Contains(3))
                     {
                         var dms = new DirectMessagesLiveFireTests();
-                        var testResult3 = dms.DoDMTest(session, new List<int> {1, 2, 3,4}).Result;
+                        var testResult3 = dms.DoDMTest(session, new List<int> {1,2}).Result;
 
                         if (testResult3)
                         {
