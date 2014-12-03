@@ -23,6 +23,7 @@ namespace BoxKite.Twitter.Tests
         {
             session.Returns(await Json.FromFile("data\\searchstream\\searchstream1initial.txt"));
             var searchstream1 = session.StartSearchStream();
+            var IsActive = true;
 
             searchstream1.FoundTweets.Subscribe(t =>
                                              {
@@ -31,12 +32,12 @@ namespace BoxKite.Twitter.Tests
                                                  Assert.IsInstanceOfType(t.User,typeof(User));
                                                  t.User.Should().NotBeNull();
                                                  t.User.ScreenName.Should().NotBeNullOrEmpty();
+                                                 IsActive = false;
                                              }
             );
 
             searchstream1.Start();
 
-            var IsActive = true;
             searchstream1.SearchStreamActive.Where(status => status.Equals(false)).Subscribe(t =>{IsActive = false;});
 
             while (IsActive)

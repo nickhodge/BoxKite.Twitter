@@ -14,7 +14,7 @@ namespace BoxKite.Twitter.Tests
         string contents;
         SortedDictionary<string, string> receviedParameters;
         string expectedGetUrl;
-        string expectedPostUrl;
+       string expectedPostUrl = "/";
 
         public bool simulatingError { get; set; }
         public HttpStatusCode httpStatusCode { get; set; }

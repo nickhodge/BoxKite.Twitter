@@ -185,9 +185,9 @@ namespace BoxKite.Twitter
                     }
                 });
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                Stop();
+                //Stop();
             }
         }
 
