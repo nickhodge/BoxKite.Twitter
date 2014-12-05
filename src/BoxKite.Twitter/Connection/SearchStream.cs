@@ -26,24 +26,27 @@ namespace BoxKite.Twitter
 
         readonly Subject<bool> _searchStreamActive = new Subject<bool>();
         public IObservable<bool> SearchStreamActive { get { return _searchStreamActive; } }
-
         public CancellationTokenSource CancelSearchStream { get; set; }
         public TwitterParametersCollection SearchParameters { get; set; }
+        public TimeSpan TimeoutDelay { get; set; }
         public Func<Task<HttpResponseMessage>> CreateOpenConnection { get; set; }
+
+        // Implementation internals
+         readonly Subject<string> _readLines = new Subject<string>();
+        private IObservable<string> readLinesObservable { get { return _readLines; } }
         private IUserSession parentSession { get; set; }
 
         public SearchStream(IUserSession session)
         {
             parentSession = session;
-            CancelSearchStream = new CancellationTokenSource();
             SearchRequests.Subscribe(ChangeSearchRequest);
         }
 
         public void Start()
         {
             CancelSearchStream = new CancellationTokenSource();
-            _searchStreamActive.OnNext(true);
             Task.Factory.StartNew(ProcessMessages, CancelSearchStream.Token);  
+            _searchStreamActive.OnNext(true);
         }
 
         public void Stop()
@@ -115,77 +118,64 @@ namespace BoxKite.Twitter
             return parameters;
         }
 
-
-        private async void ProcessMessages()
+        private void ProcessMessages()
         {
-            try
+            Task.Factory.StartNew(ReadLines, CancelSearchStream.Token);
+            readLinesObservable.Subscribe(line =>
             {
-                var responseStream = await GetStream();
-                while (!CancelSearchStream.IsCancellationRequested)
-                {
-                    string line = "";
-                    try
-                    {
-                        line = responseStream.ReadLine();
-                        if (string.IsNullOrWhiteSpace(line.Trim())) continue;
-#if (TRACE)
-                        if (line == "ENDBOXKITESEARCHSTREAMTEST")
-                        {
-                            responseStream.Dispose();
-                            Dispose();
-                            break;
-                        }
-#endif
-                        if (line == "<html>") // needs embellishment
-                        {
-                            var restofline = responseStream.ReadToEnd();
-//TODO: manage the upward handling of the error message encapsulated in the <html>...
+#region Main Observer work here
 #if (DEBUG)
-                        Debug.WriteLine(restofline);
+                Debug.WriteLine(line);
 #endif
-                            responseStream.Dispose();
-                            Dispose();                          
-                            break;
-                        }
-
-                        var obj = JsonConvert.DeserializeObject<JObject>(line);
-                        if (obj["in_reply_to_user_id"] != null)
-                        {
-                            foundtweets.OnNext(MapFromStreamTo<Tweet>(obj.ToString()));
-                        }
-                    }
-                    catch (JsonReaderException)
-                    {
-                        break;
-                    }
-                    catch (IOException)
-                    {
-                        responseStream.Dispose();
-                        Dispose();
-                        break;
-                    }
-                    catch (Exception)
-                    {
-                        responseStream.Dispose();
-                        Dispose();
-                        break;
-                    }
+#if (TRACE)
+                if (line == "ENDBOXKITEUSERSTREAMTEST")
+                {
+                    Stop();
                 }
-                responseStream.Dispose();
-                Dispose();
-            }
-            catch (Exception)
-            {
-                Dispose();              
-            }
+#endif
+                if (string.IsNullOrWhiteSpace(line)) return;
+                if (line == "<html>") // needs embellishment
+                {
+                    Stop();
+                }
+                var obj = JsonConvert.DeserializeObject<JObject>(line);
+                if (obj["in_reply_to_user_id"] != null)
+                {
+                    foundtweets.OnNext(MapFromStreamTo<Tweet>(obj.ToString()));
+                }
+#endregion
+            });
         }
 
-        private async Task<StreamReader> GetStream()
+         // Previously, this used the IEnumerable<string>.ToObservable / yield pattern
+        // but this doesnt permit try/catch IOErrors; which might occur if the underlying connection dies
+        // therefore, a little more verbose, and with usings to catch disposable style objects
+        private async void ReadLines()
         {
-            var response = await CreateOpenConnection();
-            var stream = await response.Content.ReadAsStreamAsync();
-            var responseStream = new StreamReader(stream);
-            return responseStream;
+            using (var response = await CreateOpenConnection())
+            {
+                using (var stream = await response.Content.ReadAsStreamAsync())
+                {
+#if (!TRACE)                    
+                    stream.ReadTimeout = TimeoutDelay.Milliseconds; // set read timeout in millisecs
+#endif
+                    using (var reader = new StreamReader(stream))
+                    {
+                        try
+                        {
+                            while (!CancelSearchStream.IsCancellationRequested)
+                            {
+                                var line = await reader.ReadLineAsync();
+                                _readLines.OnNext(line);
+                            }
+                        }
+                        catch (Exception) // catch all, especially for IOExceptions when connection fails/stops
+                        {
+                            Stop();
+                        }
+                    }
+                }
+            }
         }
 
         private static T MapFromStreamTo<T>(string t)
@@ -195,8 +185,7 @@ namespace BoxKite.Twitter
 
         public void Dispose()
         {
-            _searchStreamActive.OnNext(false);
-            foundtweets.Dispose();
+            Stop();
         }
     }
 }

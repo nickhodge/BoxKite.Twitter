@@ -3,6 +3,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Threading;
 using BoxKite.Twitter.Models;
 
 namespace BoxKite.Twitter
@@ -19,6 +21,8 @@ namespace BoxKite.Twitter
         IObservable<StreamStatusWithheld> StatusWithheld { get; }
         IObservable<StreamUserWithheld> UserWithheld { get; }
         IObservable<bool> UserStreamActive { get; }
+        CancellationTokenSource CancelUserStream { get; set; }
+        TimeSpan TimeoutDelay { get; set; }
         void Start();
         void Stop();
     }

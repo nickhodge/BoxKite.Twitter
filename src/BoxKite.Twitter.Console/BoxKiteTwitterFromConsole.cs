@@ -111,8 +111,8 @@ namespace BoxKite.Twitter.Console
                             Thread.Sleep(TimeSpan.FromSeconds(0.5));
                         }
                 
-                  
-                 /* twitterConnection.StartSearch("mh370");
+                  /*
+                 twitterConnection.StartSearch("mh370");
                  var xx = session.GetUserProfile(screen_name:"nickhodgemsft").Result;
 
                  if (xx.twitterFaulted)
