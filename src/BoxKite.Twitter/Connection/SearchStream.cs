@@ -4,8 +4,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Net.Http;
 using System.Reactive.Subjects;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,24 +14,16 @@ using Newtonsoft.Json.Linq;
 
 namespace BoxKite.Twitter
 {
-    public class SearchStream : ISearchStream
+    public class SearchStream : TwitterStream, ISearchStream
     {
         readonly Subject<Tweet> foundtweets = new Subject<Tweet>();
         public IObservable<Tweet> FoundTweets { get { return foundtweets; } }
 
-        private Subject<StreamSearchRequest> searchrequests = new Subject<StreamSearchRequest>();
+        private readonly Subject<StreamSearchRequest> searchrequests = new Subject<StreamSearchRequest>();
         public Subject<StreamSearchRequest> SearchRequests{ get { return searchrequests; } }
-
-        readonly Subject<bool> _searchStreamActive = new Subject<bool>();
-        public IObservable<bool> SearchStreamActive { get { return _searchStreamActive; } }
-        public CancellationTokenSource CancelSearchStream { get; set; }
         public TwitterParametersCollection SearchParameters { get; set; }
-        public TimeSpan TimeoutDelay { get; set; }
-        public Func<Task<HttpResponseMessage>> CreateOpenConnection { get; set; }
 
         // Implementation internals
-         readonly Subject<string> _readLines = new Subject<string>();
-        private IObservable<string> readLinesObservable { get { return _readLines; } }
         private IUserSession parentSession { get; set; }
 
         public SearchStream(IUserSession session)
@@ -44,15 +34,9 @@ namespace BoxKite.Twitter
 
         public void Start()
         {
-            CancelSearchStream = new CancellationTokenSource();
-            Task.Factory.StartNew(ProcessMessages, CancelSearchStream.Token);  
-            _searchStreamActive.OnNext(true);
-        }
-
-        public void Stop()
-        {
-            CancelSearchStream.Cancel();
-            _searchStreamActive.OnNext(false);
+            CancelStream = new CancellationTokenSource();
+            Task.Factory.StartNew(ProcessMessages, CancelStream.Token);
+            _streamActive.OnNext(true);
         }
 
         private void ChangeSearchRequest(StreamSearchRequest sr)
@@ -120,7 +104,7 @@ namespace BoxKite.Twitter
 
         private void ProcessMessages()
         {
-            Task.Factory.StartNew(ReadLines, CancelSearchStream.Token);
+            Task.Factory.StartNew(ReadLines, CancelStream.Token);
             readLinesObservable.Subscribe(line =>
             {
 #region Main Observer work here
@@ -145,42 +129,6 @@ namespace BoxKite.Twitter
                 }
 #endregion
             });
-        }
-
-         // Previously, this used the IEnumerable<string>.ToObservable / yield pattern
-        // but this doesnt permit try/catch IOErrors; which might occur if the underlying connection dies
-        // therefore, a little more verbose, and with usings to catch disposable style objects
-        private async void ReadLines()
-        {
-            using (var response = await CreateOpenConnection())
-            {
-                using (var stream = await response.Content.ReadAsStreamAsync())
-                {
-#if (!TRACE)                    
-                    stream.ReadTimeout = TimeoutDelay.Milliseconds; // set read timeout in millisecs
-#endif
-                    using (var reader = new StreamReader(stream))
-                    {
-                        try
-                        {
-                            while (!CancelSearchStream.IsCancellationRequested)
-                            {
-                                var line = await reader.ReadLineAsync();
-                                _readLines.OnNext(line);
-                            }
-                        }
-                        catch (Exception) // catch all, especially for IOExceptions when connection fails/stops
-                        {
-                            Stop();
-                        }
-                    }
-                }
-            }
-        }
-
-        private static T MapFromStreamTo<T>(string t)
-        {
-            return JsonConvert.DeserializeObject<T>(t);
         }
 
         public void Dispose()

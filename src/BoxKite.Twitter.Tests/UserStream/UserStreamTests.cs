@@ -35,7 +35,7 @@ namespace BoxKite.Twitter.Tests
 
             userstreamtest1.Start();
 
-            userstreamtest1.UserStreamActive.Where(status => status.Equals(false)).Subscribe(t => { IsActive = false; });
+            userstreamtest1.StreamActive.Where(status => status.Equals(false)).Subscribe(t => { IsActive = false; });
 
             while (IsActive)
             {
@@ -65,7 +65,7 @@ namespace BoxKite.Twitter.Tests
 
             userstreamtest1.Start();
 
-            userstreamtest1.UserStreamActive.Where(status => status.Equals(false)).Subscribe(t => { IsActive = false; });
+            userstreamtest1.StreamActive.Where(status => status.Equals(false)).Subscribe(t => { IsActive = false; });
 
             while (IsActive)
             {
@@ -93,7 +93,7 @@ namespace BoxKite.Twitter.Tests
 
             userstreamtest2.Start();
 
-            userstreamtest2.UserStreamActive.Where(status => status.Equals(false)).Subscribe(t => { IsActive = false; });
+            userstreamtest2.StreamActive.Where(status => status.Equals(false)).Subscribe(t => { IsActive = false; });
             while (IsActive)
             {
                 
@@ -119,7 +119,7 @@ namespace BoxKite.Twitter.Tests
 
             userstreamtest3.Start();
 
-            userstreamtest3.UserStreamActive.Where(status => status.Equals(false)).Subscribe(t => { IsActive = false; });
+            userstreamtest3.StreamActive.Where(status => status.Equals(false)).Subscribe(t => { IsActive = false; });
             while (IsActive)
             {
                 
@@ -146,7 +146,7 @@ namespace BoxKite.Twitter.Tests
 
             userstreamtest4.Start();
 
-            userstreamtest4.UserStreamActive.Where(status => status.Equals(false)).Subscribe(t => { IsActive = false; });
+            userstreamtest4.StreamActive.Where(status => status.Equals(false)).Subscribe(t => { IsActive = false; });
             while (IsActive)
             {
                 
@@ -172,7 +172,7 @@ namespace BoxKite.Twitter.Tests
 
             userstreamtest5.Start();
 
-            userstreamtest5.UserStreamActive.Where(status => status.Equals(false)).Subscribe(t => { IsActive = false; });
+            userstreamtest5.StreamActive.Where(status => status.Equals(false)).Subscribe(t => { IsActive = false; });
             while (IsActive)
             {
                 
@@ -202,7 +202,7 @@ namespace BoxKite.Twitter.Tests
 
             userstreamtest6.Start();
 
-            userstreamtest6.UserStreamActive.Where(status => status.Equals(false)).Subscribe(t => { IsActive = false; });
+            userstreamtest6.StreamActive.Where(status => status.Equals(false)).Subscribe(t => { IsActive = false; });
             while (IsActive)
             {
                 
@@ -226,7 +226,7 @@ namespace BoxKite.Twitter.Tests
 
             userstreamtest7.Start();
 
-            userstreamtest7.UserStreamActive.Where(status => status.Equals(false)).Subscribe(t => { IsActive = false; });
+            userstreamtest7.StreamActive.Where(status => status.Equals(false)).Subscribe(t => { IsActive = false; });
             while (IsActive)
             {
                 
@@ -250,7 +250,7 @@ namespace BoxKite.Twitter.Tests
 
             userstreamtest8.Start();
 
-            userstreamtest8.UserStreamActive.Where(status => status.Equals(false)).Subscribe(t => { IsActive = false; });
+            userstreamtest8.StreamActive.Where(status => status.Equals(false)).Subscribe(t => { IsActive = false; });
             while (IsActive)
             {
                 
@@ -277,7 +277,7 @@ namespace BoxKite.Twitter.Tests
 
             userstreamtest9.Start();
 
-            userstreamtest9.UserStreamActive.Where(status => status.Equals(false)).Subscribe(t => { IsActive = false; });
+            userstreamtest9.StreamActive.Where(status => status.Equals(false)).Subscribe(t => { IsActive = false; });
             while (IsActive)
             {
                 
@@ -302,7 +302,7 @@ namespace BoxKite.Twitter.Tests
 
             userstreamtest10.Start();
 
-            userstreamtest10.UserStreamActive.Where(status => status.Equals(false)).Subscribe(t => { IsActive = false; });
+            userstreamtest10.StreamActive.Where(status => status.Equals(false)).Subscribe(t => { IsActive = false; });
             while (IsActive)
             {
                 
@@ -327,7 +327,7 @@ namespace BoxKite.Twitter.Tests
 
             userstreamtest11.Start();
 
-            userstreamtest11.UserStreamActive.Where(status => status.Equals(false)).Subscribe(t => { IsActive = false; });
+            userstreamtest11.StreamActive.Where(status => status.Equals(false)).Subscribe(t => { IsActive = false; });
             while (IsActive)
             {
                 
@@ -354,7 +354,7 @@ namespace BoxKite.Twitter.Tests
 
             userstreamtest14.Start();
 
-            userstreamtest14.UserStreamActive.Where(status => status.Equals(false)).Subscribe(t => { IsActive = false; });
+            userstreamtest14.StreamActive.Where(status => status.Equals(false)).Subscribe(t => { IsActive = false; });
             while (IsActive)
             {
                 
@@ -379,7 +379,7 @@ namespace BoxKite.Twitter.Tests
 
             userstreamtest16.Start();
 
-            userstreamtest16.UserStreamActive.Where(status => status.Equals(false)).Subscribe(t => { IsActive = false; });
+            userstreamtest16.StreamActive.Where(status => status.Equals(false)).Subscribe(t => { IsActive = false; });
             while (IsActive)
             {
                 
@@ -403,7 +403,7 @@ namespace BoxKite.Twitter.Tests
 
             userstreamtest17.Start();
 
-            userstreamtest17.UserStreamActive.Where(status => status.Equals(false)).Subscribe(t => { IsActive = false; });
+            userstreamtest17.StreamActive.Where(status => status.Equals(false)).Subscribe(t => { IsActive = false; });
             while (IsActive)
             {
                 
@@ -427,15 +427,15 @@ namespace BoxKite.Twitter.Tests
                 Assert.IsNotNull(ev.TargetUser);
                 var twev = (TweetStreamEvent) ev;
                 Assert.IsNotNull(twev);
-                Assert.IsNotNull(twev.tweet);
-                twev.tweet.Id.ShouldBeEquivalentTo(427615500516880384);
+                Assert.IsNotNull(twev.Tweet);
+                twev.Tweet.Id.ShouldBeEquivalentTo(427615500516880384);
                 IsActive = false;
             }
                 );
 
             userstreamtest18.Start();
 
-            userstreamtest18.UserStreamActive.Where(status => status.Equals(false)).Subscribe(t => { IsActive = false; });
+            userstreamtest18.StreamActive.Where(status => status.Equals(false)).Subscribe(t => { IsActive = false; });
             while (IsActive)
             {
                 
@@ -458,15 +458,15 @@ namespace BoxKite.Twitter.Tests
                 Assert.IsNotNull(ev.TargetUser);
                 var twev = (TweetStreamEvent)ev;
                 Assert.IsNotNull(twev);
-                Assert.IsNotNull(twev.tweet);
-                twev.tweet.Id.ShouldBeEquivalentTo(427615500516880384);
+                Assert.IsNotNull(twev.Tweet);
+                twev.Tweet.Id.ShouldBeEquivalentTo(427615500516880384);
                 IsActive = false;
             }
                 );
 
             userstreamtest19.Start();
 
-            userstreamtest19.UserStreamActive.Where(status => status.Equals(false)).Subscribe(t => { IsActive = false; });
+            userstreamtest19.StreamActive.Where(status => status.Equals(false)).Subscribe(t => { IsActive = false; });
 
             while (IsActive)
             {

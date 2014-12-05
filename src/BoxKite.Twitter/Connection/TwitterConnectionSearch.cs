@@ -40,7 +40,7 @@ namespace BoxKite.Twitter
                 SearchStream = UserSession.StartSearchStream(track: textToSearch);
                 SearchStream.FoundTweets.Subscribe(_searchtimeline.OnNext);
                 SearchStream.Start();
-                SearchStream.SearchStreamActive.Subscribe(t => ManageSearchStreamDisconnect());
+                SearchStream.StreamActive.Subscribe(t => ManageSearchStreamDisconnect());
             }
             else
             {

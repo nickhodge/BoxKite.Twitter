@@ -9,13 +9,49 @@ namespace BoxKite.Twitter.Models
     public class TweetStreamEvent : StreamEvent
     {
         [JsonProperty("target_object")]
-        public Tweet tweet { get; set; }
+        public Tweet Tweet { get; set; }
+    }
+
+    public class BlockStreamEvent : StreamEvent
+    {
+        [JsonProperty("target_object")]
+        public User User { get; set; }
+    }
+
+    public class UnblockStreamEvent : StreamEvent
+    {
+        [JsonProperty("target_object")]
+        public User User { get; set; }
+    }
+
+    public class FavoriteStreamEvent : StreamEvent
+    {
+        [JsonProperty("target_object")]
+        public User User { get; set; }
+    }
+
+    public class UnfavoriteStreamEvent : StreamEvent
+    {
+        [JsonProperty("target_object")]
+        public User User { get; set; }
+    }
+
+    public class FollowStreamEvent : StreamEvent
+    {
+        [JsonProperty("target_object")]
+        public User User { get; set; }
+    }
+
+    public class UnfollowStreamEvent : StreamEvent
+    {
+        [JsonProperty("target_object")]
+        public User User { get; set; }
     }
 
     public class ListStreamEvent : StreamEvent
     {
         [JsonProperty("target_object")]
-        public TwitterList list { get; set; }
+        public TwitterList List { get; set; }
     }
 
     public class StreamEvent : IStreamEvent

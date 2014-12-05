@@ -128,7 +128,7 @@ namespace BoxKite.Twitter
 
             // If the UserStream doesn't or cannot connect, the userStreamConnected will fire
             //UserStream.UserStreamActive.Where(status => status.IsFalse()).Subscribe(StartPollingUpdates);
-            UserStream.UserStreamActive.Where(status => status.IsFalse()).Subscribe(_ =>
+            UserStream.StreamActive.Where(status => status.IsFalse()).Subscribe(_ =>
             {
                 UserStream.Start();
             }

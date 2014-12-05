@@ -24,7 +24,7 @@ namespace BoxKite.Twitter
                 var request = session.CreatePost(TwitterApi.SearchStreaming("/1.1/statuses/filter.json"),
                     searchStream.SearchParameters);
                 var c = new HttpClient() {Timeout = TimeSpan.FromDays(1)};
-                return c.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, searchStream.CancelSearchStream.Token);
+                return c.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, searchStream.CancelStream.Token);
 
             };
             searchStream.CreateOpenConnection = startConnection;
@@ -42,7 +42,7 @@ namespace BoxKite.Twitter
                 var request = session.CreatePost(TwitterApi.SearchStreaming("/1.1/statuses/filter.json"),
                     searchStream.SearchParameters);
                 var c = new HttpClient() { Timeout = TimeSpan.FromDays(1) };
-                return c.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, searchStream.CancelSearchStream.Token);
+                return c.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, searchStream.CancelStream.Token);
 
             };
             searchStream.CreateOpenConnection = startConnection;

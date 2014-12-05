@@ -68,6 +68,9 @@
     <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\BoxKite.Twitter\Connection\TwitterStream.cs">
+      <Link>Connection\TwitterStream.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\BoxKite.Twitter\Authentication\TwitterAuthenticator.cs">
       <Link>Authentication\TwitterAuthenticator.cs</Link>

@@ -38,7 +38,7 @@ namespace BoxKite.Twitter.Tests
 
             searchstream1.Start();
 
-            searchstream1.SearchStreamActive.Where(status => status.Equals(false)).Subscribe(t =>{IsActive = false;});
+            searchstream1.StreamActive.Where(status => status.Equals(false)).Subscribe(t =>{IsActive = false;});
 
             while (IsActive)
             {

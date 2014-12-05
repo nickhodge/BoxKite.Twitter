@@ -20,8 +20,8 @@ namespace BoxKite.Twitter
         IObservable<StreamLimitNotice> LimitNotices { get; }
         IObservable<StreamStatusWithheld> StatusWithheld { get; }
         IObservable<StreamUserWithheld> UserWithheld { get; }
-        IObservable<bool> UserStreamActive { get; }
-        CancellationTokenSource CancelUserStream { get; set; }
+        IObservable<bool> StreamActive { get; }
+        CancellationTokenSource CancelStream { get; set; }
         TimeSpan TimeoutDelay { get; set; }
         void Start();
         void Stop();

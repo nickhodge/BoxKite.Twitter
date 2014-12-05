@@ -50,7 +50,7 @@ namespace BoxKite.Twitter.Console
             System.Console.BackgroundColor = bgColour;
             PrintLineHeader(e.EventName, ConsoleColor.Gray);
             System.Console.ForegroundColor = fgColour;
-            var sourceTweet = ((TweetStreamEvent)e).tweet;
+            var sourceTweet = ((TweetStreamEvent)e).Tweet;
             if (sourceTweet != null)
                 PrintTweet(sourceTweet, fgColour, bgColour);
             System.Console.ResetColor();

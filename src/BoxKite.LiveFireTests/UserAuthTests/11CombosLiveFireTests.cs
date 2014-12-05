@@ -45,7 +45,7 @@ namespace BoxKite.Twitter.Console
                     searchstream.Start();
 
                     Thread.Sleep(TimeSpan.FromMinutes(2));
-                    searchstream.CancelSearchStream.Cancel();
+                    searchstream.CancelStream.Cancel();
                     searchstream.Stop();  
             }
 

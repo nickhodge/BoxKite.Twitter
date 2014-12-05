@@ -105,6 +105,9 @@
     <Compile Include="..\BoxKite.Twitter\Connection\TwitterConnectionSearch.cs">
       <Link>Connection\TwitterConnectionSearch.cs</Link>
     </Compile>
+    <Compile Include="..\BoxKite.Twitter\Connection\TwitterStream.cs">
+      <Link>Connection\TwitterStream.cs</Link>
+    </Compile>
     <Compile Include="..\BoxKite.Twitter\Connection\UserSession.cs">
       <Link>Connection\UserSession.cs</Link>
     </Compile>

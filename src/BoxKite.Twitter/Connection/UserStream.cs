@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Net.Http;
 using System.Reactive.Subjects;
 using System.Threading;
@@ -15,7 +14,7 @@ using Newtonsoft.Json.Linq;
 
 namespace BoxKite.Twitter
 {
-    public class UserStream : IUserStream
+    public class UserStream : TwitterStream, IUserStream
     {
         // Public properties with private backingstores
         readonly Subject<Tweet> _tweets = new Subject<Tweet>();
@@ -36,28 +35,18 @@ namespace BoxKite.Twitter
         public IObservable<StreamStatusWithheld> StatusWithheld { get { return _statuswithheld; } }
         public IObservable<StreamUserWithheld> UserWithheld { get { return _userwithheld; } }
         public IObservable<IEnumerable<long>> Friends { get { return _friends; } }
-        public CancellationTokenSource CancelUserStream { get; set; }
-        public TimeSpan TimeoutDelay { get; set; }
-
-        readonly Subject<bool> _userStreamActive = new Subject<bool>();
-        public IObservable<bool> UserStreamActive { get { return _userStreamActive; } }
-
-        // implemention things
-        readonly Subject<string> _readLines = new Subject<string>();
-        private IObservable<string> readLinesObservable { get { return _readLines; } }
-        readonly Func<Task<HttpResponseMessage>> _createOpenConnection;
 
         public UserStream(Func<Task<HttpResponseMessage>> createOpenConnection)
         {
-            this._createOpenConnection = createOpenConnection;
+            this.CreateOpenConnection = createOpenConnection;
             TimeoutDelay = TimeSpan.FromMinutes(2);
         }
 
         public void Start()
         {
-            CancelUserStream = new CancellationTokenSource();
-            Task.Factory.StartNew(ProcessMessages, CancelUserStream.Token);
-            _userStreamActive.OnNext(true);
+            CancelStream = new CancellationTokenSource();
+            Task.Factory.StartNew(ProcessMessages, CancelStream.Token);
+            _streamActive.OnNext(true);
         }
 
         public void Dispose()
@@ -65,15 +54,9 @@ namespace BoxKite.Twitter
             Stop();
         }
 
-        public void Stop()
-        {
-            CancelUserStream.Cancel();
-            _userStreamActive.OnNext(false);
-        }
-
         private void ProcessMessages()
         {
-            Task.Factory.StartNew(ReadLines, CancelUserStream.Token);
+            Task.Factory.StartNew(ReadLines, CancelStream.Token);
             readLinesObservable.Subscribe(line =>
             {
 #region Main Observer work here
@@ -170,40 +153,9 @@ namespace BoxKite.Twitter
                 }
 #endregion           
             });
-            while (!CancelUserStream.IsCancellationRequested)
+            while (!CancelStream.IsCancellationRequested)
             {
                 // spin
-            }
-        }
-
-        // Previously, this used the IEnumerable<string>.ToObservable / yield pattern
-        // but this doesnt permit try/catch IOErrors; which might occur if the underlying connection dies
-        // therefore, a little more verbose, and with usings to catch disposable style objects
-        private async void ReadLines()
-        {
-            using (var response = await _createOpenConnection())
-            {
-                using (var stream = await response.Content.ReadAsStreamAsync())
-                {
-#if (!TRACE)                    
-                    stream.ReadTimeout = TimeoutDelay.Milliseconds; // set read timeout in millisecs
-#endif
-                    using (var reader = new StreamReader(stream))
-                    {
-                        try
-                        {
-                            while (!CancelUserStream.IsCancellationRequested)
-                            {
-                                var line = await reader.ReadLineAsync();
-                                _readLines.OnNext(line);
-                            }
-                        }
-                        catch (Exception) // catch all, especially for IOExceptions when connection fails/stops
-                        {
-                            Stop();
-                        }
-                    }
-                }
             }
         }
 
@@ -212,27 +164,5 @@ namespace BoxKite.Twitter
             _friends.OnNext(obj);
         }
 
-        private static IStreamEvent MapFromEventInStream(JObject e)
-        {
-            string eventName = e["event"].ToString();
-            if (eventName.Substring(0, 5) == "list_") // as list_*
-            {
-                return MapFromStreamTo<ListStreamEvent>(e.ToString());
-            }
-
-            switch (eventName)
-            {
-                case "favorite":
-                case "unfavorite":
-                    return MapFromStreamTo<TweetStreamEvent>(e.ToString());
-                default:
-                    return MapFromStreamTo<StreamEvent>(e.ToString());
-            }
-        }
-
-        private static T MapFromStreamTo<T>(string t)
-        {
-            return JsonConvert.DeserializeObject<T>(t);
-        }
     }
 }
