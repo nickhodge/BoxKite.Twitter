@@ -9,7 +9,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BoxKite.Twitter.Tests
 {
-    public class TestableApplicationSession : IApplicationSession, ITwitterSession
+    public class TestableApplicationSession : IApplicationSession
     {
         string contents;
         SortedDictionary<string, string> receviedParameters;

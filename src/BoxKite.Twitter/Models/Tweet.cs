@@ -82,7 +82,7 @@ namespace BoxKite.Twitter.Models
     public class Url
     {
         [JsonProperty("indices")]
-        public int[] indices { get; set; }
+        public IEnumerable<int> indices { get; set; }
 
         [JsonProperty("url")]
         public string _Url { get; set; }
@@ -100,7 +100,7 @@ namespace BoxKite.Twitter.Models
         public string Text { get; set; }
 
         [JsonProperty("indices")]
-        public int[] indices { get; set; }
+        public IEnumerable<int> indices { get; set; }
     }
 
     public class Mention
@@ -109,7 +109,7 @@ namespace BoxKite.Twitter.Models
         public string Name { get; set; }
 
         [JsonProperty("indices")]
-        public int[] indices { get; set; }
+        public IEnumerable<int> indices { get; set; }
 
         [JsonProperty("screen_name")]
         public string ScreenName { get; set; }
@@ -127,7 +127,7 @@ namespace BoxKite.Twitter.Models
         public Sizes Sizes { get; set; }
 
         [JsonProperty("indices")]
-        public int[] indices { get; set; }
+        public IEnumerable<int> indices { get; set; }
 
         [JsonProperty("url")]
         public string Url { get; set; }
@@ -151,45 +151,26 @@ namespace BoxKite.Twitter.Models
     public class Sizes
     {
         [JsonProperty("thumb")]
-        public Thumb Thumb { get; set; }
+        public ImageSizeType Thumb { get; set; }
 
         [JsonProperty("large")]
-        public Large Large { get; set; }
+        public ImageSizeType Large { get; set; }
 
         [JsonProperty("medium")]
-        public Medium Medium { get; set; }
+        public ImageSizeType Medium { get; set; }
 
         [JsonProperty("small")]
-        public Small Small { get; set; }
+        public ImageSizeType Small { get; set; }
     }
 
-    public class Thumb
+    public class ImageSizeType
     {
-        public int h { get; set; }
-        public string resize { get; set; }
-        public int w { get; set; }
+        [JsonProperty("h")]
+        public int Height { get; set; }
+        [JsonProperty("resize")]
+        public string Resize { get; set; }
+        [JsonProperty("w")]
+        public int Width { get; set; }
     }
-
-    public class Large
-    {
-        public int h { get; set; }
-        public string resize { get; set; }
-        public int w { get; set; }
-    }
-
-    public class Medium
-    {
-        public int h { get; set; }
-        public string resize { get; set; }
-        public int w { get; set; }
-    }
-
-    public class Small
-    {
-        public int h { get; set; }
-        public string resize { get; set; }
-        public int w { get; set; }
-    }
-
 
 }

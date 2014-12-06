@@ -78,7 +78,7 @@ namespace BoxKite.Twitter
 
             do
             {
-                //TODO: need to unhardcode SearchResultType
+                //TODO: need to unhardcode SearchResultType just for backfills
                 var searchtl = await TwitterSession.SearchFor(searchText:_currentSearchText, searchResponseType:SearchResultType.Recent, count: _pagingSize, maxId: smallestid);
                 if (searchtl.OK)
                 {

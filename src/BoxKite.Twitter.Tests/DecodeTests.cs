@@ -128,9 +128,9 @@ namespace BoxKite.Twitter.Tests
             Assert.IsNotNull(entity.Media.ToList()[0].Sizes.Medium);
             Assert.IsNotNull(entity.Media.ToList()[0].Sizes.Small);
             Assert.IsNotNull(entity.Media.ToList()[0].Sizes.Thumb);
-            entity.Media.ToList()[0].Sizes.Large.h.ShouldBeEquivalentTo(466);
-            entity.Media.ToList()[0].Sizes.Large.w.ShouldBeEquivalentTo(700);
-            entity.Media.ToList()[0].Sizes.Large.resize.ShouldBeEquivalentTo("fit");
+            entity.Media.ToList()[0].Sizes.Large.Height.ShouldBeEquivalentTo(466);
+            entity.Media.ToList()[0].Sizes.Large.Width.ShouldBeEquivalentTo(700);
+            entity.Media.ToList()[0].Sizes.Large.Resize.ShouldBeEquivalentTo("fit");
             entity.Media.ToList()[0].Type.ShouldBeEquivalentTo("photo");
             entity.Media.ToList()[0].indices.Count().ShouldBeEquivalentTo(2);
 

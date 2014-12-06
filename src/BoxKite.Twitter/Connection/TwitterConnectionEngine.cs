@@ -126,13 +126,14 @@ namespace BoxKite.Twitter
             // in the BackfillPump, we gather these tweets/direct messages and pump them into the correct Observable
             Task.Factory.StartNew(ProcessBackfillPump);
 
-            // If the UserStream doesn't or cannot connect, the userStreamConnected will fire
-            //UserStream.UserStreamActive.Where(status => status.IsFalse()).Subscribe(StartPollingUpdates);
+            // If the UserStream disconnects, the userStreamConnected will fire & we'll reconnect
+            // TODO if stream connection doesnt connect, fail over to UserStream.UserStreamActive.Where(status => status.IsFalse()).Subscribe(StartPollingUpdates);
+            // TODO if cancellation requested externally, dont reconnect
+
             UserStream.StreamActive.Where(status => status.IsFalse()).Subscribe(_ =>
             {
                 UserStream.Start();
-            }
-            );
+            });
         }
 
         public void StopUserStream()
