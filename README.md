@@ -6,9 +6,13 @@ BoxKite.Twitter is a .NET Library that provides an interface to the Twitter API 
 
 Supporting Windows 8, Windows Phone 8, Universal Apps, iOS (Mono/Xamarin) and .NET 4.5 Portable Class Libaries; it uses modern .NET development mechanisms `async/await` and [Reactive Extensions](https://rx.codeplex.com/).
 
-Questions? You can find me on Twitter, of course! [@NickHodgeMSFT](https://twitter.com/NickHodgeMSFT)
+Questions? You can find me on Twitter, of course! [@RealNickHodge](https://twitter.com/RealNickHodge)
 
 ## Version News
+Version 2.1 Changes:
+* Many areas of code cleanup, with some property/model name changes
+* If SearchStream/UserStream disconnects; will try a reconnect (automatically)
+
 
 Version 2.0.x-pre Implements/Changes:
 * Both Twitter's [Application Authentication](https://dev.twitter.com/docs/auth/application-only-auth) and [User Authentication](https://dev.twitter.com/docs/auth/obtaining-access-tokens) supported.
@@ -21,14 +25,10 @@ Version 2.0.x-pre Implements/Changes:
 * .NET API naming conventions (I strongly recommend you watch [Designing Wonderful .NET APIs](http://vimeo.com/97501377) from NDC 2014)
 * various small bugs crushed
 
-Plans prior to final 2.0.x (non-pre) release
-* change to BoxKiteTwitter exception handling from "inline" (what a stupid idea that was) errors
-* more work with Enums instead of true/false for params
-* move to Exception-based reporting of more errors
-* clean up state machine in Searching (especially for Application Auth)
-
-Plans for 2.1 Release
+Plans for 2.2 Release
 * cleanup with `<Func>` work in Backfills
+* better state machine for connect/disconnect eg: in mobile environments
+* change to BoxKiteTwitter exception handling from "inline" (what a stupid idea that was) errors
 
 Version 1.5.x Implements:
 * start of [Application-only Authentication via OAuth2](https://dev.twitter.com/docs/auth/application-only-auth)
@@ -82,12 +82,6 @@ At the present time, BoxKite.Twitter supports API version 1.1 of the following:
 Install-Package BoxKite.Twitter
 ```
 
-For 2.0.x-pre:
-
-```
-Install-Package BoxKite.Twitter -pre
-```
-
 ##So What Does the Code look like?
 
 [Pop into the wiki](https://github.com/nickhodge/BoxKite.Twitter/wiki) to see code examples
@@ -106,14 +100,15 @@ Install-Package BoxKite.Twitter -pre
 * Note: Sample apps in various stages of incompleteness; will be in a separate repo
 
 ##To Build:
-* Visual Studio 2013 Update 2 with latest NuGet supporting PCLs (Portable Class Libraries) and Universal libraries
-* Solution is Visual Studio 2013 Update 2, but code should work and build in VS2012
+* Visual Studio 2013 Update 4 with latest NuGet supporting PCLs (Portable Class Libraries) and Universal libraries
+* Solution is Visual Studio 2013 Update 4, but code should work and build in VS2012
+* Uses Xamarin Studio 5.5.4 for Android and iOS builds
 
 ##Where you can help out
 * Modeling the API to make sense for more developers than me
-* Additional points for Reactive hook up
-* Ensuring this works on non-Microsoft .NET platforms
-* Documentation, of course
+* Additional harness for Reactive hook up
+* Stronger this works on non-Microsoft .NET platforms
+* Always more Documentation, of course
 
 ##API Coverage, With Tests & Intellisense Comments
 [From Twitter REST API v1.1](https://dev.twitter.com/docs/api/1.1)
@@ -138,9 +133,9 @@ Install-Package BoxKite.Twitter -pre
 *  API rate limits
 
 ##Tests:
-* 122 test methods with average of 4 assertion tests each
+* 123 test methods with average of 4 assertion tests each
 * Both Twitter API 1.1 and Userstream Unit Tests
-* 55 "Live Fire Tests" (Live integration tests) Included as a separate project, it is engaged via the Console; uses a real Twitter Account to exercise the API. Configurable Test series, individual tests that can be run.
+* 56 "Live Fire Tests" (Live integration tests) Included as a separate project, it is engaged via the Console; uses a real Twitter Account to exercise the API. Configurable Test series, individual tests that can be run.
 * Test source is JSON from [dev.twitter.com](https://dev.twitter.com/) and where innaccurate on the site, taken from live data or corrected to match live data.
 * Error response type testing (eg: 429 rate_limits) & generic decode tests included
 
@@ -161,7 +156,7 @@ Install-Package BoxKite.Twitter -pre
 [BoxKite.Twitter](https://github.com/shiftkey/BoxKite.Twitter) was started by Brendan Forster ([https://github.com/shiftkey/](https://github.com/shiftkey/)) as a part of a larger Twitter project now on permanent hiatus.
 
 BoxKite.Twitter is Licensed under: 
-[MS-PL] (http://opensource.org/licenses/MS-PL)
+[MS-PL](http://opensource.org/licenses/MS-PL)
 
 Copyright: 
 [Nick Hodge](https://github.com/nickhodge/) and [Brendan Forster](https://github.com/shiftkey/) 2012-2014
