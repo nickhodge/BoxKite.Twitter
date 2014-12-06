@@ -3,6 +3,7 @@
 
 using System;
 using System.Globalization;
+using System.Net;
 using System.Text;
 
 namespace BoxKite.Twitter.Extensions
@@ -14,45 +15,14 @@ namespace BoxKite.Twitter.Extensions
             return Convert.ToBase64String(Encoding.UTF8.GetBytes(source));
         }
 
-        // very smallish microimplementation of the standards
-        // http://en.wikipedia.org/wiki/List_of_XML_and_HTML_character_entity_references
-        // TODO: need to complete this based on what twitter spits out
-        // NOTE: not using .NET built in because there is no PCL version
         public static string HTMLDecode(this string sourceString)
         {
-            return
-                sourceString.Replace("&amp;", "&")
-                    .Replace("&quot;", "\"")
-                    .Replace("&#39", "\"")
-                    .Replace("&lt;", "<")
-                    .Replace("&gt;", ">")
-                    .Replace("&apos;", "\'");
+            return WebUtility.HtmlDecode(sourceString);
         }
 
         public static string UrlEncode(this string inputString)
         {
-
             return Uri.EscapeDataString(inputString);
-
-            /* var encoded = "";
-             foreach (var str in inputString)      
-           {
-                if ((str >= 'A' && str <= 'Z') ||
-                    (str >= 'a' && str <= 'z') ||
-                    (str >= '0' && str <= '9'))
-                {
-                    encoded += str;
-                }
-                else if (str == '-' || str == '_' || str == '.' || str == '~')
-                {
-                    encoded += str;
-                }
-                else
-                {
-                    encoded += "%" + string.Format("{0:X}", (int)str);
-                }
-            }
-            return encoded; */
         }
 
 
