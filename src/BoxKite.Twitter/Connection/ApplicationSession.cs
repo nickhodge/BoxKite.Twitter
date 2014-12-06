@@ -103,9 +103,7 @@ namespace BoxKite.Twitter
             if (!string.IsNullOrWhiteSpace(querystring))
                 querystring = querystring.TrimLastChar();
 
-            var oauth2bearertoken = "";
-
-            oauth2bearertoken = forInitialAuth
+            var oauth2Bearertoken = forInitialAuth
                 ? String.Format("Basic {0}",
                     String.Format("{0}:{1}", clientID.UrlEncode(), clientSecret.UrlEncode()).ToBase64String())
                 : String.Format("Bearer {0}", bearerToken);
@@ -116,7 +114,7 @@ namespace BoxKite.Twitter
             {
                 handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
             }
-            client.DefaultRequestHeaders.Add("Authorization", oauth2bearertoken);
+            client.DefaultRequestHeaders.Add("Authorization", oauth2Bearertoken);
             client.DefaultRequestHeaders.Add("User-Agent", TwitterApi.UserAgent());
 
             var data = new StringContent(querystring, Encoding.UTF8, "application/x-www-form-urlencoded");

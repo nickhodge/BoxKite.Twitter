@@ -38,7 +38,7 @@ namespace BoxKite.Twitter
 
         public UserStream(Func<Task<HttpResponseMessage>> createOpenConnection)
         {
-            this.CreateOpenConnection = createOpenConnection;
+            CreateOpenConnection = createOpenConnection;
             TimeoutDelay = TimeSpan.FromMinutes(2);
         }
 
@@ -132,7 +132,7 @@ namespace BoxKite.Twitter
 
                 if (obj["disconnect"] != null)
                 {
-                    var disconnect = MapFromStreamTo<StreamDisconnect>(obj["disconnect"].ToString());
+                    MapFromStreamTo<StreamDisconnect>(obj["disconnect"].ToString());
                     Stop();
                     // check for non-hard disconnects & attempt reconnect
                 }
@@ -141,13 +141,12 @@ namespace BoxKite.Twitter
 
                 if (obj["warning"]["percent_full"] != null)
                 {
-                    var stallwarning = MapFromStreamTo<StreamStallWarning>(obj["warning"].ToString());
+                    MapFromStreamTo<StreamStallWarning>(obj["warning"].ToString());
                     // do something something stall warning.
                 }
                 if (obj["warning"]["user_id"] != null)
                 {
-                    var userfollowswarning =
-                        MapFromStreamTo<StreamToManyFollowsWarning>(obj["warning"].ToString());
+                    MapFromStreamTo<StreamToManyFollowsWarning>(obj["warning"].ToString());
                     // do something something user follows warning this is pretty final, actually.
                     Stop();
                 }

@@ -45,6 +45,7 @@ namespace BoxKite.Twitter
             UserSession = BuildUserSession();
         }
 
+        // ReSharper disable once UnusedParameter.Local
         public TwitterConnection(string twitterConsumerKey, string twitterConsumerSecret, string xauthusername, string xauthpassword, IPlatformAdaptor platformAdaptor = null)
         {
             PlatformAdaptor = platformAdaptor;

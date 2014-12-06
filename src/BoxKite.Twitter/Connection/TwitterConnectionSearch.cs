@@ -79,7 +79,7 @@ namespace BoxKite.Twitter
             do
             {
                 //TODO: need to unhardcode SearchResultType
-                var searchtl = await TwitterSession.SearchFor(searchText:_currentSearchText, searchResponseType:SearchResultType.Recent, count: pagingSize, maxId: smallestid);
+                var searchtl = await TwitterSession.SearchFor(searchText:_currentSearchText, searchResponseType:SearchResultType.Recent, count: _pagingSize, maxId: smallestid);
                 if (searchtl.OK)
                 {
                     smallestid = long.MaxValue;
@@ -98,7 +98,7 @@ namespace BoxKite.Twitter
                     // once at 30s, 60s, 1m, 2m, 4m, 8m and then 16m
                     // note that the last call into this will be 1m above the 15 "rate limit reset" window 
                     await Task.Delay(TimeSpan.FromSeconds(backofftimer));
-                    if (backofftimer > maxbackoff)
+                    if (backofftimer > _maxbackoff)
                     backofftimer = backofftimer * 2;
                 }
             } while (backfillQuota > 0);
@@ -108,7 +108,7 @@ namespace BoxKite.Twitter
         private void StartPollingSearch(bool status)
         {
             // firstly wait on the backfills to complete before firing off these
-            _searchBackFillCompleted.Where(st => st == true).Subscribe(s =>
+            _searchBackFillCompleted.Where(st => st).Subscribe(s =>
             {
                 // this will fire once per minute for 24 hours from init
                 var observable = Observable.Interval(TimeSpan.FromSeconds(20));
@@ -123,7 +123,7 @@ namespace BoxKite.Twitter
         {
             var largestseenid = sinceid;
 
-            var searchtl = await TwitterSession.SearchFor(searchText: _currentSearchText, searchResponseType: SearchResultType.Recent, count: pagingSize, sinceId: sinceid);
+            var searchtl = await TwitterSession.SearchFor(searchText: _currentSearchText, searchResponseType: SearchResultType.Recent, count: _pagingSize, sinceId: sinceid);
             if (!searchtl.OK) return largestseenid;
 
             foreach (var tweet in searchtl.Tweets.Where(tweet => tweet.Id > sinceid))

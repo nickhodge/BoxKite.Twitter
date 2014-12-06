@@ -333,6 +333,7 @@ namespace BoxKite.Twitter
 
         }
 
+#pragma warning disable 414        
         private struct OAuth
         {
             public string Nonce;
@@ -344,5 +345,6 @@ namespace BoxKite.Twitter
             public string Version;
             public string Header;
         }
-    }
+ #pragma warning restore 414
+}
 }

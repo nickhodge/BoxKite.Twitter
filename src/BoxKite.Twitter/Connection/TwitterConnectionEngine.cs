@@ -15,12 +15,12 @@ namespace BoxKite.Twitter
     public partial class TwitterConnection
     {
         // constants
-        private const int maxbackoff = 450;
-        private const int pagingSize = 50;
-        private const int sinceIdPagingSize = 200;
+        private const int _maxbackoff = 450;
+        private const int _pagingSize = 50;
+        private const int _sinceIdPagingSize = 200;
         private readonly TimeSpan _multiFetchBackoffTimer = new TimeSpan(1200);
         //
-
+         
         // status bits in state machine
         private readonly Subject<bool> _backFillCompleted = new Subject<bool>();
         private readonly Subject<bool> _userStreamConnected = new Subject<bool>();
@@ -173,7 +173,7 @@ namespace BoxKite.Twitter
         private void StartPollingUpdates(bool status)
         {
             // firstly wait on the backfills to complete before firing off these
-            _backFillCompleted.Where(st => st == true).Subscribe(s =>
+            _backFillCompleted.Where(st => st).Subscribe(s =>
             {
                 // this will fire once per minute for 24 hours from init
                 var observable = Observable.Interval(TimeSpan.FromMinutes(1));
@@ -197,7 +197,7 @@ namespace BoxKite.Twitter
         {
             var largestseenid = sinceid;
 
-            var hometl = await UserSession.GetHomeTimeline(count: sinceIdPagingSize, sinceId: sinceid);
+            var hometl = await UserSession.GetHomeTimeline(count: _sinceIdPagingSize, sinceId: sinceid);
             if (!hometl.OK) return largestseenid;
             foreach (var tweet in hometl)
             {
@@ -211,7 +211,7 @@ namespace BoxKite.Twitter
         {
             var largestseenid = sinceid;
 
-            var mentionsofme = await UserSession.GetMentions(count: sinceIdPagingSize, sinceId: sinceid);
+            var mentionsofme = await UserSession.GetMentions(count: _sinceIdPagingSize, sinceId: sinceid);
             if (!mentionsofme.OK) return largestseenid;
             foreach (var tweet in mentionsofme.Where(tweet => tweet.Id > sinceid))
             {
@@ -225,7 +225,7 @@ namespace BoxKite.Twitter
         {
             var largestseenid = sinceid;
 
-            var rtofme = await UserSession.GetRetweetsOfMe(count: pagingSize, sinceId: sinceid);
+            var rtofme = await UserSession.GetRetweetsOfMe(count: _pagingSize, sinceId: sinceid);
             if (!rtofme.OK) return largestseenid;
             foreach (var tweet in rtofme.Where(tweet => tweet.Id > sinceid))
             {
@@ -239,7 +239,7 @@ namespace BoxKite.Twitter
         {
             var largestseenid = sinceid;
 
-            var dmrecd = await UserSession.GetDirectMessages(count: pagingSize, sinceId: sinceid);
+            var dmrecd = await UserSession.GetDirectMessages(count: _pagingSize, sinceId: sinceid);
             if (!dmrecd.OK) return largestseenid;
             foreach (var dm in dmrecd.Where(dm => dm.Id > sinceid))
             {
@@ -253,7 +253,7 @@ namespace BoxKite.Twitter
         {
             var largestseenid = sinceid;
             
-            var mysentdms = await UserSession.GetDirectMessagesSent(count: pagingSize, sinceId: sinceid);
+            var mysentdms = await UserSession.GetDirectMessagesSent(count: _pagingSize, sinceId: sinceid);
             if (!mysentdms.OK) return largestseenid;
 
             foreach (var dm in mysentdms.Where(dm => dm.Id > sinceid))
@@ -268,7 +268,7 @@ namespace BoxKite.Twitter
         {
            var largestseenid = sinceid;
             
-            var hometl = await TwitterSession.GetUserTimeline(userId: AccountDetails.UserId, count: pagingSize, sinceId: sinceid);
+            var hometl = await TwitterSession.GetUserTimeline(userId: AccountDetails.UserId, count: _pagingSize, sinceId: sinceid);
             if (!hometl.OK) return largestseenid;
 
             foreach (var tweet in hometl.Where(tweet => tweet.Id > sinceid))
@@ -325,7 +325,7 @@ namespace BoxKite.Twitter
 
             do
             {
-                var hometl = await UserSession.GetHomeTimeline(count: pagingSize, maxId: smallestid);
+                var hometl = await UserSession.GetHomeTimeline(count: _pagingSize, maxId: smallestid);
                 if (hometl.OK)
                 {
                     smallestid = long.MaxValue;
@@ -345,7 +345,7 @@ namespace BoxKite.Twitter
                     // once at 30s, 60s, 1m, 2m, 4m, 8m and then 16m
                     // note that the last call into this will be 1m above the 15 "rate limit reset" window 
                     await Task.Delay(TimeSpan.FromSeconds(backofftimer));
-                    if (backofftimer > maxbackoff)
+                    if (backofftimer > _maxbackoff)
                         break;
                     backofftimer = backofftimer * 2;
                 }
@@ -362,7 +362,7 @@ namespace BoxKite.Twitter
 
             do
             {
-                var mentionsofme = await UserSession.GetMentions(count: pagingSize, maxId: smallestid);
+                var mentionsofme = await UserSession.GetMentions(count: _pagingSize, maxId: smallestid);
                 if (mentionsofme.OK)
                 {
                     smallestid = long.MaxValue;
@@ -382,7 +382,7 @@ namespace BoxKite.Twitter
                     // once at 30s, 60s, 1m, 2m, 4m, 8m and then 16m
                     // note that the last call into this will be 1m above the 15 "rate limit reset" window 
                     await Task.Delay(TimeSpan.FromSeconds(backofftimer));
-                    if (backofftimer > maxbackoff)
+                    if (backofftimer > _maxbackoff)
                         break;
                     backofftimer = backofftimer * 2;
                 }
@@ -399,7 +399,7 @@ namespace BoxKite.Twitter
 
             do
             {
-                var rtofme = await UserSession.GetRetweetsOfMe(count: pagingSize, maxId: smallestid);
+                var rtofme = await UserSession.GetRetweetsOfMe(count: _pagingSize, maxId: smallestid);
                 if (rtofme.OK)
                 {
                     smallestid = long.MaxValue;
@@ -419,7 +419,7 @@ namespace BoxKite.Twitter
                     // once at 30s, 60s, 1m, 2m, 4m, 8m and then 16m
                     // note that the last call into this will be 1m above the 15 "rate limit reset" window 
                     await Task.Delay(TimeSpan.FromSeconds(backofftimer));
-                    if (backofftimer > maxbackoff)
+                    if (backofftimer > _maxbackoff)
                         break;
                     backofftimer = backofftimer * 2;
                 }
@@ -436,7 +436,7 @@ namespace BoxKite.Twitter
 
             do
             {
-                var dmrecd = await UserSession.GetDirectMessages(count: pagingSize, maxId: smallestid);
+                var dmrecd = await UserSession.GetDirectMessages(count: _pagingSize, maxId: smallestid);
                 if (dmrecd.OK)
                 {
                     smallestid = long.MaxValue;
@@ -458,7 +458,7 @@ namespace BoxKite.Twitter
                     // once at 30s, 60s, 1m, 2m, 4m, 8m and then 16m
                     // note that the last call into this will be 1m above the 15 "rate limit reset" window 
                     await Task.Delay(TimeSpan.FromSeconds(backofftimer));
-                    if (backofftimer > maxbackoff)
+                    if (backofftimer > _maxbackoff)
                         break;
                     backofftimer = backofftimer * 2;
                 }
@@ -475,7 +475,7 @@ namespace BoxKite.Twitter
 
             do
             {
-                var mysentdms = await UserSession.GetDirectMessagesSent(count: pagingSize, maxId: smallestid);
+                var mysentdms = await UserSession.GetDirectMessagesSent(count: _pagingSize, maxId: smallestid);
                 if (mysentdms.OK)
                 {
                     smallestid = long.MaxValue;
@@ -495,7 +495,7 @@ namespace BoxKite.Twitter
                     // once at 30s, 60s, 1m, 2m, 4m, 8m and then 16m
                     // note that the last call into this will be 1m above the 15 "rate limit reset" window 
                     await Task.Delay(TimeSpan.FromSeconds(backofftimer));
-                    if (backofftimer > maxbackoff)
+                    if (backofftimer > _maxbackoff)
                         break;
                     backofftimer = backofftimer * 2;
                 }
@@ -512,7 +512,7 @@ namespace BoxKite.Twitter
 
             do
             {
-                var hometl = await UserSession.GetUserTimeline(userId:AccountDetails.UserId, count: pagingSize, maxId: smallestid);
+                var hometl = await UserSession.GetUserTimeline(userId:AccountDetails.UserId, count: _pagingSize, maxId: smallestid);
                 if (hometl.OK)
                 {
                     smallestid = long.MaxValue;
@@ -532,7 +532,7 @@ namespace BoxKite.Twitter
                     // once at 30s, 60s, 1m, 2m, 4m, 8m and then 16m
                     // note that the last call into this will be 1m above the 15 "rate limit reset" window 
                     await Task.Delay(TimeSpan.FromSeconds(backofftimer));
-                    if (backofftimer > maxbackoff)
+                    if (backofftimer > _maxbackoff)
                         break;
                     backofftimer = backofftimer * 2;
                 }

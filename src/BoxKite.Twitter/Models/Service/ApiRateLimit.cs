@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Generic;
 using BoxKite.Twitter.Extensions;
-using Newtonsoft.Json;
 
 namespace BoxKite.Twitter.Models
 {

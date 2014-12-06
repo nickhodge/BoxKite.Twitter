@@ -31,11 +31,12 @@ namespace BoxKite.Twitter.Extensions
 
         public static string UrlEncode(this string inputString)
         {
-            var encoded = "";
 
+            return Uri.EscapeDataString(inputString);
 
-            foreach (var str in inputString)
-            {
+            /* var encoded = "";
+             foreach (var str in inputString)      
+           {
                 if ((str >= 'A' && str <= 'Z') ||
                     (str >= 'a' && str <= 'z') ||
                     (str >= '0' && str <= '9'))
@@ -51,7 +52,7 @@ namespace BoxKite.Twitter.Extensions
                     encoded += "%" + string.Format("{0:X}", (int)str);
                 }
             }
-            return encoded;
+            return encoded; */
         }
 
 
@@ -72,13 +73,13 @@ namespace BoxKite.Twitter.Extensions
         /// <returns></returns>
         public static DateTime ParseDateTime(this string date)
         {
-            var tokenizer = date.Split(new[] { ' ' });
+            var tokenizer = date.Split(' ');
 
-            var dayOfWeek = tokenizer[0];
+            //var dayOfWeek = tokenizer[0];
             var month = tokenizer[1];
             var dayInMonth = tokenizer[2];
             var time = tokenizer[3];
-            var offset = tokenizer[4];
+            //var offset = tokenizer[4];
             var year = tokenizer[5];
 
             var dateTime = string.Format("{0}-{1}-{2} {3}", dayInMonth, month, year, time);

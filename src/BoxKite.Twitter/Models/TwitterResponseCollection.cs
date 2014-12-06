@@ -11,19 +11,19 @@ namespace BoxKite.Twitter.Models
     /// Represents a strongly typed enumerable collection of Twitter Response Objects.
     /// </summary>
     /// <typeparam name="T">The type of elements in the collection.</typeparam>
-    public class TwitterResponseCollection<T> : TwitterControlBase, IEnumerable<T>, IList<T>
+    public class TwitterResponseCollection<T> : TwitterControlBase, IList<T>
     {
          /// <summary>
         /// The array to store values.
         /// </summary>
-        private List<T> twitterResponseElements;
+        private readonly List<T> twitterResponseElements;
 
         /// <summary>
         /// The default constructor for the collection. Initializes the collection with default capacity (4).
         /// </summary>
         public TwitterResponseCollection()
         {
-            this.twitterResponseElements = new List<T>();
+            twitterResponseElements = new List<T>();
         }
 
         /// <summary>
@@ -45,18 +45,18 @@ namespace BoxKite.Twitter.Models
         /// <param name="value">The value to add to the collection.</param>
         public bool Add(T value)
         {
-            this.twitterResponseElements.Add(value);
+            twitterResponseElements.Add(value);
             return true;
         }
 
         public void Clear()
         {
-            this.twitterResponseElements.Clear();
+            twitterResponseElements.Clear();
         }
 
         void ICollection<T>.Add(T item)
         {
-            this.twitterResponseElements.Add(item);
+            twitterResponseElements.Add(item);
         }
 
         /// <summary>
@@ -65,12 +65,12 @@ namespace BoxKite.Twitter.Models
         /// <param name="value">The value to find in the collection.</param>
         public bool Contains(T value)
         {
-            return this.twitterResponseElements.Contains(value);
+            return twitterResponseElements.Contains(value);
         }
 
         public void CopyTo(T[] array, int arrayIndex)
         {
-            this.twitterResponseElements.CopyTo(array,arrayIndex);
+            twitterResponseElements.CopyTo(array,arrayIndex);
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace BoxKite.Twitter.Models
         /// <param name="value">The value to remove from the collection.</param>
         public bool Remove(T value)
         {
-            return this.twitterResponseElements.Remove(value);
+            return twitterResponseElements.Remove(value);
         }
         /// <summary>
         /// Returns an enumerator that iterates through the elements of the collection.
@@ -91,29 +91,29 @@ namespace BoxKite.Twitter.Models
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
-            return this.GetEnumerator();
+            return GetEnumerator();
         }
 
         public int IndexOf(T item)
         {
-            return this.twitterResponseElements.IndexOf(item);
+            return twitterResponseElements.IndexOf(item);
         }
 
         public void Insert(int index, T item)
         {
-            this.twitterResponseElements.Insert(index, item);
+            twitterResponseElements.Insert(index, item);
         }
 
         public void RemoveAt(int index)
         {
-            this.twitterResponseElements.RemoveAt(index);
+            twitterResponseElements.RemoveAt(index);
         }
 
         public T this[int index]
         {
-            get { return this.twitterResponseElements[index];
+            get { return twitterResponseElements[index];
             }
-            set { this.twitterResponseElements[index] = value; }
+            set { twitterResponseElements[index] = value; }
         }
     }
 }

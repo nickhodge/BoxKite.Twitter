@@ -14,7 +14,6 @@ using System.Text;
 using BoxKite.Twitter.Extensions;
 using BoxKite.Twitter.Models;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace BoxKite.Twitter.Authentication
@@ -66,7 +65,7 @@ namespace BoxKite.Twitter.Authentication
                         oAuthToken = splits[1];
                         break;
                     case "oauth_token_secret": // not used
-                        var OAuthTokenSecret = splits[1];
+//                        var oAuthTokenSecret = splits[1];
                         break;
                     case "oauth_callback_confirmed":
                         break;
@@ -100,31 +99,31 @@ namespace BoxKite.Twitter.Authentication
             if (string.IsNullOrWhiteSpace(response))
                 return TwitterCredentials.Null; //oops something wrong here
 
-            var _accessToken = "";
-            var _accessTokenSecret = "";
-            var _userId = "";
-            var _screenName = "";
+            var accessToken = "";
+            var accessTokenSecret = "";
+            var userId = "";
+            var screenName = "";
 
             foreach (var splits in response.Split('&').Select(t => t.Split('=')))
             {
                 switch (splits[0])
                 {
                     case "oauth_token": //these tokens are request tokens, first step before getting access tokens
-                        _accessToken = splits[1];
+                        accessToken = splits[1];
                         break;
                     case "oauth_token_secret":
-                        _accessTokenSecret = splits[1];
+                        accessTokenSecret = splits[1];
                         break;
                     case "user_id":
-                        _userId = splits[1];
+                        userId = splits[1];
                         break;
                     case "screen_name":
-                        _screenName = splits[1];
+                        screenName = splits[1];
                         break;
                 }
             }
 
-            if (_accessToken != null && _accessTokenSecret != null && _userId != null && _screenName != null)
+            if (accessToken != null && accessTokenSecret != null && userId != null && screenName != null)
             {
                 if (await session.StartApplicationOnlyAuth()) 
                 {
@@ -133,10 +132,10 @@ namespace BoxKite.Twitter.Authentication
                         ConsumerKey = session.clientID,
                         ConsumerSecret = session.clientSecret,
                         BearerToken = session.bearerToken,
-                        ScreenName = _screenName,
-                        Token = _accessToken,
-                        TokenSecret = _accessTokenSecret,
-                        UserID = Int64.Parse(_userId),
+                        ScreenName = screenName,
+                        Token = accessToken,
+                        TokenSecret = accessTokenSecret,
+                        UserID = Int64.Parse(userId),
                         Valid = true
                     };
                     session.IsActive = true;
@@ -459,6 +458,7 @@ namespace BoxKite.Twitter.Authentication
                 }
                 else
                 {
+                    // ReSharper disable once PossibleInvalidCastException
                     result.Append('%' + String.Format("{0:X2}", (int) symbol));
                 }
             }

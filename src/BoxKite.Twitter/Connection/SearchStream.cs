@@ -16,19 +16,15 @@ namespace BoxKite.Twitter
 {
     public class SearchStream : TwitterStream, ISearchStream
     {
-        readonly Subject<Tweet> foundtweets = new Subject<Tweet>();
-        public IObservable<Tweet> FoundTweets { get { return foundtweets; } }
+        readonly Subject<Tweet> _foundtweets = new Subject<Tweet>();
+        public IObservable<Tweet> FoundTweets { get { return _foundtweets; } }
 
-        private readonly Subject<StreamSearchRequest> searchrequests = new Subject<StreamSearchRequest>();
-        public Subject<StreamSearchRequest> SearchRequests{ get { return searchrequests; } }
+        private readonly Subject<StreamSearchRequest> _searchrequests = new Subject<StreamSearchRequest>();
+        public Subject<StreamSearchRequest> SearchRequests{ get { return _searchrequests; } }
         public TwitterParametersCollection SearchParameters { get; set; }
 
-        // Implementation internals
-        private IUserSession parentSession { get; set; }
-
-        public SearchStream(IUserSession session)
+        public SearchStream()
         {
-            parentSession = session;
             SearchRequests.Subscribe(ChangeSearchRequest);
         }
 
@@ -125,7 +121,7 @@ namespace BoxKite.Twitter
                 var obj = JsonConvert.DeserializeObject<JObject>(line);
                 if (obj["in_reply_to_user_id"] != null)
                 {
-                    foundtweets.OnNext(MapFromStreamTo<Tweet>(obj.ToString()));
+                    _foundtweets.OnNext(MapFromStreamTo<Tweet>(obj.ToString()));
                 }
 #endregion
             });

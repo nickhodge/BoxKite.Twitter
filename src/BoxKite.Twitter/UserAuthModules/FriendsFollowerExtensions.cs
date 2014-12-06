@@ -26,7 +26,7 @@ namespace BoxKite.Twitter
             if (parameters.EnsureEitherOr("screen_name", "user_id").IsFalse())
             {
                 return session.MapParameterError<FriendsFollowersIDsCursored>(
-                        "Either screen_name or user_id required"); ;
+                        "Either screen_name or user_id required");
             }
 
             return await session.GetAsync(TwitterApi.Resolve("/1.1/friends/ids.json"), parameters)
@@ -49,7 +49,7 @@ namespace BoxKite.Twitter
             if (parameters.EnsureEitherOr("screen_name", "user_id").IsFalse())
             {
                 return session.MapParameterError<FriendsFollowersIDsCursored>(
-                        "Either screen_name or user_id required"); ;
+                        "Either screen_name or user_id required");
             }
 
             return await session.GetAsync(TwitterApi.Resolve("/1.1/followers/ids.json"), parameters)
@@ -72,7 +72,7 @@ namespace BoxKite.Twitter
             if (parameters.EnsureEitherOr("screen_name", "user_id").IsFalse())
             {
                 return session.MapParameterError<TwitterResponseCollection<FriendshipLookupResponse>>(
-                        "Either screen_names or user_ids required"); ;
+                        "Either screen_names or user_ids required");
             }
 
             var url = TwitterApi.Resolve("/1.1/friendships/lookup.json");
@@ -125,7 +125,7 @@ namespace BoxKite.Twitter
             if (parameters.EnsureEitherOr("screen_name", "user_id").IsFalse())
             {
                 return session.MapParameterError<User>(
-                        "Either screen_name or user_id required"); ;
+                        "Either screen_name or user_id required");
             }
 
             return await session.PostAsync(TwitterApi.Resolve("/1.1/friendships/create.json"), parameters)
@@ -148,7 +148,7 @@ namespace BoxKite.Twitter
             if (parameters.EnsureEitherOr("screen_name", "user_id").IsFalse())
             {
                 return session.MapParameterError<User>(
-                        "Either screen_name or user_id required"); ;
+                        "Either screen_name or user_id required");
             }
 
             return await session.PostAsync(TwitterApi.Resolve("/1.1/post/friendships/destroy.json"), parameters)
@@ -173,7 +173,7 @@ namespace BoxKite.Twitter
             if (parameters.EnsureEitherOr("screen_name", "user_id").IsFalse())
             {
                 return session.MapParameterError<UserStatus>(
-                        "Either screen_name or user_id required"); ;
+                        "Either screen_name or user_id required");
             }
 
             return await session.PostAsync(TwitterApi.Resolve("/1.1/friendships/update.json"), parameters)
@@ -213,10 +213,10 @@ namespace BoxKite.Twitter
                 parameters.Add("target_id", targetId.ToString());
             }
 
-            if (parameters.EnsureAllArePresent(new string[] { "source_screen_name", "source_id", "target_screen_name", "target_id" }).IsFalse())
+            if (parameters.EnsureAllArePresent(new [] { "source_screen_name", "source_id", "target_screen_name", "target_id" }).IsFalse())
             {
                 return session.MapParameterError<UserStatus>(
-                        "source_screen_name, source_id, target_screen_name and target_id are all required"); ;
+                        "source_screen_name, source_id, target_screen_name and target_id are all required");
             }
 
 
@@ -280,7 +280,7 @@ namespace BoxKite.Twitter
             if (parameters.EnsureEitherOr("screen_name", "user_id").IsFalse())
             {
                 return session.MapParameterError<UserListDetailedCursored>(
-                        "Either screen_name or user_id required"); ;
+                        "Either screen_name or user_id required");
             }
 
             return await session.GetAsync(TwitterApi.Resolve("/1.1/friends/list.json"), parameters)
@@ -307,7 +307,7 @@ namespace BoxKite.Twitter
             if (parameters.EnsureEitherOr("screen_name", "user_id").IsFalse())
             {
                 return session.MapParameterError<UserListDetailedCursored>(
-                        "Either screen_name or user_id required"); ;
+                        "Either screen_name or user_id required");
             }
 
             return await session.GetAsync(TwitterApi.Resolve("/1.1/followers/list.json"), parameters)

@@ -37,7 +37,7 @@ namespace BoxKite.Twitter
             if (parameters.EnsureEitherOr("screen_name", "user_id").IsFalse())
             {
                 return session.MapParameterError<User>(
-                        "Either screen_name or user_id required"); ;
+                        "Either screen_name or user_id required");
             }
 
             return await session.GetAsync(TwitterApi.Resolve("/1.1/users/show.json"), parameters)
@@ -298,8 +298,8 @@ namespace BoxKite.Twitter
         /// <param name="imageContent">byte array of image content</param>
         /// <param name="bannerWidth">The width of the preferred section of the image being uploaded in pixels. Use with height, offset_left, and offset_top to select the desired region of the image to use.</param>
         /// <param name="bannerHeight">The height of the preferred section of the image being uploaded in pixels. Use with width, offset_left, and offset_top to select the desired region of the image to use.</param>
-        /// <param name="offset_left">The number of pixels by which to offset the uploaded image from the left. Use with height, width, and offset_top to select the desired region of the image to use.</param>
-        /// <param name="offset_top">The number of pixels by which to offset the uploaded image from the top. Use with height, width, and offset_left to select the desired region of the image to use.</param>
+        /// <param name="bannerLeftOffset">The number of pixels by which to offset the uploaded image from the left. Use with height, width, and offset_top to select the desired region of the image to use.</param>
+        /// <param name="bannerTopOffset">The number of pixels by which to offset the uploaded image from the top. Use with height, width, and offset_left to select the desired region of the image to use.</param>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/account/update_profile_banner </remarks>
         public static async Task<TwitterSuccess> ChangeProfileBanner(this IUserSession session, string fileName, byte[] imageContent, int bannerWidth = 0, int bannerHeight = 0, int bannerLeftOffset = 0, int bannerTopOffset = 0)
         {
@@ -333,11 +333,11 @@ namespace BoxKite.Twitter
         /// Removes the uploaded profile banner for the authenticating user. Returns HTTP 20x upon success.
         /// </summary>
         /// <param name="fileName">file name for upload</param>
-        /// <param name="imageDataStream">Stream of image content</param>
+        /// <param name="imageContentStream">Stream of image content</param>
         /// <param name="bannerWidth">The width of the preferred section of the image being uploaded in pixels. Use with height, offset_left, and offset_top to select the desired region of the image to use.</param>
         /// <param name="bannerHeight">The height of the preferred section of the image being uploaded in pixels. Use with width, offset_left, and offset_top to select the desired region of the image to use.</param>
-        /// <param name="offset_left">The number of pixels by which to offset the uploaded image from the left. Use with height, width, and offset_top to select the desired region of the image to use.</param>
-        /// <param name="offset_top">The number of pixels by which to offset the uploaded image from the top. Use with height, width, and offset_left to select the desired region of the image to use.</param>
+        /// <param name="bannerLeftOffset">The number of pixels by which to offset the uploaded image from the left. Use with height, width, and offset_top to select the desired region of the image to use.</param>
+        /// <param name="bannerTopOffset">The number of pixels by which to offset the uploaded image from the top. Use with height, width, and offset_left to select the desired region of the image to use.</param>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/account/update_profile_banner </remarks>
         public static async Task<TwitterSuccess> ChangeProfileBanner(this IUserSession session, string fileName, Stream imageContentStream, int bannerWidth = 0, int bannerHeight = 0, int bannerLeftOffset = 0, int bannerTopOffset = 0)
         {
@@ -382,7 +382,7 @@ namespace BoxKite.Twitter
             if (parameters.EnsureEitherOr("screen_name", "user_id").IsFalse())
             {
                 return session.MapParameterError<ProfileBanners>(
-                        "Either screen_name or user_id required"); ;
+                        "Either screen_name or user_id required");
             } 
             return await session.GetAsync(TwitterApi.Resolve("/1.1/users/profile_banner.json"), parameters)
                          .ContinueWith(c => c.MapToSingle<ProfileBanners>());
@@ -418,7 +418,7 @@ namespace BoxKite.Twitter
             if (parameters.EnsureEitherOr("screen_name", "user_id").IsFalse())
             {
                 return session.MapParameterError<User>(
-                        "Either screen_name or user_id required"); ;
+                        "Either screen_name or user_id required");
             }
 
             return await session.PostAsync(TwitterApi.Resolve("/1.1/blocks/create.json"), parameters)
@@ -440,7 +440,7 @@ namespace BoxKite.Twitter
             if (parameters.EnsureEitherOr("screen_name", "user_id").IsFalse())
             {
                 return session.MapParameterError<User>(
-                        "Either screen_name or user_id required"); ;
+                        "Either screen_name or user_id required");
             }
 
             return await session.PostAsync(TwitterApi.Resolve("/1.1/blocks/destroy.json"), parameters)
@@ -464,7 +464,7 @@ namespace BoxKite.Twitter
             if (parameters.EnsureEitherOr("screen_name", "user_id").IsFalse())
             {
                 return session.MapParameterError<TwitterResponseCollection<User>>(
-                        "Either screen_names or user_ids required"); ;
+                        "Either screen_names or user_ids required");
             }
 
             return await session.PostAsync(TwitterApi.Resolve("/1.1/users/lookup.json"), parameters).ContinueWith(c => c.MapToMany<User>());
@@ -487,7 +487,7 @@ namespace BoxKite.Twitter
             if (parameters.EnsureEitherOr("screen_name", "user_id").IsFalse())
             {
                 return session.MapParameterError<TwitterResponseCollection<User>>(
-                        "Either screen_names or user_ids required"); ;
+                        "Either screen_names or user_ids required");
             }
 
             return await session.GetAsync(TwitterApi.Resolve("/1.1/users/lookup.json"), parameters).ContinueWith(c => c.MapToMany<User>());

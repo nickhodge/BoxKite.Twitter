@@ -15,7 +15,7 @@ namespace BoxKite.Twitter
 
         public static ISearchStream StartSearchStream(this IUserSession session, string track = null, string follow = null, string locations = null)
         {
-            var searchStream = new SearchStream(session);
+            var searchStream = new SearchStream();
             searchStream.SearchParameters = searchStream.ChangeSearchParameters(track, follow, locations);
             Func<Task<HttpResponseMessage>> startConnection = () =>
             {
@@ -33,7 +33,7 @@ namespace BoxKite.Twitter
 
         public static ISearchStream StartSearchStream(this IUserSession session, IEnumerable<string> track = null, IEnumerable<string> follow = null, IEnumerable<string> locations = null)
         {
-            var searchStream = new SearchStream(session);
+            var searchStream = new SearchStream();
             searchStream.SearchParameters = searchStream.ChangeSearchParameters(track, follow, locations);
             Func<Task<HttpResponseMessage>> startConnection = () =>
             {

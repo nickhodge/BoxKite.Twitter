@@ -1,6 +1,7 @@
 ﻿// (c) 2012-2014 Nick Hodge mailto:hodgenick@gmail.com & Brendan Forster
 // License: MS-PL
 
+using System;
 using System.Collections.Generic;
 using BoxKite.Twitter.Extensions;
 using BoxKite.Twitter.Models;
@@ -92,7 +93,7 @@ namespace BoxKite.Twitter
                 parameters.Add("ip", ipAddress);
             }
 
-            if (latitude != 0.0 && longitude != 0.0)
+            if (Math.Abs(latitude) > 0.0 && Math.Abs(longitude) > 0.0)
             {
                 parameters.Add("lat", latitude.ToString());
                 parameters.Add("long", longitude.ToString());

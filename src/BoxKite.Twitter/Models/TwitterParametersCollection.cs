@@ -48,7 +48,7 @@ namespace BoxKite.Twitter.Models
             {
                 userIDList.Append(tweetID + ",");
             }
-            parameters.Add("id", userIDList.ToString().TrimLastChar());
+            parameters.Add("id", tweetIDList.ToString().TrimLastChar());
         }
 
         internal static void Create(this TwitterParametersCollection parameters,

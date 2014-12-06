@@ -16,7 +16,7 @@ namespace BoxKite.Twitter
         /// Entities are always returned
         /// </summary>
         /// <param name="userId">The ID of the user for whom to return results for</param>
-        /// <param name="screen_name">The screen name of the user for whom to return results for</param>
+        /// <param name="screenName">The screen name of the user for whom to return results for</param>
         /// <param name="sinceId">Returns results with an ID greater than</param>
         /// <param name="count">Specifies the number of records to retrieve. Must be less than or equal to 200. Defaults to 20.</param>
         /// <param name="maxId">Returns results with an ID less than (that is, older than) or equal to the specified </param>

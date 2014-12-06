@@ -11,7 +11,7 @@ namespace BoxKite.Twitter.Tests
     {
         public static ISearchStream StartSearchStream(this IUserSession session, string track = null, string follow = null, string locations = null)
         {
-            var searchStream = new SearchStream(session);
+            var searchStream = new SearchStream();
             searchStream.SearchParameters = searchStream.ChangeSearchParameters(track, follow, locations);
             Func<Task<HttpResponseMessage>> startConnection =
                 () =>

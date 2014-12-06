@@ -47,7 +47,6 @@ namespace BoxKite.Twitter
         /// <param name="longitude">Returns tweets by users located within a given radius of the given latitude/longitude.</param>
         /// <param name="distance">Returns tweets by users located within a given radius of the given latitude/longitude.</param>
         /// <param name="distanceUnits">km (default) or mi</param>
-        /// <param name="searchText">search query of 1,000 characters maximum, including operators. Queries may additionally be limited by complexity.</param>
         /// <param name="maxId"></param>
         /// <param name="sinceId"></param>
         /// <param name="untilDate">YYYY-MM-DD format</param>
@@ -120,7 +119,7 @@ namespace BoxKite.Twitter
         /// <summary>
         /// Creates a saved search
         /// </summary>
-        /// <param name="searchtext">The ID of the saved search.</param>
+        /// <param name="SavedSearchId">The ID of the saved search.</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/saved_searches/destroy/%3Aid </remarks>
         public async static Task<SavedSearch> DeleteSavedSearch(this IUserSession session, string SavedSearchId)
@@ -141,7 +140,7 @@ namespace BoxKite.Twitter
     }
 
 
-    public enum SearchResultType : int
+    public enum SearchResultType
     {
         Mixed = 1,
         Recent = 2,

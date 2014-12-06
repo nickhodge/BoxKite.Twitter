@@ -1,6 +1,7 @@
 ﻿// (c) 2012-2014 Nick Hodge mailto:hodgenick@gmail.com & Brendan Forster
 // License: MS-PL
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -29,7 +30,7 @@ namespace BoxKite.Twitter
                                  };
             parameters.Create(include_entities:true,place_id:placeId);
             
-            if (latitude != 0.0 && longitude != 0.0)
+            if (Math.Abs(latitude) > 0.0 && Math.Abs(longitude) > 0.0)
             {
                 parameters.Add("lat", latitude.ToString());
                 parameters.Add("long", longitude.ToString());
@@ -72,7 +73,7 @@ namespace BoxKite.Twitter
                                  };
             parameters.Create(place_id:placeId);
 
-            if (latitude != 0.0 && longitude != 0.0)
+            if (Math.Abs(latitude) > 0.0 && Math.Abs(longitude) > 0.0)
             {
                 parameters.Add("lat", latitude.ToString());
                 parameters.Add("long", longitude.ToString());
@@ -155,9 +156,8 @@ namespace BoxKite.Twitter
         /// <summary>
         /// Gets the Users who retweeted a particular tweet
         /// </summary>
-        /// <param name="tweetId"></param>
         /// <param name="cursor">default is first page (-1) otherwise provide starting point</param>
-         /// <param name="screen_name">screen_name or user_id must be provided</param>
+         /// <param name="tweetId">tweet ID must be provided</param>
         /// <param name="count">how many to return default 500</param>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/statuses/retweeters/ids </remarks>
         public async static Task<RetweetersResponseIDsCursored> GetRetweeters(this IUserSession session, long tweetId, int count = 20, long cursor = -1)
@@ -187,7 +187,7 @@ namespace BoxKite.Twitter
                              };
             parameters.Create(place_id:placeId);
 
-            if (latitude != 0.0 && longitude != 0.0)
+            if (Math.Abs(latitude) > 0.0 && Math.Abs(longitude) > 0.0)
             {
                 parameters.Add("lat", latitude.ToString());
                 parameters.Add("long", longitude.ToString());
@@ -202,7 +202,9 @@ namespace BoxKite.Twitter
         /// </summary>
         /// <param name="text">Text of tweet to send</param>
         /// <param name="fileName">Name of the file, including extension</param>
-        /// <param name="imageData">Stream of the image</param>
+        /// <param name="imageDataStream">Stream of the image</param>
+        /// <param name="latitude">Latitude of the image</param>
+        /// <param name="longitude">Longitude of the image</param>
         /// <param name="placeId">A place in the world identified by a Twitter place ID. Place IDs can be retrieved from geo/reverse_geocode.</param>
         /// <returns>Tweet sent</returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/statuses/update_with_media </remarks>
@@ -214,7 +216,7 @@ namespace BoxKite.Twitter
                              };
             parameters.Create(place_id: placeId);
 
-            if (latitude != 0.0 && longitude != 0.0)
+            if (Math.Abs(latitude) > 0.0 && Math.Abs(longitude) > 0.0)
             {
                 parameters.Add("lat", latitude.ToString());
                 parameters.Add("long", longitude.ToString());
@@ -246,7 +248,7 @@ namespace BoxKite.Twitter
 
             parameters.Create(place_id: placeId);
             
-            if (latitude != 0.0 && longitude != 0.0)
+            if (Math.Abs(latitude) > 0.0 && Math.Abs(longitude) > 0.0)
             {
                 parameters.Add("lat", latitude.ToString());
                 parameters.Add("long", longitude.ToString());
@@ -278,7 +280,7 @@ namespace BoxKite.Twitter
 
             parameters.Create(place_id: placeId);
 
-            if (latitude != 0.0 && longitude != 0.0)
+            if (Math.Abs(latitude) > 0.0 && Math.Abs(longitude) > 0.0)
             {
                 parameters.Add("lat", latitude.ToString());
                 parameters.Add("long", longitude.ToString());
@@ -291,7 +293,7 @@ namespace BoxKite.Twitter
         /// <summary>
         /// Returns fully-hydrated tweets for up to 100 tweets per request, as specified by comma-separated values passed to the user_id and/or screen_name parameters.
         /// </summary>
-        /// <param name="id">up to 100 are allowed in a single request.</param>
+        /// <param name="tweetIds">up to 100 are allowed in a single request.</param>
         /// <returns>Observable List of full tweets</returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/statuses/lookup </remarks>
         public static async Task<TwitterResponseCollection<Tweet>> GetTweetsFull(this IUserSession session, IEnumerable<long> tweetIds = null)

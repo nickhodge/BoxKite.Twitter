@@ -26,7 +26,7 @@ namespace BoxKite.Twitter
             if (parameters.EnsureEitherOr("screen_name", "user_id").IsFalse())
             {
                 return session.MapParameterError<User>(
-                        "Either screen_name or user_id required"); ;
+                        "Either screen_name or user_id required");
             }
 
             return await session.PostAsync(TwitterApi.Resolve("/1.1/users/report_spam.json"), parameters)

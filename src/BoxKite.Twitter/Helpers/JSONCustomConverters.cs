@@ -12,6 +12,7 @@ namespace BoxKite.Twitter.Helpers
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
+            // ReSharper disable once RedundantTernaryExpression
             writer.WriteValue(((bool)value) ? true : false);
         }
 

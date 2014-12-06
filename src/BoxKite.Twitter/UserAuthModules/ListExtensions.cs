@@ -26,7 +26,7 @@ namespace BoxKite.Twitter
             if (parameters.EnsureEitherOr("screen_name", "user_id").IsFalse())
             {
                 return session.MapParameterError<TwitterResponseCollection<TwitterList>>(
-                        "Either screen_name or user_id required");;
+                        "Either screen_name or user_id required");
             }
 
             return await session.GetAsync(TwitterApi.Resolve("/1.1/lists/list.json"), parameters)
@@ -223,7 +223,7 @@ namespace BoxKite.Twitter
             if (parameters.EnsureEitherOr("screen_name", "user_id").IsFalse())
             {
                 return session.MapParameterError<TwitterSuccess>(
-                        "Either screen_names or user_ids required"); ;
+                        "Either screen_names or user_ids required");
             }
 
             return await session.PostAsync(TwitterApi.Resolve("/1.1/lists/members/create_all.json"), parameters)
@@ -429,7 +429,7 @@ namespace BoxKite.Twitter
             if (parameters.EnsureEitherOr("screen_name", "user_id").IsFalse())
             {
                 return session.MapParameterError<TwitterSuccess>(
-                        "Either screen_names or user_ids required"); ;
+                        "Either screen_names or user_ids required");
             }
 
             return await session.PostAsync(TwitterApi.Resolve("/1.1/lists/members/destroy_all.json"), parameters)
