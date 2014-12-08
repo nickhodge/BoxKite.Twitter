@@ -196,8 +196,7 @@ namespace BoxKite.Twitter
         public async Task<TwitterCredentials> XAuthentication(string xauthusername, string xauthpassword)
         {
             var twittercredentials = await UserSession.XAuthentication(xauthusername, xauthpassword);
-            if (!twittercredentials.Valid) return null;
-            return twittercredentials;
+            return !twittercredentials.Valid ? null : twittercredentials;
         }
 
         public async Task<bool> VerifyUserCredentials()

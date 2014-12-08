@@ -114,7 +114,7 @@ namespace BoxKite.Twitter
                 }
 #endif
                 if (string.IsNullOrWhiteSpace(line)) return;
-                if (line == "<html>") // needs embellishment
+                if (line == "<html>") // todo: needs embellishment, especially as Twitter uses HTML embedded in stream for errors
                 {
                     Stop();
                 }
