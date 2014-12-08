@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>BoxKite.Twitter</id>
-        <version>2.1.0</version>
+        <version>2.1.1</version>
         <title>BoxKite.Twitter</title>
         <authors>Nick Hodge</authors>
         <owners>Nick Hodge,Brendan Forster</owners>
@@ -12,7 +12,8 @@
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>BoxKite.Twitter is a .NET Portable Class Library interface to the Twitter API 1.1 incorporating REST API, User streaming and Search Streaming</description>
         <summary>Modern C# Library for the Twitter API 1.1 using Reactive Extensions (Rx), incorporating access to Twitter's Userstreams and Searchstreams.</summary>
-        <releaseNotes>Version 2.1.0 first final in 2.x stream, many small fixes
+        <releaseNotes>Version 2.1.1 fix spin bug in UserStream. Ooops
+Version 2.1.0 first final in 2.x stream, many small fixes
 Version 2.0.7-pre many fixes
 Version 2.0.6-pre Android version
 Version 2.0.5-pre removed another &lt;dynamic&gt; plus additions from ahmad2x4. THX!

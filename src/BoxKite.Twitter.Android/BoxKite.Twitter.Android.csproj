@@ -267,6 +267,9 @@
     <Compile Include="..\BoxKite.Twitter\Models\User.cs">
       <Link>Models\User.cs</Link>
     </Compile>
+    <Compile Include="..\BoxKite.Twitter\Properties\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="..\BoxKite.Twitter\UserAuthModules\ApiManagementExtensions.cs">
       <Link>UserAuthModules\ApiManagementExtensions.cs</Link>
     </Compile>
@@ -313,7 +316,6 @@
       <Link>UserAuthModules\UserStreamExtensions.cs</Link>
     </Compile>
     <Compile Include="Helpers\AndroidPlatformAdaptor.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\Connection\" />

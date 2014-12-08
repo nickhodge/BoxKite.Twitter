@@ -152,10 +152,6 @@ namespace BoxKite.Twitter
                 }
 #endregion           
             });
-            while (!CancelStream.IsCancellationRequested)
-            {
-                // spin
-            }
         }
 
         private void SendFriendsMessage(IEnumerable<long> obj)

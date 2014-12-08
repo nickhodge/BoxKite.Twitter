@@ -298,6 +298,9 @@
     <Compile Include="..\BoxKite.Twitter\Models\User.cs">
       <Link>Models\User.cs</Link>
     </Compile>
+    <Compile Include="..\BoxKite.Twitter\Properties\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="..\BoxKite.Twitter\UserAuthModules\ApiManagementExtensions.cs">
       <Link>UserAuthModules\ApiManagementExtensions.cs</Link>
     </Compile>
@@ -344,7 +347,6 @@
       <Link>UserAuthModules\UserStreamExtensions.cs</Link>
     </Compile>
     <Compile Include="Helpers\Win8RTPlatformAdaptor.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
@@ -375,6 +377,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
     <VisualStudioVersion>12.0</VisualStudioVersion>
   </PropertyGroup>

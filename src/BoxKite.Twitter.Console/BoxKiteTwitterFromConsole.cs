@@ -104,7 +104,7 @@ namespace BoxKite.Twitter.Console
                 twitterConnection.SearchTimeLine.Subscribe(t => { ConsoleOutput.PrintTweet(t, ConsoleColor.Cyan); });
 
 
-                    twitterConnection.InitSearchStreaming("mh370");
+                    twitterConnection.InitSearchStreaming("angeles");
 
                         while (true)
                         {

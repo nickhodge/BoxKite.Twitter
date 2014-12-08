@@ -71,7 +71,6 @@
     <Compile Include="..\BoxKite.Twitter\Connection\TwitterStream.cs">
       <Link>Connection\TwitterStream.cs</Link>
     </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\BoxKite.Twitter\Authentication\TwitterAuthenticator.cs">
       <Link>Authentication\TwitterAuthenticator.cs</Link>
     </Compile>
@@ -263,6 +262,9 @@
     </Compile>
     <Compile Include="..\BoxKite.Twitter\Models\Stream\StreamUserWithheld.cs">
       <Link>Models\Stream\StreamUserWithheld.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Properties\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="..\BoxKite.Twitter\UserAuthModules\ApiManagementExtensions.cs">
       <Link>UserAuthModules\ApiManagementExtensions.cs</Link>
