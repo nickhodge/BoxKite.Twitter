@@ -23,7 +23,8 @@ namespace BoxKite.Twitter
         // used http://garyshortblog.wordpress.com/2011/02/11/a-twitter-oauth-example-in-c/
 
         private TwitterCredentials _credentials;
-        public TwitterCredentials TwitterCredentials {
+        public TwitterCredentials TwitterCredentials 
+        {
             get
             {
                 return _credentials;

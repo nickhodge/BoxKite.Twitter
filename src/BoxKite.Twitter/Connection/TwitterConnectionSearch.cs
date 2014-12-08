@@ -28,6 +28,10 @@ namespace BoxKite.Twitter
 
         private CancellationTokenSource _twitterSearchCommunicationToken;
 
+        /// <summary>
+        /// Start a SearchStream
+        /// </summary>
+        /// <param name="textToSearch">text string to begin search</param>
         public void StartSearchStreaming(string textToSearch)
         {
             _twitterSearchCommunicationToken = new CancellationTokenSource();
@@ -44,7 +48,7 @@ namespace BoxKite.Twitter
             }
             else
             {
-                // cannot get usersessin, fall back
+                // cannot get usersession, fall back
                 _searchStreamDisconnected.OnNext(true);
             }
             // and get "backfills"; tweets that pre-date the current stream/polling connection
@@ -57,6 +61,9 @@ namespace BoxKite.Twitter
             _searchStreamDisconnected.OnNext(true); // push message saying userStream is no longer connected
         }
 
+        /// <summary>
+        /// Stop SearchStreaming
+        /// </summary>
         public void StopSearchStreaming()
         {
             _twitterSearchCommunicationToken.Cancel();
