@@ -13,6 +13,9 @@ TestResults
 *.user
 *.sln.docstates
 *.DotSettings
+*.nupkg
+*.bak
+BoxKite.Twitter.dll
 
 # Build results
 [Dd]ebug/
