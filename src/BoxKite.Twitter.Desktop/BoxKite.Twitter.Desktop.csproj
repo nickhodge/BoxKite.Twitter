@@ -131,6 +131,9 @@
     <Compile Include="..\BoxKite.Twitter\Interfaces\ISearchStream.cs">
       <Link>Interfaces\ISearchStream.cs</Link>
     </Compile>
+    <Compile Include="..\BoxKite.Twitter\Interfaces\ITwitterConnection.cs">
+      <Link>Interfaces\ITwitterConnection.cs</Link>
+    </Compile>
     <Compile Include="..\BoxKite.Twitter\Interfaces\ITwitterSession.cs">
       <Link>Interfaces\ITwitterSession.cs</Link>
     </Compile>

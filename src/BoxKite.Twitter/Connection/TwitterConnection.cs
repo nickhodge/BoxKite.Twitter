@@ -9,7 +9,7 @@ using BoxKite.Twitter.Models;
 
 namespace BoxKite.Twitter
 {
-    public partial class TwitterConnection
+    public partial class TwitterConnection : ITwitterConnection
     {
         public IPlatformAdaptor PlatformAdaptor { get; set; }
 

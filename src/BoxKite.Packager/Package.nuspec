@@ -10,8 +10,8 @@
         <projectUrl>https://github.com/nickhodge/BoxKite.Twitter/wiki</projectUrl>
         <iconUrl>http://media.nickhodge.com/boxkite/twitter/nuget-logo.jpg</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
-        <description>BoxKite.Twitter is a .NET Portable Class Library interface to the Twitter API 1.1 incorporating REST API, User streaming and Search Streaming</description>
-        <summary>Modern C# Library for the Twitter API 1.1 using Reactive Extensions (Rx), incorporating access to Twitter's Userstreams and Searchstreams.</summary>
+        <description>BoxKite.Twitter is a Twitter Client Library for the Twitter API 1.1 incorporating REST API, User streaming and Search Streaming. Requires use of Reactive Extensions (Rx)</description>
+        <summary>Modern C# Library for the Twitter API 1.1 using Reactive Extensions (Rx), incorporating access to Twitter's Userstreams and Searchstreams, and both Application authentication and User authentication. Coverage for all of Twitter 1.1 API.</summary>
         <releaseNotes>Version 2.1.1 fix spin bug in UserStream. Ooops
 Version 2.1.0 first final in 2.x stream, many small fixes
 Version 2.0.7-pre many fixes
@@ -22,7 +22,7 @@ Version 2.0.x-pre OAuth2 Application-only Authentication fully incorporated. Add
 </releaseNotes>
         <copyright>2012-2014 Nick Hodge and Brendan Forster</copyright>
         <language>en-US</language>
-        <tags>twitter,pcl,async,rx</tags>
+        <tags>twitter,pcl,async,rx,reactiveextensions,streaming</tags>
         <dependencies>
             <dependency id="Newtonsoft.Json" />
             <dependency id="Rx-Main" />

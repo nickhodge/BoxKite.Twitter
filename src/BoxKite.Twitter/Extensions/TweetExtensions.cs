@@ -3,7 +3,7 @@
 
 using BoxKite.Twitter.Models;
 
-namespace BoxKite.Twitter.Extensions
+namespace BoxKite.Twitter.Models
 {
     public static class TweetExtensions
     {
@@ -22,6 +22,16 @@ namespace BoxKite.Twitter.Extensions
                 return true;
 
             return false;
+        }
+
+        public static bool IsAReply(this Tweet tweet)
+        {
+            return tweet.InReplyToId != null;
+        }
+
+        public static bool IsARetweet(this Tweet tweet)
+        {
+            return tweet.RetweetedStatus != null;
         }
     }
 }

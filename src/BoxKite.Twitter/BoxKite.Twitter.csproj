@@ -37,6 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Connection\TwitterStream.cs" />
+    <Compile Include="Interfaces\ITwitterConnection.cs" />
     <Compile Include="Models\Service\RetweetersResponse .cs" />
     <Compile Include="UserAuthModules\ApiManagementExtensions.cs" />
     <Compile Include="Authentication\TwitterAuthenticator.cs" />

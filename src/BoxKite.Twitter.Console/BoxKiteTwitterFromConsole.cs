@@ -54,7 +54,7 @@ namespace BoxKite.Twitter.Console
             {
                 twitterConnection = new TwitterConnection(twittercredentials);
 
-                twitterConnection.InitUserStreaming();
+                twitterConnection.StartUserStreaming();
 
                 ConsoleOutput.PrintMessage(twitterConnection.TwitterCredentials.ScreenName +
                                            " is authorised to use BoxKite.Twitter.");
@@ -104,7 +104,7 @@ namespace BoxKite.Twitter.Console
                 twitterConnection.SearchTimeLine.Subscribe(t => { ConsoleOutput.PrintTweet(t, ConsoleColor.Cyan); });
 
 
-                    twitterConnection.InitSearchStreaming("angeles");
+                    twitterConnection.StartSearchStreaming("angeles");
 
                         while (true)
                         {

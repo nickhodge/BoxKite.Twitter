@@ -28,7 +28,7 @@ namespace BoxKite.Twitter
 
         private CancellationTokenSource _twitterSearchCommunicationToken;
 
-        public void InitSearchStreaming(string textToSearch)
+        public void StartSearchStreaming(string textToSearch)
         {
             _twitterSearchCommunicationToken = new CancellationTokenSource();
             // when the searchstream gets disconnected, revert to polling (REST) searches
@@ -57,7 +57,7 @@ namespace BoxKite.Twitter
             _searchStreamDisconnected.OnNext(true); // push message saying userStream is no longer connected
         }
 
-        public void StopSearchStream()
+        public void StopSearchStreaming()
         {
             _twitterSearchCommunicationToken.Cancel();
             SearchStream.Stop();
