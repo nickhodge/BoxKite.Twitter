@@ -38,6 +38,7 @@
   <ItemGroup>
     <Compile Include="Connection\TwitterStream.cs" />
     <Compile Include="Interfaces\ITwitterConnection.cs" />
+    <Compile Include="Models\Connection\StreamSignal.cs" />
     <Compile Include="Models\Service\RetweetersResponse .cs" />
     <Compile Include="UserAuthModules\ApiManagementExtensions.cs" />
     <Compile Include="Authentication\TwitterAuthenticator.cs" />
@@ -150,9 +151,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\Connection\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Assets\background-extended.png" />
     <Content Include="Assets\background.png" />

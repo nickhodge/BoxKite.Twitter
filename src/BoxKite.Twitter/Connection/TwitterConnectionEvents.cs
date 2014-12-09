@@ -13,7 +13,7 @@ namespace BoxKite.Twitter
         readonly Subject<IStreamEvent> _streamevents = new Subject<IStreamEvent>();
         public IObservable<IStreamEvent> StreamEvents { get { return _streamevents; } }
 
-        private void StartStreamEvents()
+        private void ConnectStreamEvents()
         {
             UserStream.Events.Subscribe(_streamevents.OnNext);
             //

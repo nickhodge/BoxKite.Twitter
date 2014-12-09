@@ -16,7 +16,7 @@ namespace BoxKite.Twitter
         Subject<StreamSearchRequest> SearchRequests { get; }
         TwitterParametersCollection SearchParameters { get; set; }
         CancellationTokenSource CancelStream { get; set; }
-        IObservable<bool> StreamActive { get; }
+        IObservable<StreamSignal> StreamActive { get; }
         TimeSpan TimeoutDelay { get; set; }
         Func<Task<HttpResponseMessage>> CreateOpenConnection { get; set; }
         void Start();

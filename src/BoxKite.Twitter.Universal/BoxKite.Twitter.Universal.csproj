@@ -121,6 +121,9 @@
     <Compile Include="..\BoxKite.Twitter\Models\BoundingBox.cs">
       <Link>Models\BoundingBox.cs</Link>
     </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Connection\StreamSignal.cs">
+      <Link>Models\Connection\StreamSignal.cs</Link>
+    </Compile>
     <Compile Include="..\BoxKite.Twitter\Models\Coordinates.cs">
       <Link>Models\Coordinates.cs</Link>
     </Compile>
@@ -311,9 +314,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\Connection\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

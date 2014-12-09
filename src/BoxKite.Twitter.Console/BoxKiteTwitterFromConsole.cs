@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reactive.Linq;
 using System.Threading;
 using BoxKite.Twitter.Console.Helpers;
 using BoxKite.Twitter.Models;
@@ -96,15 +97,14 @@ namespace BoxKite.Twitter.Console
                 // var track = new List<string> { "mh370" };
 
                 
-                userstream.Tweets.Subscribe(t =>
+                twitterConnection.TimeLine.Subscribe(t =>
                                                 {
                                                     ConsoleOutput.PrintTweet(t, ConsoleColor.Green);
                                                 });
 
-                twitterConnection.SearchTimeLine.Subscribe(t => { ConsoleOutput.PrintTweet(t, ConsoleColor.Cyan); });
-
-
-                    twitterConnection.StartSearchStreaming("angeles");
+                //twitterConnection.SearchTimeLine.Subscribe(t => { ConsoleOutput.PrintTweet(t, ConsoleColor.Cyan); });
+                
+                //twitterConnection.StartSearchStreaming("angeles");
 
                         while (true)
                         {

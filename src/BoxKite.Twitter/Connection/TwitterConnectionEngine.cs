@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
@@ -22,8 +23,8 @@ namespace BoxKite.Twitter
         //
          
         // status bits in state machine
-        private readonly Subject<bool> _backFillCompleted = new Subject<bool>();
-        private readonly Subject<bool> _userStreamConnected = new Subject<bool>();
+        private readonly Subject<StreamSignal> _userStreamConnected = new Subject<StreamSignal>();
+        private readonly Subject<StreamSignal> _backfillsCompleted = new Subject<StreamSignal>();
         //
 
         // largestSeenIds
@@ -89,8 +90,6 @@ namespace BoxKite.Twitter
          * not .Subscribed to from the UserStream
          */
 
-        private CancellationTokenSource _twitterCommunicationToken;
-
         private bool IsUnique(Tweet t)
         {
             if (_tweetIdsRegister.Contains(t.Id)) return false;
@@ -112,14 +111,12 @@ namespace BoxKite.Twitter
         /// </summary>
         public void StartUserStreaming()
         {
-            _twitterCommunicationToken = new CancellationTokenSource();
-            //
             UserStream = UserSession.UserStreamBuilder();
 
             // Separate stream events start 
-            StartStreamEvents();
+            ConnectStreamEvents();
 
-            StartUserStreams();
+            ConnectUserStreams();
            
             // MORE MAGIC HAPPENS HERE
             // The Userstreams only get tweets/direct messages from the point the connection is opened. 
@@ -133,7 +130,7 @@ namespace BoxKite.Twitter
             // TODO if stream connection doesnt connect, fail over to UserStream.UserStreamActive.Where(status => status.IsFalse()).Subscribe(StartPollingUpdates);
             // TODO if cancellation requested externally, dont reconnect
 
-            UserStream.StreamActive.Where(status => status.IsFalse()).Subscribe(_ =>
+            UserStream.StreamActive.Where(status => status == StreamSignal.Stopped).Subscribe(_ =>
             {
                 UserStream.Start();
             });
@@ -144,12 +141,11 @@ namespace BoxKite.Twitter
         /// </summary>
         public void StopUserStreaming()
         {
-            _twitterCommunicationToken.Cancel();
             UserStream.Stop();
-            _userStreamConnected.OnNext(false);
+            _userStreamConnected.OnNext(StreamSignal.Stopped);
         }
 
-        private void StartUserStreams()
+        private void ConnectUserStreams()
         {
             // All tweets to the HomeTimeLine
             UserStream.Tweets.Subscribe(AddToHomeTimeLine);
@@ -174,13 +170,13 @@ namespace BoxKite.Twitter
             UserStream.DeleteEvents.Subscribe(de => _streamdeleteevent.OnNext(de.DeleteEventStatus));
 
             UserStream.Start();
-            _userStreamConnected.OnNext(true);
+            _userStreamConnected.OnNext(StreamSignal.Started);
         }
 #region FAIL-OVER TO PULL REQUESTS
         private void StartPollingUpdates(bool status)
         {
             // firstly wait on the backfills to complete before firing off these
-            _backFillCompleted.Where(st => st).Subscribe(s =>
+            /* _backFillCompleted.Where(st => st).Subscribe(s =>
             {
                 // this will fire once per minute for 24 hours from init
                 var observable = Observable.Interval(TimeSpan.FromMinutes(1));
@@ -193,7 +189,7 @@ namespace BoxKite.Twitter
                     MentionsOfMeLargestSeenId = await GetMentions_Failover(MentionsOfMeLargestSeenId);
                     MyTweetsLargestSeenId = await GetMyTweets_Failover(MyTweetsLargestSeenId);
                 });
-            });
+            }); */
         }
 
 
@@ -290,36 +286,38 @@ namespace BoxKite.Twitter
 
 #region BACKFILLS
 
-        private async void ProcessBackfillPump()
+        private void ProcessBackfillPump()
         {
-            var o = Observable.CombineLatest(
-                Observable.Start(async () =>
+            var o = Observable.Concat(
+                Observable.StartAsync(async () =>
                 {
                     HomeTimeLineLargestSeenId = await GetHomeTimeLine_Backfill();
                 }),
-                Observable.Start(async () =>
+                Observable.StartAsync(async () =>
                 {
                     DirectMessagesReceivedLargestSeenId = await GetDirectMessages_Received_Backfill();
                 }),
-                Observable.Start(async () =>
+                Observable.StartAsync(async () =>
                 {
                     DirectMessagesSentLargestSeenId = await GetDirectMessages_Sent_Backfill();
                 }),
-                Observable.Start(async () =>
+                Observable.StartAsync(async () =>
                 {
                     RetweetsOfMeLargestSeenId = await GetRTOfMe_Backfill();
                 }),
-                Observable.Start(async () =>
+                Observable.StartAsync(async () =>
                 {
                     MentionsOfMeLargestSeenId = await GetMentions_Backfill();
                 }),
-                Observable.Start(async () =>
+                Observable.StartAsync(async () =>
                 {
                     MyTweetsLargestSeenId = await GetMyTweets_Backfill();
-                })
-                ).Finally(() => _backFillCompleted.OnNext(true));
-            await o;
+                }).Finally(() =>
+                {
+                    _backfillsCompleted.OnNext(StreamSignal.Completed);
+                }));
         }
+
 
         // these grab tweets/dms from history rather from the current stream
         //TODO: DRY these methods with <Func> goodness
@@ -519,7 +517,7 @@ namespace BoxKite.Twitter
 
             do
             {
-                var hometl = await UserSession.GetUserTimeline(userId:AccountDetails.UserId, count: _pagingSize, maxId: smallestid);
+                var hometl = await UserSession.GetUserTimeline(userId:UserSession.TwitterCredentials.UserID, count: _pagingSize, maxId: smallestid);
                 if (hometl.OK)
                 {
                     smallestid = long.MaxValue;

@@ -19,8 +19,8 @@ namespace BoxKite.Twitter
         public Func<Task<HttpResponseMessage>> CreateOpenConnection { get; set; }
         public CancellationTokenSource CancelStream { get; set; }
 
-        internal readonly Subject<bool> _streamActive = new Subject<bool>();
-        public IObservable<bool> StreamActive { get { return _streamActive; } }
+        internal readonly Subject<StreamSignal> _streamActive = new Subject<StreamSignal>();
+        public IObservable<StreamSignal> StreamActive { get { return _streamActive; } }
 
 
         // implemention things
@@ -30,7 +30,7 @@ namespace BoxKite.Twitter
         public void Stop()
         {
             CancelStream.Cancel();
-            _streamActive.OnNext(false);
+            _streamActive.OnNext(StreamSignal.Stopped);
         }
 
         // Previously, this used the IEnumerable<string>.ToObservable / yield pattern

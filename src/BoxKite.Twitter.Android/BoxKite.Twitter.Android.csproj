@@ -150,6 +150,9 @@
     <Compile Include="..\BoxKite.Twitter\Models\BoundingBox.cs">
       <Link>Models\BoundingBox.cs</Link>
     </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Connection\StreamSignal.cs">
+      <Link>Models\Connection\StreamSignal.cs</Link>
+    </Compile>
     <Compile Include="..\BoxKite.Twitter\Models\Coordinates.cs">
       <Link>Models\Coordinates.cs</Link>
     </Compile>
@@ -320,9 +323,7 @@
     </Compile>
     <Compile Include="Helpers\AndroidPlatformAdaptor.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\Connection\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />

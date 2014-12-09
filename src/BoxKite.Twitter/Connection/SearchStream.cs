@@ -32,7 +32,7 @@ namespace BoxKite.Twitter
         {
             CancelStream = new CancellationTokenSource();
             Task.Factory.StartNew(ProcessMessages, CancelStream.Token);
-            _streamActive.OnNext(true);
+            _streamActive.OnNext(StreamSignal.Started);
         }
 
         private void ChangeSearchRequest(StreamSearchRequest sr)
