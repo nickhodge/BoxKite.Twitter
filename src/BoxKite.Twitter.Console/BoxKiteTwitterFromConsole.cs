@@ -101,6 +101,8 @@ namespace BoxKite.Twitter.Console
                                                 {
                                                     ConsoleOutput.PrintTweet(t, ConsoleColor.Green);
                                                 });
+                twitterConnection.Mentions.Subscribe(
+                    t => ConsoleOutput.PrintTweet(t, ConsoleColor.White, ConsoleColor.DarkGray));
 
                 //twitterConnection.SearchTimeLine.Subscribe(t => { ConsoleOutput.PrintTweet(t, ConsoleColor.Cyan); });
                 
