@@ -154,5 +154,27 @@ namespace BoxKite.Twitter.Tests
             Assert.IsNotNull(singletweet);
             Assert.IsTrue(singletweet.Id == 193579947615453184);
         }
+
+        [TestMethod]
+        public async Task Get_Tweet_with_Extended_Entities()
+        {
+            // arrange
+            session.Returns(await Json.FromFile("data\\tweets\\560049149836808192.txt"));
+            session.ExpectGet("https://api.twitter.com/1.1/statuses/show.json");
+
+            var eetweet = await session.GetTweet(560049149836808192);
+
+            Assert.IsNotNull(eetweet);
+            Assert.IsNotNull(eetweet.ExtendedEntities);
+
+            var eetweetmedialist = eetweet.ExtendedEntities.Media.ToList();
+
+            Assert.IsTrue(eetweetmedialist.Count() == 1);
+            Assert.IsTrue(eetweetmedialist[0].Id == 560049056895209473);
+            Assert.IsTrue(eetweetmedialist[0].ExpandedUrl == "http://twitter.com/ActuallyNPH/status/560049149836808192/video/1");
+
+
+            Assert.IsTrue(eetweet.Id == 560049149836808192); // id of the tweet itself
+        }
     }
 }

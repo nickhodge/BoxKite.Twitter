@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using BoxKite.Twitter.Console.Helpers;
 using BoxKite.Twitter.Models;
@@ -94,6 +95,23 @@ namespace BoxKite.Twitter.Console
                             successStatus = false;
                         }
                     }
+                }
+
+                // 5
+                if (testSeq.Contains(5))
+                {
+                    ConsoleOutput.PrintMessage("4.5 Tweets\\GetTweet - with Extended Entities", ConsoleColor.Gray);
+                    var tweets5 = await session.GetTweet(560049149836808192);
+
+                    if (tweets5.OK)
+                    {
+                        ConsoleOutput.PrintMessage(
+                            String.Format("From: {0} // Message: {1}", tweets5.User.ScreenName, tweets5.Text));
+                        ConsoleOutput.PrintMessage(
+                             String.Format("Extended Entities Count: {0}", tweets5.ExtendedEntities.Urls.Count()));
+                    }
+                    else
+                        successStatus = false;
                 }
             }
             catch (Exception e)

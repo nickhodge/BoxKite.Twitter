@@ -288,6 +288,9 @@
     <Content Include="data\trends\trendsforplace.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="data\tweets\560049149836808192.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="data\tweets\retweet.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
