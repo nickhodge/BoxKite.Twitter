@@ -54,6 +54,9 @@ namespace BoxKite.Twitter.Models
         [JsonProperty("entities")]
          public Entities Entities { get; set; }
 
+        [JsonProperty("extended_entities")]
+        public Entities ExtendedEntities { get; set; }
+
         [JsonProperty("retweeted_status")]
         public Tweet RetweetedStatus { get; set; }
 
@@ -77,6 +80,24 @@ namespace BoxKite.Twitter.Models
 
         [JsonProperty("media")]
         public IEnumerable<Media> Media { get; set; }
+    }
+
+    public class Variant
+    {
+        public int Bitrate { get; set; }
+        [JsonProperty("content_type")]
+        public string ContentType { get; set; }
+        public string Url { get; set; }
+    }
+
+    public class VideoInfo
+    {
+        [JsonProperty("aspect_ratio")]
+        public List<int> AspectRatio { get; set; }
+        [JsonProperty("duration_millis")]
+        public int Duration { get; set; }
+
+        public List<Variant> Variants { get; set; }
     }
 
     public class Url
@@ -146,6 +167,9 @@ namespace BoxKite.Twitter.Models
 
         [JsonProperty("media_url_https")]
         public string MediaUrlHttps { get; set; }
+
+        [JsonProperty("video_info")]
+        public VideoInfo VideoInfo { get; set; }
     }
 
     public class Sizes
