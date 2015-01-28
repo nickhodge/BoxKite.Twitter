@@ -8,11 +8,15 @@ Supporting Windows 8, Windows Phone 8, Universal Apps, iOS (Mono/Xamarin) and .N
 
 Questions? You can find me on Twitter, of course! [@RealNickHodge](https://twitter.com/RealNickHodge)
 
+@ghuntley [has a great BoxKite.Twitter examples here](https://github.com/ghuntley/BoxKite.Twitter.Examples)
+
 ## Version News
+Version 2.2 Changes:
+* Thanks to @vikingcode, new extended_entities are added to the Twitter object. This is in preparation for [Twitter's addition of video to their supported media types](https://twittercommunity.com/t/twitter-video-support-in-rest-and-streaming-api/31258) As this is yet to be widely used, expect some fixes!
+
 Version 2.1 Changes:
 * Many areas of code cleanup, with some property/model name changes
 * If SearchStream/UserStream disconnects; will try a reconnect (automatically)
-
 
 Version 2.0.x-pre Implements/Changes:
 * Both Twitter's [Application Authentication](https://dev.twitter.com/docs/auth/application-only-auth) and [User Authentication](https://dev.twitter.com/docs/auth/obtaining-access-tokens) supported.
@@ -25,7 +29,7 @@ Version 2.0.x-pre Implements/Changes:
 * .NET API naming conventions (I strongly recommend you watch [Designing Wonderful .NET APIs](http://vimeo.com/97501377) from NDC 2014)
 * various small bugs crushed
 
-Plans for 2.2 Release
+Plans for 2.3 Release
 * cleanup with `<Func>` work in Backfills
 * better state machine for connect/disconnect eg: in mobile environments
 * change to BoxKiteTwitter exception handling from "inline" (what a stupid idea that was) errors
