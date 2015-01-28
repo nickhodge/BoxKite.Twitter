@@ -54,6 +54,9 @@ namespace BoxKite.Twitter.Models
         [JsonProperty("entities")]
          public Entities Entities { get; set; }
 
+        [JsonProperty("extended_entities")]
+        public Entities ExtendedEntities { get; set; }
+
         [JsonProperty("retweeted_status")]
         public Tweet RetweetedStatus { get; set; }
 
