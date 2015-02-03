@@ -65,6 +65,9 @@ namespace BoxKite.Twitter.Models
 
         [JsonProperty("truncated")]
         public bool Truncated { get; set; }
+
+        [JsonProperty("retweeted")]
+        public bool? Retweeted { get; set; }
     }
 
     public class Entities
