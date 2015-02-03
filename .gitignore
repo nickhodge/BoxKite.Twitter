@@ -112,3 +112,6 @@ Backup*/
 UpgradeLog*.XML
 
 Thumbs.db
+
+# Roslyn cache directories
+*.ide/
