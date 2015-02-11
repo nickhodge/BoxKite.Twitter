@@ -11,7 +11,8 @@ Questions? You can find me on Twitter, of course! [@RealNickHodge](https://twitt
 @ghuntley [has a great BoxKite.Twitter examples here](https://github.com/ghuntley/BoxKite.Twitter.Examples)
 
 ##CI Build Status
-[![Build status](https://ci.appveyor.com/api/projects/status/b12q0ll10ripb6tq?svg=true)](https://ci.appveyor.com/project/nickhodge/boxkite-twitter)
+[![Project Build Status](https://ci.appveyor.com/api/projects/status/b12q0ll10ripb6tq?svg=true)](https://ci.appveyor.com/project/nickhodge/boxkite-twitter)
+[![master branch Build Status](https://ci.appveyor.com/api/projects/status/b12q0ll10ripb6tq/branch/master?svg=true)](https://ci.appveyor.com/project/nickhodge/boxkite-twitter/branch/master)
 
 ## Version News
 Version 2.2 Changes:
