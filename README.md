@@ -10,6 +10,9 @@ Questions? You can find me on Twitter, of course! [@RealNickHodge](https://twitt
 
 @ghuntley [has a great BoxKite.Twitter examples here](https://github.com/ghuntley/BoxKite.Twitter.Examples)
 
+##CI Build Status
+[![Build status](https://ci.appveyor.com/api/projects/status/b12q0ll10ripb6tq?svg=true)](https://ci.appveyor.com/project/nickhodge/boxkite-twitter)
+
 ## Version News
 Version 2.2 Changes:
 * Thanks to @vikingcode, new extended_entities are added to the Twitter object. This is in preparation for [Twitter's addition of video to their supported media types](https://twittercommunity.com/t/twitter-video-support-in-rest-and-streaming-api/31258) As this is yet to be widely used, expect some fixes!
