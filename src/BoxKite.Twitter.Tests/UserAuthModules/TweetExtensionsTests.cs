@@ -125,6 +125,7 @@ namespace BoxKite.Twitter.Tests
             var rtweet = await session.GetTweet(243145735212777472);
 
             Assert.IsNotNull(rtweet);
+            Assert.IsFalse(rtweet.Retweeted.Value == true);
             Assert.IsTrue(rtweet.Id == 243145735212777472); // id of the retweet itself
         }
 
