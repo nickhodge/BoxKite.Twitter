@@ -7,6 +7,7 @@ using System.IO;
 using BoxKite.Twitter.Extensions;
 using BoxKite.Twitter.Models;
 using System.Threading.Tasks;
+using BoxKite.Twitter.Models.Configuration;
 
 namespace BoxKite.Twitter
 {
@@ -511,5 +512,19 @@ namespace BoxKite.Twitter
 
             return await session.GetAsync(TwitterApi.Resolve("/1.1/users/search.json"), parameters).ContinueWith(c => c.MapToMany<User>());
         }
+
+        /// <summary>
+        /// Returns the current configuration used by Twitter including twitter.com slugs which are not usernames, maximum photo resolutions, and t.co URL lengths.
+        /// </summary>
+        /// <returns></returns>
+        /// <remarks> ref: https://dev.twitter.com/rest/reference/get/help/configuration </remarks>
+        public async static Task<Configuration> GetConfiguration(this IUserSession session)
+        {
+            var parameters = new TwitterParametersCollection();
+            parameters.Create();
+            return await session.GetAsync(TwitterApi.Resolve("/1.1/help/configuration.json"), parameters).ContinueWith(c => c.MapToSingle<Configuration>());
+        }
     }
+
+ 
 }
