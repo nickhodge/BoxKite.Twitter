@@ -318,6 +318,8 @@
       <Link>UserAuthModules\UserStreamExtensions.cs</Link>
     </Compile>
     <Compile Include="Helpers\DesktopPlatformAdaptor.cs" />
+    <Compile Include="Models\Configuration\Configuration.cs" />
+    <Compile Include="Models\Configuration\PhotoSizes.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
