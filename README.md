@@ -15,8 +15,9 @@ Questions? You can find me on Twitter, of course! [@RealNickHodge](https://twitt
 [![master branch Build Status](https://ci.appveyor.com/api/projects/status/b12q0ll10ripb6tq/branch/master?svg=true)](https://ci.appveyor.com/project/nickhodge/boxkite-twitter/branch/master)
 
 ## Version News
-Version 2.2 Changes:
+Version 2.2.x Changes:
 * Thanks to @vikingcode, new extended_entities are added to the Twitter object. This is in preparation for [Twitter's addition of video to their supported media types](https://twittercommunity.com/t/twitter-video-support-in-rest-and-streaming-api/31258) As this is yet to be widely used, expect some fixes!
+* Added various other edge/new APIs (GetConfiguration) with appropriate tests
 
 Version 2.1 Changes:
 * Many areas of code cleanup, with some property/model name changes
@@ -103,19 +104,19 @@ Install-Package BoxKite.Twitter
 
 * More indepth [developer details are documented here](https://github.com/nickhodge/BoxKite.Twitter/wiki/devdetails)
 * There are a few, [small missing pieces documented here](https://github.com/nickhodge/BoxKite.Twitter/wiki/todos)
-* 55 ["Live Fire" tests are explained here](https://github.com/nickhodge/BoxKite.Twitter/wiki/livefire)
+* 53 ["Live Fire" tests are explained here](https://github.com/nickhodge/BoxKite.Twitter/wiki/livefire)
 * [Sample, Simple WPF/XAML 4.5 Client App](https://github.com/nickhodge/BoxKite.Twitter/wiki/samplewpf)
 * Note: Sample apps in various stages of incompleteness; will be in a separate repo
 
 ##To Build:
 * Visual Studio 2013 Update 4 with latest NuGet supporting PCLs (Portable Class Libraries) and Universal libraries
 * Solution is Visual Studio 2013 Update 4, but code should work and build in VS2012
-* Uses Xamarin Studio 5.5.4 for Android and iOS builds
+* Uses Xamarin Studio 5.5.4 (or later) for Android and iOS builds
 
 ##Where you can help out
 * Modeling the API to make sense for more developers than me
 * Additional harness for Reactive hook up
-* Stronger this works on non-Microsoft .NET platforms
+* Stronger "this works on non-Microsoft .NET platforms" live testing and experience
 * Always more Documentation, of course
 
 ##API Coverage, With Tests & Intellisense Comments
@@ -141,9 +142,9 @@ Install-Package BoxKite.Twitter
 *  API rate limits
 
 ##Tests:
-* 123 test methods with average of 4 assertion tests each
+* 124 test methods with average of 4 assertion tests each
 * Both Twitter API 1.1 and Userstream Unit Tests
-* 56 "Live Fire Tests" (Live integration tests) Included as a separate project, it is engaged via the Console; uses a real Twitter Account to exercise the API. Configurable Test series, individual tests that can be run.
+* 53 "Live Fire Tests" (Live integration tests) Included as a separate project, it is engaged via the Console; uses a real Twitter Account to exercise the API. Configurable Test series, individual tests that can be run.
 * Test source is JSON from [dev.twitter.com](https://dev.twitter.com/) and where innaccurate on the site, taken from live data or corrected to match live data.
 * Error response type testing (eg: 429 rate_limits) & generic decode tests included
 
@@ -167,7 +168,7 @@ BoxKite.Twitter is Licensed under:
 [MS-PL](http://opensource.org/licenses/MS-PL)
 
 Copyright: 
-[Nick Hodge](https://github.com/nickhodge/) and [Brendan Forster](https://github.com/shiftkey/) 2012-2014
+[Nick Hodge](https://github.com/nickhodge/) and [Brendan Forster](https://github.com/shiftkey/) 2012-2015
 
 BoxKite Logo is Copyright 2012 [Nick Hodge](https://github.com/nickhodge/)
 
