@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace BoxKite.Twitter.Models.Configuration
+namespace BoxKite.Twitter.Models           
 {
-    public class Configuration
+    public class Configuration : TwitterControlBase
     {
         [JsonProperty("characters_reserved_per_media")]
         public int CharactersReservedPerMedia { get; set; }

@@ -7,7 +7,6 @@ using System.IO;
 using BoxKite.Twitter.Extensions;
 using BoxKite.Twitter.Models;
 using System.Threading.Tasks;
-using BoxKite.Twitter.Models.Configuration;
 
 namespace BoxKite.Twitter
 {

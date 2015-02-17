@@ -121,6 +121,12 @@
     <Compile Include="..\BoxKite.Twitter\Models\BoundingBox.cs">
       <Link>Models\BoundingBox.cs</Link>
     </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Configuration\Configuration.cs">
+      <Link>Models\Configuration\Configuration.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Configuration\PhotoSizes.cs">
+      <Link>Models\Configuration\PhotoSizes.cs</Link>
+    </Compile>
     <Compile Include="..\BoxKite.Twitter\Models\Connection\StreamSignal.cs">
       <Link>Models\Connection\StreamSignal.cs</Link>
     </Compile>
@@ -295,7 +301,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.6\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Reactive.Core">
       <HintPath>..\packages\Rx-Core.2.2.5\lib\portable-win81+wpa81\System.Reactive.Core.dll</HintPath>

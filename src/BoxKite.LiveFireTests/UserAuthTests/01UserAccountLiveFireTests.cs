@@ -173,10 +173,24 @@ namespace BoxKite.Twitter.Console
                     else
                         successStatus = false;
                 }
+
                 // 10
                 if (testSeq.Contains(10))
                 {
-                    ConsoleOutput.PrintMessage("1.10 Start ApplicationOnlyAuth", ConsoleColor.Gray);
+                    ConsoleOutput.PrintMessage("1.10 Get GetConfiguration", ConsoleColor.Gray);
+                    var configUser  = await session.GetConfiguration();
+                    if (configUser.OK)
+                    {
+                        ConsoleOutput.PrintMessage(String.Format("Returned for Max Media Per Upload: {0}", configUser.MaxMediaPerUpload));
+                    }
+                    else
+                        successStatus = false;
+                }
+
+                // 11
+                if (testSeq.Contains(11))
+                {
+                    ConsoleOutput.PrintMessage("1.11 Start ApplicationOnlyAuth", ConsoleColor.Gray);
                     var getAuthToken = await session.StartApplicationOnlyAuth();
                     if (getAuthToken)
                     {

@@ -33,9 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -145,6 +145,12 @@
     </Compile>
     <Compile Include="..\BoxKite.Twitter\Models\BoundingBox.cs">
       <Link>Models\BoundingBox.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Configuration\Configuration.cs">
+      <Link>Models\Configuration\Configuration.cs</Link>
+    </Compile>
+    <Compile Include="..\BoxKite.Twitter\Models\Configuration\PhotoSizes.cs">
+      <Link>Models\Configuration\PhotoSizes.cs</Link>
     </Compile>
     <Compile Include="..\BoxKite.Twitter\Models\Connection\StreamSignal.cs">
       <Link>Models\Connection\StreamSignal.cs</Link>
@@ -318,8 +324,6 @@
       <Link>UserAuthModules\UserStreamExtensions.cs</Link>
     </Compile>
     <Compile Include="Helpers\DesktopPlatformAdaptor.cs" />
-    <Compile Include="Models\Configuration\Configuration.cs" />
-    <Compile Include="Models\Configuration\PhotoSizes.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

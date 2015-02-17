@@ -1,6 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿ using Newtonsoft.Json;
 
-namespace BoxKite.Twitter.Models.Configuration
+namespace BoxKite.Twitter.Models
 {
     public class PhotoSizes
     {

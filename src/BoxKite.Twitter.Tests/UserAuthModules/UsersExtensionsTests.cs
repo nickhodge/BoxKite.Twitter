@@ -255,5 +255,22 @@ namespace BoxKite.Twitter.Tests
             userlist.ToList()[2].UserId.ShouldBeEquivalentTo(6844292);
         }
 
+        [TestMethod]
+        public async Task Get_Configuration()
+        {
+            session.Returns(await Json.FromFile("data\\users\\getconfiguration.txt"));
+            session.ExpectGet("https://api.twitter.com/1.1/help/configuration.json");
+
+            var configuration = await session.GetConfiguration();
+
+            Assert.IsNotNull(configuration);
+            configuration.MaxMediaPerUpload.ShouldBeEquivalentTo(1);
+            configuration.PhotoSizeLimit.ShouldBeEquivalentTo(3145728);
+            configuration.ShortUrlLengthHttps.ShouldBeEquivalentTo(23);
+
+        }
+
+
+
     }
 }
