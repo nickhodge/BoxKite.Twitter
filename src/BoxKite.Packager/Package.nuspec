@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>BoxKite.Twitter</id>
-        <version>2.2.1</version>
+        <version>2.2.2</version>
         <title>BoxKite.Twitter</title>
         <authors>Nick Hodge</authors>
         <owners>Nick Hodge,Brendan Forster</owners>
@@ -12,8 +12,9 @@
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>BoxKite.Twitter is a Twitter Client Library for the Twitter API 1.1 incorporating REST API, User streaming and Search Streaming. Requires use of Reactive Extensions (Rx)</description>
         <summary>Modern C# Library for the Twitter API 1.1 using Reactive Extensions (Rx), incorporating access to Twitter's Userstreams and Searchstreams, and both Application authentication and User authentication. Coverage for all of Twitter 1.1 API.</summary>
-        <releaseNotes>Version 2.2.1 Added new Retweeted (nullable bool) on Tweets (From PR Thanks @VikingCode)
-          Version 2.2.0 Added new extended_entities (ExtendedEntities) for Twitter video embedding (From PRThanks @VikingCode)
+        <releaseNotes>Version 2.2.2 Added new GetConfiguration (From PR Thanks @VikingCode)
+          Version 2.2.1 Added new Retweeted (nullable bool) on Tweets (From PR Thanks @VikingCode)
+          Version 2.2.0 Added new extended_entities (ExtendedEntities) for Twitter video embedding (From PR Thanks @VikingCode)
           Version 2.1.2 cleanup Observables in TwitterConnection
           Version 2.1.1 fix spin bug in UserStream. Ooops
           Version 2.1.0 first final in 2.x stream, many small fixes
