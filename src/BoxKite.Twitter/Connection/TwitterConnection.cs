@@ -91,10 +91,10 @@ namespace BoxKite.Twitter
             UserSession = BuildUserSession(twitterConsumerKey, twitterConsumerSecret);
         }
 #endif
-#if(WIN8RT)
+#if(WINDOWS_UWP)
         public TwitterConnection(string twitterConsumerKey, string twitterConsumerSecret)
         {
-            PlatformAdaptor = new Win8RTPlatformAdaptor();
+            PlatformAdaptor = new WinUWPPlatformAdaptor();
             ApplicationSession = BuildApplicationSession(twitterConsumerKey, twitterConsumerSecret);
             UserSession = BuildUserSession(twitterConsumerKey, twitterConsumerSecret);
          }
@@ -108,14 +108,14 @@ namespace BoxKite.Twitter
 
         public TwitterConnection(TwitterCredentials twitterCredentials)
         {
-            PlatformAdaptor = new Win8RTPlatformAdaptor();
+            PlatformAdaptor = new WinUWPPlatformAdaptor();
             TwitterCredentials = twitterCredentials;
             UserSession = BuildUserSession();
         }
 
         public TwitterConnection(string twitterConsumerKey, string twitterConsumerSecret, string xauthusername, string xauthpassword)
         {
-            PlatformAdaptor = new Win8RTPlatformAdaptor();
+            PlatformAdaptor = new WinUWPPlatformAdaptor();
             UserSession = BuildUserSession(twitterConsumerKey, twitterConsumerSecret);
          } 
 #endif
@@ -246,7 +246,7 @@ namespace BoxKite.Twitter
                 return false; // return false here will abandon all hope
         }
 
-#if(WIN8RT)
+#if(WINDOWS_UWP)
         public async Task<TwitterCredentials> AuthenticateUser(string _callbackuri)
         {
             var twittercredentials = await UserSession.Authentication(_callbackuri);

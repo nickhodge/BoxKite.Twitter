@@ -7,8 +7,8 @@
     <ProjectGuid>{0B331899-84F7-454C-868D-461A82BAE4B2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BoxKite.Twitter.Universal</RootNamespace>
-    <AssemblyName>BoxKite.Twitter.Universal</AssemblyName>
+    <RootNamespace>BoxKite.Twitter</RootNamespace>
+    <AssemblyName>BoxKite.Twitter</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.10240.0</TargetPlatformVersion>
@@ -314,6 +314,9 @@
     <Compile Include="..\BoxKite.Twitter\Models\User.cs">
       <Link>Models\User.cs</Link>
     </Compile>
+    <Compile Include="..\BoxKite.Twitter\Properties\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="..\BoxKite.Twitter\UserAuthModules\ApiManagementExtensions.cs">
       <Link>UserAuthModules\ApiManagementExtensions.cs</Link>
     </Compile>
@@ -359,7 +362,7 @@
     <Compile Include="..\BoxKite.Twitter\UserAuthModules\UserStreamExtensions.cs">
       <Link>UserAuthModules\UserStreamExtensions.cs</Link>
     </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Helpers\WinUWPPlatformAdaptor.cs" />
     <EmbeddedResource Include="Properties\BoxKite.Twitter.Universal.rd.xml" />
   </ItemGroup>
   <ItemGroup />
@@ -367,6 +370,9 @@
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy /Y "$(TargetDir)BoxKite.Twitter.dll" "$(SolutionDir)\BoxKite.Packager\lib\uap10.0\BoxKite.Twitter.dll"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

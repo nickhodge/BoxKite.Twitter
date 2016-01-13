@@ -62,11 +62,9 @@
     <Folder Include="content\" />
     <Folder Include="lib\MonoAndroid\" />
     <Folder Include="lib\MonoTouch\" />
-    <Folder Include="lib\net45\" />
-    <Folder Include="lib\netcore45\" />
+    <Folder Include="lib\net46\" />
     <Folder Include="lib\portable-net45+wp8+win8\" />
-    <Folder Include="lib\wp8\" />
-    <Folder Include="lib\wpa81\" />
+    <Folder Include="lib\uap10.0\" />
     <Folder Include="src\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
