@@ -1,4 +1,4 @@
-﻿// (c) 2012-2014 Nick Hodge mailto:hodgenick@gmail.com & Brendan Forster
+﻿// (c) 2012-2016 Nick Hodge mailto:nhodge@mungr.com & Brendan Forster
 // License: MS-PL
 
 using System.IO;

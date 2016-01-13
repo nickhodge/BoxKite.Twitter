@@ -1,4 +1,4 @@
-﻿// (c) 2012-2014 Nick Hodge mailto:hodgenick@gmail.com & Brendan Forster
+﻿// (c) 2012-2016 Nick Hodge mailto:nhodge@mungr.com & Brendan Forster
 // License: MS-PL
 
 using System;
@@ -145,7 +145,7 @@ namespace BoxKite.Twitter.Authentication
             return TwitterCredentials.Null;
         }
 
-#if (WIN8RT)
+#if (WINDOWS_UWP)
         public static async Task<TwitterCredentials> Authentication(this IUserSession session, string _callbackuri)
         {
             if (string.IsNullOrWhiteSpace(session.clientID))
@@ -297,7 +297,7 @@ namespace BoxKite.Twitter.Authentication
 
         /// <summary>
         /// XAuth for Twitter: Note: this hasn't been tested in production and is implemented from documentation only!
-        /// Please contact @NickHodgeMSFT if you need to debugged worked out!
+        /// Please contact @RealNickHodge if you need to debugged worked out!
         /// </summary>
         public static async Task<TwitterCredentials> XAuthentication(this IUserSession session, string xauthusername,
             string xauthpassword)
@@ -459,7 +459,7 @@ namespace BoxKite.Twitter.Authentication
                 else
                 {
                     // ReSharper disable once PossibleInvalidCastException
-                    result.Append('%' + String.Format("{0:X2}", (int) symbol));
+                    result.Append('%' + string.Format("{0:X2}", (int) symbol));
                 }
             }
 
