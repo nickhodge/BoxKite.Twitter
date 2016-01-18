@@ -12,11 +12,13 @@ Questions? You can find me on Twitter, of course! [@RealNickHodge](https://twitt
 
 
 ## Version News
+Version 2.4.0 Changes:
+* Add support for [>140 character Direct Message sending](https://twittercommunity.com/t/removing-the-140-character-limit-from-direct-messages/41348). BoxKite.Twitter does not truncate messages, but the Direct Message API required passing a parameter indicating support for >140 characters. This is now implemented.
+
 Version 2.3.0 Changes:
 * Change Desktop .NET to 4.6
 * Remove Windows 8/Windows Phone 8 targets (please use Portable or older versions of BoxKite.Twitter)
 * Addition of Universal Windows Platform supporting both Windows 10 and Windows Mobile 10
-
 
 Version 2.2.x Changes:
 * Thanks to @vikingcode, new extended_entities are added to the Twitter object. This is in preparation for [Twitter's addition of video to their supported media types](https://twittercommunity.com/t/twitter-video-support-in-rest-and-streaming-api/31258) As this is yet to be widely used, expect some fixes!
