@@ -182,6 +182,7 @@ namespace BoxKite.Twitter.Console
                     if (configUser.OK)
                     {
                         ConsoleOutput.PrintMessage(String.Format("Returned for Max Media Per Upload: {0}", configUser.MaxMediaPerUpload));
+                        ConsoleOutput.PrintMessage(String.Format("Returned for Max Chars for DM: {0}", configUser.DirectMessageCharacterLimit));
                     }
                     else
                         successStatus = false;

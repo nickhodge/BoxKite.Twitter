@@ -21,7 +21,7 @@ namespace BoxKite.Twitter
         {
             var parameters = new TwitterParametersCollection();
             parameters.Create(include_entities: true, count: count, since_id: sinceId,
-                max_id: maxId);
+                max_id: maxId,full_text: true);
                 
             return await session.GetAsync(TwitterApi.Resolve("/1.1/direct_messages.json"), parameters)
                           .ContinueWith(c => c.MapToMany<DirectMessage>());
@@ -39,7 +39,7 @@ namespace BoxKite.Twitter
         {
             var parameters = new TwitterParametersCollection();
             parameters.Create(include_entities: true, count: count, since_id: sinceId,
-                max_id: maxId);
+                max_id: maxId, full_text:true);
 
             return await session.GetAsync(TwitterApi.Resolve("/1.1/direct_messages/sent.json"), parameters)
                           .ContinueWith(c => c.MapToMany<DirectMessage>());
@@ -54,7 +54,7 @@ namespace BoxKite.Twitter
         public async static Task<DirectMessage> GetDirectMessageSingle(this IUserSession session, long Id)
         {
             var parameters = new TwitterParametersCollection();
-            parameters.Create(id: Id);
+            parameters.Create(id: Id, full_text:true);
 
             return await session.GetAsync(TwitterApi.Resolve("/1.1/direct_messages/show.json"), parameters)
                           .ContinueWith(c => c.MapToSingle<DirectMessage>());

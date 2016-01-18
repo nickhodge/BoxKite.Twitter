@@ -25,5 +25,9 @@ namespace BoxKite.Twitter.Models
 
         [JsonProperty("short_url_length_https")]
         public int ShortUrlLengthHttps { get; set; }
+
+
+        [JsonProperty("dm_text_character_limit")]
+        public int DirectMessageCharacterLimit { get; set; }
     }
 }

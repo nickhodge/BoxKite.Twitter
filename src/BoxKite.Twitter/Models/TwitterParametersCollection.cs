@@ -56,7 +56,7 @@ namespace BoxKite.Twitter.Models
             long? user_id = null, string screen_name = null, long? id = null, long? cursor = null,
             string text = null, bool? follow = null, bool? device = null, bool? retweets = null,
             bool? skip_status = null, string slug = null, long? list_id = null,string owner_screen_name = null,
-            long? owner_id = null, string name = null, bool? include_rts = null, string place_id = null, bool? stall_warnings = null, bool? delimited = null
+            long? owner_id = null, string name = null, bool? include_rts = null, string place_id = null, bool? stall_warnings = null, bool? delimited = null, bool? full_text = null
             )
         {
             if (stall_warnings != null)
@@ -138,6 +138,11 @@ namespace BoxKite.Twitter.Models
             if (include_entities != null)
             {
                 parameters.Add("include_entities", include_entities.ToString());
+            }
+
+            if (full_text != null)
+            {
+                parameters.Add("full_text", full_text.ToString());
             }
 
             if (follow != null)

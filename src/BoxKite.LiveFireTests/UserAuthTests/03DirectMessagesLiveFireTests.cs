@@ -29,7 +29,7 @@ namespace BoxKite.Twitter.Console
                         foreach (var x in directmessages1)
                         {
                             ConsoleOutput.PrintMessage(
-                                String.Format("From: {0} // Message: {1}", x.SenderScreenName, x.Text ));
+                                string.Format("ID: {2} // From: {0} // Message: {1}", x.SenderScreenName, x.Text, x.Id ));
                         }
                     }
                     else
@@ -74,7 +74,7 @@ namespace BoxKite.Twitter.Console
                 {
                     ConsoleOutput.PrintMessage("3.4 DirectMessages\\SendDirectMessage", ConsoleColor.Gray);
                     var directmessages4 =
-                        await session.SendDirectMessage("livefire test of boxkite.twitter please ignore", "neilfinn");
+                        await session.SendDirectMessage("livefire test of boxkite.twitter please ignore", "nickhodgeau");
 
                     if (directmessages4.OK)
                     {
@@ -84,6 +84,31 @@ namespace BoxKite.Twitter.Console
                     else
                         successStatus = false;
                 }
+
+                // 5
+                if (testSeq.Contains(5))
+                {
+                    ConsoleOutput.PrintMessage("3.5 DirectMessages\\SendDirectMessage > 140 chars", ConsoleColor.Gray);
+
+                    var directmessage5contents = "012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789";
+
+                    var directmessages5 =
+                        await session.SendDirectMessage("realnickhodge", directmessage5contents);
+
+                    if (directmessages5.OK)
+                    {
+                        ConsoleOutput.PrintMessage(
+                            String.Format("From: {0} // Length: {1} // Message: {2}", directmessages5.SenderScreenName,
+                                directmessage5contents.Length, directmessages5.Text));
+                    }
+                    else
+                    {
+                        ConsoleOutput.PrintError(
+                            String.Format("Error: {0}", directmessages5.twitterControlMessage.twitter_error_message));
+                        successStatus = false;
+                    }
+                }
+
             }
             catch (Exception e)
             {

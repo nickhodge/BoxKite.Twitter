@@ -38,7 +38,7 @@ namespace BoxKite.Twitter.Console
                     // Calls tested by Test Series
                     // series 1 => 11 (UserAccounts & Auth)
                     // series 2 => 1 (API Management)
-                    // series 3 => 4 (Direct Messages)
+                    // series 3 => 5 (Direct Messages)
                     // series 4 => 5 (Tweets)
                     // series 5 => 3 (Favourites)
                     // series 6 => 8 (Friends/Followers)
@@ -48,7 +48,7 @@ namespace BoxKite.Twitter.Console
                     // series 10=> 7 (Lists)
                     // series 11=> 3 (Combos)
                     // =============
-                    // TOTAL      53
+                    // TOTAL      54
 
                     // Test Series 1
                     if (testSeriesToRun.Contains(1))
@@ -73,7 +73,7 @@ namespace BoxKite.Twitter.Console
                     if (testSeriesToRun.Contains(2))
                     {
                         var doit = new ApiManagementLiveFireTests();
-                        var testResult2 = doit.DoApiTest(session, new List<int> {1}).Result;
+                        var testResult2 = doit.DoApiTest(session, new List<int> {1 ,2}).Result;
 
                         if (testResult2)
                         {
@@ -91,7 +91,7 @@ namespace BoxKite.Twitter.Console
                     if (testSeriesToRun.Contains(3))
                     {
                         var dms = new DirectMessagesLiveFireTests();
-                        var testResult3 = dms.DoDMTest(session, new List<int> {1,2}).Result;
+                        var testResult3 = dms.DoDMTest(session, new List<int> {5}).Result;
 
                         if (testResult3)
                         {

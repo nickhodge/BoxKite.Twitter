@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>BoxKite.Twitter</id>
-        <version>2.3.0</version>
+        <version>2.4.0</version>
         <title>BoxKite.Twitter</title>
         <authors>Nick Hodge</authors>
         <owners>Nick Hodge,Brendan Forster</owners>
@@ -12,7 +12,8 @@
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>BoxKite.Twitter is a Twitter Client Library for the Twitter API 1.1 incorporating REST API, User streaming and Search Streaming. Requires use of Reactive Extensions (Rx)</description>
         <summary>Modern C# Library for the Twitter API 1.1 using Reactive Extensions (Rx), incorporating access to Twitter's Userstreams and Searchstreams, and both Application authentication and User authentication. Coverage for all of Twitter 1.1 API.</summary>
-        <releaseNotes>Version 2.3.0 Requires .NET 4.6 for Desktop, Removed Windows 8.x (RT) builds, Windows Phone 8.x; update JSON.NET, Add Universal Windows Platform
+        <releaseNotes>Version 2.4.0 Added inbuilt, default support for >140 character DirectMessages
+          Version 2.3.0 Requires .NET 4.6 for Desktop, Removed Windows 8.x (RT) builds, Windows Phone 8.x; update JSON.NET, Add Universal Windows Platform
           Version 2.2.2 Added new GetConfiguration (From PR Thanks @VikingCode)
           Version 2.2.1 Added new Retweeted (nullable bool) on Tweets (From PR Thanks @VikingCode)
           Version 2.2.0 Added new extended_entities (ExtendedEntities) for Twitter video embedding (From PR Thanks @VikingCode)
