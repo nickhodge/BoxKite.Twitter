@@ -500,7 +500,7 @@ namespace BoxKite.Twitter
         /// <param name="page">Specifies the page of results to retrieve.</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/users/search </remarks>
-        public async static Task<TwitterResponseCollection<User>> SearchForUsers(this IUserSession session, string searchQuery, int count = 20, int page = 1)
+        public static async Task<TwitterResponseCollection<User>> SearchForUsers(this IUserSession session, string searchQuery, int count = 20, int page = 1)
         {
             var parameters = new TwitterParametersCollection
                              {
@@ -517,7 +517,7 @@ namespace BoxKite.Twitter
         /// </summary>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/rest/reference/get/help/configuration </remarks>
-        public async static Task<Configuration> GetConfiguration(this IUserSession session)
+        public static async Task<Configuration> GetConfiguration(this IUserSession session)
         {
             var parameters = new TwitterParametersCollection();
             parameters.Create();

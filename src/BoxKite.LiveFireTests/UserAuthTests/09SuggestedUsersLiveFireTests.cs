@@ -28,7 +28,7 @@ namespace BoxKite.Twitter.Console
                         foreach (var sgg in suggs1)
                         {
                             ConsoleOutput.PrintMessage(
-                                     String.Format("Name: {0} // Slug: {1}", sgg.Name, sgg.Slug));
+                                $"Name: {sgg.Name} // Slug: {sgg.Slug}");
                             suggestedSlug = sgg.Slug;
                         }
                     }
@@ -49,7 +49,7 @@ namespace BoxKite.Twitter.Console
                         foreach (var sgu in suggs2.Users)
                         {
                             ConsoleOutput.PrintMessage(
-                                     String.Format("UserID: {0} // ScreenName: {1}",sgu.UserId, sgu.ScreenName));
+                                $"UserID: {sgu.UserId} // ScreenName: {sgu.ScreenName}");
                         }
                     }
                     else

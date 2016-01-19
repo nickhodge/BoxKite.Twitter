@@ -30,7 +30,7 @@ namespace BoxKite.Twitter.Console
                         foreach (var trnd in trends1)
                         {
                             ConsoleOutput.PrintMessage(
-                                     String.Format("Name: {0} // Url: {1}", trnd.Name, trnd.Url));
+                                $"Name: {trnd.Name} // Url: {trnd.Url}");
                             woeidToSearch = trnd.WOEID;
                         }
                     }
@@ -50,7 +50,7 @@ namespace BoxKite.Twitter.Console
                         foreach (var trnd in trends2.ToList()[0].trends)
                         {
                             ConsoleOutput.PrintMessage(
-                                     String.Format("Trend: {0} // Query: {1}", trnd.name, trnd.query));
+                                $"Trend: {trnd.name} // Query: {trnd.query}");
                             trendToSearch = trnd.query;
                         }
 
@@ -66,7 +66,7 @@ namespace BoxKite.Twitter.Console
                         foreach (var tweet in trends21.Tweets)
                         {
                             ConsoleOutput.PrintMessage(
-                                     String.Format("From: {0} // Message: {1}", tweet.User.ScreenName, tweet.Text));
+                                $"From: {tweet.User.ScreenName} // Message: {tweet.Text}");
                         }
                     }
                     else

@@ -122,7 +122,7 @@ namespace BoxKite.Twitter.Extensions
             var twitterControlMessage = new TwitterControlMessage
                                         {
                                             twitter_error_message =
-                                                String.Format("Parameter Error: {0}", errorMessage)
+                                                $"Parameter Error: {errorMessage}"
                                         };
 
             var boolType = new[] { typeof(bool) };

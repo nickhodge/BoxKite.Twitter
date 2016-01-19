@@ -51,7 +51,7 @@ namespace BoxKite.Twitter.Console
                         foreach (var tweet in lists2)
                         {
                             ConsoleOutput.PrintMessage(
-                                    String.Format("From: {0} // Message: {1}", tweet.User.ScreenName, tweet.Text));
+                                $"From: {tweet.User.ScreenName} // Message: {tweet.Text}");
                         }
                     }
                     else
@@ -80,8 +80,8 @@ namespace BoxKite.Twitter.Console
                             break;
                         }
                         nextcursor = lists3.next_cursor;
-                        ConsoleOutput.PrintMessage(String.Format("Previous cursor: {0} Next cursor: {1}",
-                            lists3.previous_cursor, lists3.next_cursor), ConsoleColor.Magenta);
+                        ConsoleOutput.PrintMessage(
+                            $"Previous cursor: {lists3.previous_cursor} Next cursor: {lists3.next_cursor}", ConsoleColor.Magenta);
                         foreach (var lst in lists3.lists)
                         {
                             listCount++;
@@ -90,8 +90,7 @@ namespace BoxKite.Twitter.Console
                         }
                     } while (nextcursor != 0);
 
-                    ConsoleOutput.PrintMessage(String.Format("List Membership Count: {0}",
-                        listCount));
+                    ConsoleOutput.PrintMessage($"List Membership Count: {listCount}");
                 }
 
 
@@ -113,12 +112,12 @@ namespace BoxKite.Twitter.Console
                             break;
                         }
                         nextcursor = lists4.next_cursor;
-                        ConsoleOutput.PrintMessage(String.Format("Previous cursor: {0} Next cursor: {1}",
-                            lists4.previous_cursor, lists4.next_cursor), ConsoleColor.Magenta);
+                        ConsoleOutput.PrintMessage(
+                            $"Previous cursor: {lists4.previous_cursor} Next cursor: {lists4.next_cursor}", ConsoleColor.Magenta);
                         foreach (var lusr in lists4.users)
                         {
                             ConsoleOutput.PrintMessage(
-                                         String.Format("UserID: {0} // ScreenName: {1}", lusr.UserId, lusr.ScreenName));
+                                $"UserID: {lusr.UserId} // ScreenName: {lusr.ScreenName}");
                         }
                     } while (nextcursor != 0);
                 }
@@ -135,9 +134,9 @@ namespace BoxKite.Twitter.Console
                     if (lists5.OK)
                     {
                         if (lists5.ScreenName == null)
-                            ConsoleOutput.PrintMessage(String.Format("UserID: {0} is NOT ON the list", testScreenName));
+                            ConsoleOutput.PrintMessage($"UserID: {testScreenName} is NOT ON the list");
                         else
-                            ConsoleOutput.PrintMessage(String.Format("ScreenName: {0} is on the list", lists5.ScreenName));
+                            ConsoleOutput.PrintMessage($"ScreenName: {lists5.ScreenName} is on the list");
                     }
                     else
                     {
@@ -156,7 +155,7 @@ namespace BoxKite.Twitter.Console
 
                     if (lists6.Status)
                     {
-                        ConsoleOutput.PrintMessage(String.Format("ScreenName: {0} is added the list", testScreenName));
+                        ConsoleOutput.PrintMessage($"ScreenName: {testScreenName} is added the list");
                     }
                 }
 
@@ -173,7 +172,7 @@ namespace BoxKite.Twitter.Console
 
                     if (lists7.Status)
                     {
-                        ConsoleOutput.PrintMessage(String.Format("ScreenName: {0} is added the list", testScreenName));
+                        ConsoleOutput.PrintMessage($"ScreenName: {testScreenName} is added the list");
                     }
                     else
                     {

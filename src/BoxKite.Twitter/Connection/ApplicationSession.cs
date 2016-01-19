@@ -55,7 +55,7 @@ namespace BoxKite.Twitter
 
             var querystring = parameters.Aggregate("", (current, entry) => current + (entry.Key + "=" + entry.Value + "&"));
 
-            var oauth2 = String.Format("Bearer {0}", bearerToken);
+            var oauth2 = $"Bearer {bearerToken}";
             var fullUrl = url;
 
             var handler = new HttpClientHandler();
@@ -104,9 +104,8 @@ namespace BoxKite.Twitter
                 querystring = querystring.TrimLastChar();
 
             var oauth2Bearertoken = forInitialAuth
-                ? String.Format("Basic {0}",
-                    String.Format("{0}:{1}", clientID.UrlEncode(), clientSecret.UrlEncode()).ToBase64String())
-                : String.Format("Bearer {0}", bearerToken);
+                ? $"Basic {$"{clientID.UrlEncode()}:{clientSecret.UrlEncode()}".ToBase64String()}"
+                : $"Bearer {bearerToken}";
 
             var handler = new HttpClientHandler();
             var client = new HttpClient(handler);

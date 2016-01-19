@@ -42,13 +42,13 @@ namespace BoxKite.Twitter.Console
                 if (testResult12)
                 {
                     ConsoleOutput.PrintMessage(
-                        String.Format("12.0 Application Auth Tests Status: {0}", testResult12),
+                        $"12.0 Application Auth Tests Status: {testResult12}",
                         ConsoleColor.White);
                 }
                 else
                 {
                     ConsoleOutput.PrintMessage(
-                        String.Format("12.0 Application Auth Tests Status: {0}", testResult12),
+                        $"12.0 Application Auth Tests Status: {testResult12}",
                         ConsoleColor.Red);
                 }
             }
@@ -67,13 +67,12 @@ namespace BoxKite.Twitter.Console
         public static void PrintTwitterErrors(TwitterControlMessage tcm)
         {
             ConsoleOutput.PrintMessage("START: TWITTER CONTROL MESSAGE");
-            ConsoleOutput.PrintError(String.Format("http reason: {0}", tcm.http_reason));
-            ConsoleOutput.PrintError(String.Format("http status code: {0}", tcm.http_status_code));
-            ConsoleOutput.PrintError(String.Format("twitter error code: {0}", tcm.twitter_error_code));
-            ConsoleOutput.PrintError(String.Format("twitter error message: {0}", tcm.twitter_error_message));
-            ConsoleOutput.PrintError(String.Format("API rates: {0}/{1} Resets {2}",
-                tcm.twitter_rate_limit_remaining,
-                tcm.twitter_rate_limit_limit, tcm.twitter_rate_limit_reset));
+            ConsoleOutput.PrintError($"http reason: {tcm.http_reason}");
+            ConsoleOutput.PrintError($"http status code: {tcm.http_status_code}");
+            ConsoleOutput.PrintError($"twitter error code: {tcm.twitter_error_code}");
+            ConsoleOutput.PrintError($"twitter error message: {tcm.twitter_error_message}");
+            ConsoleOutput.PrintError(
+                $"API rates: {tcm.twitter_rate_limit_remaining}/{tcm.twitter_rate_limit_limit} Resets {tcm.twitter_rate_limit_reset}");
             ConsoleOutput.PrintMessage("END: TWITTER CONTROL MESSAGE");
         }
     }

@@ -21,7 +21,7 @@ namespace BoxKite.Twitter
         /// <param name="placeId">A place in the world identified by a Twitter place ID. Place IDs can be retrieved from geo/reverse_geocode.</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/statuses/update </remarks>
-        public async static Task<Tweet> SendTweet(this IUserSession session, string text, double latitude = 0.0, double longitude = 0.0, string placeId="")
+        public static async Task<Tweet> SendTweet(this IUserSession session, string text, double latitude = 0.0, double longitude = 0.0, string placeId="")
         {
             var parameters = new TwitterParametersCollection
                                  {
@@ -46,7 +46,7 @@ namespace BoxKite.Twitter
         /// <param name="tweetId">ID of the tweet to delete</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/statuses/destroy/%3Aid </remarks>
-        public async static Task<TwitterSuccess> DeleteTweet(this IUserSession session, string tweetId)
+        public static async Task<TwitterSuccess> DeleteTweet(this IUserSession session, string tweetId)
         {
             var parameters = new TwitterParametersCollection();
             var url = TwitterApi.Resolve("/1.1/statuses/destroy/{0}.json", tweetId); 
@@ -64,7 +64,7 @@ namespace BoxKite.Twitter
         /// <param name="placeId">A place in the world identified by a Twitter place ID. Place IDs can be retrieved from geo/reverse_geocode.</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/statuses/update </remarks>
-        public async static Task<Tweet> ReplyToTweet(this IUserSession session, Tweet tweet, string text, double latitude=0.0, double longitude = 0.0, string placeId="")
+        public static async Task<Tweet> ReplyToTweet(this IUserSession session, Tweet tweet, string text, double latitude=0.0, double longitude = 0.0, string placeId="")
         {
              var parameters = new TwitterParametersCollection
                                 {
@@ -89,10 +89,55 @@ namespace BoxKite.Twitter
         /// <param name="tweet">The tweet to retweet</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/statuses/retweet/%3Aid </remarks>
-        public async static Task<Tweet> Retweet(this IUserSession session, Tweet tweet)
+        public static async Task<Tweet> Retweet(this IUserSession session, Tweet tweet)
         {
             var parameters = new TwitterParametersCollection();
             var path = TwitterApi.Resolve("/1.1/statuses/retweet/{0}.json", tweet.Id);
+
+            return await session.PostAsync(path, parameters)
+                .ContinueWith(c => c.MapToSingle<Tweet>());
+        }
+
+
+        /// <summary>
+        /// Retweets a tweet
+        /// </summary>
+        /// <param name="tweetid">The tweetid to retweet</param>
+        /// <returns></returns>
+        /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/statuses/retweet/%3Aid </remarks>
+        public static async Task<Tweet> Retweet(this IUserSession session, long tweetid)
+        {
+            var parameters = new TwitterParametersCollection();
+            var path = TwitterApi.Resolve("/1.1/statuses/retweet/{0}.json", tweetid);
+
+            return await session.PostAsync(path, parameters)
+                .ContinueWith(c => c.MapToSingle<Tweet>());
+        }
+        /// <summary>
+        /// Unretweets a previously retweeted tweet
+        /// </summary>
+        /// <param name="tweetid">The tweet id to unretweet</param>
+        /// <returns></returns>
+        /// <remarks> ref: https://dev.twitter.com/rest/reference/post/statuses/unretweet/%3Aid </remarks>
+        public static async Task<Tweet> Unretweet(this IUserSession session, long tweetid)
+        {
+            var parameters = new TwitterParametersCollection();
+            var path = TwitterApi.Resolve("/1.1/statuses/unretweet/{0}.json", tweetid);
+
+            return await session.PostAsync(path, parameters)
+                .ContinueWith(c => c.MapToSingle<Tweet>());
+        }
+
+        /// <summary>
+        /// Unretweets a previously retweeted tweet
+        /// </summary>
+        /// <param name="tweet">The tweet to unretweet</param>
+        /// <returns></returns>
+        /// <remarks> ref: https://dev.twitter.com/rest/reference/post/statuses/unretweet/%3Aid </remarks>
+        public static async Task<Tweet> Unretweet(this IUserSession session, Tweet tweet)
+        {
+            var parameters = new TwitterParametersCollection();
+            var path = TwitterApi.Resolve("/1.1/statuses/unretweet/{0}.json", tweet.Id);
 
             return await session.PostAsync(path, parameters)
                 .ContinueWith(c => c.MapToSingle<Tweet>());
@@ -104,7 +149,7 @@ namespace BoxKite.Twitter
         /// <param name="tweetId">The tweet ID to return</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/statuses/show/%3Aid  </remarks>
-        public async static Task<Tweet> GetTweet(this ITwitterSession session, long tweetId)
+        public static async Task<Tweet> GetTweet(this ITwitterSession session, long tweetId)
         {
             var parameters = new TwitterParametersCollection
                              {
@@ -124,7 +169,7 @@ namespace BoxKite.Twitter
         /// <param name="count"></param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/statuses/retweets/%3Aid  </remarks>
-        public async static Task<TwitterResponseCollection<Tweet>> GetRetweets(this ITwitterSession session, Tweet tweet, int count = 20)
+        public static async Task<TwitterResponseCollection<Tweet>> GetRetweets(this ITwitterSession session, Tweet tweet, int count = 20)
         {
             var parameters = new TwitterParametersCollection
                              {
@@ -142,7 +187,7 @@ namespace BoxKite.Twitter
         /// <param name="tweetId"></param>
         /// <param name="count"></param>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/statuses/retweets/%3Aid  </remarks>
-        public async static Task<TwitterResponseCollection<Tweet>> GetRetweets(this ITwitterSession session, long tweetId, int count = 20)
+        public static async Task<TwitterResponseCollection<Tweet>> GetRetweets(this ITwitterSession session, long tweetId, int count = 20)
         {
             var parameters = new TwitterParametersCollection
                              {
@@ -160,7 +205,7 @@ namespace BoxKite.Twitter
          /// <param name="tweetId">tweet ID must be provided</param>
         /// <param name="count">how many to return default 500</param>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/statuses/retweeters/ids </remarks>
-        public async static Task<RetweetersResponseIDsCursored> GetRetweeters(this IUserSession session, long tweetId, int count = 20, long cursor = -1)
+        public static async Task<RetweetersResponseIDsCursored> GetRetweeters(this IUserSession session, long tweetId, int count = 20, long cursor = -1)
         {
             var parameters = new TwitterParametersCollection();
             parameters.Create(id: tweetId, count: count, cursor: cursor);
@@ -179,7 +224,7 @@ namespace BoxKite.Twitter
         /// <param name="placeId">A place in the world identified by a Twitter place ID. Place IDs can be retrieved from geo/reverse_geocode.</param>
         /// <returns>Tweet sent</returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/statuses/update_with_media </remarks>
-        public async static Task<Tweet> SendTweetWithImage(this IUserSession session, string text, string fileName, byte[] imageData, double latitude = 0.0, double longitude = 0.0, string placeId="")
+        public static async Task<Tweet> SendTweetWithImage(this IUserSession session, string text, string fileName, byte[] imageData, double latitude = 0.0, double longitude = 0.0, string placeId="")
         {
             var parameters = new TwitterParametersCollection
                              {
@@ -208,7 +253,7 @@ namespace BoxKite.Twitter
         /// <param name="placeId">A place in the world identified by a Twitter place ID. Place IDs can be retrieved from geo/reverse_geocode.</param>
         /// <returns>Tweet sent</returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/statuses/update_with_media </remarks>
-        public async static Task<Tweet> SendTweetWithImage(this IUserSession session, string text, string fileName, Stream imageDataStream, double latitude = 0.0, double longitude = 0.0, string placeId = "")
+        public static async Task<Tweet> SendTweetWithImage(this IUserSession session, string text, string fileName, Stream imageDataStream, double latitude = 0.0, double longitude = 0.0, string placeId = "")
         {
             var parameters = new TwitterParametersCollection
                              {
@@ -238,7 +283,7 @@ namespace BoxKite.Twitter
         /// <param name="placeId">A place in the world identified by a Twitter place ID. Place IDs can be retrieved from geo/reverse_geocode.</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/statuses/update_with_media </remarks>
-        public async static Task<Tweet> ReplyToTweetWithImage(this IUserSession session, Tweet tweet, string text, string fileName, byte[] imageData, double latitude = 0.0, double longitude = 0.0, string placeId = "")
+        public static async Task<Tweet> ReplyToTweetWithImage(this IUserSession session, Tweet tweet, string text, string fileName, byte[] imageData, double latitude = 0.0, double longitude = 0.0, string placeId = "")
         {
             var parameters = new TwitterParametersCollection
                              {
@@ -270,7 +315,7 @@ namespace BoxKite.Twitter
         /// <param name="placeId">A place in the world identified by a Twitter place ID. Place IDs can be retrieved from geo/reverse_geocode.</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/statuses/update_with_media </remarks>
-        public async static Task<Tweet> ReplyToTweetWithImage(this IUserSession session, Tweet tweet, string text, string fileName, Stream imageDataStream, double latitude = 0.0, double longitude = 0.0, string placeId = "")
+        public static async Task<Tweet> ReplyToTweetWithImage(this IUserSession session, Tweet tweet, string text, string fileName, Stream imageDataStream, double latitude = 0.0, double longitude = 0.0, string placeId = "")
         {
             var parameters = new TwitterParametersCollection
                              {

@@ -28,7 +28,7 @@ namespace BoxKite.Twitter.Console
                         foreach (var trnd in combo1)
                         {
                             ConsoleOutput.PrintMessage(
-                                String.Format("App Auth Timeline Test: {0}", trnd.Text));
+                                $"App Auth Timeline Test: {trnd.Text}");
                         }
                     }
                     else
@@ -50,7 +50,7 @@ namespace BoxKite.Twitter.Console
                         foreach (var apir in combo2.APIRateStatuses)
                         {
                             ConsoleOutput.PrintMessage(
-                                String.Format("API: {0} Limit: {1} Remaining: {2}", apir.Value.APIPath, apir.Value.Limit, apir.Value.Remaining));
+                                $"API: {apir.Value.APIPath} Limit: {apir.Value.Limit} Remaining: {apir.Value.Remaining}");
                         }
                     }
                     else
@@ -90,7 +90,7 @@ namespace BoxKite.Twitter.Console
 
                     if (combo4.OK)
                     {
-                        ConsoleOutput.PrintMessage(String.Format("Retweeted {0} times",combo4.Count));
+                        ConsoleOutput.PrintMessage($"Retweeted {combo4.Count} times");
                     }
                     else
                     {

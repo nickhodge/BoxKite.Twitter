@@ -26,7 +26,7 @@ namespace BoxKite.Twitter.Console
                         foreach (var tweet in timeline1)
                         {
                             ConsoleOutput.PrintMessage(
-                                String.Format("From: {0} // Message: {1}", tweet.User.ScreenName, tweet.Text));
+                                $"From: {tweet.User.ScreenName} // Message: {tweet.Text}");
                         }
                     }
                     else
@@ -44,7 +44,7 @@ namespace BoxKite.Twitter.Console
                         foreach (var tweet in timeline2)
                         {
                             ConsoleOutput.PrintMessage(
-                                String.Format("From: {0} // Message: {1}", tweet.User.ScreenName, tweet.Text));
+                                $"From: {tweet.User.ScreenName} // Message: {tweet.Text}");
                         }
                     }
                     else
@@ -63,7 +63,7 @@ namespace BoxKite.Twitter.Console
                         foreach (var tweet in timeline3)
                         {
                             ConsoleOutput.PrintMessage(
-                                String.Format("From: {0} // Message: {1}", tweet.User.ScreenName, tweet.Text));
+                                $"From: {tweet.User.ScreenName} // Message: {tweet.Text}");
                         }
                     }
                     else
@@ -87,15 +87,14 @@ namespace BoxKite.Twitter.Console
                         foreach (var tweet in timeline4)
                         {
                             ConsoleOutput.PrintMessage(
-                                String.Format("ID: {0} // From: {1} // Message: {2}", tweet.Id, tweet.User.ScreenName,
-                                    tweet.Text));
+                                $"ID: {tweet.Id} // From: {tweet.User.ScreenName} // Message: {tweet.Text}");
                             if (tweet.Id > largestid)
                                 largestid = tweet.Id;
                             if (tweet.Id < smallestid)
                                 smallestid = tweet.Id;
                         }
                         ConsoleOutput.PrintMessage(
-                            String.Format(" LargestID: {0} // SmallestID: {1}", largestid, smallestid));
+                            $" LargestID: {largestid} // SmallestID: {smallestid}");
 
                         ConsoleOutput.PrintMessage("Waiting 20 seconds");
                         await Task.Delay(TimeSpan.FromSeconds(20));
@@ -107,8 +106,7 @@ namespace BoxKite.Twitter.Console
                             foreach (var tweet in timeline41)
                             {
                                 ConsoleOutput.PrintMessage(
-                                    String.Format("ID: {0} // From: {1} // Message: {2}", tweet.Id,
-                                        tweet.User.ScreenName, tweet.Text));
+                                    $"ID: {tweet.Id} // From: {tweet.User.ScreenName} // Message: {tweet.Text}");
                                 if (tweet.Id > largestid)
                                     largestid = tweet.Id;
                                 if (tweet.Id < smallestid)
@@ -117,7 +115,7 @@ namespace BoxKite.Twitter.Console
                         }
 
                         ConsoleOutput.PrintMessage(
-                            String.Format(" LargestID: {0} // SmallestID: {1}", largestid, smallestid));
+                            $" LargestID: {largestid} // SmallestID: {smallestid}");
 
 
                         ConsoleOutput.PrintMessage("Now Updating Home Timeline, should show older messages");
@@ -127,8 +125,7 @@ namespace BoxKite.Twitter.Console
                             foreach (var tweet in timeline42)
                             {
                                 ConsoleOutput.PrintMessage(
-                                    String.Format("ID: {0} // From: {1} // Message: {2}", tweet.Id,
-                                        tweet.User.ScreenName, tweet.Text));
+                                    $"ID: {tweet.Id} // From: {tweet.User.ScreenName} // Message: {tweet.Text}");
                                 if (tweet.Id > largestid)
                                     largestid = tweet.Id;
                                 if (tweet.Id < smallestid)
@@ -151,7 +148,7 @@ namespace BoxKite.Twitter.Console
                         foreach (var tweet in timeline5)
                         {
                             ConsoleOutput.PrintMessage(
-                                String.Format("From: {0} // Message: {1}", tweet.User.ScreenName, tweet.Text));
+                                $"From: {tweet.User.ScreenName} // Message: {tweet.Text}");
                         }
                     }
 
@@ -181,15 +178,13 @@ namespace BoxKite.Twitter.Console
                             foreach (var tweet in timeline6)
                             {
                                 ConsoleOutput.PrintMessage(
-                                    String.Format("ID: {0} // From: {1} // Message: {2}", tweet.Id,
-                                        tweet.User.ScreenName,
-                                        tweet.Text));
+                                    $"ID: {tweet.Id} // From: {tweet.User.ScreenName} // Message: {tweet.Text}");
                                 if (tweet.Id < smallestid) smallestid = tweet.Id;
                                 if (tweet.Id > largestid) largestid = tweet.Id;
                                 howManyToGet--;
                             }
                             ConsoleOutput.PrintMessage(
-                                String.Format("SmallestID: {0}", smallestid),
+                                $"SmallestID: {smallestid}",
                                 ConsoleColor.Cyan);
                         }
                         else

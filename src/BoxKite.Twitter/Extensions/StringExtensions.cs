@@ -52,7 +52,7 @@ namespace BoxKite.Twitter.Extensions
             //var offset = tokenizer[4];
             var year = tokenizer[5];
 
-            var dateTime = string.Format("{0}-{1}-{2} {3}", dayInMonth, month, year, time);
+            var dateTime = $"{dayInMonth}-{month}-{year} {time}";
 
             return DateTime.Parse(dateTime);
         }

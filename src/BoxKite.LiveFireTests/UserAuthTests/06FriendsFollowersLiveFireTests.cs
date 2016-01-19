@@ -32,17 +32,16 @@ namespace BoxKite.Twitter.Console
                             break;
                         };
                         nextcursor = ff1List.next_cursor;
-                        ConsoleOutput.PrintMessage(String.Format("Previous cursor: {0} Next cursor: {1}",
-                            ff1List.previous_cursor, ff1List.next_cursor));
+                        ConsoleOutput.PrintMessage(
+                            $"Previous cursor: {ff1List.previous_cursor} Next cursor: {ff1List.next_cursor}");
                         foreach (var l in ff1List.UserIDs)
                         {
                             ffListCount++;
-                            ConsoleOutput.PrintMessage(String.Format("User ID: {0}", l ));
+                            ConsoleOutput.PrintMessage($"User ID: {l}");
                         }
                     } while (nextcursor != 0);
 
-                    ConsoleOutput.PrintMessage(String.Format("Total Friends List Count: {0}",
-                       ffListCount));
+                    ConsoleOutput.PrintMessage($"Total Friends List Count: {ffListCount}");
                 }
 
                 // 2
@@ -62,17 +61,16 @@ namespace BoxKite.Twitter.Console
                             break;
                         };
                         nextcursor = ff2List.next_cursor;
-                        ConsoleOutput.PrintMessage(String.Format("Previous cursor: {0} Next cursor: {1}",
-                            ff2List.previous_cursor, ff2List.next_cursor));
+                        ConsoleOutput.PrintMessage(
+                            $"Previous cursor: {ff2List.previous_cursor} Next cursor: {ff2List.next_cursor}");
                         foreach (var l in ff2List.UserIDs)
                         {
                             ff2ListCount++;
-                            ConsoleOutput.PrintMessage(String.Format("User ID: {0}", l));
+                            ConsoleOutput.PrintMessage($"User ID: {l}");
                         }
                     } while (nextcursor != 0);
 
-                    ConsoleOutput.PrintMessage(String.Format("Total Followers List Count: {0}",
-                       ff2ListCount));
+                    ConsoleOutput.PrintMessage($"Total Followers List Count: {ff2ListCount}");
                 }
 
                 // 3
@@ -86,11 +84,11 @@ namespace BoxKite.Twitter.Console
                         foreach (var t in ff3)
                         {
                             ConsoleOutput.PrintMessage(
-                                String.Format("Name: {0} // UserID: {1}", t.ScreenName, t.UserId));
+                                $"Name: {t.ScreenName} // UserID: {t.UserId}");
                             foreach (var c in t.Connections)
                             {
                                 ConsoleOutput.PrintMessage(
-                                String.Format("Connection: {0}", c.ToString()));
+                                    $"Connection: {c.ToString()}");
                             }
                         }
                     }
@@ -116,17 +114,16 @@ namespace BoxKite.Twitter.Console
                             break;
                         };
                         nextcursor = ff4List.next_cursor;
-                        ConsoleOutput.PrintMessage(String.Format("Previous cursor: {0} Next cursor: {1}",
-                            ff4List.previous_cursor, ff4List.next_cursor));
+                        ConsoleOutput.PrintMessage(
+                            $"Previous cursor: {ff4List.previous_cursor} Next cursor: {ff4List.next_cursor}");
                         foreach (var l in ff4List.UserIDs)
                         {
                             ff4ListCount++;
-                            ConsoleOutput.PrintMessage(String.Format("User ID: {0}", l));
+                            ConsoleOutput.PrintMessage($"User ID: {l}");
                         }
                     } while (nextcursor != 0);
 
-                    ConsoleOutput.PrintMessage(String.Format("Total Followers List Count: {0}",
-                       ff4ListCount));
+                    ConsoleOutput.PrintMessage($"Total Followers List Count: {ff4ListCount}");
                 }
 
                 // 5
@@ -146,17 +143,16 @@ namespace BoxKite.Twitter.Console
                             break;
                         };
                         nextcursor = ff5List.next_cursor;
-                        ConsoleOutput.PrintMessage(String.Format("Previous cursor: {0} Next cursor: {1}",
-                            ff5List.previous_cursor, ff5List.next_cursor));
+                        ConsoleOutput.PrintMessage(
+                            $"Previous cursor: {ff5List.previous_cursor} Next cursor: {ff5List.next_cursor}");
                         foreach (var l in ff5List.UserIDs)
                         {
                             ff5ListCount++;
-                            ConsoleOutput.PrintMessage(String.Format("User ID: {0}", l));
+                            ConsoleOutput.PrintMessage($"User ID: {l}");
                         }
                     } while (nextcursor != 0);
 
-                    ConsoleOutput.PrintMessage(String.Format("Total Followers List Count: {0}",
-                       ff5ListCount));
+                    ConsoleOutput.PrintMessage($"Total Followers List Count: {ff5ListCount}");
                 }
 
                 // 6
@@ -166,12 +162,12 @@ namespace BoxKite.Twitter.Console
                     var ff6 = await session.CreateFriendship("katyperry");
                     if (ff6.OK)
                     {
-                        ConsoleOutput.PrintMessage(String.Format("Name: {0}", ff6.Name));
-                        ConsoleOutput.PrintMessage(String.Format("User ID: {0}", ff6.UserId));
-                        ConsoleOutput.PrintMessage(String.Format("Avatar URL: {0}", ff6.Avatar));
-                        ConsoleOutput.PrintMessage(String.Format("Followers: {0}", ff6.Followers));
-                        ConsoleOutput.PrintMessage(String.Format("Friends: {0}", ff6.Friends));
-                        ConsoleOutput.PrintMessage(String.Format("Description: {0}", ff6.Description));
+                        ConsoleOutput.PrintMessage($"Name: {ff6.Name}");
+                        ConsoleOutput.PrintMessage($"User ID: {ff6.UserId}");
+                        ConsoleOutput.PrintMessage($"Avatar URL: {ff6.Avatar}");
+                        ConsoleOutput.PrintMessage($"Followers: {ff6.Followers}");
+                        ConsoleOutput.PrintMessage($"Friends: {ff6.Friends}");
+                        ConsoleOutput.PrintMessage($"Description: {ff6.Description}");
                     }
                     else
                         successStatus = false;
@@ -184,12 +180,12 @@ namespace BoxKite.Twitter.Console
                     var ff7 = await session.DeleteFriendship(user_id: 21447363);
                     if (ff7.OK)
                     {
-                        ConsoleOutput.PrintMessage(String.Format("Name: {0}", ff7.Name));
-                        ConsoleOutput.PrintMessage(String.Format("User ID: {0}", ff7.UserId));
-                        ConsoleOutput.PrintMessage(String.Format("Avatar URL: {0}", ff7.Avatar));
-                        ConsoleOutput.PrintMessage(String.Format("Followers: {0}", ff7.Followers));
-                        ConsoleOutput.PrintMessage(String.Format("Friends: {0}", ff7.Friends));
-                        ConsoleOutput.PrintMessage(String.Format("Description: {0}", ff7.Description));
+                        ConsoleOutput.PrintMessage($"Name: {ff7.Name}");
+                        ConsoleOutput.PrintMessage($"User ID: {ff7.UserId}");
+                        ConsoleOutput.PrintMessage($"Avatar URL: {ff7.Avatar}");
+                        ConsoleOutput.PrintMessage($"Followers: {ff7.Followers}");
+                        ConsoleOutput.PrintMessage($"Friends: {ff7.Friends}");
+                        ConsoleOutput.PrintMessage($"Description: {ff7.Description}");
                     }
                     else
                         successStatus = false;

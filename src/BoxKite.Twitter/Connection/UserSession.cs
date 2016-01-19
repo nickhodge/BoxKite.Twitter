@@ -136,7 +136,8 @@ namespace BoxKite.Twitter
             client.DefaultRequestHeaders.Add("Authorization", oauth1aAuthheader.Header);
             client.DefaultRequestHeaders.Add("User-Agent", TwitterApi.UserAgent());
 
-            var content = parameters.Aggregate(string.Empty, (current, e) => current + string.Format("{0}={1}&", e.Key, Uri.EscapeDataString(e.Value)));
+            var content = parameters.Aggregate(string.Empty, (current, e) => current +
+                                                                             $"{e.Key}={Uri.EscapeDataString(e.Value)}&");
             var data = new StringContent(content, Encoding.UTF8, "application/x-www-form-urlencoded");
 
             var download = client.PostAsync(url, data).ToObservable().Timeout(TimeSpan.FromSeconds(waitTimeoutSeconds));
@@ -239,7 +240,8 @@ namespace BoxKite.Twitter
             request.Headers.Add("Authorization", oauth.Header);
             request.Headers.Add("User-Agent", TwitterApi.UserAgent());
 
-            var content = parameters.Aggregate(string.Empty, (current, e) => current + string.Format("{0}={1}&", e.Key, Uri.EscapeDataString(e.Value)));
+            var content = parameters.Aggregate(string.Empty, (current, e) => current +
+                                                                             $"{e.Key}={Uri.EscapeDataString(e.Value)}&");
             request.Content = new StringContent(content, Encoding.UTF8, "application/x-www-form-urlencoded");
             
             return request;
@@ -321,15 +323,8 @@ namespace BoxKite.Twitter
                 Token = oauthToken,
                 SignatureString = signatureString,
                 Version = OAuthVersion,
-                Header = string.Format(
-                    "OAuth oauth_nonce=\"{0}\", oauth_signature_method=\"{1}\", oauth_timestamp=\"{2}\", oauth_consumer_key=\"{3}\", oauth_token=\"{4}\", oauth_signature=\"{5}\", oauth_version=\"{6}\"",
-                    Uri.EscapeDataString(oauthNonce),
-                    Uri.EscapeDataString(OAuthSignatureMethod),
-                    Uri.EscapeDataString(oauthTimestamp),
-                    Uri.EscapeDataString(oauthConsumerKey),
-                    Uri.EscapeDataString(oauthToken),
-                    Uri.EscapeDataString(signatureString),
-                    Uri.EscapeDataString(OAuthVersion))
+                Header =
+                    $"OAuth oauth_nonce=\"{Uri.EscapeDataString(oauthNonce)}\", oauth_signature_method=\"{Uri.EscapeDataString(OAuthSignatureMethod)}\", oauth_timestamp=\"{Uri.EscapeDataString(oauthTimestamp)}\", oauth_consumer_key=\"{Uri.EscapeDataString(oauthConsumerKey)}\", oauth_token=\"{Uri.EscapeDataString(oauthToken)}\", oauth_signature=\"{Uri.EscapeDataString(signatureString)}\", oauth_version=\"{Uri.EscapeDataString(OAuthVersion)}\""
             };
 
         }

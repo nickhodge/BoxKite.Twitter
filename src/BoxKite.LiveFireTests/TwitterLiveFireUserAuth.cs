@@ -58,12 +58,12 @@ namespace BoxKite.Twitter.Console
 
                         if (testResult1)
                         {
-                            ConsoleOutput.PrintMessage(String.Format("1.0 User Account Tests Status: {0}", testResult1),
+                            ConsoleOutput.PrintMessage($"1.0 User Account Tests Status: {testResult1}",
                                 ConsoleColor.White);
                         }
                         else
                         {
-                            ConsoleOutput.PrintMessage(String.Format("1.0 User Account Tests Status: {0}", testResult1),
+                            ConsoleOutput.PrintMessage($"1.0 User Account Tests Status: {testResult1}",
                                 ConsoleColor.Red);
                         }
                     }
@@ -77,12 +77,12 @@ namespace BoxKite.Twitter.Console
 
                         if (testResult2)
                         {
-                            ConsoleOutput.PrintMessage(String.Format("2.0 API Management Tests Status: {0}", testResult2),
+                            ConsoleOutput.PrintMessage($"2.0 API Management Tests Status: {testResult2}",
                                 ConsoleColor.White);
                         }
                         else
                         {
-                            ConsoleOutput.PrintMessage(String.Format("2.0 API Management Tests Status: {0}", testResult2),
+                            ConsoleOutput.PrintMessage($"2.0 API Management Tests Status: {testResult2}",
                                 ConsoleColor.Red);
                         }
                     }
@@ -95,12 +95,12 @@ namespace BoxKite.Twitter.Console
 
                         if (testResult3)
                         {
-                            ConsoleOutput.PrintMessage(String.Format("3.0 Direct Messages Tests Status: {0}", testResult3),
+                            ConsoleOutput.PrintMessage($"3.0 Direct Messages Tests Status: {testResult3}",
                                 ConsoleColor.White);
                         }
                         else
                         {
-                            ConsoleOutput.PrintMessage(String.Format("3.0 Direct Messages Tests Status: {0}", testResult3),
+                            ConsoleOutput.PrintMessage($"3.0 Direct Messages Tests Status: {testResult3}",
                                 ConsoleColor.Red);
                         }
                     }
@@ -114,12 +114,12 @@ namespace BoxKite.Twitter.Console
 
                         if (testResult4)
                         {
-                            ConsoleOutput.PrintMessage(String.Format("4.0 Tweet Tests Status: {0}", testResult4),
+                            ConsoleOutput.PrintMessage($"4.0 Tweet Tests Status: {testResult4}",
                                 ConsoleColor.White);
                         }
                         else
                         {
-                            ConsoleOutput.PrintMessage(String.Format("4.0 Tweet Tests Status: {0}", testResult4),
+                            ConsoleOutput.PrintMessage($"4.0 Tweet Tests Status: {testResult4}",
                                 ConsoleColor.Red);
                         }
                     }
@@ -132,12 +132,12 @@ namespace BoxKite.Twitter.Console
 
                         if (testResult5)
                         {
-                            ConsoleOutput.PrintMessage(String.Format("5.0 Favourite Tests Status: {0}", testResult5),
+                            ConsoleOutput.PrintMessage($"5.0 Favourite Tests Status: {testResult5}",
                                 ConsoleColor.White);
                         }
                         else
                         {
-                            ConsoleOutput.PrintMessage(String.Format("5.0 Favourite Tests Status: {0}", testResult5),
+                            ConsoleOutput.PrintMessage($"5.0 Favourite Tests Status: {testResult5}",
                                 ConsoleColor.Red);
                         }
                     }
@@ -151,12 +151,12 @@ namespace BoxKite.Twitter.Console
 
                         if (testResult6)
                         {
-                            ConsoleOutput.PrintMessage(String.Format("6.0 FriendsFollowers Tests Status: {0}", testResult6),
+                            ConsoleOutput.PrintMessage($"6.0 FriendsFollowers Tests Status: {testResult6}",
                                 ConsoleColor.White);
                         }
                         else
                         {
-                            ConsoleOutput.PrintMessage(String.Format("6.0 FriendsFollowers Tests Status: {0}", testResult6),
+                            ConsoleOutput.PrintMessage($"6.0 FriendsFollowers Tests Status: {testResult6}",
                                 ConsoleColor.Red);
                         }
                     }
@@ -169,12 +169,12 @@ namespace BoxKite.Twitter.Console
 
                         if (testResult7)
                         {
-                            ConsoleOutput.PrintMessage(String.Format("7.0 Timeline Tests Status: {0}", testResult7),
+                            ConsoleOutput.PrintMessage($"7.0 Timeline Tests Status: {testResult7}",
                                 ConsoleColor.White);
                         }
                         else
                         {
-                            ConsoleOutput.PrintMessage(String.Format("7.0 Timeline Tests Status: {0}", testResult7),
+                            ConsoleOutput.PrintMessage($"7.0 Timeline Tests Status: {testResult7}",
                                 ConsoleColor.Red);
                         }
                     }
@@ -188,12 +188,12 @@ namespace BoxKite.Twitter.Console
 
                         if (testResult8)
                         {
-                            ConsoleOutput.PrintMessage(String.Format("8.0 Trends (and SearchFor) Tests Status: {0}", testResult8),
+                            ConsoleOutput.PrintMessage($"8.0 Trends (and SearchFor) Tests Status: {testResult8}",
                                 ConsoleColor.White);
                         }
                         else
                         {
-                            ConsoleOutput.PrintMessage(String.Format("8.0 Trends (and SearchFor) Tests Status: {0}", testResult8),
+                            ConsoleOutput.PrintMessage($"8.0 Trends (and SearchFor) Tests Status: {testResult8}",
                                 ConsoleColor.Red);
                         }
                     }
@@ -207,12 +207,12 @@ namespace BoxKite.Twitter.Console
 
                         if (testResult9)
                         {
-                            ConsoleOutput.PrintMessage(String.Format("9.0 SuggestedUsers Tests Status: {0}", testResult9),
+                            ConsoleOutput.PrintMessage($"9.0 SuggestedUsers Tests Status: {testResult9}",
                                 ConsoleColor.White);
                         }
                         else
                         {
-                            ConsoleOutput.PrintMessage(String.Format("9.0 SuggestedUsers Tests Status: {0}", testResult9),
+                            ConsoleOutput.PrintMessage($"9.0 SuggestedUsers Tests Status: {testResult9}",
                                 ConsoleColor.Red);
                         }
                     }
@@ -226,12 +226,12 @@ namespace BoxKite.Twitter.Console
 
                         if (testResult10)
                         {
-                            ConsoleOutput.PrintMessage(String.Format("10.0 Lists Tests Status: {0}", testResult10),
+                            ConsoleOutput.PrintMessage($"10.0 Lists Tests Status: {testResult10}",
                                 ConsoleColor.White);
                         }
                         else
                         {
-                            ConsoleOutput.PrintMessage(String.Format("10.0 Lists Tests Status: {0}", testResult10),
+                            ConsoleOutput.PrintMessage($"10.0 Lists Tests Status: {testResult10}",
                                 ConsoleColor.Red);
                         }
                     }
@@ -245,12 +245,12 @@ namespace BoxKite.Twitter.Console
 
                         if (testResult11)
                         {
-                            ConsoleOutput.PrintMessage(String.Format("11.0 Combos Tests Status: {0}", testResult11),
+                            ConsoleOutput.PrintMessage($"11.0 Combos Tests Status: {testResult11}",
                                 ConsoleColor.White);
                         }
                         else
                         {
-                            ConsoleOutput.PrintMessage(String.Format("11.0 Combos Tests Status: {0}", testResult11),
+                            ConsoleOutput.PrintMessage($"11.0 Combos Tests Status: {testResult11}",
                                 ConsoleColor.Red);
                         }
                     }
@@ -275,13 +275,12 @@ namespace BoxKite.Twitter.Console
         public static void PrintTwitterErrors(TwitterControlMessage tcm)
         {
             ConsoleOutput.PrintMessage("START: TWITTER CONTROL MESSAGE");
-            ConsoleOutput.PrintError(String.Format("http reason: {0}", tcm.http_reason));
-            ConsoleOutput.PrintError(String.Format("http status code: {0}", tcm.http_status_code));
-            ConsoleOutput.PrintError(String.Format("twitter error code: {0}", tcm.twitter_error_code));
-            ConsoleOutput.PrintError(String.Format("twitter error message: {0}", tcm.twitter_error_message));
-            ConsoleOutput.PrintError(String.Format("API rates: {0}/{1} Resets {2}",
-                tcm.twitter_rate_limit_remaining,
-                tcm.twitter_rate_limit_limit, tcm.twitter_rate_limit_reset));
+            ConsoleOutput.PrintError($"http reason: {tcm.http_reason}");
+            ConsoleOutput.PrintError($"http status code: {tcm.http_status_code}");
+            ConsoleOutput.PrintError($"twitter error code: {tcm.twitter_error_code}");
+            ConsoleOutput.PrintError($"twitter error message: {tcm.twitter_error_message}");
+            ConsoleOutput.PrintError(
+                $"API rates: {tcm.twitter_rate_limit_remaining}/{tcm.twitter_rate_limit_limit} Resets {tcm.twitter_rate_limit_reset}");
             ConsoleOutput.PrintMessage("END: TWITTER CONTROL MESSAGE");
         }
     }

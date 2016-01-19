@@ -26,7 +26,7 @@ namespace BoxKite.Twitter.Console
                         foreach (var t in favourites1)
                         {
                             ConsoleOutput.PrintMessage(
-                                String.Format("From: {0} // Message: {1}", t.User.ScreenName, t.Text));
+                                $"From: {t.User.ScreenName} // Message: {t.Text}");
                         }
                     }
                     else
@@ -44,7 +44,7 @@ namespace BoxKite.Twitter.Console
                     if (favourites2.OK)
                     {
                         ConsoleOutput.PrintMessage(
-                                String.Format("From: {0} // Favourited Status: {1}", favourites2.User.ScreenName, favourites2.Favourited));
+                            $"From: {favourites2.User.ScreenName} // Favourited Status: {favourites2.Favourited}");
                     }
                     else
                         successStatus = false;
@@ -61,7 +61,7 @@ namespace BoxKite.Twitter.Console
                     if (favourites3.OK)
                     {
                         ConsoleOutput.PrintMessage(
-                                String.Format("From: {0} // Favourited Status: {1}", favourites3.User.ScreenName, favourites3.Favourited));
+                            $"From: {favourites3.User.ScreenName} // Favourited Status: {favourites3.Favourited}");
                     }
                     else
                         successStatus = false;

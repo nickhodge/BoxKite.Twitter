@@ -24,7 +24,7 @@ namespace BoxKite.Twitter.Console
                         foreach (var x in currentapi.APIRateStatuses)
                         {
                             ConsoleOutput.PrintMessage(
-                                String.Format("API on: {0} Calls: {1}/{2} Resets: {3}", x.Key, x.Value.Remaining, x.Value.Limit, x.Value.ResetTime ));
+                                $"API on: {x.Key} Calls: {x.Value.Remaining}/{x.Value.Limit} Resets: {x.Value.ResetTime}");
                         }
                     }
                     else

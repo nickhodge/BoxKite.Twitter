@@ -29,10 +29,9 @@ namespace BoxKite.Twitter.Console
                     testScreenName = accountSettings.ScreenName;
                     if (accountSettings.OK && !string.IsNullOrWhiteSpace(testScreenName))
                     {
-                        ConsoleOutput.PrintMessage(String.Format("Screen Name: {0}", testScreenName));
-                        ConsoleOutput.PrintMessage(String.Format("Time Zone: {0}", accountSettings.TimeZone.name));
-                        ConsoleOutput.PrintMessage(String.Format("Trend Location: {0}",
-                            accountSettings.TrendLocation.ToList()[0].name));
+                        ConsoleOutput.PrintMessage($"Screen Name: {testScreenName}");
+                        ConsoleOutput.PrintMessage($"Time Zone: {accountSettings.TimeZone.name}");
+                        ConsoleOutput.PrintMessage($"Trend Location: {accountSettings.TrendLocation.ToList()[0].name}");
                     }
                     else
                         successStatus = false;
@@ -45,7 +44,7 @@ namespace BoxKite.Twitter.Console
                     if (loggedInUserProfile.OK)
                     {
                         ConsoleOutput.PrintMessage("Credentials Verified OK.");
-                        ConsoleOutput.PrintMessage(String.Format("User ID Verified OK: {0}", loggedInUserProfile.UserId));
+                        ConsoleOutput.PrintMessage($"User ID Verified OK: {loggedInUserProfile.UserId}");
                     }
                     else
                         successStatus = false;
@@ -57,12 +56,12 @@ namespace BoxKite.Twitter.Console
                     var getProfile = await session.GetUserProfile(testScreenName);
                     if (getProfile.OK)
                     {
-                        ConsoleOutput.PrintMessage(String.Format("Name: {0}", getProfile.Name));
-                        ConsoleOutput.PrintMessage(String.Format("User ID: {0}", getProfile.UserId));
-                        ConsoleOutput.PrintMessage(String.Format("Avatar URL: {0}", getProfile.Avatar));
-                        ConsoleOutput.PrintMessage(String.Format("Followers: {0}", getProfile.Followers));
-                        ConsoleOutput.PrintMessage(String.Format("Friends: {0}", getProfile.Friends));
-                        ConsoleOutput.PrintMessage(String.Format("Description: {0}", getProfile.Description));
+                        ConsoleOutput.PrintMessage($"Name: {getProfile.Name}");
+                        ConsoleOutput.PrintMessage($"User ID: {getProfile.UserId}");
+                        ConsoleOutput.PrintMessage($"Avatar URL: {getProfile.Avatar}");
+                        ConsoleOutput.PrintMessage($"Followers: {getProfile.Followers}");
+                        ConsoleOutput.PrintMessage($"Friends: {getProfile.Friends}");
+                        ConsoleOutput.PrintMessage($"Description: {getProfile.Description}");
                     }
                     else
                         successStatus = false;
@@ -74,8 +73,7 @@ namespace BoxKite.Twitter.Console
                     var changeSettings = await session.ChangeAccountSettings(trendLocationWoeid: "1");
                     if (changeSettings.OK)
                     {
-                        ConsoleOutput.PrintMessage(String.Format("Trend Location: {0}",
-                            changeSettings.TrendLocation.ToList()[0].name));
+                        ConsoleOutput.PrintMessage($"Trend Location: {changeSettings.TrendLocation.ToList()[0].name}");
                     }
                     else
                         successStatus = false;
@@ -92,18 +90,17 @@ namespace BoxKite.Twitter.Console
                         var blockList = await session.GetBlockList(cursor: nextcursor);
                         if (blockList.twitterFaulted) continue;
                         nextcursor = blockList.next_cursor;
-                        ConsoleOutput.PrintMessage(String.Format("Previous cursor: {0} Next cursor: {1}",
-                            blockList.previous_cursor, blockList.next_cursor));
+                        ConsoleOutput.PrintMessage(
+                            $"Previous cursor: {blockList.previous_cursor} Next cursor: {blockList.next_cursor}");
                         foreach (var l in blockList.users)
                         {
                             blockListCount++;
-                            ConsoleOutput.PrintMessage(String.Format("ScreenName: {0} User ID: {1} Description: {2}",
-                                l.Name, l.UserId, l.Description));
+                            ConsoleOutput.PrintMessage(
+                                $"ScreenName: {l.Name} User ID: {l.UserId} Description: {l.Description}");
                         }
                     } while (nextcursor != 0);
 
-                    ConsoleOutput.PrintMessage(String.Format("Block List Count: {0}",
-                        blockListCount));
+                    ConsoleOutput.PrintMessage($"Block List Count: {blockListCount}");
                 }
                 // 6
                 if (testSeq.Contains(6))
@@ -111,7 +108,7 @@ namespace BoxKite.Twitter.Console
                     ConsoleOutput.PrintMessage("1.6 UsersExtensions\\DeleteUserBlock", ConsoleColor.Gray);
                     var deleteUserBlock = await session.DeleteUserBlock(screenName: "NickHodgeMSFT");
                     if (deleteUserBlock.OK)
-                        ConsoleOutput.PrintMessage(String.Format("ScreenName: {0}", deleteUserBlock.ScreenName));
+                        ConsoleOutput.PrintMessage($"ScreenName: {deleteUserBlock.ScreenName}");
                     else
                         successStatus = false;
                 }
@@ -124,8 +121,7 @@ namespace BoxKite.Twitter.Console
                     var getUserDetailsFullFromScreenNames = await session.GetUsersDetailsFull(screenNames: screennames);
                     if (getUserDetailsFullFromScreenNames.OK)
                     {
-                        ConsoleOutput.PrintMessage(String.Format("Returned: {0}",
-                            getUserDetailsFullFromScreenNames.Count()));
+                        ConsoleOutput.PrintMessage($"Returned: {getUserDetailsFullFromScreenNames.Count()}");
                         foreach (var u in getUserDetailsFullFromScreenNames)
                         {
                             ConsoleOutput.PrintMessage(String.Format("User ID: {1} // ScreenName: {0} // Description: {2}",
@@ -143,12 +139,11 @@ namespace BoxKite.Twitter.Console
                     var getUserDetailsFullFromIDs = await session.GetUsersDetailsFull(userIds: usersids);
                     if (getUserDetailsFullFromIDs.OK)
                     {
-                        ConsoleOutput.PrintMessage(String.Format("Returned: {0}", getUserDetailsFullFromIDs.Count()));
+                        ConsoleOutput.PrintMessage($"Returned: {getUserDetailsFullFromIDs.Count()}");
                         foreach (var u in getUserDetailsFullFromIDs)
                         {
-                            ConsoleOutput.PrintMessage(String.Format(
-                                "ScreenName: {0} User ID: {1} Description: {2}",
-                                u.Name, u.UserId, u.Description));
+                            ConsoleOutput.PrintMessage(
+                                $"ScreenName: {u.Name} User ID: {u.UserId} Description: {u.Description}");
                         }
                     }
                     else
@@ -162,12 +157,11 @@ namespace BoxKite.Twitter.Console
                     var searchForUsers = await session.SearchForUsers(q, 200, 1);
                     if (searchForUsers.OK)
                     {
-                        ConsoleOutput.PrintMessage(String.Format("Returned: {0}", searchForUsers.Count()));
+                        ConsoleOutput.PrintMessage($"Returned: {searchForUsers.Count()}");
                         foreach (var u in searchForUsers)
                         {
-                            ConsoleOutput.PrintMessage(String.Format(
-                                "ScreenName: {0} User ID: {1} Description: {2}",
-                                u.Name, u.UserId, u.Description));
+                            ConsoleOutput.PrintMessage(
+                                $"ScreenName: {u.Name} User ID: {u.UserId} Description: {u.Description}");
                         }
                     }
                     else
@@ -181,8 +175,9 @@ namespace BoxKite.Twitter.Console
                     var configUser  = await session.GetConfiguration();
                     if (configUser.OK)
                     {
-                        ConsoleOutput.PrintMessage(String.Format("Returned for Max Media Per Upload: {0}", configUser.MaxMediaPerUpload));
-                        ConsoleOutput.PrintMessage(String.Format("Returned for Max Chars for DM: {0}", configUser.DirectMessageCharacterLimit));
+                        ConsoleOutput.PrintMessage($"Returned for Max Media Per Upload: {configUser.MaxMediaPerUpload}");
+                        ConsoleOutput.PrintMessage(
+                            $"Returned for Max Chars for DM: {configUser.DirectMessageCharacterLimit}");
                     }
                     else
                         successStatus = false;
@@ -195,7 +190,7 @@ namespace BoxKite.Twitter.Console
                     var getAuthToken = await session.StartApplicationOnlyAuth();
                     if (getAuthToken)
                     {
-                        ConsoleOutput.PrintMessage(String.Format("Returned: {0}", getAuthToken));
+                        ConsoleOutput.PrintMessage($"Returned: {getAuthToken}");
                     }
                     else
                         successStatus = false;

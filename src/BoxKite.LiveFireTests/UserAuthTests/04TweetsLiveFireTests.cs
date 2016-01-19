@@ -29,7 +29,7 @@ namespace BoxKite.Twitter.Console
                     {
                         tweetid = tweets1.Id;
                         ConsoleOutput.PrintMessage(
-                                String.Format("From: {0} // Message: {1}", tweets1.User.ScreenName, tweets1.Text ));
+                            $"From: {tweets1.User.ScreenName} // Message: {tweets1.Text}");
                     }
                     else
                         successStatus = false;
@@ -46,7 +46,7 @@ namespace BoxKite.Twitter.Console
                     if (tweets2.OK)
                     {
                         ConsoleOutput.PrintMessage(
-                            String.Format("From: {0} // Message: {1}", tweets2.User.ScreenName, tweets2.Text));
+                            $"From: {tweets2.User.ScreenName} // Message: {tweets2.Text}");
                     }
                     else
                         successStatus = false;
@@ -63,7 +63,7 @@ namespace BoxKite.Twitter.Console
                         foreach (var t in tweets3)
                         {
                             ConsoleOutput.PrintMessage(
-                                String.Format("From: {0} // Message: {1}", t.User.ScreenName, t.Text));
+                                $"From: {t.User.ScreenName} // Message: {t.Text}");
                         }
                     }
                     else
@@ -87,7 +87,7 @@ namespace BoxKite.Twitter.Console
                         {
                             tweetid = tweets4.Id;
                             ConsoleOutput.PrintMessage(
-                                String.Format("From: {0} // Message: {1}", tweets4.User.ScreenName, tweets4.Text));
+                                $"From: {tweets4.User.ScreenName} // Message: {tweets4.Text}");
                         }
                         else
                         {
@@ -106,9 +106,9 @@ namespace BoxKite.Twitter.Console
                     if (tweets5.OK)
                     {
                         ConsoleOutput.PrintMessage(
-                            String.Format("From: {0} // Message: {1}", tweets5.User.ScreenName, tweets5.Text));
+                            $"From: {tweets5.User.ScreenName} // Message: {tweets5.Text}");
                         ConsoleOutput.PrintMessage(
-                             String.Format("Extended Entities Count: {0}", tweets5.ExtendedEntities.Urls.Count()));
+                            $"Extended Entities Count: {tweets5.ExtendedEntities.Urls.Count()}");
                     }
                     else
                         successStatus = false;

@@ -17,7 +17,7 @@ namespace BoxKite.Twitter
         /// <param name="count">Specifies the number of direct messages to try and retrieve, up to a maximum of 200</param>
         /// <returns>(awaitable) IEnumerable of DirectMessages received by the session's authenticated user</returns>
         /// <remarks>ref: https://dev.twitter.com/docs/api/1.1/get/direct_messages </remarks>
-        public async static Task<TwitterResponseCollection<DirectMessage>> GetDirectMessages(this IUserSession session, long sinceId = 0, long maxId = 0, int count = 20)
+        public static async Task<TwitterResponseCollection<DirectMessage>> GetDirectMessages(this IUserSession session, long sinceId = 0, long maxId = 0, int count = 20)
         {
             var parameters = new TwitterParametersCollection();
             parameters.Create(include_entities: true, count: count, since_id: sinceId,
@@ -35,7 +35,7 @@ namespace BoxKite.Twitter
         /// <param name="count">Specifies the number of direct messages to try and retrieve, up to a maximum of 200</param>
         /// <returns>(awaitable) IEnumerable of DirectMessages Sent by the session's authenticated user</returns>
         /// <remarks>ref: https://dev.twitter.com/docs/api/1.1/get/direct_messages/sent </remarks>
-        public async static Task<TwitterResponseCollection<DirectMessage>> GetDirectMessagesSent(this IUserSession session, long sinceId = 0, long maxId = 0, int count = 20)
+        public static async Task<TwitterResponseCollection<DirectMessage>> GetDirectMessagesSent(this IUserSession session, long sinceId = 0, long maxId = 0, int count = 20)
         {
             var parameters = new TwitterParametersCollection();
             parameters.Create(include_entities: true, count: count, since_id: sinceId,
@@ -51,7 +51,7 @@ namespace BoxKite.Twitter
         /// <param name="Id">ID of direct message to return</param>
         /// <returns>(awaitable) Get A DirectMessage sent/received the session's authenticated user</returns>
         /// <remarks>ref: https://dev.twitter.com/docs/api/1.1/get/direct_messages/show </remarks>
-        public async static Task<DirectMessage> GetDirectMessageSingle(this IUserSession session, long Id)
+        public static async Task<DirectMessage> GetDirectMessageSingle(this IUserSession session, long Id)
         {
             var parameters = new TwitterParametersCollection();
             parameters.Create(id: Id, full_text:true);
@@ -67,7 +67,7 @@ namespace BoxKite.Twitter
         /// <param name="screenName">Screen name of the recipient</param>
         /// <returns></returns>
         /// <remarks>ref: https://dev.twitter.com/docs/api/1.1/post/direct_messages/new </remarks>
-        public async static Task<DirectMessage> SendDirectMessage(this IUserSession session, string screenName, string text)
+        public static async Task<DirectMessage> SendDirectMessage(this IUserSession session, string screenName, string text)
         {
             var parameters = new TwitterParametersCollection();
             parameters.Create(include_entities:true, screen_name:screenName, text:text.TrimAndTruncate(140));
@@ -87,7 +87,7 @@ namespace BoxKite.Twitter
         /// <param name="Id">ID of the direct message to delete</param>
         /// <returns>TwitterSuccess (true) if deletion worked</returns>
         /// <remarks>ref: https://dev.twitter.com/docs/api/1.1/post/direct_messages/destroy </remarks>
-        public async static Task<TwitterSuccess> DeleteDirectMessage(this IUserSession session, long Id)
+        public static async Task<TwitterSuccess> DeleteDirectMessage(this IUserSession session, long Id)
         {
             var parameters = new TwitterParametersCollection();
             parameters.Create(id: Id);

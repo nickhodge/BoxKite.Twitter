@@ -18,7 +18,7 @@ namespace BoxKite.Twitter
         /// <param name="userId">The ID of the user you want to report as a spammer. Helpful for disambiguating when a valid user ID is also a valid screen name.</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/post/users/report_spam </remarks>
-        public async static Task<User> ReportUserForSpam(this IUserSession session, string screenName="", int userId=0)
+        public static async Task<User> ReportUserForSpam(this IUserSession session, string screenName="", int userId=0)
         {
             var parameters = new TwitterParametersCollection();
             parameters.Create(screen_name: screenName, user_id: userId);

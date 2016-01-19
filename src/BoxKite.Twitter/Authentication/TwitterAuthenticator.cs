@@ -35,20 +35,12 @@ namespace BoxKite.Twitter.Authentication
             var nonce = session.GenerateNoonce();
 
             var sigBaseStringParams =
-                string.Format(
-                    "oauth_consumer_key={0}&oauth_nonce={1}&oauth_signature_method=HMAC-SHA1&oauth_timestamp={2}&oauth_version=1.0",
-                    session.clientID,
-                    nonce,
-                    sinceEpoch);
+                $"oauth_consumer_key={session.clientID}&oauth_nonce={nonce}&oauth_signature_method=HMAC-SHA1&oauth_timestamp={sinceEpoch}&oauth_version=1.0";
 
-            var sigBaseString = string.Format("POST&{0}&{1}", TwitterApi.RequestTokenUrl().UrlEncode(), sigBaseStringParams.UrlEncode());
+            var sigBaseString = $"POST&{TwitterApi.RequestTokenUrl().UrlEncode()}&{sigBaseStringParams.UrlEncode()}";
             var signature = session.GenerateSignature(session.clientSecret, sigBaseString, null);
-            var dataToPost = string.Format(
-                    "OAuth realm=\"\", oauth_nonce=\"{0}\", oauth_timestamp=\"{1}\", oauth_consumer_key=\"{2}\", oauth_signature_method=\"HMAC-SHA1\", oauth_version=\"1.0\", oauth_signature=\"{3}\"",
-                    nonce,
-                    sinceEpoch,
-                    session.clientID,
-                    signature.UrlEncode());
+            var dataToPost =
+                $"OAuth realm=\"\", oauth_nonce=\"{nonce}\", oauth_timestamp=\"{sinceEpoch}\", oauth_consumer_key=\"{session.clientID}\", oauth_signature_method=\"HMAC-SHA1\", oauth_version=\"1.0\", oauth_signature=\"{signature.UrlEncode()}\"";
 
             var response = await PostData(TwitterApi.RequestTokenUrl(), dataToPost);
 
@@ -86,13 +78,8 @@ namespace BoxKite.Twitter.Authentication
             var sinceEpoch = session.GenerateTimestamp();
             var nonce = session.GenerateNoonce();
 
-            var dataToPost = string.Format(
-                    "OAuth realm=\"\", oauth_nonce=\"{0}\", oauth_timestamp=\"{1}\", oauth_consumer_key=\"{2}\", oauth_signature_method=\"HMAC-SHA1\", oauth_version=\"1.0\", oauth_verifier=\"{3}\", oauth_token=\"{4}\"",
-                    nonce,
-                    sinceEpoch,
-                    session.clientID,
-                    pinAuthorizationCode,
-                    oAuthToken);
+            var dataToPost =
+                $"OAuth realm=\"\", oauth_nonce=\"{nonce}\", oauth_timestamp=\"{sinceEpoch}\", oauth_consumer_key=\"{session.clientID}\", oauth_signature_method=\"HMAC-SHA1\", oauth_version=\"1.0\", oauth_verifier=\"{pinAuthorizationCode}\", oauth_token=\"{oAuthToken}\"";
 
             var response = await PostData(TwitterApi.AuthorizeTokenUrl(), dataToPost);
 
@@ -312,14 +299,9 @@ namespace BoxKite.Twitter.Authentication
             var nonce = session.GenerateNoonce();
 
             var sigBaseStringParams =
-                string.Format(
-                    "oauth_consumer_key={0}&oauth_nonce={1}&oauth_signature_method=HMAC-SHA1&oauth_timestamp={2}&oauth_version=1.0",
-                    session.clientID,
-                    nonce,
-                    sinceEpoch);
+                $"oauth_consumer_key={session.clientID}&oauth_nonce={nonce}&oauth_signature_method=HMAC-SHA1&oauth_timestamp={sinceEpoch}&oauth_version=1.0";
 
-            var sigBaseString = string.Format("POST&{0}&{1}", TwitterApi.XAuthorizeTokenUrl().UrlEncode(),
-                sigBaseStringParams.UrlEncode());
+            var sigBaseString = $"POST&{TwitterApi.XAuthorizeTokenUrl().UrlEncode()}&{sigBaseStringParams.UrlEncode()}";
             var signature = session.GenerateSignature(session.clientSecret, sigBaseString, null);
             var dataToPost = string.Format(
                 "OAuth oauth_consumer_key=\"{2}\",oauth_nonce=\"{0}\",oauth_signature=\"{3}\",oauth_signature_method=\"HMAC-SHA1\",oauth_timestamp=\"{1}\",oauth_version=\"1.0\"",
@@ -328,10 +310,8 @@ namespace BoxKite.Twitter.Authentication
                 session.clientID,
                 signature.UrlEncode());
 
-            var contentToPost = string.Format(
-                "x_auth_username={0}&x_auth_password={1}&x_auth_mode=client_auth",
-                xauthusername.UrlEncode(),
-                xauthpassword.UrlEncode());
+            var contentToPost =
+                $"x_auth_username={xauthusername.UrlEncode()}&x_auth_password={xauthpassword.UrlEncode()}&x_auth_mode=client_auth";
 
             var authresponse = await PostData(TwitterApi.XAuthorizeTokenUrl(), dataToPost, contentToPost);
 
@@ -436,10 +416,8 @@ namespace BoxKite.Twitter.Authentication
 
         private static string GenerateSignature(this IUserSession session, string signingKey, string baseString, string tokenSecret)
                 {
-                    session.PlatformAdaptor.AssignKey(Encoding.UTF8.GetBytes(string.Format("{0}&{1}", OAuthUrlEncode(signingKey),
-                        string.IsNullOrEmpty(tokenSecret)
-                            ? ""
-                            : OAuthUrlEncode(tokenSecret))));
+                    session.PlatformAdaptor.AssignKey(Encoding.UTF8.GetBytes(
+                        $"{OAuthUrlEncode(signingKey)}&{(string.IsNullOrEmpty(tokenSecret) ? "" : OAuthUrlEncode(tokenSecret))}"));
                     var dataBuffer = Encoding.UTF8.GetBytes(baseString);
                     var hashBytes = session.PlatformAdaptor.ComputeHash(dataBuffer);
                     var signatureString = Convert.ToBase64String(hashBytes);
@@ -459,7 +437,7 @@ namespace BoxKite.Twitter.Authentication
                 else
                 {
                     // ReSharper disable once PossibleInvalidCastException
-                    result.Append('%' + string.Format("{0:X2}", (int) symbol));
+                    result.Append('%' + $"{(int) symbol:X2}");
                 }
             }
 

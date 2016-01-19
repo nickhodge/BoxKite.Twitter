@@ -31,7 +31,7 @@ namespace BoxKite.Twitter.Console
                         foreach (var trnd in combo1)
                         {
                             ConsoleOutput.PrintMessage(
-                                String.Format("Trend Test: {0}", trnd.Name));
+                                $"Trend Test: {trnd.Name}");
                         }
                     }
                     else
@@ -68,18 +68,17 @@ namespace BoxKite.Twitter.Console
                             break;
                         };
                         nextcursor = ff2List.next_cursor;
-                        ConsoleOutput.PrintMessage(String.Format("Previous cursor: {0} Next cursor: {1}",
-                            ff2List.previous_cursor, ff2List.next_cursor));
+                        ConsoleOutput.PrintMessage(
+                            $"Previous cursor: {ff2List.previous_cursor} Next cursor: {ff2List.next_cursor}");
                         foreach (var l in ff2List.UserIDs)
                         {
                             userids2.Add(l);
                             ff5ListCount++;
-                            ConsoleOutput.PrintMessage(String.Format("User ID: {0}", l));
+                            ConsoleOutput.PrintMessage($"User ID: {l}");
                         }
                     } while (nextcursor != 0);
 
-                    ConsoleOutput.PrintMessage(String.Format("Total Outstanding Outgoing Friend Requests Count: {0}",
-                       ff5ListCount));
+                    ConsoleOutput.PrintMessage($"Total Outstanding Outgoing Friend Requests Count: {ff5ListCount}");
 
                     if (userids2.Any())
                     {
@@ -89,7 +88,7 @@ namespace BoxKite.Twitter.Console
                             foreach (var requsers in userlist2)
                             {
                                 ConsoleOutput.PrintMessage(
-                                    String.Format("UserID: {0} // ScreenName: {1}", requsers.UserId, requsers.ScreenName));
+                                    $"UserID: {requsers.UserId} // ScreenName: {requsers.ScreenName}");
                             }
 
                         }
@@ -118,18 +117,17 @@ namespace BoxKite.Twitter.Console
                             break;
                         };
                         nextcursor = ff3List.next_cursor;
-                        ConsoleOutput.PrintMessage(String.Format("Previous cursor: {0} Next cursor: {1}",
-                            ff3List.previous_cursor, ff3List.next_cursor));
+                        ConsoleOutput.PrintMessage(
+                            $"Previous cursor: {ff3List.previous_cursor} Next cursor: {ff3List.next_cursor}");
                         foreach (var l in ff3List.UserIDs)
                         {
                             userids3.Add(l);
                             ff5ListCount++;
-                            ConsoleOutput.PrintMessage(String.Format("User ID: {0}", l));
+                            ConsoleOutput.PrintMessage($"User ID: {l}");
                         }
                     } while (nextcursor != 0);
 
-                    ConsoleOutput.PrintMessage(String.Format("Total Outstanding Incoming Friend Requests Count: {0}",
-                       ff5ListCount));
+                    ConsoleOutput.PrintMessage($"Total Outstanding Incoming Friend Requests Count: {ff5ListCount}");
 
                     if (userids3.Any())
                     {
@@ -139,7 +137,7 @@ namespace BoxKite.Twitter.Console
                             foreach (var requsers in userlist3)
                             {
                                 ConsoleOutput.PrintMessage(
-                                    String.Format("UserID: {0} // ScreenName: {1}", requsers.UserId, requsers.ScreenName));
+                                    $"UserID: {requsers.UserId} // ScreenName: {requsers.ScreenName}");
                             }
 
                         }

@@ -17,7 +17,7 @@ namespace BoxKite.Twitter
         /// <param name="maxId">Returns results with an ID less than (that is, older than) or equal to the specified ID.</param>
         /// <returns></returns>
         /// <remarks> ref :https://dev.twitter.com/docs/api/1.1/get/statuses/mentions_timeline </remarks>
-        public async static Task<TwitterResponseCollection<Tweet>> GetMentions(this IUserSession session, long sinceId = 0, long maxId = 0, int count = 20)
+        public static async Task<TwitterResponseCollection<Tweet>> GetMentions(this IUserSession session, long sinceId = 0, long maxId = 0, int count = 20)
         {
             var parameters = new TwitterParametersCollection();
             parameters.Create(include_entities: true, count: count, since_id: sinceId, max_id: maxId);
@@ -38,7 +38,7 @@ namespace BoxKite.Twitter
         /// <param name="includeRetweets">When set to false, the timeline will strip any native retweets</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/statuses/user_timeline </remarks>
-        public async static Task<TwitterResponseCollection<Tweet>> GetUserTimeline(this ITwitterSession session, string screenName = "", long userId = 0, long sinceId = 0, long maxId = 0, int count = 200, bool excludeReplies = true, bool includeRetweets = true)
+        public static async Task<TwitterResponseCollection<Tweet>> GetUserTimeline(this ITwitterSession session, string screenName = "", long userId = 0, long sinceId = 0, long maxId = 0, int count = 200, bool excludeReplies = true, bool includeRetweets = true)
         {
             var parameters = new TwitterParametersCollection();
             parameters.Create(include_entities: true, include_rts: true, count: count, since_id: sinceId, max_id: maxId, screen_name:screenName);
@@ -55,7 +55,7 @@ namespace BoxKite.Twitter
         /// <param name="maxId">Returns results with an ID less than (that is, older than) or equal to the specified ID.</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/statuses/home_timeline </remarks>
-        public async static Task<TwitterResponseCollection<Tweet>> GetHomeTimeline(this IUserSession session, long sinceId = 0, int count = 20, long maxId = 0)
+        public static async Task<TwitterResponseCollection<Tweet>> GetHomeTimeline(this IUserSession session, long sinceId = 0, int count = 20, long maxId = 0)
         {
             var parameters = new TwitterParametersCollection();
             parameters.Create(include_entities: true, include_rts:true,  count:count, since_id: sinceId, max_id: maxId);
@@ -72,7 +72,7 @@ namespace BoxKite.Twitter
         /// <param name="maxId">Returns results with an ID less than (that is, older than) or equal to the specified ID.</param>
         /// <returns></returns>
         /// <remarks> ref: https://dev.twitter.com/docs/api/1.1/get/statuses/retweets_of_me </remarks>
-        public async static Task<TwitterResponseCollection<Tweet>> GetRetweetsOfMe(this IUserSession session, long sinceId = 0, long maxId = 0, int count = 20)
+        public static async Task<TwitterResponseCollection<Tweet>> GetRetweetsOfMe(this IUserSession session, long sinceId = 0, long maxId = 0, int count = 20)
         {
             var parameters = new TwitterParametersCollection();
             parameters.Create(include_entities: true, include_rts: true, count: count, since_id: sinceId, max_id: maxId);
