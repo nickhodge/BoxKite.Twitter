@@ -2,9 +2,9 @@
 
 ![boxkite logo](http://media.nickhodge.com/boxkite/twitter/github-logo-wide-2.png)
 
-BoxKite.Twitter is a .NET 4.6 Library that provides an interface to the Twitter API 1.1, licensed [MS-PL](http://opensource.org/licenses/MS-PL).
+BoxKite.Twitter is a netstandard 1.4 library that provides an interface to the Twitter API 1.1, licensed [MS-PL](http://opensource.org/licenses/MS-PL).
 
-Supporting .NET 4.6, Universal Windows Platform (UWP), iOS (Mono/Xamarin) and Portable Class Libaries; it uses modern .NET development mechanisms `async/await` and [Reactive Extensions](https://rx.codeplex.com/).
+Supporting all platforms that compatible with netstandard 1.4; it uses modern .NET development mechanisms `async/await` and [Reactive Extensions](http://reactivex.io/).
 
 Questions? You can find me on Twitter, of course! [@RealNickHodge](https://twitter.com/RealNickHodge)
 
@@ -12,6 +12,12 @@ Questions? You can find me on Twitter, of course! [@RealNickHodge](https://twitt
 
 
 ## Version News
+Version 3.0.0 Changes:
+* Converted to netstandard library. BoxKite supports all platforms that compatible with netstandard 1.4
+* Reduced .NET framework min from 4.6 to 4.5.2
+* When contributing or compiling from source, the minimum version of Visual Studio is now 2017.
+* Android namepace is now `BoxKite.Twitter` was `BoxKite.Twitter.Android`
+
 Version 2.4.0 Changes:
 * Add support for [>140 character Direct Message sending](https://twittercommunity.com/t/removing-the-140-character-limit-from-direct-messages/41348). BoxKite.Twitter does not truncate messages, but the Direct Message API required passing a parameter indicating support for >140 characters. This is now implemented.
 

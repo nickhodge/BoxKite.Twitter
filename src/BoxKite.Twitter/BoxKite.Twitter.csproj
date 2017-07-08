@@ -124,10 +124,6 @@
     <Compile Include="Connection\UserSession.cs" />
     <Compile Include="Connection\UserStream.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="project.json" />
-  </ItemGroup>
   <ItemGroup />
   <ItemGroup>
     <Content Include="Assets\background-extended.png" />
