@@ -115,3 +115,6 @@ Thumbs.db
 
 # Roslyn cache directories
 *.ide/
+
+# Visual Studio 2017 cache directories
+*.vs/
