@@ -78,9 +78,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\BoxKite.Twitter\Platforms\net452\DesktopPlatformAdaptor.cs">
-      <Link>Helpers\DesktopPlatformAdaptor.cs</Link>
-    </None>
     <Compile Include="BoxKiteTwitterFromConsole_AppAuth.cs" />
     <Compile Include="BoxKiteTwitterFromConsole.cs" />
     <Compile Include="Helpers\ConsoleOutput.cs" />
@@ -124,4 +121,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <Target Name="Pack">
+    <!-- Dummy target so we can do multi-targeting and non-multi-targeting in the same solution -->
+  </Target>
 </Project>

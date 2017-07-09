@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CoverageSession xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Summary numSequencePoints="0" visitedSequencePoints="0" numBranchPoints="0" visitedBranchPoints="0" sequenceCoverage="0" branchCoverage="0" maxCyclomaticComplexity="0" minCyclomaticComplexity="0" visitedClasses="0" numClasses="0" visitedMethods="0" numMethods="0" />
+  <Modules>
+    <Module skippedDueTo="Filter" hash="EA-B3-A2-30-3C-4D-54-1C-6E-3A-4A-52-B7-61-53-86-B8-12-8D-49">
+      <ModulePath>C:\Windows\Microsoft.Net\assembly\GAC_64\mscorlib\v4.0_4.0.0.0__b77a5c561934e089\mscorlib.dll</ModulePath>
+      <ModuleTime>2017-06-08T08:15:23.0895039Z</ModuleTime>
+      <ModuleName>mscorlib</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="MissingPdb" hash="D6-20-D0-CF-21-B5-CD-3C-63-A0-3F-85-84-C7-3C-3E-1B-DF-1F-AD">
+      <ModulePath>C:\Dropbox\OSS\nickhodge\BoxKite.Twitter\tools\xunit.runner.console\tools\xunit.console.exe</ModulePath>
+      <ModuleTime>2017-02-19T04:18:06Z</ModuleTime>
+      <ModuleName>xunit.console</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="MissingPdb" hash="6B-6F-B8-5B-DC-B5-68-78-DD-41-47-3F-3F-E9-C3-E6-50-F8-3A-87">
+      <ModulePath>C:\Dropbox\OSS\nickhodge\BoxKite.Twitter\tools\xunit.runner.console\tools\xunit.runner.utility.net452.dll</ModulePath>
+      <ModuleTime>2017-02-19T04:18:06Z</ModuleTime>
+      <ModuleName>xunit.runner.utility.net452</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="MissingPdb" hash="9E-A9-5D-7F-86-82-4D-02-7D-07-AD-C0-17-06-5D-73-8F-1F-28-44">
+      <ModulePath>C:\Dropbox\OSS\nickhodge\BoxKite.Twitter\tools\xunit.runner.console\tools\xunit.abstractions.dll</ModulePath>
+      <ModuleTime>2017-02-19T04:18:06Z</ModuleTime>
+      <ModuleName>xunit.abstractions</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="D0-60-0C-D0-DA-1B-FE-75-35-FA-19-18-0B-33-D0-3F-23-E1-2D-EE">
+      <ModulePath>C:\Windows\Microsoft.Net\assembly\GAC_MSIL\System.Core\v4.0_4.0.0.0__b77a5c561934e089\System.Core.dll</ModulePath>
+      <ModuleTime>2017-06-08T08:15:23.152005Z</ModuleTime>
+      <ModuleName>System.Core</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="MissingPdb" hash="A7-58-FE-BD-E7-A0-1D-C9-FD-27-C1-11-E2-74-AE-E4-55-1D-FB-81">
+      <ModulePath>C:\Dropbox\OSS\nickhodge\BoxKite.Twitter\tools\xunit.runner.console\tools\xunit.runner.reporters.net452.dll</ModulePath>
+      <ModuleTime>2017-02-19T04:18:06Z</ModuleTime>
+      <ModuleName>xunit.runner.reporters.net452</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="6A-B0-08-80-0B-A5-95-C7-FA-79-33-2C-55-FC-56-DE-B2-D4-6F-B8">
+      <ModulePath>C:\Windows\Microsoft.Net\assembly\GAC_MSIL\System.Net.Http\v4.0_4.0.0.0__b03f5f7f11d50a3a\System.Net.Http.dll</ModulePath>
+      <ModuleTime>2017-03-18T20:59:43.9625256Z</ModuleTime>
+      <ModuleName>System.Net.Http</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="79-2F-E4-81-15-23-A9-72-6E-4B-61-08-E7-03-D3-3D-F2-DA-F6-11">
+      <ModulePath>C:\Windows\Microsoft.Net\assembly\GAC_MSIL\System\v4.0_4.0.0.0__b77a5c561934e089\System.dll</ModulePath>
+      <ModuleTime>2017-06-08T08:15:23.152005Z</ModuleTime>
+      <ModuleName>System</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="23-BC-31-F6-43-B2-A8-0E-53-0D-F9-0B-70-B7-5D-8F-D4-C6-52-05">
+      <ModulePath>C:\Windows\Microsoft.Net\assembly\GAC_64\System.Web\v4.0_4.0.0.0__b03f5f7f11d50a3a\System.Web.dll</ModulePath>
+      <ModuleTime>2017-03-18T20:59:47.9159862Z</ModuleTime>
+      <ModuleName>System.Web</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="0C-91-60-C5-26-07-2E-2E-54-A1-8A-32-86-67-C5-B4-A5-93-05-F9">
+      <ModulePath>C:\Windows\Microsoft.Net\assembly\GAC_MSIL\System.Configuration\v4.0_4.0.0.0__b03f5f7f11d50a3a\System.Configuration.dll</ModulePath>
+      <ModuleTime>2017-03-18T20:59:43.7281312Z</ModuleTime>
+      <ModuleName>System.Configuration</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="B2-28-6B-70-63-9D-E4-57-87-05-C1-81-C5-79-94-3B-83-FA-E0-DD">
+      <ModulePath>C:\Windows\Microsoft.Net\assembly\GAC_MSIL\System.Xml.Linq\v4.0_4.0.0.0__b77a5c561934e089\System.Xml.Linq.dll</ModulePath>
+      <ModuleTime>2017-03-18T20:59:45.7283009Z</ModuleTime>
+      <ModuleName>System.Xml.Linq</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="BC-3D-7B-FA-41-15-98-9E-BD-CB-6E-11-CC-4E-F2-49-2D-A6-58-72">
+      <ModulePath>C:\Windows\Microsoft.Net\assembly\GAC_MSIL\System.Xml\v4.0_4.0.0.0__b77a5c561934e089\System.Xml.dll</ModulePath>
+      <ModuleTime>2017-03-18T20:59:43.8218895Z</ModuleTime>
+      <ModuleName>System.Xml</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="MissingPdb" hash="6B-6F-B8-5B-DC-B5-68-78-DD-41-47-3F-3F-E9-C3-E6-50-F8-3A-87">
+      <ModulePath>C:\Users\ghuntley\AppData\Local\Temp\64f288e8-bd20-4ca6-b196-94072f8ae6b4\64f288e8-bd20-4ca6-b196-94072f8ae6b4\assembly\dl3\f08e488a\00934e2b_678ad201\xunit.runner.utility.net452.dll</ModulePath>
+      <ModuleTime>2017-07-09T09:02:13.4478819Z</ModuleTime>
+      <ModuleName>xunit.runner.utility.net452</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="D0-60-0C-D0-DA-1B-FE-75-35-FA-19-18-0B-33-D0-3F-23-E1-2D-EE">
+      <ModulePath>C:\Windows\Microsoft.Net\assembly\GAC_MSIL\System.Core\v4.0_4.0.0.0__b77a5c561934e089\System.Core.dll</ModulePath>
+      <ModuleTime>2017-06-08T08:15:23.152005Z</ModuleTime>
+      <ModuleName>System.Core</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="79-2F-E4-81-15-23-A9-72-6E-4B-61-08-E7-03-D3-3D-F2-DA-F6-11">
+      <ModulePath>C:\Windows\Microsoft.Net\assembly\GAC_MSIL\System\v4.0_4.0.0.0__b77a5c561934e089\System.dll</ModulePath>
+      <ModuleTime>2017-06-08T08:15:23.152005Z</ModuleTime>
+      <ModuleName>System</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="MissingPdb" hash="">
+      <ModulePath>RefEmit_InMemoryManifestModule</ModulePath>
+      <ModuleTime>0001-01-01T00:00:00</ModuleTime>
+      <ModuleName>Anonymously Hosted DynamicMethods Assembly</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="77-10-A5-0B-91-C1-07-58-D0-0B-97-D6-03-1F-AE-4E-57-D4-26-60">
+      <ModulePath>C:\Dropbox\OSS\nickhodge\BoxKite.Twitter\src\BoxKite.Twitter.Tests\bin\Release\BoxKite.Twitter.Tests.dll</ModulePath>
+      <ModuleTime>2017-07-09T09:01:52.8937113Z</ModuleTime>
+      <ModuleName>BoxKite.Twitter.Tests</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="MissingPdb" hash="5F-78-C9-06-44-25-5B-3E-B1-5F-15-DF-56-B6-68-AC-88-0F-39-B3">
+      <ModulePath>C:\Dropbox\OSS\nickhodge\BoxKite.Twitter\src\BoxKite.Twitter.Tests\bin\Release\BoxKite.Twitter.dll</ModulePath>
+      <ModuleTime>2017-07-09T08:59:18.0374032Z</ModuleTime>
+      <ModuleName>BoxKite.Twitter</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="6A-B0-08-80-0B-A5-95-C7-FA-79-33-2C-55-FC-56-DE-B2-D4-6F-B8">
+      <ModulePath>C:\Windows\Microsoft.Net\assembly\GAC_MSIL\System.Net.Http\v4.0_4.0.0.0__b03f5f7f11d50a3a\System.Net.Http.dll</ModulePath>
+      <ModuleTime>2017-03-18T20:59:43.9625256Z</ModuleTime>
+      <ModuleName>System.Net.Http</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="45-7E-59-39-DF-A2-CE-6E-47-5B-F2-D8-AF-75-D8-24-FF-4D-10-E6">
+      <ModulePath>C:\Dropbox\OSS\nickhodge\BoxKite.Twitter\src\BoxKite.Twitter.Tests\bin\Release\System.Net.Http.dll</ModulePath>
+      <ModuleTime>2016-06-11T13:13:58Z</ModuleTime>
+      <ModuleName>System.Net.Http</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="79-2F-E4-81-15-23-A9-72-6E-4B-61-08-E7-03-D3-3D-F2-DA-F6-11">
+      <ModulePath>C:\Windows\Microsoft.Net\assembly\GAC_MSIL\System\v4.0_4.0.0.0__b77a5c561934e089\System.dll</ModulePath>
+      <ModuleTime>2017-06-08T08:15:23.152005Z</ModuleTime>
+      <ModuleName>System</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="MissingPdb" hash="32-AD-A4-4F-3B-1B-92-42-C8-92-40-58-11-16-15-A1-19-DD-0C-4A">
+      <ModulePath>C:\Dropbox\OSS\nickhodge\BoxKite.Twitter\src\BoxKite.Twitter.Tests\bin\Release\Microsoft.Reactive.Testing.dll</ModulePath>
+      <ModuleTime>2016-11-05T04:06:38Z</ModuleTime>
+      <ModuleName>Microsoft.Reactive.Testing</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="63-02-4A-CB-0D-89-B1-A5-EB-F8-7B-AB-52-77-A5-45-B8-9D-6B-8F">
+      <ModulePath>C:\Windows\Microsoft.Net\assembly\GAC_MSIL\System.Runtime\v4.0_4.0.0.0__b03f5f7f11d50a3a\System.Runtime.dll</ModulePath>
+      <ModuleTime>2017-03-18T20:59:43.9469001Z</ModuleTime>
+      <ModuleName>System.Runtime</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="D9-FD-A1-78-EA-F5-D9-2B-EB-2F-0D-83-18-A4-A1-A7-38-AB-1E-46">
+      <ModulePath>C:\Windows\Microsoft.Net\assembly\GAC_MSIL\System.Net.Primitives\v4.0_4.0.0.0__b03f5f7f11d50a3a\System.Net.Primitives.dll</ModulePath>
+      <ModuleTime>2017-03-18T20:59:45.9470695Z</ModuleTime>
+      <ModuleName>System.Net.Primitives</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="MissingPdb" hash="65-5E-31-B7-F8-FE-26-52-25-8F-0A-D2-D8-6E-39-0F-97-5A-43-F3">
+      <ModulePath>C:\Dropbox\OSS\nickhodge\BoxKite.Twitter\src\BoxKite.Twitter.Tests\bin\Release\xunit.execution.desktop.dll</ModulePath>
+      <ModuleTime>2017-02-19T04:18:04Z</ModuleTime>
+      <ModuleName>xunit.execution.desktop</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="77-10-A5-0B-91-C1-07-58-D0-0B-97-D6-03-1F-AE-4E-57-D4-26-60">
+      <ModulePath>C:\Dropbox\OSS\nickhodge\BoxKite.Twitter\src\BoxKite.Twitter.Tests\bin\Release\BoxKite.Twitter.Tests.dll</ModulePath>
+      <ModuleTime>2017-07-09T09:01:52.8937113Z</ModuleTime>
+      <ModuleName>BoxKite.Twitter.Tests</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="MissingPdb" hash="B4-1C-0E-F5-FD-FF-9B-C4-1E-A4-FC-70-D7-8F-C0-AC-9B-CC-1F-13">
+      <ModulePath>C:\Dropbox\OSS\nickhodge\BoxKite.Twitter\src\BoxKite.Twitter.Tests\bin\Release\xunit.core.dll</ModulePath>
+      <ModuleTime>2017-02-19T04:18:04Z</ModuleTime>
+      <ModuleName>xunit.core</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="63-02-4A-CB-0D-89-B1-A5-EB-F8-7B-AB-52-77-A5-45-B8-9D-6B-8F">
+      <ModulePath>C:\Windows\Microsoft.Net\assembly\GAC_MSIL\System.Runtime\v4.0_4.0.0.0__b03f5f7f11d50a3a\System.Runtime.dll</ModulePath>
+      <ModuleTime>2017-03-18T20:59:43.9469001Z</ModuleTime>
+      <ModuleName>System.Runtime</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="MissingPdb" hash="5F-78-C9-06-44-25-5B-3E-B1-5F-15-DF-56-B6-68-AC-88-0F-39-B3">
+      <ModulePath>C:\Dropbox\OSS\nickhodge\BoxKite.Twitter\src\BoxKite.Twitter.Tests\bin\Release\BoxKite.Twitter.dll</ModulePath>
+      <ModuleTime>2017-07-09T08:59:18.0374032Z</ModuleTime>
+      <ModuleName>BoxKite.Twitter</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="45-7E-59-39-DF-A2-CE-6E-47-5B-F2-D8-AF-75-D8-24-FF-4D-10-E6">
+      <ModulePath>C:\Dropbox\OSS\nickhodge\BoxKite.Twitter\src\BoxKite.Twitter.Tests\bin\Release\System.Net.Http.dll</ModulePath>
+      <ModuleTime>2016-06-11T13:13:58Z</ModuleTime>
+      <ModuleName>System.Net.Http</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="69-2B-88-EE-03-F5-A3-0E-59-E8-16-7B-B8-60-BF-B7-B2-44-3A-68">
+      <ModulePath>C:\Windows\Microsoft.Net\assembly\GAC_MSIL\System.Data.SqlXml\v4.0_4.0.0.0__b77a5c561934e089\System.Data.SqlXml.dll</ModulePath>
+      <ModuleTime>2017-03-18T20:59:45.712675Z</ModuleTime>
+      <ModuleName>System.Data.SqlXml</ModuleName>
+      <Classes />
+    </Module>
+    <Module skippedDueTo="Filter" hash="">
+      <ModulePath>RefEmit_InMemoryManifestModule</ModulePath>
+      <ModuleTime>0001-01-01T00:00:00</ModuleTime>
+      <ModuleName>System.Xml.Xsl.CompiledQuery.1</ModuleName>
+      <Classes />
+    </Module>
+  </Modules>
+</CoverageSession>

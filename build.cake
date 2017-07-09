@@ -53,7 +53,7 @@ Task("Build")
         MSBuild("./src/BoxKite.Twitter.sln", new MSBuildSettings() {
                 ToolPath= msBuildPath
             }
-            .WithTarget("restore")
+            .WithTarget("restore;build;pack")
             .WithProperty("PackageOutputPath",  MakeAbsolute(Directory(artifactDirectory)).ToString())
             .WithProperty("TreatWarningsAsErrors", "true")
             .SetConfiguration("Release")

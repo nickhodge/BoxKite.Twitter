@@ -12,6 +12,7 @@ using FluentAssertions;
 
 namespace BoxKite.Twitter.Tests
 {
+    #pragma warning disable 1998
     public class TestableUserSession : IUserSession, ITwitterSession
     {
         string contents;
