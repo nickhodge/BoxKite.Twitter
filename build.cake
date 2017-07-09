@@ -11,7 +11,8 @@
 #tool "GitVersion.CommandLine"
 #tool "OpenCover"
 #tool "ReportGenerator"
-#tool nuget:?package=vswhere
+#tool "nuget:?package=vswhere"
+#tool "nuget:?package=xunit.runner.console"
 
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
@@ -31,7 +32,7 @@ var nugetVersion = gitVersion.NuGetVersion;
 var buildVersion = gitVersion.FullBuildMetaData;
 
 // Artifacts
-var artifactDirectory = File("./artifacts/");
+var artifactDirectory ="./artifacts/";
 var testCoverageOutputFile = artifactDirectory + "OpenCover.xml";
 
 //////////////////////////////////////////////////////////////////////
@@ -64,26 +65,25 @@ Task("Build")
 Task("Test")
     .Does(() =>
     {
-        // Action<ICakeContext> testAction = tool => {
+        Action<ICakeContext> testAction = tool => {
+            tool.XUnit2("./src/BoxKite.Twitter.Tests/bin/Release/BoxKite.Twitter.Tests.dll", new XUnit2Settings {
+                OutputDirectory = artifactDirectory,
+                XmlReportV1 = true,
+                NoAppDomain = true
+            });
+        };
 
-        //     tool.XUnit2("./src/BoxKite.Twitter.Tests/bin/**/*.Tests.dll", new XUnit2Settings {
-        //         OutputDirectory = artifactDirectory,
-        //         XmlReportV1 = true,
-        //         NoAppDomain = true
-        //     });
-        // };
+        OpenCover(testAction,
+            testCoverageOutputFile,
+            new OpenCoverSettings {
+                ReturnTargetCodeOffset = 0,
+                ArgumentCustomization = args => args.Append("-mergeoutput")
+            }
+            .WithFilter("+[*]* -[*.Tests*]*")
+            .ExcludeByAttribute("*.ExcludeFromCodeCoverage*")
+            .ExcludeByFile("*/*Designer.cs;*/*.g.cs;*/*.g.i.cs"));
 
-        // OpenCover(testAction,
-        //     testCoverageOutputFile,
-        //     new OpenCoverSettings {
-        //         ReturnTargetCodeOffset = 0,
-        //         ArgumentCustomization = args => args.Append("-mergeoutput")
-        //     }
-        //     .WithFilter("+[*]* -[*.Tests*]*")
-        //     .ExcludeByAttribute("*.ExcludeFromCodeCoverage*")
-        //     .ExcludeByFile("*/*Designer.cs;*/*.g.cs;*/*.g.i.cs"));
-
-        // ReportGenerator(testCoverageOutputFile, artifactDirectory);
+        ReportGenerator(testCoverageOutputFile, artifactDirectory);
     });
     
 Task("Package")
