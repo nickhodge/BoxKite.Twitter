@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.4;net452;uap10.0;Xamarin.iOS10;Xamarin.Mac20;MonoAndroid70</TargetFrameworks>
+    <TargetFrameworks>netstandard1.4;net452;Xamarin.iOS10;Xamarin.Mac20;MonoAndroid70</TargetFrameworks>
     <AssemblyName>BoxKite.Twitter</AssemblyName>
     <RootNamespace>BoxKite.Twitter</RootNamespace>
     <authors>Nick Hodge</authors>
@@ -21,7 +21,6 @@
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
 </ItemGroup>
 
-
 <ItemGroup Condition="'$(TargetFramework)'!='netstandard1.4'">
   <Compile Include="Platforms\shared\**\*.cs" />    
 </ItemGroup>
@@ -30,9 +29,9 @@
     <Compile Include="Platforms\net452\**\*.cs" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'uap10.0' ">
+  <!--<ItemGroup Condition=" '$(TargetFramework)' == 'uap10.0' ">
     <Compile Include="Platforms\uap10.0\**\*.cs" />
-  </ItemGroup>
+  </ItemGroup>-->
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'Xamarin.iOS10' ">
     <Compile Include="Platforms\ios\**\*.cs" />
