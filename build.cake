@@ -9,8 +9,6 @@
 //////////////////////////////////////////////////////////////////////
 
 #tool "GitVersion.CommandLine"
-#tool "OpenCover"
-#tool "ReportGenerator"
 #tool "nuget:?package=vswhere"
 #tool "nuget:?package=xunit.runner.console"
 
@@ -80,25 +78,11 @@ Task("Build")
 Task("Test")
     .Does(() =>
     {
-        Action<ICakeContext> testAction = tool => {
-            tool.XUnit2("./src/BoxKite.Twitter.Tests/bin/Release/BoxKite.Twitter.Tests.dll", new XUnit2Settings {
-                OutputDirectory = artifactDirectory,
-                XmlReportV1 = true,
-                NoAppDomain = true
-            });
-        };
-
-        OpenCover(testAction,
-            testCoverageOutputFile,
-            new OpenCoverSettings {
-                ReturnTargetCodeOffset = 0,
-                ArgumentCustomization = args => args.Append("-mergeoutput")
-            }
-            .WithFilter("+[*]* -[*.Tests*]*")
-            .ExcludeByAttribute("*.ExcludeFromCodeCoverage*")
-            .ExcludeByFile("*/*Designer.cs;*/*.g.cs;*/*.g.i.cs"));
-
-        ReportGenerator(testCoverageOutputFile, artifactDirectory);
+        XUnit2("./src/**/bin/Release/*.Tests.dll", new XUnit2Settings {
+            OutputDirectory = artifactDirectory,
+            XmlReportV1 = true,
+            NoAppDomain = true
+        });
     });
     
 Task("Package")
