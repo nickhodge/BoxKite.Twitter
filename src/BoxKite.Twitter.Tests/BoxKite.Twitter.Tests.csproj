@@ -520,9 +520,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-
   <Target Name="Pack">
-  <!-- Dummy target so we can do multi-targeting and non-multi-targeting in the same solution -->
+    <!-- Dummy target so we can do multi-targeting and non-multi-targeting in the same solution -->
   </Target>
-
 </Project>
