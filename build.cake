@@ -31,6 +31,8 @@ var informationalVersion = gitVersion.InformationalVersion;
 var nugetVersion = gitVersion.NuGetVersion;
 var buildVersion = gitVersion.FullBuildMetaData;
 
+var solutionFile = "./src/BoxKite.Twitter.sln";
+
 // Artifacts
 var artifactDirectory ="./artifacts/";
 var testCoverageOutputFile = artifactDirectory + "OpenCover.xml";
@@ -42,7 +44,17 @@ CreateDirectory(artifactDirectory);
 // TASKS
 //////////////////////////////////////////////////////////////////////
 
+Task("Restore")
+    .Does(() =>
+    {
+        NuGetRestore(solutionFile);
+
+        // do it twice due to dotnet core toolchain v1.x issue.
+        NuGetRestore(solutionFile);
+    });
+
 Task("Build")
+    .IsDependentOn("Restore")
     .Does(() =>
     {
         // multiple versions of visual studio 2017 (and upwards) can be installed 
@@ -50,7 +62,7 @@ Task("Build")
         // msbuild is installed in C:\Program Files :)
         FilePath msBuildPath = VSWhereLatest().CombineWithFilePath("./MSBuild/15.0/Bin/MSBuild.exe");
 
-        MSBuild("./src/BoxKite.Twitter.sln", new MSBuildSettings() {
+        MSBuild(solutionFile, new MSBuildSettings() {
                 ToolPath= msBuildPath
             }
             .WithTarget("restore;build;pack")
