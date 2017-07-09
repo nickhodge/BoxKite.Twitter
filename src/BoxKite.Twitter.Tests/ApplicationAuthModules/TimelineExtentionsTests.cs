@@ -4,16 +4,16 @@
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace BoxKite.Twitter.Tests
 {
-    [TestClass]
+    
     public class TimelineExtensionsTestsAppAuth
     {
         readonly TestableApplicationSession appsession = new TestableApplicationSession();
 
-        [TestMethod]
+        [Fact]
         public async Task Get_User_Timeline_AppAuth()
         {
             // arrange
@@ -22,9 +22,9 @@ namespace BoxKite.Twitter.Tests
 
             var usertimeline = await appsession.GetUserTimeline();
 
-            Assert.IsNotNull(usertimeline);
-            Assert.IsTrue(usertimeline.ToList().Count > 0);
-            Assert.IsTrue(usertimeline.ToList().Count == 200);
+            usertimeline.Should().NotBeNull();
+            usertimeline.ToList().Count.Should().BeGreaterThan(0);
+            usertimeline.ToList().Count.Should().Be(200);
         }
 
 

@@ -4,16 +4,16 @@
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace BoxKite.Twitter.Tests
 {
-    [TestClass]
+    
     public class DirectMessagesTests
     {
         readonly TestableUserSession session = new TestableUserSession();
 
-        [TestMethod]
+        [Fact]
         public async Task Get_DirectMessages_received()
         {
             // arrange
@@ -22,7 +22,7 @@ namespace BoxKite.Twitter.Tests
 
             var directmessages = await session.GetDirectMessages();
 
-            Assert.IsNotNull(directmessages);
+            directmessages.Should().NotBeNull();
             directmessages.Count().ShouldBeEquivalentTo(1);
             directmessages.ToList()[0].Id.ShouldBeEquivalentTo(240136858829479936);
             directmessages.ToList()[0].Recipient.Name.ShouldBeEquivalentTo("Mick Jagger");
@@ -30,7 +30,7 @@ namespace BoxKite.Twitter.Tests
             directmessages.ToList()[0].Text.ShouldBeEquivalentTo("booyakasha");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Get_DirectMessages_sent()
         {
             // arrange
@@ -39,12 +39,12 @@ namespace BoxKite.Twitter.Tests
 
             var directmessages = await session.GetDirectMessagesSent();
 
-            Assert.IsNotNull(directmessages);
+            directmessages.Should().NotBeNull();
             directmessages.Count().ShouldBeEquivalentTo(1);
             directmessages.ToList()[0].Id.ShouldBeEquivalentTo(240247560269340673);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Get_Single_DirectMessage()
         {
             // arrange
@@ -53,12 +53,12 @@ namespace BoxKite.Twitter.Tests
 
             var directmessages = await session.GetDirectMessageSingle(240136858829479936);
 
-            Assert.IsNotNull(directmessages);
+            directmessages.Should().NotBeNull();
             directmessages.Id.ShouldBeEquivalentTo(240136858829479936);
             directmessages.Recipient.Name.ShouldBeEquivalentTo("Mick Jagger");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Create_and_Send_DirectMessage()
         {
             // arrange
@@ -67,12 +67,12 @@ namespace BoxKite.Twitter.Tests
 
             var directmessage = await session.SendDirectMessage("hello, tworld. welcome to 1.1.", "theSeanCook");
 
-            Assert.IsNotNull(directmessage);
-            Assert.IsTrue(directmessage.Text == "hello, tworld. welcome to 1.1.");
-            Assert.IsTrue(directmessage.Recipient.ScreenName == "theSeanCook");
+            directmessage.Should().NotBeNull();
+            directmessage.Text.Should().Be("hello, tworld. welcome to 1.1.");
+            directmessage.Recipient.ScreenName.Should().Be("theSeanCook");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Delete_Sent_DirectMessage()
         {
             // arrange
@@ -81,7 +81,7 @@ namespace BoxKite.Twitter.Tests
 
             var directmessage = await session.DeleteDirectMessage(240251665733795841);
 
-            Assert.IsTrue(directmessage.Status);
+            directmessage.Status.Should().BeTrue();
         }
     }
 }

@@ -5,16 +5,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using BoxKite.Twitter.Models;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace BoxKite.Twitter.Tests
 {
-    [TestClass]
+    
     public class FavouritesTests
     {
         readonly TestableUserSession session = new TestableUserSession();
 
-        [TestMethod]
+        [Fact]
         public async Task Get_Favourites_For_CurrentUser_ReturnsSet()
         {
             // arrange
@@ -23,13 +23,13 @@ namespace BoxKite.Twitter.Tests
 
             var favourites = await session.GetFavourites();
 
-            Assert.IsTrue(favourites.Count() > 0);
+            favourites.Count.Should().BeGreaterThan(0);
             favourites.ToList().Should().HaveCount(2);
             favourites.ToList()[0].Favourited.Should().BeTrue();
             favourites.ToList()[1].Favourited.Should().BeTrue();
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Create_Favourite_For_CurrentUser_ReturnsResult()
         {
             // arrange
@@ -40,11 +40,11 @@ namespace BoxKite.Twitter.Tests
 
             var favourite = await session.CreateFavourite(tweet);
 
-            Assert.IsNotNull(favourite);
-            Assert.IsTrue(favourite.Favourited);
+            favourite.Should().NotBeNull();
+            favourite.Favourited.Should().BeTrue();
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Delete_Favourite_For_CurrentUser_ReturnsResult()
         {
             // arrange
@@ -54,9 +54,9 @@ namespace BoxKite.Twitter.Tests
             var tweet = new Tweet { Id = 1234 };
 
             var favourite = await session.DeleteFavourite(tweet);
-
-            Assert.IsNotNull(favourite);
-            Assert.IsFalse(favourite.Favourited);
+            
+            favourite.Should().NotBeNull();
+            favourite.Favourited.Should().BeFalse();
         }
 
     }

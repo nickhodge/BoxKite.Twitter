@@ -6,16 +6,16 @@ using System.IO;
 using System.Linq;
 using BoxKite.Twitter.Models;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
+using Xunit;
 
 namespace BoxKite.Twitter.Tests
 {
-    [TestClass]
+    
     public class DecodeTests
     {
 
-        [TestMethod]
+        [Fact]
         public void Decode_Deep_ReTweet()
         {
             // arrange
@@ -23,12 +23,12 @@ namespace BoxKite.Twitter.Tests
             var json = File.ReadAllText(fileName);
             var tweet = JsonConvert.DeserializeObject<Tweet>(json);
 
-            Assert.IsNotNull(tweet);
-            Assert.IsNotNull(tweet.RetweetedStatus);
-            Assert.IsNotNull(tweet.RetweetedStatus.User);
+            tweet.Should().NotBeNull();
+            tweet.RetweetedStatus.Should().NotBeNull();
+            tweet.RetweetedStatus.User.Should().NotBeNull();
         }
 
-        [TestMethod]
+        [Fact]
         public void Decode_Entity_HashTag_Separate_Tests()
         {
             var fileName = ".\\data\\entity-with-hashtag.txt";
@@ -37,22 +37,22 @@ namespace BoxKite.Twitter.Tests
             var entity = tweet.Entities;
             var text = tweet.Text;
 
-            Assert.IsNotNull(entity);
-            Assert.IsInstanceOfType(entity,typeof(BoxKite.Twitter.Models.Entities));
-            Assert.IsNotNull(entity.Hashtags);
+            entity.Should().NotBeNull();
+            entity.Hashtags.Should().NotBeNull();
             entity.Hashtags.Count().ShouldBeEquivalentTo(1);
             entity.Hashtags.ToList()[0].Text.ShouldBeEquivalentTo("devnestSF");
             entity.Hashtags.ToList()[0].indices.Count().ShouldBeEquivalentTo(2);
             
             // do indirect check of string for hashtag
             var zeroOffsetStart = entity.Hashtags.ToList()[0].indices.ToList()[0];
-            Assert.IsInstanceOfType(zeroOffsetStart,typeof(Int32));
             var zeroOffsetEnd = entity.Hashtags.ToList()[0].indices.ToList()[1];
-            Assert.IsInstanceOfType(zeroOffsetEnd, typeof(Int32));
-            Assert.IsTrue(QuickSubStringHelper(text, "devnestSF",zeroOffsetStart+1 ,(zeroOffsetEnd - zeroOffsetStart -1))); // +1 -1 is to remove the #
+
+            // +1 -1 is to remove the #
+            QuickSubStringHelper(text, "devnestSF", zeroOffsetStart + 1, (zeroOffsetEnd - zeroOffsetStart - 1)).Should()
+                .BeTrue();
         }
 
-        [TestMethod]
+        [Fact]
         public void Decode_Entity_Mentions_Separate_Tests()
         {
             var fileName = ".\\data\\entity-with-mentions.txt";
@@ -61,10 +61,9 @@ namespace BoxKite.Twitter.Tests
             var entity = tweet.Entities;
             var text = tweet.Text;
 
-            Assert.IsNotNull(entity);
-            Assert.IsInstanceOfType(entity, typeof(BoxKite.Twitter.Models.Entities));
-            Assert.IsNotNull(entity.Mentions);
-             entity.Mentions.Count().ShouldBeEquivalentTo(1);
+            entity.Should().NotBeNull();
+            entity.Mentions.Should().NotBeNull();
+            entity.Mentions.Count().ShouldBeEquivalentTo(1);
             entity.Mentions.ToList()[0].Id.ShouldBeEquivalentTo(22548447);
             entity.Mentions.ToList()[0].Name.ShouldBeEquivalentTo("Arnaud Meunier");
             entity.Mentions.ToList()[0].ScreenName.ShouldBeEquivalentTo("rno");
@@ -72,13 +71,13 @@ namespace BoxKite.Twitter.Tests
 
             // do indirect check of string for hashtag
             var zeroOffsetStart = entity.Mentions.ToList()[0].indices.ToList()[0];
-            Assert.IsInstanceOfType(zeroOffsetStart, typeof(Int32));
             var zeroOffsetEnd = entity.Mentions.ToList()[0].indices.ToList()[1];
-            Assert.IsInstanceOfType(zeroOffsetEnd, typeof(Int32));
-            Assert.IsTrue(QuickSubStringHelper(text, "rno", zeroOffsetStart + 1, (zeroOffsetEnd - zeroOffsetStart - 1))); // +1 -1 is to remove the @
+            // +1 -1 is to remove the @
+            QuickSubStringHelper(text, "rno", zeroOffsetStart + 1, (zeroOffsetEnd - zeroOffsetStart - 1)).Should()
+                .BeTrue();
         }
 
-        [TestMethod]
+        [Fact]
         public void Decode_Entity_Urls_Separate_Tests()
         {
             var fileName = ".\\data\\entity-with-urls.txt";
@@ -87,9 +86,8 @@ namespace BoxKite.Twitter.Tests
             var entity = tweet.Entities;
             var text = tweet.Text;
 
-            Assert.IsNotNull(entity);
-            Assert.IsInstanceOfType(entity, typeof(BoxKite.Twitter.Models.Entities));
-            Assert.IsNotNull(entity.Urls);
+            entity.Should().NotBeNull();
+            entity.Urls.Should().NotBeNull();
             entity.Urls.Count().ShouldBeEquivalentTo(1);
             entity.Urls.ToList()[0]._Url.ShouldBeEquivalentTo("http://t.co/0JG5Mcq");
             entity.Urls.ToList()[0].DisplayUrl.ShouldBeEquivalentTo("blog.twitter.com/2011/05/twitte…");
@@ -98,13 +96,12 @@ namespace BoxKite.Twitter.Tests
 
             // do indirect check of string for hashtag
             var zeroOffsetStart = entity.Urls.ToList()[0].indices.ToList()[0];
-            Assert.IsInstanceOfType(zeroOffsetStart, typeof(Int32));
             var zeroOffsetEnd = entity.Urls.ToList()[0].indices.ToList()[1];
-            Assert.IsInstanceOfType(zeroOffsetEnd, typeof(Int32));
-            Assert.IsTrue(QuickSubStringHelper(text, "http://t.co/0JG5Mcq", zeroOffsetStart, (zeroOffsetEnd - zeroOffsetStart)));
+            QuickSubStringHelper(text, "http://t.co/0JG5Mcq", zeroOffsetStart, (zeroOffsetEnd - zeroOffsetStart))
+                .Should().BeTrue();
         }
 
-        [TestMethod]
+        [Fact]
         public void Decode_Entity_Media_Separate_Tests()
         {
             var fileName = ".\\data\\entity-with-media.txt";
@@ -113,9 +110,7 @@ namespace BoxKite.Twitter.Tests
             var entity = tweet.Entities;
             var text = tweet.Text;
 
-            Assert.IsNotNull(entity);
-            Assert.IsInstanceOfType(entity, typeof(BoxKite.Twitter.Models.Entities));
-            Assert.IsNotNull(entity.Media);
+            entity.Media.Should().NotBeNull();
             entity.Media.Count().ShouldBeEquivalentTo(1);
             entity.Media.ToList()[0].Id.ShouldBeEquivalentTo(76360760611180544);
             entity.Media.ToList()[0].MediaUrl.ShouldBeEquivalentTo("http://p.twimg.com/AQ9JtQsCEAA7dEN.jpg");
@@ -123,11 +118,11 @@ namespace BoxKite.Twitter.Tests
             entity.Media.ToList()[0].Url.ShouldBeEquivalentTo("http://t.co/qbJx26r");
             entity.Media.ToList()[0].DisplayUrl.ShouldBeEquivalentTo("pic.twitter.com/qbJx26r");
             entity.Media.ToList()[0].ExpandedUrl.ShouldBeEquivalentTo("http://twitter.com/twitter/status/76360760606986241/photo/1");
-            Assert.IsNotNull(entity.Media.ToList()[0].Sizes);
-            Assert.IsNotNull(entity.Media.ToList()[0].Sizes.Large);
-            Assert.IsNotNull(entity.Media.ToList()[0].Sizes.Medium);
-            Assert.IsNotNull(entity.Media.ToList()[0].Sizes.Small);
-            Assert.IsNotNull(entity.Media.ToList()[0].Sizes.Thumb);
+            entity.Media.ToList()[0].Sizes.Should().NotBeNull();
+            entity.Media.ToList()[0].Sizes.Large.Should().NotBeNull();
+            entity.Media.ToList()[0].Sizes.Medium.Should().NotBeNull();
+            entity.Media.ToList()[0].Sizes.Small.Should().NotBeNull();
+            entity.Media.ToList()[0].Sizes.Thumb.Should().NotBeNull();
             entity.Media.ToList()[0].Sizes.Large.Height.ShouldBeEquivalentTo(466);
             entity.Media.ToList()[0].Sizes.Large.Width.ShouldBeEquivalentTo(700);
             entity.Media.ToList()[0].Sizes.Large.Resize.ShouldBeEquivalentTo("fit");
@@ -136,30 +131,29 @@ namespace BoxKite.Twitter.Tests
 
             // do indirect check of string for media
             var zeroOffsetStart = entity.Media.ToList()[0].indices.ToList()[0];
-            Assert.IsInstanceOfType(zeroOffsetStart, typeof(Int32));
             var zeroOffsetEnd = entity.Media.ToList()[0].indices.ToList()[1];
-            Assert.IsInstanceOfType(zeroOffsetEnd, typeof(Int32));
-            Assert.IsTrue(QuickSubStringHelper(text, "http://t.co/qbJx26r", zeroOffsetStart, (zeroOffsetEnd - zeroOffsetStart)));
+            QuickSubStringHelper(text, "http://t.co/qbJx26r", zeroOffsetStart, (zeroOffsetEnd - zeroOffsetStart))
+                .Should().BeTrue();
         }
 
-        [TestMethod]
+        [Fact]
         public void Decode_Tweet_Deep_Tests()
         {
             var fileName = ".\\data\\tweets\\singletweet.txt";
             var json = File.ReadAllText(fileName);
             var tweet = JsonConvert.DeserializeObject<Tweet>(json);
 
-            Assert.IsNotNull(tweet);
-            Assert.IsInstanceOfType(tweet, typeof (BoxKite.Twitter.Models.Tweet));
+            tweet.Should().NotBeNull();
 
             if (tweet.RetweetCount != null)
                 tweet.RetweetCount.ShouldBeEquivalentTo(0);
             tweet.Id.ShouldBeEquivalentTo(243145735212777472);
-            Assert.IsNull(tweet.InReplyToId);
-            Assert.IsNull(tweet.InReplyToUserId);
-            Assert.IsNull(tweet.Location);
-            Assert.IsNull(tweet.Place);
-            Assert.IsNull(tweet.RetweetedStatus);
+
+            tweet.InReplyToId.Should().NotBeNull();
+            tweet.InReplyToUserId.Should().NotBeNull();
+            tweet.Location.Should().NotBeNull();
+            tweet.Place.Should().NotBeNull();
+            tweet.RetweetedStatus.Should().NotBeNull();
             tweet.Favourited.ShouldBeEquivalentTo(false);
             tweet.FavoriteCount.ShouldBeEquivalentTo(10);
             tweet.Truncated.ShouldBeEquivalentTo(true);
@@ -169,43 +163,24 @@ namespace BoxKite.Twitter.Tests
             tweet.Time.ToString().ShouldBeEquivalentTo("5/09/2012 12:37:15 AM +00:00");
 
             //check user details
-            Assert.IsNotNull(tweet.User);
-            Assert.IsInstanceOfType(tweet.User, typeof (BoxKite.Twitter.Models.User));
+            tweet.User.Should().NotBeNull();
             tweet.User.Name.ShouldBeEquivalentTo("Jason Costa");
             tweet.User.Followers.ShouldBeEquivalentTo(8760);
             tweet.User.ScreenName.ShouldBeEquivalentTo("jasoncosta");
             tweet.User.IsFollowedByMe.ShouldBeEquivalentTo(false);
 
             //check entities
-            Assert.IsNotNull(tweet.Entities);
-            Assert.IsInstanceOfType(tweet.Entities, typeof (BoxKite.Twitter.Models.Entities));
-            if (tweet.Entities.Hashtags != null)
-            {
-                Assert.IsInstanceOfType(tweet.Entities.Hashtags.ToList()[0], typeof (BoxKite.Twitter.Models.Hashtag));
-            }
-            if (tweet.Entities.Media != null)
-                Assert.IsInstanceOfType(tweet.Entities.Media.ToList()[0], typeof (BoxKite.Twitter.Models.Media));
-            if (tweet.Entities.Mentions != null)
-            {
-                if (tweet.Entities.Mentions.Any())
-                    Assert.IsInstanceOfType(tweet.Entities.Mentions.ToList()[0], typeof (BoxKite.Twitter.Models.Mention));
-            }
-            if (tweet.Entities.Urls != null)
-            {
-                if (tweet.Entities.Urls.Any())
-                    Assert.IsInstanceOfType(tweet.Entities.Urls.ToList()[0], typeof (BoxKite.Twitter.Models.Url));
-            }
+            tweet.Entities.Should().NotBeNull();
         }
 
-        [TestMethod]
+        [Fact]
         public void Decode_User_Deep_Tests()
         {
             var fileName = ".\\data\\users\\show.txt";
             var json = File.ReadAllText(fileName);
             var twitteruser = JsonConvert.DeserializeObject<User>(json);
 
-            Assert.IsNotNull(twitteruser);
-            Assert.IsInstanceOfType(twitteruser, typeof(BoxKite.Twitter.Models.User));
+            twitteruser.Should().NotBeNull();
             twitteruser.Followers.ShouldBeEquivalentTo(276334);
             twitteruser.Friends.ShouldBeEquivalentTo(1780);
             twitteruser.IsFollowedByMe.ShouldBeEquivalentTo(false);
@@ -237,7 +212,7 @@ namespace BoxKite.Twitter.Tests
             twitteruser.ShowAllInlineMedia.ShouldBeEquivalentTo(true);
             twitteruser.StatusesCount.ShouldBeEquivalentTo(13728);
             twitteruser.UTCOffset.ShouldBeEquivalentTo(-28800);
-            Assert.IsNull(twitteruser.Url);
+            twitteruser.Url.Should().NotBeNull();
         }
 
 

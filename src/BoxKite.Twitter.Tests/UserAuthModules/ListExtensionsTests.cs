@@ -5,16 +5,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace BoxKite.Twitter.Tests.Modules
 {
-    [TestClass]
+    
     public class ListExtensionsTests
     {
         private readonly TestableUserSession session = new TestableUserSession();
 
-        [TestMethod]
+        [Fact]
         public async Task Get_Lists()
         {
             // arrange
@@ -23,7 +23,7 @@ namespace BoxKite.Twitter.Tests.Modules
 
             var lists = await session.GetLists(353445, "Test Screen Name");
 
-            Assert.IsNotNull(lists);
+            lists.Should().NotBeNull();
             lists.Count().ShouldBeEquivalentTo(2);
             lists.ToList()[1].Id.ShouldBeEquivalentTo(2031945);
             lists.ToList()[0].FullName.ShouldBeEquivalentTo("@twitterapi/meetup-20100301");
@@ -31,7 +31,7 @@ namespace BoxKite.Twitter.Tests.Modules
             lists.ToList()[0].MemberCount.ShouldBeEquivalentTo(116);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Get_List_Timeline()
         {
             // arrange
@@ -40,7 +40,7 @@ namespace BoxKite.Twitter.Tests.Modules
 
             var listtimeline = await session.GetListTimeline(23,"slughere");
 
-            Assert.IsNotNull(listtimeline);
+            listtimeline.Should().NotBeNull();
             listtimeline.Count().ShouldBeEquivalentTo(1);
             listtimeline.ToList()[0].Id.ShouldBeEquivalentTo(245160944223793152);
             listtimeline.ToList()[0].User.Name.ShouldBeEquivalentTo("Toronto FC");
@@ -52,7 +52,7 @@ namespace BoxKite.Twitter.Tests.Modules
             listtimeline.ToList()[0].Entities.Mentions.ToList()[0].ScreenName.ShouldBeEquivalentTo("TeamUpFdn");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Delete_User_From_List()
         {
             // arrange
@@ -61,10 +61,10 @@ namespace BoxKite.Twitter.Tests.Modules
 
             var removal = await session.DeleteUserFromList();
 
-            Assert.IsTrue(removal.Status);
+            removal.Status.Should().BeTrue();
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Delete_From_Users_List()
         {
             // arrange
@@ -73,10 +73,10 @@ namespace BoxKite.Twitter.Tests.Modules
 
             var removal = await session.DeleteFromUsersList(23, "slughere");
 
-            Assert.IsTrue(removal.Status);
+            removal.Status.Should().BeTrue();
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Create_User_Entry_In_List()
         {
             // arrange
@@ -85,11 +85,11 @@ namespace BoxKite.Twitter.Tests.Modules
 
             var adds = await session.AddUsersToList(23, "slug here", new List<string> { "fred" }, new List<long> { 66, 4503597479886593});
 
-            Assert.IsTrue(adds.Status);
+            adds.Status.Should().BeTrue();
         }
 
 
-        [TestMethod]
+        [Fact]
         public async Task Delete_Users_From_List()
         {
             // arrange
@@ -98,10 +98,10 @@ namespace BoxKite.Twitter.Tests.Modules
 
             var adds = await session.DeleteUsersFromList(23, "slug here", new List<string> { "fred" }, new List<long> { 66, 4503597479886593 });
 
-            Assert.IsTrue(adds.Status);
+            adds.Status.Should().BeTrue();
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Create_A_User_In_My_List()
         {
             // arrange
@@ -110,10 +110,10 @@ namespace BoxKite.Twitter.Tests.Modules
 
             var adds = await session.AddUserToMyList(23);
 
-            Assert.IsTrue(adds.Status);
+            adds.Status.Should().BeTrue();
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Change_List()
         {
             // arrange
@@ -122,10 +122,10 @@ namespace BoxKite.Twitter.Tests.Modules
 
             var changes = await session.ChangeList(23, "slug here", "fred", "public", "description");
 
-            Assert.IsTrue(changes.Status);
+            changes.Status.Should().BeTrue();
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Get_User_Membership()
         {
             // arrange
@@ -134,7 +134,7 @@ namespace BoxKite.Twitter.Tests.Modules
 
             var removal = await session.GetListMembershipForUser(23);
 
-            Assert.IsNotNull(removal);
+            removal.Should().NotBeNull();
             removal.next_cursor.ShouldBeEquivalentTo(1373407125131783107);
             removal.lists.Count().ShouldBeEquivalentTo(2);
             removal.lists.ToList()[1].Id.ShouldBeEquivalentTo(49270287);
@@ -145,7 +145,7 @@ namespace BoxKite.Twitter.Tests.Modules
         }
 
 
-        [TestMethod]
+        [Fact]
         public async Task Get_List_Subscribers()
         {
             // arrange
@@ -154,14 +154,14 @@ namespace BoxKite.Twitter.Tests.Modules
 
             var subs = await session.GetListSubscribers(23, "slug goes here");
 
-            Assert.IsNotNull(subs);
+            subs.Should().NotBeNull();
             subs.next_cursor.ShouldBeEquivalentTo(0);
             subs.users.Count().ShouldBeEquivalentTo(1);
             subs.users.ToList()[0].Name.ShouldBeEquivalentTo("NickHodge");
         }
 
 
-        [TestMethod]
+        [Fact]
         public async Task Create_A_Subscribe_To_List()
         {
             // arrange
@@ -170,12 +170,12 @@ namespace BoxKite.Twitter.Tests.Modules
 
             var subs = await session.SubscribeToUsersList(23,"slug here");
 
-            Assert.IsNotNull(subs);
+            subs.Should().NotBeNull();
             subs.Id.ShouldBeEquivalentTo(574);
             subs.User.Name.ShouldBeEquivalentTo("Twitter");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Create_New_List()
         {
             // arrange
@@ -184,7 +184,7 @@ namespace BoxKite.Twitter.Tests.Modules
 
             var newadd = await session.CreateList("newlist", "public");
 
-            Assert.IsNotNull(newadd);
+            newadd.Should().NotBeNull();
             newadd.Id.ShouldBeEquivalentTo(58300198);
             newadd.Mode.ShouldBeEquivalentTo("public");
             newadd.Slug.ShouldBeEquivalentTo("goonies");
@@ -192,7 +192,7 @@ namespace BoxKite.Twitter.Tests.Modules
             newadd.SubscriberCount.ShouldBeEquivalentTo(0);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Get_Single_List()
         {
             // arrange
@@ -201,14 +201,14 @@ namespace BoxKite.Twitter.Tests.Modules
 
             var singlelist = await session.GetList(23,"newlist");
 
-            Assert.IsNotNull(singlelist);
+            singlelist.Should().NotBeNull();
             singlelist.FullName.ShouldBeEquivalentTo("@twitter/team");
             singlelist.Following.ShouldBeEquivalentTo(false);
             singlelist.Mode.ShouldBeEquivalentTo("public");
             singlelist.Uri.ShouldBeEquivalentTo("/twitter/team");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Get_Subscriptions_Cursored()
         {
             // arrange
@@ -217,13 +217,13 @@ namespace BoxKite.Twitter.Tests.Modules
 
             var twlc = await session.GetMySubscriptions();
 
-            Assert.IsNotNull(twlc);
+            twlc.Should().NotBeNull();
             twlc.next_cursor.ShouldBeEquivalentTo(1364811190668631091);
             twlc.twitterlists.Count().ShouldBeEquivalentTo(5);
             twlc.twitterlists.ToList()[3].Id.ShouldBeEquivalentTo(49286494);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Get_Lists_Owned()
         {
             // arrange
@@ -232,13 +232,13 @@ namespace BoxKite.Twitter.Tests.Modules
 
             var twlc = await session.GetListOwned();
 
-            Assert.IsNotNull(twlc);
+            twlc.Should().NotBeNull();
             twlc.next_cursor.ShouldBeEquivalentTo(46541288);
             twlc.twitterlists.Count().ShouldBeEquivalentTo(2);
             twlc.twitterlists.ToList()[1].Name.ShouldBeEquivalentTo("D9");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Get_Is_Subscribed_To_List()
         {
             // arrange
@@ -247,11 +247,11 @@ namespace BoxKite.Twitter.Tests.Modules
 
             var subs = await session.IsSubscribedToList(23, "slug here");
 
-            Assert.IsNotNull(subs);
+            subs.Should().NotBeNull();
             subs.UserId.ShouldBeEquivalentTo(819797);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Get_Is_User_On_List()
         {
             // arrange
@@ -260,11 +260,11 @@ namespace BoxKite.Twitter.Tests.Modules
 
             var subs = await session.IsUserOnList(23, "slug here");
 
-            Assert.IsNotNull(subs);
+            subs.Should().NotBeNull();
             subs.UserId.ShouldBeEquivalentTo(657693);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Get_Members_On_List()
         {
             // arrange
@@ -273,11 +273,11 @@ namespace BoxKite.Twitter.Tests.Modules
 
             var members = await session.GetMembersOnList(23, "slug here");
 
-            Assert.IsNotNull(members);
+            members.Should().NotBeNull();
             members.users.Count().ShouldBeEquivalentTo(1);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Delete_List()
         {
             // arrange
@@ -286,7 +286,7 @@ namespace BoxKite.Twitter.Tests.Modules
 
             var dellist = await session.DeleteList(23,"slughere");
 
-            Assert.IsNotNull(dellist);
+            dellist.Should().NotBeNull();
             dellist.Description.ShouldBeEquivalentTo("For life");
             dellist.User.Name.ShouldBeEquivalentTo("Arne Roomann-Kurrik");
         }

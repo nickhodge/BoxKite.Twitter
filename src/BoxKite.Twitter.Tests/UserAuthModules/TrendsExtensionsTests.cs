@@ -4,16 +4,16 @@
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace BoxKite.Twitter.Tests
 {
-    [TestClass]
+    
     public class TrendsExtensionsTests
     {
         private readonly TestableUserSession session = new TestableUserSession();
 
-        [TestMethod]
+        [Fact]
         public async Task Get_Trends_For_Place()
         {
             // arrange
@@ -22,14 +22,14 @@ namespace BoxKite.Twitter.Tests
 
             var placetrends = await session.GetTrendsForPlace(1);
 
-            Assert.IsNotNull(placetrends);
+            placetrends.Should().NotBeNull();
             placetrends.Count().ShouldBeEquivalentTo(1);
             placetrends.ToList()[0].locations.Count().ShouldBeEquivalentTo(1);
             placetrends.ToList()[0].locations.ToList()[0].name.ShouldBeEquivalentTo("Worldwide");
         }
 
 
-        [TestMethod]
+        [Fact]
         public async Task Get_Trend_Locations_Available()
         {
             // arrange
@@ -38,12 +38,12 @@ namespace BoxKite.Twitter.Tests
 
             var placetrends = await session.GetTrendsAvailableLocations();
 
-            Assert.IsNotNull(placetrends);
+            placetrends.Should().NotBeNull();
             placetrends.Count().ShouldBeEquivalentTo(5);
             placetrends.ToList()[3].WOEID.ShouldBeEquivalentTo(2477058);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Get_Trends_By_LatLong()
         {
             // arrange
@@ -52,7 +52,7 @@ namespace BoxKite.Twitter.Tests
 
             var placetrends = await session.GetTrendsByLocation(0.0,0.0);
 
-            Assert.IsNotNull(placetrends);
+            placetrends.Should().NotBeNull();
             placetrends.Count().ShouldBeEquivalentTo(1);
             placetrends.ToList()[0].Name.ShouldBeEquivalentTo("Australia");
         }

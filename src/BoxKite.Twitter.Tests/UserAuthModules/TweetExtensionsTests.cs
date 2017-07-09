@@ -6,16 +6,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using BoxKite.Twitter.Models;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace BoxKite.Twitter.Tests
 {
-    [TestClass]
+    
     public class TweetExtensionsTests
     {
         readonly TestableUserSession session = new TestableUserSession();
 
-        [TestMethod]
+        [Fact]
         public async Task Create_And_Send_Tweet()
         {
             // arrange
@@ -24,11 +24,11 @@ namespace BoxKite.Twitter.Tests
 
             var singletweet = await session.SendTweet("Maybe he'll finally find his keys. #peterfalk");
 
-            Assert.IsNotNull(singletweet);
-            Assert.IsTrue(singletweet.Id == 243145735212777472);
+            singletweet.Should().NotBeNull();
+            singletweet.Id.Should().Be(243145735212777472);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Create_And_Send_Tweet_with_location()
         {
             // arrange
@@ -37,13 +37,13 @@ namespace BoxKite.Twitter.Tests
 
             var singletweet = await session.SendTweet("Maybe he'll finally find his keys. #peterfalk", 37.7821120598956, -122.400612831116);
 
-            Assert.IsNotNull(singletweet);
-            Assert.IsTrue(singletweet.Entities.Hashtags.ToList()[0].Text == "peterfalk");
-            Assert.IsTrue(singletweet.Id == 243145735212777472);
+            singletweet.Should().NotBeNull();
+            singletweet.Entities.Hashtags.ToList()[0].Text.Should().Be("peterfalk");
+            singletweet.Id.Should().Be(243145735212777472);
             singletweet.Location.Coordinates.Count().ShouldBeEquivalentTo(2);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Delete_Tweet()
         {
             // arrange
@@ -52,10 +52,10 @@ namespace BoxKite.Twitter.Tests
 
             var deleted = await session.DeleteTweet("243145735212777472");
 
-            Assert.IsTrue(deleted.Status);
+            deleted.Status.Should().BeTrue();
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Create_Reply_To_Tweet()
         {
             // arrange
@@ -69,13 +69,13 @@ namespace BoxKite.Twitter.Tests
                              };
             var tweetreply = await session.ReplyToTweet(replytweet, "@migueldeicaza my issue is if an assembly is compiled against System.Json.dll http://t.co/CByp6ds6 it wont work on the iphone");
 
-            Assert.IsNotNull(tweetreply);
-            Assert.IsTrue(tweetreply.Id == 193579947615453184);
-            Assert.IsTrue(tweetreply.InReplyToId == 193577612956811264);
-            Assert.IsTrue(tweetreply.InReplyToUserId == 823083);
+            tweetreply.Should().NotBeNull();
+            tweetreply.Id.Should().Be(193579947615453184);
+            tweetreply.InReplyToId.Should().Be(193577612956811264);
+            tweetreply.InReplyToUserId.Should().Be(823083);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Create_Reply_To_Tweet_with_Location()
         {
             // arrange
@@ -89,14 +89,14 @@ namespace BoxKite.Twitter.Tests
             };
             var tweetreply = await session.ReplyToTweet(replytweet, "@migueldeicaza my issue is if an assembly is compiled against System.Json.dll http://t.co/CByp6ds6 it wont work on the iphone", 37.7821120598956, -122.400612831116);
 
-            Assert.IsNotNull(tweetreply);
-            Assert.IsTrue(tweetreply.Id == 193579947615453184);
-            Assert.IsTrue(tweetreply.InReplyToId == 193577612956811264);
-            Assert.IsTrue(tweetreply.InReplyToUserId == 823083);
+            tweetreply.Should().NotBeNull();
+            tweetreply.Id.Should().Be(193579947615453184);
+            tweetreply.InReplyToId.Should().Be(193577612956811264);
+            tweetreply.InReplyToUserId.Should().Be(823083);
             tweetreply.Location.Coordinates.Count().ShouldBeEquivalentTo(2);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Create_ReTweet()
         {
             // arrange
@@ -110,12 +110,12 @@ namespace BoxKite.Twitter.Tests
 
             var retweet = await session.Retweet(otweet);
 
-            Assert.IsNotNull(retweet);
-            Assert.IsTrue(retweet.Id == 243149503589400576); // id of the retweet itself
+            retweet.Should().NotBeNull();
+            retweet.Id.Should().Be(243149503589400576); // id of the retweet itself
             retweet.Text.ShouldBeEquivalentTo("RT @kurrik: tcptrace and imagemagick - two command line tools TOTALLY worth learning");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Get_Tweet()
         {
             // arrange
@@ -124,12 +124,13 @@ namespace BoxKite.Twitter.Tests
 
             var rtweet = await session.GetTweet(243145735212777472);
 
-            Assert.IsNotNull(rtweet);
-            Assert.IsFalse(rtweet.Retweeted.Value == true);
-            Assert.IsTrue(rtweet.Id == 243145735212777472); // id of the retweet itself
+            rtweet.Should().NotBeNull();
+
+            rtweet.Retweeted.Value.Should().BeFalse();
+            rtweet.Id.Should().Be(243145735212777472); // id of the retweet itself
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Get_Retweets_Of_Tweet()
         {
             // arrange
@@ -138,12 +139,12 @@ namespace BoxKite.Twitter.Tests
 
             var retweetslist = await session.GetRetweets(new Tweet {Id = 243145735212777472});
 
-            Assert.IsNotNull(retweetslist);
-            Assert.IsTrue(retweetslist.ToList().Count > 0);
-            Assert.IsTrue(retweetslist.ToList().Count == 4);
-         }
+            retweetslist.Should().NotBeNull();
+            retweetslist.ToList().Count.Should().BeGreaterThan(0);
+            retweetslist.ToList().Count.Should().Be(4);
+        }
 
-        [TestMethod]
+        [Fact]
         public async Task Create_And_Send_Tweet_With_Image()
         {
             // arrange
@@ -152,11 +153,11 @@ namespace BoxKite.Twitter.Tests
 
             var singletweet = await session.SendTweetWithImage("Maybe he'll finally find his keys. #peterfalk","test.jpg", new Byte[]{});
 
-            Assert.IsNotNull(singletweet);
-            Assert.IsTrue(singletweet.Id == 193579947615453184);
+            singletweet.Should().NotBeNull();
+            singletweet.Id.Should().Be(193579947615453184);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Get_Tweet_with_Extended_Entities()
         {
             // arrange
@@ -165,17 +166,17 @@ namespace BoxKite.Twitter.Tests
 
             var eetweet = await session.GetTweet(560049149836808192);
 
-            Assert.IsNotNull(eetweet);
-            Assert.IsNotNull(eetweet.ExtendedEntities);
+            eetweet.Should().NotBeNull();
+            eetweet.ExtendedEntities.Should().NotBeNull();
 
             var eetweetmedialist = eetweet.ExtendedEntities.Media.ToList();
 
-            Assert.IsTrue(eetweetmedialist.Count() == 1);
-            Assert.IsTrue(eetweetmedialist[0].Id == 560049056895209473);
-            Assert.IsTrue(eetweetmedialist[0].ExpandedUrl == "http://twitter.com/ActuallyNPH/status/560049149836808192/video/1");
+            eetweetmedialist.Count().Should().Be(1);
+            eetweetmedialist[0].Id.Should().Be(560049056895209473);
+            eetweetmedialist[0].ExpandedUrl.Should().Be("http://twitter.com/ActuallyNPH/status/560049149836808192/video/1");
 
 
-            Assert.IsTrue(eetweet.Id == 560049149836808192); // id of the tweet itself
+            eetweet.Id.Should().Be(560049149836808192); // id of the tweet itself
         }
     }
 }
