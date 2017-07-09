@@ -1,189 +1,47 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2EB6324B-F465-44AB-823F-E591845B8D80}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BoxKite.Twitter</RootNamespace>
+    <TargetFrameworks>netstandard1.4;net452;uap10.0;Xamarin.iOS10;Xamarin.Mac20;MonoAndroid70</TargetFrameworks>
     <AssemblyName>BoxKite.Twitter</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Profile78</TargetFrameworkProfile>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
-    <NuGetPackageImportStamp>48cad137</NuGetPackageImportStamp>
+    <RootNamespace>BoxKite.Twitter</RootNamespace>
+    <authors>Nick Hodge</authors>
+    <owners>Nick Hodge,Brendan Forster</owners>
+    <licenseUrl>https://github.com/nickhodge/BoxKite.Twitter/blob/master/LICENSE.md</licenseUrl>
+    <projectUrl>https://github.com/nickhodge/BoxKite.Twitter/wiki</projectUrl>
+    <iconUrl>http://media.nickhodge.com/boxkite/twitter/nuget-logo.jpg</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>BoxKite.Twitter is a Twitter Client Library for the Twitter API 1.1 incorporating REST API, User streaming and Search Streaming. Requires use of Reactive Extensions (Rx)</description>
+    <summary>Modern C# Library for the Twitter API 1.1 using Reactive Extensions (Rx), incorporating access to Twitter's Userstreams and Searchstreams, and both Application authentication and User authentication. Coverage for all of Twitter 1.1 API.</summary>
+    <PackageId>BoxKite.Twitter</PackageId>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;PORTABLE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;PORTABLE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="Connection\TwitterStream.cs" />
-    <Compile Include="Interfaces\ITwitterConnection.cs" />
-    <Compile Include="Models\Configuration\Configuration.cs" />
-    <Compile Include="Models\Configuration\PhotoSizes.cs" />
-    <Compile Include="Models\Connection\StreamSignal.cs" />
-    <Compile Include="Models\Service\RetweetersResponse .cs" />
-    <Compile Include="UserAuthModules\ApiManagementExtensions.cs" />
-    <Compile Include="Authentication\TwitterAuthenticator.cs" />
-    <Compile Include="Connection\TwitterConnectionEvents.cs" />
-    <Compile Include="Connection\TwitterConnectionEngine.cs" />
-    <Compile Include="Connection\TwitterConnectionSearch.cs" />
-    <Compile Include="Connection\TwitterConnection.cs" />
-    <Compile Include="Extensions\StreamExtensions.cs" />
-    <Compile Include="Interfaces\ITwitterSession.cs" />
-    <Compile Include="Interfaces\ISearchStream.cs" />
-    <Compile Include="Interfaces\IApplicationSession.cs" />
-    <Compile Include="Models\Service\ProfileBanners.cs" />
-    <Compile Include="Models\Stream\IStreamEvent.cs" />
-    <Compile Include="Models\Stream\StreamSearchRequest.cs" />
-    <Compile Include="UserAuthModules\SearchStreamExtensions.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Connection\SearchStream.cs" />
-    <Compile Include="Extensions\TwitterApi.cs" />
-    <Compile Include="Extensions\DateTimeExtensions.cs" />
-    <Compile Include="Extensions\EnumerableExtensions.cs" />
-    <Compile Include="Extensions\ResponseExtensions.cs" />
-    <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="Extensions\TweetExtensions.cs" />
-    <Compile Include="Models\TwitterParametersCollection.cs" />
-    <Compile Include="Models\TwitterResponseCollection.cs" />
-    <Compile Include="Helpers\JSONCustomConverters.cs" />
-    <Compile Include="Interfaces\IPlatformAdaptor.cs" />
-    <Compile Include="Interfaces\IUserSession.cs" />
-    <Compile Include="Interfaces\IUserStream.cs" />
-    <Compile Include="Models\DirectMessage.cs" />
-    <Compile Include="Models\Service\TwitterSuccess.cs" />
-    <Compile Include="Models\Stream\StreamToManyFollowsWarning.cs" />
-    <Compile Include="Models\Stream\StreamStallWarning.cs" />
-    <Compile Include="Models\Stream\StreamDisconnect.cs" />
-    <Compile Include="Models\Stream\StreamUserWithheld.cs" />
-    <Compile Include="Models\Stream\StreamStatusWithheld.cs" />
-    <Compile Include="Models\Stream\StreamEvent.cs" />
-    <Compile Include="Models\Service\TwitterListCursored.cs" />
-    <Compile Include="Models\Service\UserInListCursored.cs" />
-    <Compile Include="Models\Stream\DeleteEvent.cs" />
-    <Compile Include="Models\Stream\StreamLimitNotice.cs" />
-    <Compile Include="Models\Stream\StreamScrubGeo.cs" />
-    <Compile Include="Models\TwitterList.cs" />
-    <Compile Include="Models\BoundingBox.cs" />
-    <Compile Include="Models\Coordinates.cs" />
-    <Compile Include="Models\Place.cs" />
-    <Compile Include="Models\SavedSearch.cs" />
-    <Compile Include="Models\SearchResponse.cs" />
-    <Compile Include="Models\Service\AccountSettings.cs" />
-    <Compile Include="Models\Service\ApiRateLimit.cs" />
-    <Compile Include="Models\Service\AddPlaceResponse.cs" />
-    <Compile Include="Models\Service\ReverseGeocodePlaces.cs" />
-    <Compile Include="Models\Service\SuggestedUsers.cs" />
-    <Compile Include="Models\Service\FriendshipLookupResponse.cs" />
-    <Compile Include="Models\Service\FriendsFollowersIDsCursored.cs" />
-    <Compile Include="Models\TwitterControlBase.cs" />
-    <Compile Include="Models\Service\TrendsAvailableResponse.cs" />
-    <Compile Include="Models\Service\TrendsForPlaceResponse.cs" />
-    <Compile Include="Models\Service\TwitterError.cs" />
-    <Compile Include="Models\Service\UserListDetailedCursored.cs" />
-    <Compile Include="Models\Service\UserStatus.cs" />
-    <Compile Include="Models\Tweet.cs" />
-    <Compile Include="Models\TwitterCredentials.cs" />
-    <Compile Include="Models\User.cs" />
-    <Compile Include="UserAuthModules\DirectMessageExtensions.cs" />
-    <Compile Include="UserAuthModules\FavouritesExtensions.cs" />
-    <Compile Include="UserAuthModules\FriendsFollowerExtensions.cs" />
-    <Compile Include="UserAuthModules\ListExtensions.cs" />
-    <Compile Include="UserAuthModules\PlacesGeoExtensions.cs" />
-    <Compile Include="UserAuthModules\ReportExtensions.cs" />
-    <Compile Include="UserAuthModules\SearchExtensions.cs" />
-    <Compile Include="UserAuthModules\SuggestedUsersExtension.cs" />
-    <Compile Include="UserAuthModules\TimelineExtensions.cs" />
-    <Compile Include="UserAuthModules\TrendsExtenstions.cs" />
-    <Compile Include="UserAuthModules\TweetExtensions.cs" />
-    <Compile Include="UserAuthModules\UsersExtensions.cs" />
-    <Compile Include="UserAuthModules\UserStreamExtensions.cs" />
-    <Compile Include="Connection\ApplicationSession.cs" />
-    <Compile Include="Connection\UserSession.cs" />
-    <Compile Include="Connection\UserStream.cs" />
+
+ <ItemGroup>
+    <Compile Remove="Platforms\**\*.cs" />
+    <None Include="Platforms\**\*.cs" />
+    <PackageReference Include="System.Reactive" Version="3.1.0" />
+</ItemGroup>
+
+
+<ItemGroup Condition="'$(TargetFramework)'!='netstandard1.4'">
+  <Compile Include="Platforms\shared\**\*.cs" />    
+</ItemGroup>
+
+ <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
+    <Compile Include="Platforms\net452\**\*.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Net.Http, Version=1.5.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\portable-net40+sl4+win8+wp71+wpa81\System.Net.Http.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Net.Http.Extensions, Version=1.5.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\portable-net40+sl4+win8+wp71+wpa81\System.Net.Http.Extensions.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Net.Http.Primitives, Version=1.5.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\portable-net40+sl4+win8+wp71+wpa81\System.Net.Http.Primitives.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Reactive.Core">
-      <HintPath>..\packages\Rx-Core.2.2.5\lib\portable-windows8+net45+wp8\System.Reactive.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reactive.Interfaces">
-      <HintPath>..\packages\Rx-Interfaces.2.2.5\lib\portable-windows8+net45+wp8\System.Reactive.Interfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reactive.Linq">
-      <HintPath>..\packages\Rx-Linq.2.2.5\lib\portable-windows8+net45+wp8\System.Reactive.Linq.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reactive.PlatformServices">
-      <HintPath>..\packages\Rx-PlatformServices.2.2.5\lib\portable-windows8+net45+wp8\System.Reactive.PlatformServices.dll</HintPath>
-    </Reference>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'uap10.0' ">
+    <Compile Include="Platforms\uap10.0\**\*.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'Xamarin.iOS10' ">
+    <Compile Include="Platforms\ios\**\*.cs" />
   </ItemGroup>
-  <ItemGroup />
-  <ItemGroup>
-    <Content Include="Assets\background-extended.png" />
-    <Content Include="Assets\background.png" />
-    <Content Include="Assets\logo-wide.png" />
-    <Content Include="Assets\Logo.png" />
-    <Content Include="Assets\LogoLarge.png" />
-    <Content Include="Assets\SmallLogo.png" />
-    <Content Include="Assets\SplashScreen.png" />
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'Xamarin.Mac20' ">
+    <Compile Include="Platforms\mac\**\*.cs" />
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
-  </Target>
-  <PropertyGroup>
-    <PostBuildEvent>copy /Y "$(TargetDir)BoxKite.Twitter.dll" "$(SolutionDir)\BoxKite.Packager\lib\portable-net45+wp8+win8\BoxKite.Twitter.dll"</PostBuildEvent>
-  </PropertyGroup>
-  <!--<Import Project="..\packages\Microsoft.Bcl.Build.1.0.7\tools\Microsoft.Bcl.Build.targets" />
-   To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'MonoAndroid70' ">
+    <Compile Include="Platforms\android\**\*.cs" />
+  </ItemGroup>  
 </Project>
