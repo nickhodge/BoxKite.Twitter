@@ -35,6 +35,9 @@ var buildVersion = gitVersion.FullBuildMetaData;
 var artifactDirectory ="./artifacts/";
 var testCoverageOutputFile = artifactDirectory + "OpenCover.xml";
 
+// Bootstrap
+CreateDirectory(artifactDirectory);
+
 //////////////////////////////////////////////////////////////////////
 // TASKS
 //////////////////////////////////////////////////////////////////////
