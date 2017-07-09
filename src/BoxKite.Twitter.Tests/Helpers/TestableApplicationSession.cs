@@ -9,6 +9,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BoxKite.Twitter.Tests
 {
+    #pragma warning disable 1998
     public class TestableApplicationSession : IApplicationSession
     {
         string contents;
