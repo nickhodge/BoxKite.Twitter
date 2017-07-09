@@ -2,8 +2,10 @@
 // License: MS-PL
 
 using System;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using BoxKite.Twitter.Models;
 using FluentAssertions;
 using Newtonsoft.Json;
@@ -149,17 +151,18 @@ namespace BoxKite.Twitter.Tests
                 tweet.RetweetCount.ShouldBeEquivalentTo(0);
             tweet.Id.ShouldBeEquivalentTo(243145735212777472);
 
-            tweet.InReplyToId.Should().NotBeNull();
+            tweet.InReplyToId.Should().BeNull();
             tweet.InReplyToUserId.Should().NotBeNull();
-            tweet.Location.Should().NotBeNull();
-            tweet.Place.Should().NotBeNull();
-            tweet.RetweetedStatus.Should().NotBeNull();
+            tweet.Location.Should().BeNull();
+            tweet.Place.Should().BeNull();
+            tweet.RetweetedStatus.Should().BeNull();
             tweet.Favourited.ShouldBeEquivalentTo(false);
             tweet.FavoriteCount.ShouldBeEquivalentTo(10);
             tweet.Truncated.ShouldBeEquivalentTo(true);
             tweet.Source.ShouldBeEquivalentTo(
                 "<a href=\"http://jason-costa.blogspot.com\" rel=\"nofollow\">My Shiny App</a>");
             tweet.Text.ShouldBeEquivalentTo("Maybe he'll finally find his keys. #peterfalk");
+            Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-AU");
             tweet.Time.ToString().ShouldBeEquivalentTo("5/09/2012 12:37:15 AM +00:00");
 
             //check user details

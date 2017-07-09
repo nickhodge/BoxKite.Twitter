@@ -1,7 +1,9 @@
 ﻿// (c) 2012-2016 Nick Hodge mailto:nhodge@mungr.com & Brendan Forster
 // License: MS-PL
 
+using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Xunit;
@@ -54,6 +56,7 @@ namespace BoxKite.Twitter.Tests
             searchresults.Should().HaveCount(2);
             searchresults.ToList()[0].Name.ShouldBeEquivalentTo("@twitterapi");
             searchresults.ToList()[1].Id.ShouldBeEquivalentTo(9569730);
+            Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-AU");
             searchresults.ToList()[1].DateCreated.ToString().ShouldBeEquivalentTo("15/06/2010 9:38:04 AM +00:00");
         }
 

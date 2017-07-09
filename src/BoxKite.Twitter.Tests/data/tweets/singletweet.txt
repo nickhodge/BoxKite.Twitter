@@ -22,15 +22,15 @@
  
     ]
   },
-  "in_reply_to_user_id_str": null,
+  "in_reply_to_user_id_str": "114749583439036416",
   "text": "Maybe he'll finally find his keys. #peterfalk",
   "contributors": null,
   "retweet_count": 0,
   "id": 243145735212777472,
-  "in_reply_to_status_id_str": null,
+  "in_reply_to_status_id_str": "114749583439036416",
   "geo": null,
   "retweeted": false,
-  "in_reply_to_user_id": null,
+  "in_reply_to_user_id": "114749583439036416",
   "place": null,
   "user": {
     "name": "Jason Costa",
@@ -39,7 +39,7 @@
     "profile_background_tile": false,
     "profile_image_url": "http://a0.twimg.com/profile_images/1751674923/new_york_beard_normal.jpg",
     "created_at": "Wed May 28 00:20:15 +0000 2008",
-    "location": "",
+    "location": "Sydney, Australia",
     "is_translator": true,
     "follow_request_sent": false,
     "id_str": "14927800",

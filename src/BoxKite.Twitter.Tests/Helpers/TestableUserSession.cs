@@ -74,7 +74,7 @@ namespace BoxKite.Twitter.Tests
         {
             if (!string.IsNullOrWhiteSpace(expectedPostUrl))
             {
-                expectedGetUrl.Should().Be(relativeUrl);
+                expectedPostUrl.Should().Be(relativeUrl);
             }
 
             this.receviedParameters = parameters;
@@ -100,7 +100,7 @@ namespace BoxKite.Twitter.Tests
         {
             if (!string.IsNullOrWhiteSpace(expectedPostUrl))
             {
-                expectedGetUrl.Should().Be(url);
+                expectedPostUrl.Should().Be(url);
             }
 
             this.receviedParameters = parameters;
