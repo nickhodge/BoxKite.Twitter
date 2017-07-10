@@ -14,15 +14,16 @@
     <PackageId>BoxKite.Twitter</PackageId>
   </PropertyGroup>
 
- <ItemGroup>
+  <ItemGroup>
     <!--see https://github.com/onovotny/MSBuildSdkExtras  -->
     <PackageReference Include="MSBuild.Sdk.Extras" Version="1.0.5" PrivateAssets="all" />
-</ItemGroup>
+  </ItemGroup>
 
- <ItemGroup>
+  <ItemGroup>
     <Compile Remove="Platforms\**\*.cs" />
     <None Include="Platforms\**\*.cs" />
-    <PackageReference Include="System.Reactive" Version="3.1.0" />
+    <PackageReference Include="System.Reactive" Version="3.1.1" />
+    <PackageReference Include="Microsoft.Reactive.Testing" Version="3.1.1" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
     <!-- System.Runtime.Serialization.Primitives reference not needed when netstandard 2.0 comes out https://stackoverflow.com/a/43956572 -->
     <PackageReference Include="System.Runtime.Serialization.Primitives" Version="4.3.0" />
@@ -51,6 +52,30 @@
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'MonoAndroid70' ">
     <Compile Include="Platforms\android\**\*.cs" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'uap10.0'">
+    <PackageReference Include="Microsoft.Net.Http">
+      <Version>2.2.29</Version>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'Xamarin.iOS10'">
+    <PackageReference Include="Microsoft.Net.Http">
+      <Version>2.2.29</Version>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'MonoAndroid70'">
+    <PackageReference Include="Microsoft.Net.Http">
+      <Version>2.2.29</Version>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net46'">
+    <PackageReference Include="Microsoft.Net.Http">
+      <Version>2.2.29</Version>
+    </PackageReference>
   </ItemGroup>  
 
   <!--see https://github.com/onovotny/MSBuildSdkExtras  -->
