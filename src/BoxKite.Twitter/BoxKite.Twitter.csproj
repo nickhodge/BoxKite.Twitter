@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.4;net46;Xamarin.iOS10;Xamarin.Mac20;MonoAndroid70;uap10.0</TargetFrameworks>
+    <TargetFrameworks>netstandard1.4;net46;Xamarin.iOS10;MonoAndroid70;uap10.0</TargetFrameworks>
     <AssemblyName>BoxKite.Twitter</AssemblyName>
     <RootNamespace>BoxKite.Twitter</RootNamespace>
     <authors>Nick Hodge</authors>
@@ -24,18 +24,17 @@
     <None Include="Platforms\**\*.cs" />
     <PackageReference Include="System.Reactive" Version="3.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
-
     <!-- System.Runtime.Serialization.Primitives reference not needed when netstandard 2.0 comes out https://stackoverflow.com/a/43956572 -->
     <PackageReference Include="System.Runtime.Serialization.Primitives" Version="4.3.0" />
-</ItemGroup>
+  </ItemGroup>
 
-<ItemGroup>
-  <Compile Include="Platforms\shared\**\*.cs" />
-</ItemGroup>
+  <ItemGroup>
+    <Compile Include="Platforms\shared\**\*.cs" />
+  </ItemGroup>
 
-<ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.4'">
-  <Compile Include="Platforms\netstandard1.4\**\*.cs" />
-</ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.4'">
+    <Compile Include="Platforms\netstandard1.4\**\*.cs" />
+  </ItemGroup>
 
  <ItemGroup Condition=" '$(TargetFramework)' == 'net46' ">
     <Compile Include="Platforms\net46\**\*.cs" />
@@ -48,10 +47,6 @@
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'Xamarin.iOS10' ">
     <Compile Include="Platforms\ios\**\*.cs" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'Xamarin.Mac20' ">
-    <Compile Include="Platforms\mac\**\*.cs" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'MonoAndroid70' ">
