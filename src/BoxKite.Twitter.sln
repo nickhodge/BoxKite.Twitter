@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoxKite.LiveFireTests", "BoxKite.LiveFireTests\BoxKite.LiveFireTests.csproj", "{717AD3D7-1FE2-4B2E-8DCC-19583D03C471}"
 EndProject
@@ -9,23 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoxKite.Twitter", "BoxKite.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoxKite.Twitter.Console", "BoxKite.Twitter.Console\BoxKite.Twitter.Console.csproj", "{B0CCE07E-E1A5-4BC4-A6C8-9876D4C6819A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoxKite.Twitter.Desktop", "BoxKite.Twitter.Desktop\BoxKite.Twitter.Desktop.csproj", "{98FFBF69-762F-4111-84B9-E757D9A698B9}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoxKite.Twitter.Tests", "BoxKite.Twitter.Tests\BoxKite.Twitter.Tests.csproj", "{C2F6E177-2755-4258-9C8E-B8E534075049}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoxKite.Twitter.iOS", "BoxKite.Twitter.iOS\BoxKite.Twitter.iOS.csproj", "{828739CD-E5BC-430C-9F2A-9592A4D270CB}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0E9C4D08-5AEA-4E99-BD24-EA26A5E38DF7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoxKite.Twitter.Android", "BoxKite.Twitter.Android\BoxKite.Twitter.Android.csproj", "{F860185F-0065-42EE-96D2-CC319E047E7C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoxKite.NuGetPackager", "BoxKite.Packager\BoxKite.NuGetPackager.csproj", "{0451BAEF-DF2E-4B98-8644-94EE9415E389}"
-	ProjectSection(ProjectDependencies) = postProject
-		{2EB6324B-F465-44AB-823F-E591845B8D80} = {2EB6324B-F465-44AB-823F-E591845B8D80}
-		{F860185F-0065-42EE-96D2-CC319E047E7C} = {F860185F-0065-42EE-96D2-CC319E047E7C}
-		{98FFBF69-762F-4111-84B9-E757D9A698B9} = {98FFBF69-762F-4111-84B9-E757D9A698B9}
-		{828739CD-E5BC-430C-9F2A-9592A4D270CB} = {828739CD-E5BC-430C-9F2A-9592A4D270CB}
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoxKite.Twitter.Universal", "BoxKite.Twitter.Universal\BoxKite.Twitter.Universal.csproj", "{0B331899-84F7-454C-868D-461A82BAE4B2}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{53B45CE8-5D5A-4A9B-AEF0-D4F5A2B8C642}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,16 +57,6 @@ Global
 		{B0CCE07E-E1A5-4BC4-A6C8-9876D4C6819A}.Release|ARM.ActiveCfg = Release|Any CPU
 		{B0CCE07E-E1A5-4BC4-A6C8-9876D4C6819A}.Release|x64.ActiveCfg = Release|Any CPU
 		{B0CCE07E-E1A5-4BC4-A6C8-9876D4C6819A}.Release|x86.ActiveCfg = Release|Any CPU
-		{98FFBF69-762F-4111-84B9-E757D9A698B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{98FFBF69-762F-4111-84B9-E757D9A698B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{98FFBF69-762F-4111-84B9-E757D9A698B9}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{98FFBF69-762F-4111-84B9-E757D9A698B9}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{98FFBF69-762F-4111-84B9-E757D9A698B9}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{98FFBF69-762F-4111-84B9-E757D9A698B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{98FFBF69-762F-4111-84B9-E757D9A698B9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{98FFBF69-762F-4111-84B9-E757D9A698B9}.Release|ARM.ActiveCfg = Release|Any CPU
-		{98FFBF69-762F-4111-84B9-E757D9A698B9}.Release|x64.ActiveCfg = Release|Any CPU
-		{98FFBF69-762F-4111-84B9-E757D9A698B9}.Release|x86.ActiveCfg = Release|Any CPU
 		{C2F6E177-2755-4258-9C8E-B8E534075049}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C2F6E177-2755-4258-9C8E-B8E534075049}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C2F6E177-2755-4258-9C8E-B8E534075049}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -89,61 +67,14 @@ Global
 		{C2F6E177-2755-4258-9C8E-B8E534075049}.Release|ARM.ActiveCfg = Release|Any CPU
 		{C2F6E177-2755-4258-9C8E-B8E534075049}.Release|x64.ActiveCfg = Release|Any CPU
 		{C2F6E177-2755-4258-9C8E-B8E534075049}.Release|x86.ActiveCfg = Release|Any CPU
-		{828739CD-E5BC-430C-9F2A-9592A4D270CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{828739CD-E5BC-430C-9F2A-9592A4D270CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{828739CD-E5BC-430C-9F2A-9592A4D270CB}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{828739CD-E5BC-430C-9F2A-9592A4D270CB}.Debug|ARM.Build.0 = Debug|Any CPU
-		{828739CD-E5BC-430C-9F2A-9592A4D270CB}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{828739CD-E5BC-430C-9F2A-9592A4D270CB}.Debug|x64.Build.0 = Debug|Any CPU
-		{828739CD-E5BC-430C-9F2A-9592A4D270CB}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{828739CD-E5BC-430C-9F2A-9592A4D270CB}.Debug|x86.Build.0 = Debug|Any CPU
-		{828739CD-E5BC-430C-9F2A-9592A4D270CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{828739CD-E5BC-430C-9F2A-9592A4D270CB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{828739CD-E5BC-430C-9F2A-9592A4D270CB}.Release|ARM.ActiveCfg = Release|Any CPU
-		{828739CD-E5BC-430C-9F2A-9592A4D270CB}.Release|ARM.Build.0 = Release|Any CPU
-		{828739CD-E5BC-430C-9F2A-9592A4D270CB}.Release|x64.ActiveCfg = Release|Any CPU
-		{828739CD-E5BC-430C-9F2A-9592A4D270CB}.Release|x64.Build.0 = Release|Any CPU
-		{828739CD-E5BC-430C-9F2A-9592A4D270CB}.Release|x86.ActiveCfg = Release|Any CPU
-		{828739CD-E5BC-430C-9F2A-9592A4D270CB}.Release|x86.Build.0 = Release|Any CPU
-		{F860185F-0065-42EE-96D2-CC319E047E7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F860185F-0065-42EE-96D2-CC319E047E7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F860185F-0065-42EE-96D2-CC319E047E7C}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{F860185F-0065-42EE-96D2-CC319E047E7C}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{F860185F-0065-42EE-96D2-CC319E047E7C}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{F860185F-0065-42EE-96D2-CC319E047E7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F860185F-0065-42EE-96D2-CC319E047E7C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F860185F-0065-42EE-96D2-CC319E047E7C}.Release|ARM.ActiveCfg = Release|Any CPU
-		{F860185F-0065-42EE-96D2-CC319E047E7C}.Release|x64.ActiveCfg = Release|Any CPU
-		{F860185F-0065-42EE-96D2-CC319E047E7C}.Release|x86.ActiveCfg = Release|Any CPU
-		{0451BAEF-DF2E-4B98-8644-94EE9415E389}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0451BAEF-DF2E-4B98-8644-94EE9415E389}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0451BAEF-DF2E-4B98-8644-94EE9415E389}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{0451BAEF-DF2E-4B98-8644-94EE9415E389}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{0451BAEF-DF2E-4B98-8644-94EE9415E389}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{0451BAEF-DF2E-4B98-8644-94EE9415E389}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0451BAEF-DF2E-4B98-8644-94EE9415E389}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0451BAEF-DF2E-4B98-8644-94EE9415E389}.Release|ARM.ActiveCfg = Release|Any CPU
-		{0451BAEF-DF2E-4B98-8644-94EE9415E389}.Release|x64.ActiveCfg = Release|Any CPU
-		{0451BAEF-DF2E-4B98-8644-94EE9415E389}.Release|x86.ActiveCfg = Release|Any CPU
-		{0B331899-84F7-454C-868D-461A82BAE4B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0B331899-84F7-454C-868D-461A82BAE4B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0B331899-84F7-454C-868D-461A82BAE4B2}.Debug|ARM.ActiveCfg = Debug|ARM
-		{0B331899-84F7-454C-868D-461A82BAE4B2}.Debug|ARM.Build.0 = Debug|ARM
-		{0B331899-84F7-454C-868D-461A82BAE4B2}.Debug|x64.ActiveCfg = Debug|x64
-		{0B331899-84F7-454C-868D-461A82BAE4B2}.Debug|x64.Build.0 = Debug|x64
-		{0B331899-84F7-454C-868D-461A82BAE4B2}.Debug|x86.ActiveCfg = Debug|x86
-		{0B331899-84F7-454C-868D-461A82BAE4B2}.Debug|x86.Build.0 = Debug|x86
-		{0B331899-84F7-454C-868D-461A82BAE4B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0B331899-84F7-454C-868D-461A82BAE4B2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0B331899-84F7-454C-868D-461A82BAE4B2}.Release|ARM.ActiveCfg = Release|ARM
-		{0B331899-84F7-454C-868D-461A82BAE4B2}.Release|ARM.Build.0 = Release|ARM
-		{0B331899-84F7-454C-868D-461A82BAE4B2}.Release|x64.ActiveCfg = Release|x64
-		{0B331899-84F7-454C-868D-461A82BAE4B2}.Release|x64.Build.0 = Release|x64
-		{0B331899-84F7-454C-868D-461A82BAE4B2}.Release|x86.ActiveCfg = Release|x86
-		{0B331899-84F7-454C-868D-461A82BAE4B2}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{717AD3D7-1FE2-4B2E-8DCC-19583D03C471} = {0E9C4D08-5AEA-4E99-BD24-EA26A5E38DF7}
+		{B0CCE07E-E1A5-4BC4-A6C8-9876D4C6819A} = {53B45CE8-5D5A-4A9B-AEF0-D4F5A2B8C642}
+		{C2F6E177-2755-4258-9C8E-B8E534075049} = {0E9C4D08-5AEA-4E99-BD24-EA26A5E38DF7}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = BoxKite.Twitter.Universal\BoxKite.Twitter.Universal.csproj
