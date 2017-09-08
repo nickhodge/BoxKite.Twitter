@@ -6,16 +6,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using BoxKite.Twitter.Models;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace BoxKite.Twitter.Tests
 {
-    [TestClass]
+    
     public class TweetExtensionsTestsAppAuth
     {
         readonly TestableUserSession session = new TestableUserSession();
 
-        [TestMethod]
+        [Fact]
         public async Task Get_Retweets_Of_Tweet_AppAuth()
         {
             // arrange
@@ -24,9 +24,9 @@ namespace BoxKite.Twitter.Tests
 
             var retweetslist = await session.GetRetweets(new Tweet { Id = 453310114796412928});
 
-            Assert.IsNotNull(retweetslist);
-            Assert.IsTrue(retweetslist.ToList().Count > 0);
-            Assert.IsTrue(retweetslist.ToList().Count == 4);
+            retweetslist.Should().NotBeNull();
+            retweetslist.ToList().Count.Should().BeGreaterThan(0);
+            retweetslist.ToList().Count.Should().Be(4);
          }
 
     }

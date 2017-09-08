@@ -13,7 +13,7 @@
   "default_profile": false,
   "contributors_enabled": true,
   "favourites_count": 3162,
-  "url": null,
+  "url": "https://twitter.com",
   "profile_image_url_https": "https://si0.twimg.com/profile_images/1777569006/image1327396628_normal.png",
   "utc_offset": -28800,
   "id": 795649,

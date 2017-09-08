@@ -4,16 +4,16 @@
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace BoxKite.Twitter.Tests
 {
-    [TestClass]
+    
     public class SuggestedUsersExtensionsTests
     {
         readonly TestableUserSession session = new TestableUserSession();
 
-        [TestMethod]
+        [Fact]
         public async Task Get_Suggested_User_Lists_as_Slugs()
         {
             // arrange
@@ -22,13 +22,13 @@ namespace BoxKite.Twitter.Tests
 
             var suggestions = await session.GetSuggestedLists();
 
-            Assert.IsNotNull(suggestions);
+            suggestions.Should().NotBeNull();
             suggestions.Count().ShouldBeEquivalentTo(30);
             suggestions.ToList()[20].Slug.ShouldBeEquivalentTo("news");
          }
 
 
-        [TestMethod]
+        [Fact]
         public async Task Get_Suggested_Users_foraSlug()
         {
             // arrange
@@ -37,7 +37,7 @@ namespace BoxKite.Twitter.Tests
 
             var suggestions = await session.GetSuggestedUsers("twitter");
 
-            Assert.IsNotNull(suggestions);
+            suggestions.Should().NotBeNull();
             suggestions.Size.ShouldBeEquivalentTo(20);
             suggestions.Users.Count().ShouldBeEquivalentTo(3);
             suggestions.Users.ToList()[2].Name.ShouldBeEquivalentTo("Twitter Government");

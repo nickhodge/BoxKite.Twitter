@@ -3,16 +3,16 @@
 
 using System.Threading.Tasks;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace BoxKite.Twitter.Tests
 {
-    [TestClass]
+    
     public class ReportExtensionsTest
     {
         private readonly TestableUserSession session = new TestableUserSession();
 
-        [TestMethod]
+        [Fact]
         public async Task Get_Trends_For_Place()
         {
             // arrange
@@ -21,7 +21,7 @@ namespace BoxKite.Twitter.Tests
 
             var spamreport = await session.ReportUserForSpam("screenname");
 
-            Assert.IsNotNull(spamreport);
+            spamreport.Should().NotBeNull();
             spamreport.Name.ShouldBeEquivalentTo("Matt Harris");
         }
 

@@ -5,10 +5,12 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using FluentAssertions;
+using Xunit;
 
 namespace BoxKite.Twitter.Tests
 {
+    #pragma warning disable 1998
     public class TestableApplicationSession : IApplicationSession
     {
         string contents;
@@ -40,7 +42,7 @@ namespace BoxKite.Twitter.Tests
         {
             if (!string.IsNullOrWhiteSpace(expectedGetUrl))
             {
-                Assert.AreEqual(expectedGetUrl, relativeUrl);
+                expectedGetUrl.Should().Be(relativeUrl);
             }
 
             this.receviedParameters = parameters;
@@ -65,7 +67,7 @@ namespace BoxKite.Twitter.Tests
         {
             if (!string.IsNullOrWhiteSpace(expectedPostUrl))
             {
-                Assert.AreEqual(expectedPostUrl, relativeUrl);
+                expectedPostUrl.Should().Be(relativeUrl);
             }
 
             this.receviedParameters = parameters;

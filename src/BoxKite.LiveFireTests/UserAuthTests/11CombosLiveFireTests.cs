@@ -41,7 +41,7 @@ namespace BoxKite.Twitter.Console
                     }
 
                     var searchstream = session.StartSearchStream(track: trendToFollow);
-                    searchstream.FoundTweets.Subscribe(t => ConsoleOutput.PrintTweet(t));
+                    //searchstream.FoundTweets.Subscribe(t => ConsoleOutput.PrintTweet(t));
                     searchstream.Start();
 
                     Thread.Sleep(TimeSpan.FromMinutes(2));

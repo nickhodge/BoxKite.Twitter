@@ -2,16 +2,17 @@
 // License: MS-PL
 
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using FluentAssertions;
+using Xunit;
 
 namespace BoxKite.Twitter.Tests
 {
-    [TestClass]
+    
     public class ApiManagemenentExtensionsTests
     {
         readonly TestableUserSession session = new TestableUserSession();
 
-        [TestMethod]
+        [Fact]
         public async Task Get_Twitter_API_Limits()
         {
             // arrange
@@ -20,8 +21,8 @@ namespace BoxKite.Twitter.Tests
 
             var api = await session.GetCurrentApiStatus();
 
-            Assert.IsNotNull(api);
-            Assert.IsTrue(api.APIRateStatuses.Count == 61);
+            api.Should().NotBeNull();
+            api.APIRateStatuses.Count.Should().Be(61);
         }
 
     }

@@ -9,16 +9,16 @@ using System.Threading.Tasks;
 using BoxKite.Twitter.Models;
 using FluentAssertions;
 using Microsoft.Reactive.Testing;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace BoxKite.Twitter.Tests
 {
-    [TestClass]
+    
     public class UserStreamTests : ReactiveTest
     {
         private readonly TestableUserSession session = new TestableUserSession();
 
-        [TestMethod]        
+        [Fact]        
         public async Task UserStream1_initialFriends()
         {
             session.Returns(await Json.FromFile("data\\userstream\\userstream1initwithfriends.txt"));
@@ -27,8 +27,7 @@ namespace BoxKite.Twitter.Tests
 
             userstreamtest1.Friends.Subscribe(f =>
                                               {
-                                                  Assert.IsNotNull(f);
-                                                  Assert.IsInstanceOfType(f.ToList()[0], typeof (long));
+                                                  f.Should().NotBeNull();
                                                   IsActive = false;
                                               }
                 );
@@ -45,7 +44,7 @@ namespace BoxKite.Twitter.Tests
         }
 
 
-        [TestMethod]
+        [Fact]
         public async Task UserStream1_initial_Tweets()
         {
             session.Returns(await Json.FromFile("data\\userstream\\userstream1initwithfriends.txt"));
@@ -53,10 +52,9 @@ namespace BoxKite.Twitter.Tests
             var IsActive = true;
 
             userstreamtest1.Tweets.Subscribe(t =>
-            {
-                Assert.IsNotNull(t);
+                {
+                t.Should().NotBeNull();
                 t.Text.Should().NotBeNullOrEmpty();
-                Assert.IsInstanceOfType(t.User, typeof(User));
                 t.User.Should().NotBeNull();
                 t.User.ScreenName.Should().NotBeNullOrEmpty();
                 IsActive = false;
@@ -74,7 +72,7 @@ namespace BoxKite.Twitter.Tests
 
         }
 
-        [TestMethod]
+        [Fact]
         public async Task UserStream2_mentionofself()
         {
             session.Returns(await Json.FromFile("data\\userstream\\userstream2self.txt"));
@@ -82,14 +80,13 @@ namespace BoxKite.Twitter.Tests
             var IsActive = true;
 
             userstreamtest2.Tweets.Subscribe(t =>
-                                             {
-                                                 Assert.IsNotNull(t);
-                                                 t.Text.Should().NotBeNullOrEmpty();
-                                                 t.User.Should().NotBeNull();
-                                                 t.User.ScreenName.Should().NotBeNullOrEmpty();
-                                                 IsActive = false;
-                                             }
-                );
+                {
+                    t.Should().NotBeNull();
+                    t.Text.Should().NotBeNullOrEmpty();
+                    t.User.Should().NotBeNull();
+                    t.User.ScreenName.Should().NotBeNullOrEmpty();
+                    IsActive = false;
+                });
 
             userstreamtest2.Start();
 
@@ -100,7 +97,7 @@ namespace BoxKite.Twitter.Tests
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task UserStream3_event_follow()
         {
             session.Returns(await Json.FromFile("data\\userstream\\userstream3follow.txt"));
@@ -108,14 +105,11 @@ namespace BoxKite.Twitter.Tests
             var IsActive = true;
 
             userstreamtest3.Events.Subscribe(e =>
-            {
-                Assert.IsNotNull(e);
-                Assert.IsInstanceOfType(e.TargetUser, typeof(User));
-                Assert.IsInstanceOfType(e.SourceUser, typeof(User));
-                e.EventName.ShouldBeEquivalentTo("follow");
-                IsActive = false;
-            }
-            );
+                {
+                    e.Should().NotBeNull();
+                    e.EventName.ShouldBeEquivalentTo("follow");
+                    IsActive = false;
+                });
 
             userstreamtest3.Start();
 
@@ -127,7 +121,7 @@ namespace BoxKite.Twitter.Tests
         }
 
 
-        [TestMethod]
+        [Fact]
         public async Task UserStream4_event_list_adduser()
         {
             session.Returns(await Json.FromFile("data\\userstream\\userstream4addtolistevent.txt"));
@@ -135,14 +129,11 @@ namespace BoxKite.Twitter.Tests
             var IsActive = true;
 
             userstreamtest4.Events.Subscribe(e =>
-            {
-                Assert.IsNotNull(e);
-                Assert.IsInstanceOfType(e.TargetUser, typeof(User));
-                Assert.IsInstanceOfType(e.SourceUser, typeof(User));
-                e.EventName.ShouldBeEquivalentTo("list_member_added");
-                IsActive = false;
-            }
-            );
+                {
+                    e.Should().NotBeNull();
+                    e.EventName.ShouldBeEquivalentTo("list_member_added");
+                    IsActive = false;
+                });
 
             userstreamtest4.Start();
 
@@ -153,7 +144,7 @@ namespace BoxKite.Twitter.Tests
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task UserStream5_deleteevent()
         {
             session.Returns(await Json.FromFile("data\\userstream\\userstream5deleteevent.txt"));
@@ -161,14 +152,13 @@ namespace BoxKite.Twitter.Tests
             var IsActive = true;
             
             userstreamtest5.DeleteEvents.Subscribe(de =>
-            {
-                Assert.IsNotNull(de);
-                Assert.IsNotNull(de.DeleteEventStatus);
-                de.DeleteEventStatus.Id.ShouldBeEquivalentTo(1234);
-                de.DeleteEventStatus.UserId.ShouldBeEquivalentTo(3);
-                IsActive = false;
-            }
-            );
+                {
+                    de.Should().NotBeNull();
+                    de.DeleteEventStatus.Should().NotBeNull();
+                    de.DeleteEventStatus.Id.ShouldBeEquivalentTo(1234);
+                    de.DeleteEventStatus.UserId.ShouldBeEquivalentTo(3);
+                    IsActive = false;
+                });
 
             userstreamtest5.Start();
 
@@ -180,7 +170,7 @@ namespace BoxKite.Twitter.Tests
         }
 
 
-        [TestMethod]
+        [Fact]
         public async Task UserStream6_dm()
         {
             session.Returns(await Json.FromFile("data\\userstream\\userstream6dm.txt"));
@@ -188,17 +178,14 @@ namespace BoxKite.Twitter.Tests
             var IsActive = true;
 
             userstreamtest6.DirectMessages.Subscribe(dm =>
-            {
-                Assert.IsNotNull(dm);
-                Assert.IsNotNull(dm.Text);
-                dm.Text.ShouldBeEquivalentTo("testiung");
-                Assert.IsInstanceOfType(dm.Recipient, typeof(User));
-                Assert.IsInstanceOfType(dm.Sender, typeof(User));
-                dm.Recipient.ScreenName.ShouldBeEquivalentTo("NickHodgeMSFT");
-                dm.Sender.ScreenName.ShouldBeEquivalentTo("RealNickHodge");
-                IsActive = false;
-            }
-            );
+                {
+                    dm.Should().NotBeNull();
+                    dm.Text.Should().NotBeNull();
+                    dm.Text.ShouldBeEquivalentTo("testiung");
+                    dm.Recipient.ScreenName.ShouldBeEquivalentTo("NickHodgeMSFT");
+                    dm.Sender.ScreenName.ShouldBeEquivalentTo("RealNickHodge");
+                    IsActive = false;
+                });
 
             userstreamtest6.Start();
 
@@ -209,7 +196,7 @@ namespace BoxKite.Twitter.Tests
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task UserStream7_scrubgeo()
         {
             session.Returns(await Json.FromFile("data\\userstream\\userstream7scrubgeo.txt"));
@@ -218,7 +205,7 @@ namespace BoxKite.Twitter.Tests
 
             userstreamtest7.ScrubGeoRequests.Subscribe(sg =>
             {
-                Assert.IsNotNull(sg);
+                sg.Should().NotBeNull();
                 sg.UpToStatusId.ShouldBeEquivalentTo(23260136625);
                 IsActive = false;
             }
@@ -233,7 +220,7 @@ namespace BoxKite.Twitter.Tests
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task UserStream8_scrubgeo()
         {
             session.Returns(await Json.FromFile("data\\userstream\\userstream8limitnotice.txt"));
@@ -242,7 +229,7 @@ namespace BoxKite.Twitter.Tests
 
             userstreamtest8.LimitNotices.Subscribe(ln =>
             {
-                Assert.IsNotNull(ln);
+                ln.Should().NotBeNull();
                 ln.Track.ShouldBeEquivalentTo(1234);
                 IsActive = false;
             }
@@ -258,7 +245,7 @@ namespace BoxKite.Twitter.Tests
         }
 
 
-        [TestMethod]
+        [Fact]
         public async Task UserStream9_statuswithheld()
         {
             session.Returns(await Json.FromFile("data\\userstream\\userstream9status_withheld.txt"));
@@ -267,7 +254,7 @@ namespace BoxKite.Twitter.Tests
 
             userstreamtest9.StatusWithheld.Subscribe(sw =>
             {
-                Assert.IsNotNull(sw);
+                sw.Should().NotBeNull();
                 sw.Id.ShouldBeEquivalentTo(1234567890);
                 sw.UserId.ShouldBeEquivalentTo(123456);
                 sw.WithheldInCountries.Count().ShouldBeEquivalentTo(2);
@@ -284,7 +271,7 @@ namespace BoxKite.Twitter.Tests
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task UserStream10_status_mention()
         {
             session.Returns(await Json.FromFile("data\\userstream\\userstream10mention.txt"));
@@ -293,9 +280,8 @@ namespace BoxKite.Twitter.Tests
 
             userstreamtest10.Tweets.Subscribe(tw =>
             {
-                Assert.IsNotNull(tw);
+                tw.Should().NotBeNull();
                 tw.Text.ShouldBeEquivalentTo("@nickhodgemsft testing, please ignore");
-                Assert.IsInstanceOfType(tw.User, typeof(User));
                 IsActive = false;
             }
             );
@@ -309,7 +295,7 @@ namespace BoxKite.Twitter.Tests
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task UserStream11_statuswithheld()
         {
             session.Returns(await Json.FromFile("data\\userstream\\userstream11userwithheld.txt"));
@@ -318,7 +304,7 @@ namespace BoxKite.Twitter.Tests
 
             userstreamtest11.StatusWithheld.Subscribe(uw =>
             {
-                Assert.IsNotNull(uw);
+                uw.Should().NotBeNull();
                 uw.UserId.ShouldBeEquivalentTo(123456);
                 uw.WithheldInCountries.Count().ShouldBeEquivalentTo(2);
             }
@@ -334,7 +320,7 @@ namespace BoxKite.Twitter.Tests
         }
 
 
-        [TestMethod]
+        [Fact]
         public async Task UserStream14_event_list_removeuser()
         {
             session.Returns(await Json.FromFile("data\\userstream\\userstream14unlisted.txt"));
@@ -343,9 +329,7 @@ namespace BoxKite.Twitter.Tests
 
             userstreamtest14.Events.Subscribe(e =>
             {
-                Assert.IsNotNull(e);
-                Assert.IsInstanceOfType(e.TargetUser, typeof(User));
-                Assert.IsInstanceOfType(e.SourceUser, typeof(User));
+                e.Should().NotBeNull();
                 e.EventName.ShouldBeEquivalentTo("list_member_removed");
                 IsActive = false;
             }
@@ -360,7 +344,7 @@ namespace BoxKite.Twitter.Tests
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task UserStream16_scrubgeo()
         {
             session.Returns(await Json.FromFile("data\\userstream\\userstream16scrubgeo.txt"));
@@ -369,7 +353,7 @@ namespace BoxKite.Twitter.Tests
 
             userstreamtest16.ScrubGeoRequests.Subscribe(sg =>
             {
-                Assert.IsNotNull(sg);
+                sg.Should().NotBeNull();
                 sg.UserId.ShouldBeEquivalentTo(14090452);
                 sg.UpToStatusId.ShouldBeEquivalentTo(23260136625);
                 IsActive = false;
@@ -385,7 +369,7 @@ namespace BoxKite.Twitter.Tests
             }
         }
 
-        [TestMethod]
+        [Fact]
         public async Task UserStream17_limitnotices()
         {
             session.Returns(await Json.FromFile("data\\userstream\\userstream17limit.txt"));
@@ -394,7 +378,7 @@ namespace BoxKite.Twitter.Tests
 
             userstreamtest17.LimitNotices.Subscribe(ln =>
             {
-                Assert.IsNotNull(ln);
+                ln.Should().NotBeNull();
                 ln.Track.ShouldBeEquivalentTo(1234);
                 IsActive = false;
             }
@@ -411,7 +395,7 @@ namespace BoxKite.Twitter.Tests
 
 
 
-        [TestMethod]
+        [Fact]
         public async Task UserStream18_favorite()
         {
             session.Returns(await Json.FromFile("data\\userstream\\userstream18favorite.txt"));
@@ -420,13 +404,13 @@ namespace BoxKite.Twitter.Tests
 
             userstreamtest18.Events.Subscribe(ev =>
             {
-                Assert.IsNotNull(ev);
+                ev.Should().NotBeNull();
                 ev.EventName.ShouldBeEquivalentTo("favorite");
-                Assert.IsNotNull(ev.SourceUser);
-                Assert.IsNotNull(ev.TargetUser);
+                ev.SourceUser.Should().NotBeNull();
+                ev.TargetUser.Should().NotBeNull();
                 var twev = (TweetStreamEvent) ev;
-                Assert.IsNotNull(twev);
-                Assert.IsNotNull(twev.Tweet);
+                twev.Should().NotBeNull();
+                twev.Tweet.Should().NotBeNull();
                 twev.Tweet.Id.ShouldBeEquivalentTo(427615500516880384);
                 IsActive = false;
             }
@@ -442,7 +426,7 @@ namespace BoxKite.Twitter.Tests
         }
 
 
-        [TestMethod]
+        [Fact]
         public async Task UserStream19_unfavorite()
         {
             session.Returns(await Json.FromFile("data\\userstream\\userstream19unfavorite.txt"));
@@ -451,13 +435,13 @@ namespace BoxKite.Twitter.Tests
 
             userstreamtest19.Events.Subscribe(ev =>
             {
-                Assert.IsNotNull(ev);
+                ev.Should().NotBeNull();
                 ev.EventName.ShouldBeEquivalentTo("unfavorite");
-                Assert.IsNotNull(ev.SourceUser);
-                Assert.IsNotNull(ev.TargetUser);
+                ev.SourceUser.Should().NotBeNull();
+                ev.TargetUser.Should().NotBeNull();
                 var twev = (TweetStreamEvent)ev;
-                Assert.IsNotNull(twev);
-                Assert.IsNotNull(twev.Tweet);
+                twev.Should().NotBeNull();
+                twev.Tweet.Should().NotBeNull();
                 twev.Tweet.Id.ShouldBeEquivalentTo(427615500516880384);
                 IsActive = false;
             }

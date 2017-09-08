@@ -4,16 +4,16 @@
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace BoxKite.Twitter.Tests
 {
-    [TestClass]
+    
     public class PlaceGeoExtensionsTests
     {
         readonly TestableUserSession session = new TestableUserSession();
 
-        [TestMethod]
+        [Fact]
         public async Task Get_Place_Info()
         {
             // arrange
@@ -22,12 +22,12 @@ namespace BoxKite.Twitter.Tests
 
             var placegeo = await session.GetPlaceInfo("df51dec6f4ee2b2c");
 
-            Assert.IsNotNull(placegeo);
+            placegeo.Should().NotBeNull();
             placegeo.FullName.ShouldBeEquivalentTo("Presidio, San Francisco");
             placegeo.BoundingBox.GeoCoordinates[0][0][0].ShouldBeEquivalentTo(-122.48530488);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Get_Places_From_Current_Location()
         {
             // arrange
@@ -36,7 +36,7 @@ namespace BoxKite.Twitter.Tests
 
             var placegeolist = await session.GetPlaceIDFromGeocode();
 
-            Assert.IsNotNull(placegeolist);
+            placegeolist.Should().NotBeNull();
             placegeolist.query.type.ShouldBeEquivalentTo("reverse_geocode");
             placegeolist.query._params.granularity.ShouldBeEquivalentTo("neighborhood");
             placegeolist.result.places.Count().ShouldBeEquivalentTo(4);
@@ -44,7 +44,7 @@ namespace BoxKite.Twitter.Tests
         }
 
 
-        [TestMethod]
+        [Fact]
         public async Task Get_Places_for_Tweetage()
         {
             // arrange
@@ -53,13 +53,13 @@ namespace BoxKite.Twitter.Tests
 
             var placegeolist = await session.GetPlaceIDFromInfo();
 
-            Assert.IsNotNull(placegeolist);
+            placegeolist.Should().NotBeNull();
             placegeolist.query.type.ShouldBeEquivalentTo("search");
             placegeolist.result.places.Count().ShouldBeEquivalentTo(5);
             placegeolist.result.places.ToList()[0].Id.ShouldBeEquivalentTo("3e8542a1e9f82870");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Get_Similar_Places()
         {
             // arrange
@@ -68,7 +68,7 @@ namespace BoxKite.Twitter.Tests
 
             var placegeolist = await session.GetPlaceSimilarName();
 
-            Assert.IsNotNull(placegeolist);
+            placegeolist.Should().NotBeNull();
             placegeolist.query.type.ShouldBeEquivalentTo("similar_places");
             placegeolist.result.places.Count().ShouldBeEquivalentTo(1);
             placegeolist.result.token.ShouldBeEquivalentTo("19153cc4df966b1787165f4620baa6a0");
@@ -76,7 +76,7 @@ namespace BoxKite.Twitter.Tests
         }
 
 
-        [TestMethod]
+        [Fact]
         public async Task Create_Place()
         {
             // arrange
@@ -85,7 +85,7 @@ namespace BoxKite.Twitter.Tests
 
             var placeadded = await session.CreatePlace("yo",0.0,0.0,"city","far43");
 
-            Assert.IsNotNull(placeadded);
+            placeadded.Should().NotBeNull();
             placeadded.id.ShouldBeEquivalentTo("6b9811c8d9de10b9");
         }
 

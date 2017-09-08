@@ -9,16 +9,16 @@ using System.Threading.Tasks;
 using BoxKite.Twitter.Models;
 using FluentAssertions;
 using Microsoft.Reactive.Testing;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace BoxKite.Twitter.Tests
 {
-    [TestClass]
+    
     public class SearchStreamTests : ReactiveTest
     {
         private readonly TestableUserSession session = new TestableUserSession();
   
-        [TestMethod]
+        [Fact]
         public async Task SearchStream1_incoming_Tweets()
         {
             session.Returns(await Json.FromFile("data\\searchstream\\searchstream1initial.txt"));
@@ -26,15 +26,13 @@ namespace BoxKite.Twitter.Tests
             var IsActive = true;
 
             searchstream1.FoundTweets.Subscribe(t =>
-                                             {
-                                                 Assert.IsNotNull(t);
-                                                 t.Text.Should().NotBeNullOrEmpty();
-                                                 Assert.IsInstanceOfType(t.User,typeof(User));
-                                                 t.User.Should().NotBeNull();
-                                                 t.User.ScreenName.Should().NotBeNullOrEmpty();
-                                                 IsActive = false;
-                                             }
-            );
+                {
+                     t.Should().NotBeNull();
+                     t.Text.Should().NotBeNullOrEmpty();
+                     t.User.Should().NotBeNull();
+                     t.User.ScreenName.Should().NotBeNullOrEmpty();
+                     IsActive = false;
+            });
 
             searchstream1.Start();
 

@@ -1,5 +1,6 @@
 ﻿// (c) 2012-2016 Nick Hodge mailto:nhodge@mungr.com & Brendan Forster
 // License: MS-PL
+
 using System.Runtime.Serialization;
 
 namespace BoxKite.Twitter.Models

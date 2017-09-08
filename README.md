@@ -13,8 +13,8 @@ Questions? You can find me on Twitter, of course! [@RealNickHodge](https://twitt
 
 ## Version News
 Version 3.0.0 Changes:
-* Converted to netstandard library. BoxKite supports all platforms that compatible with netstandard 1.4
-* Reduced .NET framework min from 4.6 to 4.5.2
+* Converted to netstandard library. BoxKite supports all platforms that compatible with netstandard 1.4.
+* Min version of the Reactive Extensions is now v3.1.0 which is netstandard compatible.
 * When contributing or compiling from source, the minimum version of Visual Studio is now 2017.
 * Android namepace is now `BoxKite.Twitter` was `BoxKite.Twitter.Android`
 

@@ -5,16 +5,16 @@ using System.Net;
 using System.Threading.Tasks;
 using BoxKite.Twitter.Models;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace BoxKite.Twitter.Tests
 {
-    [TestClass]
+    
     public class ErrorTests
     {
         readonly TestableUserSession errorsession = new TestableUserSession();
 
-        [TestMethod]
+        [Fact]
         public async Task Get_Rate_LimitExceeded_Error_OnCollection()
         {
             // Ref: https://dev.twitter.com/docs/rate-limiting/1.1
@@ -26,14 +26,14 @@ namespace BoxKite.Twitter.Tests
 
             var favourites = await errorsession.GetFavourites();
 
-            Assert.IsNotNull(favourites);
+            favourites.Should().NotBeNull();
             favourites.twitterFaulted.Should().BeTrue();
             favourites.twitterControlMessage.Should().NotBeNull();
             favourites.twitterControlMessage.http_status_code.ShouldBeEquivalentTo(410); // Note: testing 410 as 429 is not an enum
         }
 
 
-        [TestMethod]
+        [Fact]
         public async Task Get_Rate_LimitExceeded_Error_OnSingle()
         {
             // Ref: https://dev.twitter.com/docs/rate-limiting/1.1
@@ -45,13 +45,13 @@ namespace BoxKite.Twitter.Tests
             var twt = new Tweet();
             var favourites = await errorsession.CreateFavourite(twt);
 
-            Assert.IsNotNull(favourites);
+            favourites.Should().NotBeNull();
             favourites.twitterFaulted.Should().BeTrue();
             favourites.twitterControlMessage.Should().NotBeNull();
             favourites.twitterControlMessage.http_status_code.ShouldBeEquivalentTo(410); // Note: testing 410 as 429 is not an enum
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Get_Lists_Parameter_EitherOr_Error()
         {
             errorsession.simulatingError = true;
@@ -60,13 +60,13 @@ namespace BoxKite.Twitter.Tests
             errorsession.ExpectGet("/1.1/lists/list.json");
             var listserror1 = await errorsession.GetLists();
 
-            Assert.IsNotNull(listserror1);
+            listserror1.Should().NotBeNull();
             listserror1.twitterFaulted.Should().BeTrue();
             listserror1.twitterControlMessage.Should().NotBeNull();
             listserror1.twitterControlMessage.twitter_error_message.ShouldBeEquivalentTo("Parameter Error: Either screen_name or user_id required");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Get_DirectMessages_Parameter_EnsureAll_Error()
         {
             // arrange
@@ -77,7 +77,7 @@ namespace BoxKite.Twitter.Tests
 
             var directmessagesenderror1 = await errorsession.SendDirectMessage("hello, tworld. welcome to 1.1.","");
 
-            Assert.IsNotNull(directmessagesenderror1);
+            directmessagesenderror1.Should().NotBeNull();
             directmessagesenderror1.twitterFaulted.Should().BeTrue();
             directmessagesenderror1.twitterControlMessage.Should().NotBeNull();
             directmessagesenderror1.twitterControlMessage.twitter_error_message.ShouldBeEquivalentTo("Parameter Error: Either screen_name and text required");
