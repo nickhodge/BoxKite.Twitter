@@ -1,14 +1,14 @@
 #BoxKite.Twitter
 
-![boxkite logo](http://media.nickhodge.com/boxkite/twitter/github-logo-wide-2.png)
+![boxkite logo](http://media.nickhodge.com/github-logo-wide.png)
 
 BoxKite.Twitter is a netstandard 1.4 library that provides an interface to the Twitter API 1.1, licensed [MS-PL](http://opensource.org/licenses/MS-PL).
 
 Supporting all platforms that compatible with netstandard 1.4; it uses modern .NET development mechanisms `async/await` and [Reactive Extensions](http://reactivex.io/).
 
-Questions? You can find me on Twitter, of course! [@RealNickHodge](https://twitter.com/RealNickHodge)
+Questions? You can find me on Twitter, of course! [@RealNickHodge](https://twitter.com/RealNickHodge) and [@GeoffreyHuntley](https://twitter.com/GeoffreyHuntley)
 
-@ghuntley [has a great BoxKite.Twitter examples here](https://github.com/ghuntley/BoxKite.Twitter.Examples)
+Geoffrey Huntley @ghuntley [has a great BoxKite.Twitter examples here](https://github.com/ghuntley/BoxKite.Twitter.Examples)
 
 
 ## Version News
@@ -17,6 +17,7 @@ Version 3.0.0 Changes:
 * Min version of the Reactive Extensions is now v3.1.0 which is netstandard compatible.
 * When contributing or compiling from source, the minimum version of Visual Studio is now 2017.
 * Android namepace is now `BoxKite.Twitter` was `BoxKite.Twitter.Android`
+* All this work thanks to Geoffrey Huntley
 
 Version 2.4.0 Changes:
 * Add support for [>140 character Direct Message sending](https://twittercommunity.com/t/removing-the-140-character-limit-from-direct-messages/41348). BoxKite.Twitter does not truncate messages, but the Direct Message API required passing a parameter indicating support for >140 characters. This is now implemented.
@@ -180,7 +181,7 @@ BoxKite.Twitter is Licensed under:
 [MS-PL](http://opensource.org/licenses/MS-PL)
 
 Copyright: 
-[Nick Hodge](https://github.com/nickhodge/) and [Brendan Forster](https://github.com/shiftkey/) 2012-2016
+[Nick Hodge](https://github.com/nickhodge/), [Brendan Forster](https://github.com/shiftkey/) and [Geoffrey Huntley](https://github.com/ghuntley/) 2012-2017
 
 BoxKite Logo is Copyright 2012 [Nick Hodge](https://github.com/nickhodge/)
 
